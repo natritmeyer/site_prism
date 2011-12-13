@@ -1,17 +1,19 @@
 module Prismatic
   class Page
-    @@url = ""
-    
     def load
-      
+      raise Prismatic::NoUrlForPage if url.nil?
     end
     
     def self.set_url input
-      @@url = input
+      @url = input
+    end
+    
+    def self.url
+      @url
     end
     
     def url
-      @@url
+      self.class.url
     end
   end
 end
