@@ -12,6 +12,14 @@ GEM
     gherkin (2.7.1)
       json (>= 1.4.6)
     json (1.6.3)
+    rspec (2.7.0)
+      rspec-core (~> 2.7.0)
+      rspec-expectations (~> 2.7.0)
+      rspec-mocks (~> 2.7.0)
+    rspec-core (2.7.1)
+    rspec-expectations (2.7.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.7.0)
     term-ansicolor (1.0.7)
 
 PLATFORMS
@@ -19,3 +27,4 @@ PLATFORMS
 
 DEPENDENCIES
   cucumber (~> 1.1.4)
+  rspec (~> 2.7.0)
