@@ -1,3 +1,3 @@
-class Home < Prismatic::Page
+class TestHomePage < Prismatic::Page
   
 end
