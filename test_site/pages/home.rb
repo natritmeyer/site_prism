@@ -1,3 +1,3 @@
 class TestHomePage < Prismatic::Page
-  set_url ""
+  set_url "home.htm"
 end
