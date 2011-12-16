@@ -1,7 +1,7 @@
 module Prismatic
   class Page
     # Visits the url associated with this page
-    # @raise [Prismatic::NoUrlForPage] To load a page the url must be set using Page#load
+    # @raise [Prismatic::NoUrlForPage] To load a page the url must be set using {#load}
     def load
       raise Prismatic::NoUrlForPage if url.nil?
     end
@@ -18,6 +18,7 @@ module Prismatic
     
     # Get the url associated with this page
     # @see Prismatic::Page#url
+    # @return [String] the url originally set in {.set_url}
     def self.url
       @url
     end
