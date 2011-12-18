@@ -1,9 +1,12 @@
 module Prismatic
   class Page
+    include Capybara::DSL
+    
     # Visits the url associated with this page
     # @raise [Prismatic::NoUrlForPage] To load a page the url must be set using {#load}
     def load
       raise Prismatic::NoUrlForPage if url.nil?
+      visit url
     end
     
     # Set the url associated with this page
