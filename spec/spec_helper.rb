@@ -1,3 +1,7 @@
+require 'capybara'
+require 'capybara/dsl'
+require 'selenium-webdriver'
+
 $: << './test_site'
 $: << './lib'
 

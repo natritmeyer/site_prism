@@ -37,4 +37,36 @@ describe Prismatic::Page do
     page_with_url = MyPageWithUrl.new
     expect { page_with_url.load }.to_not raise_error Prismatic::NoUrlForPage
   end
+  
+  it "should respond to set_url_matcher" do
+    Prismatic::Page.should respond_to :set_url_matcher
+  end
+  
+  it "url matcher should be nil by default" do
+    class PageDefaultUrlMatcher < Prismatic::Page; end
+    page = PageDefaultUrlMatcher.new
+    PageDefaultUrlMatcher.url_matcher.should be_nil
+    page.url_matcher.should be_nil
+  end
+  
+  it "should be able to set a url matcher against it" do
+    class PageToSetUrlMatcherAgainst < Prismatic::Page
+      set_url_matcher /bob/
+    end
+    page = PageToSetUrlMatcherAgainst.new
+    page.url_matcher.should == /bob/
+  end
+  
+  it "should raise an exception if displayed? is called before the matcher has been set" do
+    class PageWithNoMatcher < Prismatic::Page; end
+    expect { PageWithNoMatcher.new.displayed? }.to raise_error Prismatic::NoUrlMatcherForPage
+  end
+  
+  it "should allow calls to displayed? if the url matcher has been set" do
+    class PageWithUrlMatcher < Prismatic::Page
+      set_url_matcher /bob/
+    end
+    page = PageWithUrlMatcher.new
+    expect { page.displayed? }.to_not raise_error Prismatic::NoUrlMatcherForPage
+  end
 end
