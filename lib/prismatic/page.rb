@@ -78,7 +78,7 @@ module Prismatic
     # @return [nil] if the page hasn't got a title return nil
     def title
       title_selector = 'html > head > title'
-      page.find(title_selector).text if page.has_selector?(title_selector)
+      using_wait_time(0) { page.find(title_selector).text if page.has_selector?(title_selector) }
     end
   end
 end
