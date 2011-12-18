@@ -69,4 +69,8 @@ describe Prismatic::Page do
     page = PageWithUrlMatcher.new
     expect { page.displayed? }.to_not raise_error Prismatic::NoUrlMatcherForPage
   end
+  
+  it "should expose the page title" do
+    Prismatic::Page.new.should respond_to :title
+  end
 end

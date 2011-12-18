@@ -2,6 +2,8 @@ module Prismatic
   class Page
     include Capybara::DSL
     
+    # TODO: implement #title if available
+    
     # Visits the url associated with this page
     # @raise [Prismatic::NoUrlForPage] To load a page the url must be set using {.set_url}
     def load
@@ -69,6 +71,14 @@ module Prismatic
     # @see Prismatic::Page.url_matcher
     def url_matcher
       self.class.url_matcher
+    end
+    
+    # Gets the title of the current page
+    # @return [String] the text value of the title element within the page's head block
+    # @return [nil] if the page hasn't got a title return nil
+    def title
+      title_selector = 'html > head > title'
+      page.find(title_selector).text if page.has_selector?(title_selector)
     end
   end
 end
