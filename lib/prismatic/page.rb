@@ -1,8 +1,11 @@
 module Prismatic
+  # Subclasses of {Prismatic::Page} represent pages in your app.
+  # @example
+  #   class Home < Prismatic::Page
+  #   end
+  # The above is an example of how to make a class representing the home page.
   class Page
     include Capybara::DSL
-    
-    # TODO: implement #title if available
     
     # Visits the url associated with this page
     # @raise [Prismatic::NoUrlForPage] To load a page the url must be set using {.set_url}
@@ -101,12 +104,36 @@ module Prismatic
     #   home.should have_search_link
     #   home.should_not have_search_link
     def self.element element_name, element_locator
-      define_method "has_#{element_name.to_s}?" do
-        has_selector? element_locator
-      end
-      
+      create_existence_checker element_name, element_locator
       define_method element_name.to_s do
         find element_locator
+      end
+    end
+    
+    # Works in the same way as {Prismatic::Page.element} in that it will generate two methods; one to check existence of
+    # the element (in the format 'has_#\{element_name}?'), and another to return not a single element, but an array of elements
+    # found by the css locator
+    # @example
+    #   class HomePage < Prismatic::Page
+    #     elements :app_links, '.title-links > a'
+    #   end
+    #   home = HomePage.new
+    #   
+    #   home.should have_app_links
+    #   home.app_links #=> [#<Capybara::Element tag="a">, #<Capybara::Element tag="a">, #<Capybara::Element tag="a">]
+    #   home.app_links.map {|link| link.text}.should == ['Finance', 'Maps', 'Blogs']
+    def self.elements collection_name, collection_locator
+      create_existence_checker collection_name, collection_locator
+      define_method collection_name.to_s do
+        all collection_locator
+      end
+    end
+    
+    private
+    
+    def self.create_existence_checker element_name, element_locator
+      define_method "has_#{element_name.to_s}?" do
+        has_selector? element_locator
       end
     end
   end

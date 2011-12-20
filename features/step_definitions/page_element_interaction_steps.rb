@@ -27,9 +27,21 @@ Then /^I can see the link to the search page$/ do
 end
 
 Then /^I cannot see the missing squirrel$/ do
-  @test_site.home.should_not have_squirrel
+  using_wait_time(0) do
+    @test_site.home.should_not have_squirrel
+  end
 end
 
 Then /^I cannot see the missing other thingy$/ do
-  @test_site.home.should_not have_other_thingy
+  using_wait_time(0) do
+    @test_site.home.should_not have_other_thingy
+  end
+end
+
+Then /^I can see the group of links$/ do
+  @test_site.home.should have_lots_of_links
+end
+
+Then /^I can get the group of links$/ do
+  @test_site.home.lots_of_links.collect {|link| link.text}.should == ['a', 'b', 'c']
 end
