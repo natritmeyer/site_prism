@@ -80,5 +80,15 @@ module Prismatic
       title_selector = 'html > head > title'
       using_wait_time(0) { page.find(title_selector).text if page.has_selector?(title_selector) }
     end
+    
+    def self.element element_name, element_locator
+      define_method "has_#{element_name.to_s}?" do
+        has_selector? element_locator
+      end
+      
+      define_method element_name.to_s do
+        find element_locator
+      end
+    end
   end
 end

@@ -11,7 +11,6 @@ Feature: Page element interaction
 		When I navigate to a page with no title
 		Then the page has no title
 	
-	@wip
 	Scenario: Get individual elements
 		When I navigate to the home page
 		Then I can see the welcome header
