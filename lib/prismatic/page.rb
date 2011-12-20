@@ -1,9 +1,14 @@
 module Prismatic
   # Subclasses of {Prismatic::Page} represent pages in your app.
-  # @example
   #   class Home < Prismatic::Page
   #   end
-  # The above is an example of how to make a class representing the home page.
+  # 
+  # The above is an example of how to make a class representing the home page. There are a number of properties that can be
+  # set on a page - here is an example of a more fully spec'ed out page:
+  #   class Home < Prismatic::Page
+  #     set_url "/"
+  #     set_url_matcher /\/home.htm$/
+  #   end
   class Page
     include Capybara::DSL
     
