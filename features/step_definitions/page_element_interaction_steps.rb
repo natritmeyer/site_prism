@@ -25,3 +25,11 @@ Then /^I can see the link to the search page$/ do
   @test_site.home.should have_link_to_search_page
   @test_site.home.link_to_search_page['href'].should include 'search.htm'
 end
+
+Then /^I cannot see the missing squirrel$/ do
+  @test_site.home.should_not have_squirrel
+end
+
+Then /^I cannot see the missing other thingy$/ do
+  @test_site.home.should_not have_other_thingy
+end

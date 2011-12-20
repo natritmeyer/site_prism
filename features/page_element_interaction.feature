@@ -17,3 +17,5 @@ Feature: Page element interaction
 		And I can see the welcome message
 		And I can see the go button
 		And I can see the link to the search page
+		But I cannot see the missing squirrel
+		And I cannot see the missing other thingy

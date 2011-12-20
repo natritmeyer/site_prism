@@ -6,4 +6,8 @@ class TestHomePage < Prismatic::Page
   element :welcome_message, 'span'
   element :go_button, 'input'
   element :link_to_search_page, 'a'
+  
+  #elements that should not exist
+  element :squirrel, 'squirrel.nutz'
+  element :other_thingy, 'other.thingy'
 end
