@@ -10,3 +10,11 @@ Feature: Page element interaction
 	Scenario: Page with no title
 		When I navigate to a page with no title
 		Then the page has no title
+	
+	@wip
+	Scenario: Get individual elements
+		When I navigate to the home page
+		Then I can see the welcome header
+		And I can see the welcome message
+		And I can see the go button
+		And I can see the link to the search page
