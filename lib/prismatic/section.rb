@@ -1,0 +1,3 @@
+class Prismatic::Section
+  
+end

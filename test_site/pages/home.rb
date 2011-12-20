@@ -14,4 +14,7 @@ class TestHomePage < Prismatic::Page
   #elements that should not exist
   element :squirrel, 'squirrel.nutz'
   element :other_thingy, 'other.thingy'
+  
+  #sections
+  section :people, People, '.people'
 end

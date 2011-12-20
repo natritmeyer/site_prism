@@ -133,6 +133,12 @@ module Prismatic
         all collection_locator
       end
     end
+
+    def self.section section_name, section_class, section_locator
+      define_method section_name do
+        section_class.new section_locator
+      end
+    end
     
     private
     
