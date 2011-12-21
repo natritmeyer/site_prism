@@ -1,3 +1,4 @@
+# Prismatic's exceptions...
 module Prismatic
   # Raised if you ask a page to load but it hasn't had its url set
   class NoUrlForPage < StandardError; end

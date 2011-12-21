@@ -1,3 +1,5 @@
+# Contains methods applicable to both {Prismatic::Page}s and {Prismatic::Section}s. Note that they are mixed into the {Prismatic::Page}
+# and {Prismatic::Section} classes so the methods below are used as class methods.
 module Prismatic::ElementContainer
   # Creates two methods; the first method has the same name as the element_name parameter and returns the capybara element
   # located by the element_locator parameter when the method is called. The second method generated has a name with a format
@@ -28,6 +30,8 @@ module Prismatic::ElementContainer
   # Works in the same way as {Prismatic::Page.element} in that it will generate two methods; one to check existence of
   # the element (in the format 'has_#\{element_name}?'), and another to return not a single element, but an array of elements
   # found by the css locator
+  # @param [Symbol] collection_name The name of the collection
+  # @param [String] collection_locator The CSS locator that returns the list of elements in the collection
   # @example
   #   class HomePage < Prismatic::Page
   #     elements :app_links, '.title-links > a'
@@ -67,6 +71,9 @@ module Prismatic::ElementContainer
   # 
   # The SearchArea section appears on both pages, but can be invoked by methods specific to the page (eg: 'search_area' and 'search_again')
   # and the root element for the section can be different on the page (eg: '.tsf-p' and '.tsf-p table').
+  # @param [Symbol] the method name to be called against this page or section to return an instance of the {Prismatic::Section} class
+  # @param [Class] the class that models this area of the page
+  # @param [String] the CSS locator for the root element of the section on this page/section
   def section section_name, section_class, section_locator
     define_method section_name do
       section_class.new find_one section_locator
@@ -75,6 +82,8 @@ module Prismatic::ElementContainer
   
   private
   
+  # Creates a method used to check for the existence of the element whose details are passed to it
+  # @param
   def create_existence_checker element_name, element_locator
     define_method "has_#{element_name.to_s}?" do
       has_selector? element_locator

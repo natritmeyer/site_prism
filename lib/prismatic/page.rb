@@ -92,10 +92,12 @@ module Prismatic
     
     private
     
+    # Page specific element finder
     def find_one locator
       find locator
     end
     
+    # Page specific elements finder
     def find_all locator
       all locator
     end
