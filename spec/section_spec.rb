@@ -18,3 +18,13 @@ describe Prismatic::Page do
     page.bob.should be_a_kind_of Prismatic::Section
   end
 end
+
+describe Prismatic::Section do
+  it "should respond to element" do
+    Prismatic::Section.should respond_to :element
+  end
+  
+  it "should respond to elements" do
+    Prismatic::Section.should respond_to :elements
+  end
+end
