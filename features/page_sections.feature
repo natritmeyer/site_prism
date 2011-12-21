@@ -7,5 +7,5 @@ Feature: Page Sections
 	Scenario: Designate a section of a page
 		When I navigate to the home page
 		Then I can see elements in the section
-		#When I navigate to another page
-		#Then that section is there too!
+		When I navigate to another page
+		Then that section is there too

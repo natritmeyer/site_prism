@@ -11,6 +11,7 @@ require 'test_site'
 require 'sections/people'
 require 'pages/home'
 require 'pages/no_title'
+require 'pages/page_with_people'
 
 Capybara.configure do |config|
   config.default_driver = :selenium
