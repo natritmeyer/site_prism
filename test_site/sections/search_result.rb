@@ -1,5 +1,5 @@
 class SearchResult < Prismatic::Section
-  element :title, ''
-  element :link, ''
-  element :description, ''
+  element :title, 'span.title'
+  element :link, 'a'
+  element :description, 'span.description'
 end

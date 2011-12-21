@@ -1,6 +1,7 @@
 # Contains methods applicable to both {Prismatic::Page}s and {Prismatic::Section}s. Note that they are mixed into the {Prismatic::Page}
 # and {Prismatic::Section} classes so the methods below are used as class methods.
 module Prismatic::ElementContainer
+  
   # Creates two methods; the first method has the same name as the element_name parameter and returns the capybara element
   # located by the element_locator parameter when the method is called. The second method generated has a name with a format
   # of: 'has_#\{element_name}?' which returns true if the element as located by the element_locator parameter exists, false
@@ -77,6 +78,15 @@ module Prismatic::ElementContainer
   def section section_name, section_class, section_locator
     define_method section_name do
       section_class.new find_one section_locator
+    end
+  end
+  
+  # Works in the same way as {Prismatic::Page.section} but instead of it returning one section, it returns an array of them. 
+  def sections section_collection_name, section_class, section_collection_locator
+    define_method section_collection_name do
+      find_all(section_collection_locator).collect do |element|
+        section_class.new element
+      end
     end
   end
   
