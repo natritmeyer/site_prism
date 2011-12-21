@@ -12,3 +12,8 @@ Feature: Page Sections
 	Scenario: section within a section
 		When I navigate to the section experiments page
 		Then I can see a section within a section
+	
+	@wip
+	Scenario: collection of sections
+		When I navigate to the section experiments page
+		Then I can see a collection of sections

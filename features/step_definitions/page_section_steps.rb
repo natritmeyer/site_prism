@@ -9,3 +9,11 @@ end
 Then /^I can see a section within a section$/ do
   @test_site.section_experiments.parent_section.child_section.nice_label.text.should == "something"
 end
+
+Then /^I can see a collection of sections$/ do
+  @test_site.section_experiments.search_results.each_with_index do |search_result, i|
+    search_result.title.text.should == "title #{i}"
+    search_result.link.text.should == "link #{i}"
+    search_result.description.text.should == "description #{i}"
+  end
+end
