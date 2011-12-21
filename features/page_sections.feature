@@ -3,7 +3,6 @@ Feature: Page Sections
 	I want to be able to interact with element collections on a page
 	In order to get and set values on the page
 	
-	@wip
 	Scenario: Designate a section of a page
 		When I navigate to the home page
 		Then I can see elements in the section
