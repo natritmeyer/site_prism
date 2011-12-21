@@ -23,7 +23,7 @@ class Prismatic::ElementContainer
   def self.element element_name, element_locator
     create_existence_checker element_name, element_locator
     define_method element_name.to_s do
-      find element_locator
+      find_one element_locator
     end
   end
   
@@ -42,7 +42,13 @@ class Prismatic::ElementContainer
   def self.elements collection_name, collection_locator
     create_existence_checker collection_name, collection_locator
     define_method collection_name.to_s do
-      all collection_locator
+      find_all collection_locator
+    end
+  end
+
+  def self.section section_name, section_class, section_locator
+    define_method section_name do
+      section_class.new find_one section_locator
     end
   end
   

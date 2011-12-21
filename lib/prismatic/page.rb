@@ -86,11 +86,15 @@ module Prismatic
       title_selector = 'html > head > title'
       using_wait_time(0) { page.find(title_selector).text if page.has_selector?(title_selector) }
     end
-
-    def self.section section_name, section_class, section_locator
-      define_method section_name do
-        section_class.new section_locator
-      end
+    
+    private
+    
+    def find_one locator
+      find locator
+    end
+    
+    def find_all locator
+      all locator
     end
   end
 end
