@@ -83,8 +83,7 @@ module Prismatic
     end
     
     # Gets the title of the current page
-    # @return [String] the text value of the title element within the page's head block
-    # @return [nil] if the page hasn't got a title return nil
+    # @return [String, nil] the text value of the title element within the page's head block
     def title
       title_selector = 'html > head > title'
       using_wait_time(0) { page.find(title_selector).text if page.has_selector?(title_selector) }
