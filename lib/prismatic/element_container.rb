@@ -46,6 +46,28 @@ class Prismatic::ElementContainer
     end
   end
 
+  # Creates a method that returns an instance of a {Prismatic::Section}. If a page contains a common section (eg: a search area) that
+  # appears on many pages, create a {Prismatic::Section} for it and then expose it in each {Prismatic::Page} that contains the section.
+  # Say a search engine website displays the search field and search button on each page and they always have the same IDs, they should
+  # be extracted into a {Prismatic::Section} that would look something like this:
+  #
+  #   class SearchArea < Prismatic::Section
+  #     element :search_field, '.q'
+  #     element :search_button, '.btnK'
+  #   end
+  # 
+  # ...then that section could be added to any page as follows:
+  # 
+  #   class SearchPage < Prismatic::Page
+  #     section :search_area, SearchArea, '.tsf-p'
+  #   end
+  #   
+  #   class SearchResultsPage < Prismatic::Page
+  #     section :search_again, SearchArea, '.tsf-p table'
+  #   end
+  # 
+  # The SearchArea section appears on both pages, but can be invoked by methods specific to the page (eg: 'search_area' and 'search_again')
+  # and the root element for the section can be different on the page (eg: '.tsf-p' and '.tsf-p table').
   def self.section section_name, section_class, section_locator
     define_method section_name do
       section_class.new find_one section_locator

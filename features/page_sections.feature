@@ -8,3 +8,7 @@ Feature: Page Sections
 		Then I can see elements in the section
 		When I navigate to another page
 		Then that section is there too
+	
+	Scenario: section within a section
+		When I navigate to the section experiments page
+		Then I can see a section within a section

@@ -9,9 +9,12 @@ $: << './lib'
 require 'prismatic'
 require 'test_site'
 require 'sections/people'
+require 'sections/child'
+require 'sections/parent'
 require 'pages/home'
 require 'pages/no_title'
 require 'pages/page_with_people'
+require 'pages/section_experiments'
 
 Capybara.configure do |config|
   config.default_driver = :selenium
