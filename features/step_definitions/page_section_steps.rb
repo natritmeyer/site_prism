@@ -16,4 +16,5 @@ Then /^I can see a collection of sections$/ do
     search_result.link.text.should == "link #{i}"
     search_result.description.text.should == "description #{i}"
   end
+  @test_site.section_experiments.search_results.size.should == 4
 end
