@@ -9,7 +9,10 @@ module Prismatic
   #     set_url "/"
   #     set_url_matcher /\/home.htm$/
   #   end
-  class Page < ElementContainer
+  class Page
+    include Capybara::DSL
+    extend ElementContainer
+    
     # Visits the url associated with this page
     # @raise [Prismatic::NoUrlForPage] To load a page the url must be set using {.set_url}
     def load

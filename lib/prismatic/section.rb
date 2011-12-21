@@ -1,5 +1,7 @@
 module Prismatic
-  class Section < ElementContainer
+  class Section
+    extend ElementContainer
+    
     attr_reader :root_element_locator
   
     def initialize root_element

@@ -1,6 +1,4 @@
-class Prismatic::ElementContainer
-  include Capybara::DSL
-  
+module Prismatic::ElementContainer
   # Creates two methods; the first method has the same name as the element_name parameter and returns the capybara element
   # located by the element_locator parameter when the method is called. The second method generated has a name with a format
   # of: 'has_#\{element_name}?' which returns true if the element as located by the element_locator parameter exists, false
@@ -20,7 +18,7 @@ class Prismatic::ElementContainer
   #   #The has_search_link? method allows use of magic matchers in rspec/cucumber:
   #   home.should have_search_link
   #   home.should_not have_search_link
-  def self.element element_name, element_locator
+  def element element_name, element_locator
     create_existence_checker element_name, element_locator
     define_method element_name.to_s do
       find_one element_locator
@@ -39,12 +37,13 @@ class Prismatic::ElementContainer
   #   home.should have_app_links
   #   home.app_links #=> [#<Capybara::Element tag="a">, #<Capybara::Element tag="a">, #<Capybara::Element tag="a">]
   #   home.app_links.map {|link| link.text}.should == ['Finance', 'Maps', 'Blogs']
-  def self.elements collection_name, collection_locator
+  def elements collection_name, collection_locator
     create_existence_checker collection_name, collection_locator
     define_method collection_name.to_s do
       find_all collection_locator
     end
   end
+  alias :collection :elements
 
   # Creates a method that returns an instance of a {Prismatic::Section}. If a page contains a common section (eg: a search area) that
   # appears on many pages, create a {Prismatic::Section} for it and then expose it in each {Prismatic::Page} that contains the section.
@@ -68,7 +67,7 @@ class Prismatic::ElementContainer
   # 
   # The SearchArea section appears on both pages, but can be invoked by methods specific to the page (eg: 'search_area' and 'search_again')
   # and the root element for the section can be different on the page (eg: '.tsf-p' and '.tsf-p table').
-  def self.section section_name, section_class, section_locator
+  def section section_name, section_class, section_locator
     define_method section_name do
       section_class.new find_one section_locator
     end
@@ -76,7 +75,7 @@ class Prismatic::ElementContainer
   
   private
   
-  def self.create_existence_checker element_name, element_locator
+  def create_existence_checker element_name, element_locator
     define_method "has_#{element_name.to_s}?" do
       has_selector? element_locator
     end
