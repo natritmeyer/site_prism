@@ -13,7 +13,6 @@ Feature: Page Sections
 		When I navigate to the section experiments page
 		Then I can see a section within a section
 	
-	@wip
 	Scenario: collection of sections
 		When I navigate to the section experiments page
 		Then I can see a collection of sections
