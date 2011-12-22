@@ -1,4 +1,4 @@
-class TestPageWithPeople < Prismatic::Page
+class TestPageWithPeople < SitePrism::Page
   set_url '/page_with_people.htm'
   
   #sections

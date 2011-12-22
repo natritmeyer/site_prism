@@ -1,15 +1,15 @@
 require 'spec_helper'
 
-describe Prismatic::Page do
+describe SitePrism::Page do
   it "should respond to section" do
-    Prismatic::Page.should respond_to :section
+    SitePrism::Page.should respond_to :section
   end
   
   it "section method should create a method" do
-    class SomeSection < Prismatic::Section
+    class SomeSection < SitePrism::Section
     end
     
-    class PageWithSection < Prismatic::Page
+    class PageWithSection < SitePrism::Page
       section :bob, SomeSection, '.bob'
     end
     
@@ -18,10 +18,10 @@ describe Prismatic::Page do
   end
   
   it "should create a matching existence method for a section" do
-    class SomePageWithSectionThatNeedsTestingForExistence < Prismatic::Section
+    class SomePageWithSectionThatNeedsTestingForExistence < SitePrism::Section
     end
     
-    class YetAnotherPageWithASection < Prismatic::Page
+    class YetAnotherPageWithASection < SitePrism::Page
       section :something, SomePageWithSectionThatNeedsTestingForExistence, '.bob'
     end
     
@@ -30,12 +30,12 @@ describe Prismatic::Page do
   end
 end
 
-describe Prismatic::Section do
+describe SitePrism::Section do
   it "should respond to element" do
-    Prismatic::Section.should respond_to :element
+    SitePrism::Section.should respond_to :element
   end
   
   it "should respond to elements" do
-    Prismatic::Section.should respond_to :elements
+    SitePrism::Section.should respond_to :elements
   end
 end

@@ -1,4 +1,4 @@
-class TestSectionExperiments < Prismatic::Page
+class TestSectionExperiments < SitePrism::Page
   set_url '/section_experiments.htm'
   
   section :parent_section, Parent, '.parent-div'

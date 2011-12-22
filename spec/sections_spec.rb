@@ -1,15 +1,15 @@
 require 'spec_helper'
 
-describe Prismatic::Page do
+describe SitePrism::Page do
   it "should respond to sections" do
-    Prismatic::Page.should respond_to :sections
+    SitePrism::Page.should respond_to :sections
   end
   
   it "should create a matching existence method for sections" do
-    class SomePageWithSectionsThatNeedsTestingForExistence < Prismatic::Section
+    class SomePageWithSectionsThatNeedsTestingForExistence < SitePrism::Section
     end
     
-    class YetAnotherPageWithSections < Prismatic::Page
+    class YetAnotherPageWithSections < SitePrism::Page
       section :some_things, SomePageWithSectionsThatNeedsTestingForExistence, '.bob'
     end
     

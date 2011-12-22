@@ -1,3 +1,3 @@
-class People < Prismatic::Section
+class People < SitePrism::Section
   element :title, '.people-title'
 end

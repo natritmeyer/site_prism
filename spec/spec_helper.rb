@@ -5,7 +5,7 @@ require 'selenium-webdriver'
 $: << './test_site'
 $: << './lib'
 
-require 'prismatic'
+require 'site_prism'
 require 'test_site'
 require 'sections/people'
 require 'pages/home'

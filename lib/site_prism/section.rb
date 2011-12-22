@@ -1,4 +1,4 @@
-module Prismatic
+module SitePrism
   class Section
     extend ElementContainer
     
