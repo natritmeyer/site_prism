@@ -100,5 +100,9 @@ module Prismatic
     def find_all locator
       all locator
     end
+    
+    def element_exists? locator
+      has_selector? locator
+    end
   end
 end

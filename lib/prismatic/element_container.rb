@@ -76,6 +76,7 @@ module Prismatic::ElementContainer
   # @param [Class] the class that models this area of the page
   # @param [String] the CSS locator for the root element of the section on this page/section
   def section section_name, section_class, section_locator
+    create_existence_checker section_name, section_locator
     define_method section_name do
       section_class.new find_one section_locator
     end
@@ -83,6 +84,7 @@ module Prismatic::ElementContainer
   
   # Works in the same way as {Prismatic::Page.section} but instead of it returning one section, it returns an array of them. 
   def sections section_collection_name, section_class, section_collection_locator
+    create_existence_checker section_collection_name, section_collection_locator
     define_method section_collection_name do
       find_all(section_collection_locator).collect do |element|
         section_class.new element
@@ -96,7 +98,7 @@ module Prismatic::ElementContainer
   # @param
   def create_existence_checker element_name, element_locator
     define_method "has_#{element_name.to_s}?" do
-      has_selector? element_locator
+      element_exists? element_locator
     end
   end
 end

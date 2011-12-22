@@ -1,16 +1,21 @@
 Then /^I can see elements in the section$/ do
+  @test_site.home.should have_people
   @test_site.home.people.title.text.should == "People"
 end
 
 Then /^that section is there too$/ do
+  @test_site.page_with_people.should have_people_list
   @test_site.page_with_people.people_list.title.text.should == "People"
 end
 
 Then /^I can see a section within a section$/ do
+  @test_site.section_experiments.should have_parent_section
+  @test_site.section_experiments.parent_section.should have_child_section
   @test_site.section_experiments.parent_section.child_section.nice_label.text.should == "something"
 end
 
 Then /^I can see a collection of sections$/ do
+  @test_site.section_experiments.should have_search_results
   @test_site.section_experiments.search_results.each_with_index do |search_result, i|
     search_result.title.text.should == "title #{i}"
     search_result.link.text.should == "link #{i}"

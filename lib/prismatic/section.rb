@@ -17,5 +17,9 @@ module Prismatic
     def find_all locator
       @root_element.all locator
     end
+
+    def element_exists? locator
+      @root_element.has_selector? locator
+    end
   end
 end

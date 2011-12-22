@@ -16,6 +16,18 @@ describe Prismatic::Page do
     page = PageWithSection.new
     page.should respond_to :bob
   end
+  
+  it "should create a matching existence method for a section" do
+    class SomePageWithSectionThatNeedsTestingForExistence < Prismatic::Section
+    end
+    
+    class YetAnotherPageWithASection < Prismatic::Page
+      section :something, SomePageWithSectionThatNeedsTestingForExistence, '.bob'
+    end
+    
+    page = YetAnotherPageWithASection.new
+    page.should respond_to :has_something?
+  end
 end
 
 describe Prismatic::Section do
