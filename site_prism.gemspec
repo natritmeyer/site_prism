@@ -10,4 +10,5 @@ Gem::Specification.new do |s|
   s.files        = Dir.glob("lib/**/*") + %w(LICENSE)
   s.require_path = 'lib'
   s.add_dependency('capybara', '>= 1.1.1')
+  s.add_dependency('rspec', '>= 2.0.0')
 end
