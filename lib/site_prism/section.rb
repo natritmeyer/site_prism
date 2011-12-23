@@ -18,6 +18,7 @@ module SitePrism
       @root_element.all locator
     end
 
+    # Section specific element existence check
     def element_exists? locator
       @root_element.has_selector? locator
     end

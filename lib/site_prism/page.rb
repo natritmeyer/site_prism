@@ -101,6 +101,7 @@ module SitePrism
       all locator
     end
     
+    # Page specific element existence check
     def element_exists? locator
       has_selector? locator
     end
