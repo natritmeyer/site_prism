@@ -23,3 +23,8 @@ Then /^I can see a collection of sections$/ do
   end
   @test_site.section_experiments.search_results.size.should == 4
 end
+
+Then /^the section is visible$/ do
+  @test_site.home.people.should be_visible
+end
+

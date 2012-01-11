@@ -5,6 +5,10 @@ module SitePrism
     def initialize root_element
       @root_element = root_element
     end
+
+    def visible?
+      @root_element.visible?
+    end
     
     private
     
