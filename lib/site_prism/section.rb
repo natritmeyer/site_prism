@@ -2,6 +2,8 @@ module SitePrism
   class Section
     extend ElementContainer
     
+    attr_reader :root_element
+    
     def initialize root_element
       @root_element = root_element
     end

@@ -28,3 +28,6 @@ Then /^the section is visible$/ do
   @test_site.home.people.should be_visible
 end
 
+Then /^I can get at the people section root element$/ do
+  @test_site.home.people.root_element.class.should == Capybara::Node::Element
+end
