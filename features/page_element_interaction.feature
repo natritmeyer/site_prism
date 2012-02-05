@@ -19,3 +19,8 @@ Feature: Page element interaction
 		And I can see the link to the search page
 		But I cannot see the missing squirrel
 		And I cannot see the missing other thingy
+	
+	Scenario: Wait for element
+		When I navigate to the home page
+		Then when I wait for the element that takes a while to appear
+		Then I successfully wait for it to appear
