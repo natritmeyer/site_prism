@@ -13,11 +13,19 @@ describe SitePrism::Page do
     page.should respond_to :has_bob?
   end
   
-  it "element method hould generate method to return the element" do
+  it "element method should generate method to return the element" do
     class PageWithElement < SitePrism::Page
       element :bob, 'a.b c.d'
     end
     page = PageWithElement.new
     page.should respond_to :bob
+  end
+  
+  it "should be able to wait for an element" do
+    class PageWithElement < SitePrism::Page
+      element :some_slow_element, 'a.slow'
+    end
+    page = PageWithElement.new
+    page.should respond_to :wait_for_some_slow_element
   end
 end
