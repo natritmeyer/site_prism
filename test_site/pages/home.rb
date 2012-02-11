@@ -7,6 +7,7 @@ class TestHomePage < SitePrism::Page
   element :welcome_message, 'span'
   element :go_button, 'input'
   element :link_to_search_page, 'a'
+  element :some_slow_element, 'a.slow'
   
   #element groups
   elements :lots_of_links, 'td a'
