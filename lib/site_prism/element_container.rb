@@ -23,6 +23,7 @@ module SitePrism::ElementContainer
   #   home.should_not have_search_link
   def element element_name, element_locator
     create_existence_checker element_name, element_locator
+    create_waiter element_name, element_locator
     define_method element_name.to_s do
       find_one element_locator
     end
@@ -99,6 +100,13 @@ module SitePrism::ElementContainer
   def create_existence_checker element_name, element_locator
     define_method "has_#{element_name.to_s}?" do
       element_exists? element_locator
+    end
+  end
+  
+  # Creates a method used to wait for an element to appear - uses the default capybara wait time
+  def create_waiter element_name, element_locator
+    define_method "wait_for_#{element_name.to_s}" do
+      element_waiter element_locator
     end
   end
 end

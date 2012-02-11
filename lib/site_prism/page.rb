@@ -105,5 +105,10 @@ module SitePrism
     def element_exists? locator
       has_selector? locator
     end
+    
+    # Page specific element waiter
+    def element_waiter locator
+      wait_until { element_exists? locator }
+    end
   end
 end
