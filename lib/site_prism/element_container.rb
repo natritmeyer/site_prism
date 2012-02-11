@@ -45,6 +45,7 @@ module SitePrism::ElementContainer
   #   home.app_links.map {|link| link.text}.should == ['Finance', 'Maps', 'Blogs']
   def elements collection_name, collection_locator
     create_existence_checker collection_name, collection_locator
+    create_waiter collection_name, collection_locator
     define_method collection_name.to_s do
       find_all collection_locator
     end
@@ -78,6 +79,7 @@ module SitePrism::ElementContainer
   # @param [String] the CSS locator for the root element of the section on this page/section
   def section section_name, section_class, section_locator
     create_existence_checker section_name, section_locator
+    create_waiter section_name, section_locator
     define_method section_name do
       section_class.new find_one section_locator
     end
@@ -86,6 +88,7 @@ module SitePrism::ElementContainer
   # Works in the same way as {SitePrism::Page.section} but instead of it returning one section, it returns an array of them. 
   def sections section_collection_name, section_class, section_collection_locator
     create_existence_checker section_collection_name, section_collection_locator
+    create_waiter section_collection_name, section_collection_locator
     define_method section_collection_name do
       find_all(section_collection_locator).collect do |element|
         section_class.new element
