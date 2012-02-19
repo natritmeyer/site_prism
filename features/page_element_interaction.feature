@@ -25,6 +25,7 @@ Feature: Page element interaction
 		Then when I wait for the element that takes a while to appear
 		Then I successfully wait for it to appear
 
+	@wip
 	Scenario: Check that all elements are present
 		When I navigate to the home page
 		Then all expected elements are present

@@ -31,3 +31,7 @@ end
 Then /^I can get at the people section root element$/ do
   @test_site.home.people.root_element.class.should == Capybara::Node::Element
 end
+
+Then /^all expected elements are present in the search results$/ do
+  @test_site.section_experiments.search_results.first.should be_all_there
+end
