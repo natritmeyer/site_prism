@@ -45,3 +45,7 @@ end
 Then /^I can get the group of links$/ do
   @test_site.home.lots_of_links.collect {|link| link.text}.should == ['a', 'b', 'c']
 end
+
+Then /^all expected elements are present$/ do
+  @test_site.home.should be_all_there
+end
