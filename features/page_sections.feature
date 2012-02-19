@@ -17,10 +17,10 @@ Feature: Page Sections
 		When I navigate to the section experiments page
 		Then I can see a collection of sections
 
-  Scenario: sections visible on a page
-    When I navigate to the home page
-    Then the section is visible
+	Scenario: sections visible on a page
+		When I navigate to the home page
+		Then the section is visible
 
-  Scenario: get section's root element
-    When I navigate to the home page
-    Then I can get at the people section root element
+	Scenario: get section's root element
+		When I navigate to the home page
+		Then I can get at the people section root element
