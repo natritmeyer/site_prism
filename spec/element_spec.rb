@@ -28,4 +28,12 @@ describe SitePrism::Page do
     page = PageWithElement.new
     page.should respond_to :wait_for_some_slow_element
   end
+  
+  it "should know if all mapped elements are on the page" do
+    class PageWithAFewElements < SitePrism::Page
+      element :bob, 'a.b c.d'
+    end
+    page = PageWithAFewElements.new
+    page.should respond_to :all_there?
+  end
 end
