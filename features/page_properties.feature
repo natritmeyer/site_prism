@@ -11,3 +11,4 @@ Feature: Page properties
 	
 	Scenario: Get page text
 		Then I can see an expected bit of text
+

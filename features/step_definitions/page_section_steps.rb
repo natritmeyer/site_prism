@@ -35,3 +35,4 @@ end
 Then /^all expected elements are present in the search results$/ do
   @test_site.section_experiments.search_results.first.should be_all_there
 end
+

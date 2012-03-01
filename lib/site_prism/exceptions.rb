@@ -5,3 +5,4 @@ module SitePrism
   # Raised if you check to see if a page is displayed but it hasn't had its url matcher set
   class NoUrlMatcherForPage < StandardError; end
 end
+

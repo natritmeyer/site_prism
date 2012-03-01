@@ -1,9 +1,9 @@
 module SitePrism
   class Section
     extend ElementContainer
-    
+
     attr_reader :root_element
-    
+
     def initialize root_element
       @root_element = root_element
     end
@@ -15,14 +15,14 @@ module SitePrism
     def all_there?
       !self.class.element_names.map {|element| self.send "has_#{element}?" }.include? false
     end
-  
+
     private
-    
+
     # Section specific element finder
     def find_one locator
       @root_element.find locator
     end
-    
+
     # Section specific elements finder
     def find_all locator
       @root_element.all locator
@@ -48,3 +48,4 @@ module SitePrism
     end
   end
 end
+

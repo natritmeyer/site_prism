@@ -4,3 +4,4 @@ SitePrism depends on the following requires:
   require 'capybara/cucumber'
   require 'selenium-webdriver'
   require 'rspec'
+

@@ -3,3 +3,4 @@ class SearchResult < SitePrism::Section
   element :link, 'a'
   element :description, 'span.description'
 end
+

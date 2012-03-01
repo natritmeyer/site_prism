@@ -36,3 +36,4 @@ end
 World(Capybara)
 
 Capybara.run_server = false
+

@@ -25,7 +25,7 @@ Feature: Page Sections
 		When I navigate to the home page
 		Then I can get at the people section root element
 
-	@wip
 	Scenario: Check that all elements are present
 		When I navigate to the section experiments page
 		Then all expected elements are present in the search results
+

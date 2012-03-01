@@ -7,3 +7,4 @@ Feature: Interaction with groups of elements
 		When I navigate to the home page
 		Then I can see the group of links
 		And I can get the group of links
+

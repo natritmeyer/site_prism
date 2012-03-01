@@ -6,3 +6,4 @@ Feature: Page navigation
 	Scenario: Navigate to a page
 		When I navigate to the home page
 		Then I am on the home page
+

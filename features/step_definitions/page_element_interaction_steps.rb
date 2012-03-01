@@ -49,3 +49,4 @@ end
 Then /^all expected elements are present$/ do
   @test_site.home.should_not be_all_there
 end
+

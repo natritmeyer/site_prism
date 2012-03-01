@@ -20,3 +20,4 @@ When /^I navigate to the section experiments page$/ do
   @test_site = TestSite.new
   @test_site.section_experiments.load
 end
+
