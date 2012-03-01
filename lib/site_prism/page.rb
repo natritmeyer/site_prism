@@ -35,6 +35,10 @@ module SitePrism
       raise SitePrism::NoUrlMatcherForPage if url_matcher.nil?
       !(page.current_url =~ url_matcher).nil?
     end
+
+    def all_there?
+      !self.class.element_names.map {|element| self.send "has_#{element}?" }.include? false
+    end
     
     # Set the url associated with this page
     # @param [String] page_url the portion of the url that identifies this page when appended onto Capybara's app_host. Calling {SitePrism::Page#load} causes Capybara to visit this page.
@@ -109,6 +113,15 @@ module SitePrism
     # Page specific element waiter
     def element_waiter locator
       wait_until { element_exists? locator }
+    end
+    
+    def self.add_element_name element_name
+      @element_names ||= []
+      @element_names << element_name
+    end
+    
+    def self.element_names
+      @element_names
     end
   end
 end

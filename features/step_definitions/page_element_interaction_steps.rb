@@ -47,5 +47,5 @@ Then /^I can get the group of links$/ do
 end
 
 Then /^all expected elements are present$/ do
-  @test_site.home.should be_all_there
+  @test_site.home.should_not be_all_there
 end

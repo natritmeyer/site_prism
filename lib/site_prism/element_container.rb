@@ -22,6 +22,7 @@ module SitePrism::ElementContainer
   #   home.should have_search_link
   #   home.should_not have_search_link
   def element element_name, element_locator
+    add_element_name element_name
     create_existence_checker element_name, element_locator
     create_waiter element_name, element_locator
     define_method element_name.to_s do
@@ -44,6 +45,7 @@ module SitePrism::ElementContainer
   #   home.app_links #=> [#<Capybara::Element tag="a">, #<Capybara::Element tag="a">, #<Capybara::Element tag="a">]
   #   home.app_links.map {|link| link.text}.should == ['Finance', 'Maps', 'Blogs']
   def elements collection_name, collection_locator
+    add_element_name collection_name
     create_existence_checker collection_name, collection_locator
     create_waiter collection_name, collection_locator
     define_method collection_name.to_s do
@@ -78,6 +80,7 @@ module SitePrism::ElementContainer
   # @param [Class] the class that models this area of the page
   # @param [String] the CSS locator for the root element of the section on this page/section
   def section section_name, section_class, section_locator
+    add_element_name section_name
     create_existence_checker section_name, section_locator
     create_waiter section_name, section_locator
     define_method section_name do
@@ -87,6 +90,7 @@ module SitePrism::ElementContainer
   
   # Works in the same way as {SitePrism::Page.section} but instead of it returning one section, it returns an array of them. 
   def sections section_collection_name, section_class, section_collection_locator
+    add_element_name section_collection_name
     create_existence_checker section_collection_name, section_collection_locator
     create_waiter section_collection_name, section_collection_locator
     define_method section_collection_name do
