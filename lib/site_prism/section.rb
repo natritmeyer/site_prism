@@ -1,5 +1,6 @@
 module SitePrism
   class Section
+    include ElementChecker
     extend ElementContainer
 
     attr_reader :root_element
@@ -10,10 +11,6 @@ module SitePrism
 
     def visible?
       @root_element.visible?
-    end
-
-    def all_there?
-      !self.class.element_names.map {|element| self.send "has_#{element}?" }.include? false
     end
 
     private

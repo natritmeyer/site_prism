@@ -11,6 +11,7 @@ module SitePrism
   #   end
   class Page
     include Capybara::DSL
+    include ElementChecker
     extend ElementContainer
 
     # Visits the url associated with this page
@@ -34,10 +35,6 @@ module SitePrism
     def displayed?
       raise SitePrism::NoUrlMatcherForPage if url_matcher.nil?
       !(page.current_url =~ url_matcher).nil?
-    end
-
-    def all_there?
-      !self.class.element_names.map {|element| self.send "has_#{element}?" }.include? false
     end
 
     # Set the url associated with this page
