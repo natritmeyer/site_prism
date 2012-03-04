@@ -100,6 +100,17 @@ module SitePrism::ElementContainer
     end
   end
 
+  # Adds the element name to the list of known elements
+  def add_element_name element_name
+    @element_names ||= []
+    @element_names << element_name
+  end
+
+  # Returns list of known element names
+  def element_names
+    @element_names
+  end
+
   private
 
   # Creates a method used to check for the existence of the element whose details are passed to it

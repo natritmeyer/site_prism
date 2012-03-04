@@ -111,15 +111,6 @@ module SitePrism
     def element_waiter locator
       wait_until { element_exists? locator }
     end
-
-    def self.add_element_name element_name
-      @element_names ||= []
-      @element_names << element_name
-    end
-
-    def self.element_names
-      @element_names
-    end
   end
 end
 
