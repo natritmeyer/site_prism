@@ -2,7 +2,7 @@ require './lib/site_prism/version'
 
 Gem::Specification.new do |s|
   s.name        = "site_prism"
-  s.version     = SitePrism::VERSION #"0.9.4"
+  s.version     = SitePrism::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Nat Ritmeyer"]
   s.email       = ["nat@natontesting.com"]
