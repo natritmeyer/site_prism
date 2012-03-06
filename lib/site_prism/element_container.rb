@@ -123,8 +123,10 @@ module SitePrism::ElementContainer
 
   # Creates a method used to wait for an element to appear - uses the default capybara wait time
   def create_waiter element_name, element_locator
-    define_method "wait_for_#{element_name.to_s}" do
-      element_waiter element_locator
+    define_method "wait_for_#{element_name.to_s}" do |timeout = Capybara.default_wait_time|
+      Capybara.using_wait_time timeout do
+        element_waiter element_locator
+      end
     end
   end
 end

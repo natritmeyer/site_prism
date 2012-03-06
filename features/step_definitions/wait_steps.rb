@@ -6,3 +6,11 @@ Then /^I successfully wait for it to appear$/ do
   @test_site.home.should have_some_slow_element
 end
 
+When /^I wait for a specifically short amount of time for an element to appear$/ do
+  @test_site.home.wait_for_some_slow_element(2)
+end
+
+Then /^the element I am waiting for doesn't appear in time$/ do
+  @test_site.home.should_not be_all_there
+end
+
