@@ -5,6 +5,11 @@ So far:
   thing
   has_thing?
   wait_for_thing
+  wait_for_thing 10
+end
+
+[page, section].each do |thing|
+  all_there?
 end
 
 Dependencies:
