@@ -1,7 +1,3 @@
-module SitePrism
-
-end
-
 require 'site_prism/version'
 require 'site_prism/exceptions'
 require 'site_prism/element_container'
