@@ -50,3 +50,15 @@ Then /^all expected elements are present$/ do
   @test_site.home.should_not be_all_there
 end
 
+Then /^an exception is raised when I try to deal with an element with no locator$/ do
+  expect {@test_site.no_title.has_element_without_locator?}.to raise_error SitePrism::NoLocatorForElement
+  expect {@test_site.no_title.element_without_locator}.to raise_error SitePrism::NoLocatorForElement
+  expect {@test_site.no_title.wait_for_element_without_locator}.to raise_error SitePrism::NoLocatorForElement
+end
+
+Then /^an exception is raised when I try to deal with elements with no locator$/ do
+  expect {@test_site.no_title.has_elements_without_locator?}.to raise_error SitePrism::NoLocatorForElement
+  expect {@test_site.no_title.elements_without_locator}.to raise_error SitePrism::NoLocatorForElement
+  expect {@test_site.no_title.wait_for_elements_without_locator}.to raise_error SitePrism::NoLocatorForElement
+end
+

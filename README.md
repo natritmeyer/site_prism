@@ -2,7 +2,7 @@ Nothing interesting here atm...
 
 So far:
 [element, elements, section, sections].each do |thing|
-  thing
+  thing (pending or implemented)
   has_thing?
   wait_for_thing
   wait_for_thing 10

@@ -21,13 +21,19 @@ module SitePrism::ElementContainer
   #   #The has_search_link? method allows use of magic matchers in rspec/cucumber:
   #   home.should have_search_link
   #   home.should_not have_search_link
-  def element element_name, element_locator
-    add_element_name element_name
+  def element element_name, element_locator = nil
+    if element_locator.nil?
+      define_method element_name.to_s do
+        raise SitePrism::NoLocatorForElement.new("#{self.class.name} => :#{element_name} needs a locator")
+      end
+    else
+      add_element_name element_name.to_s
+      define_method element_name.to_s do
+        find_one element_locator
+      end
+    end
     create_existence_checker element_name, element_locator
     create_waiter element_name, element_locator
-    define_method element_name.to_s do
-      find_one element_locator
-    end
   end
 
   # Works in the same way as {SitePrism::Page.element} in that it will generate two methods; one to check existence of
@@ -44,13 +50,19 @@ module SitePrism::ElementContainer
   #   home.should have_app_links
   #   home.app_links #=> [#<Capybara::Element tag="a">, #<Capybara::Element tag="a">, #<Capybara::Element tag="a">]
   #   home.app_links.map {|link| link.text}.should == ['Finance', 'Maps', 'Blogs']
-  def elements collection_name, collection_locator
-    add_element_name collection_name
+  def elements collection_name, collection_locator = nil
+    if collection_locator.nil?
+      define_method collection_name.to_s do
+        raise SitePrism::NoLocatorForElement.new("#{self.class.name} => :#{element_name} needs a locator")
+      end
+    else
+      add_element_name collection_name
+      define_method collection_name.to_s do
+        find_all collection_locator
+      end
+    end
     create_existence_checker collection_name, collection_locator
     create_waiter collection_name, collection_locator
-    define_method collection_name.to_s do
-      find_all collection_locator
-    end
   end
   alias :collection :elements
 
@@ -116,16 +128,30 @@ module SitePrism::ElementContainer
   # Creates a method used to check for the existence of the element whose details are passed to it
   # @param
   def create_existence_checker element_name, element_locator
-    define_method "has_#{element_name.to_s}?" do
-      element_exists? element_locator
+    method_name = "has_#{element_name.to_s}?"
+    if element_locator.nil?
+      define_method method_name do
+        raise SitePrism::NoLocatorForElement.new("#{self.class.name} => :#{element_name} needs a locator")
+      end
+    else
+      define_method method_name do
+        element_exists? element_locator
+      end
     end
   end
 
   # Creates a method used to wait for an element to appear - uses the default capybara wait time
   def create_waiter element_name, element_locator
-    define_method "wait_for_#{element_name.to_s}" do |timeout = Capybara.default_wait_time|
-      Capybara.using_wait_time timeout do
-        element_waiter element_locator
+    method_name = "wait_for_#{element_name.to_s}"
+    if element_locator.nil?
+      define_method method_name do
+        raise SitePrism::NoLocatorForElement.new("#{self.class.name} => :#{element_name} needs a locator")
+      end
+    else
+      define_method method_name do |timeout = Capybara.default_wait_time|
+        Capybara.using_wait_time timeout do
+          element_waiter element_locator
+        end
       end
     end
   end

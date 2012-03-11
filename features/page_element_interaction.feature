@@ -25,7 +25,6 @@ Feature: Page element interaction
 		Then when I wait for the element that takes a while to appear
 		Then I successfully wait for it to appear
 
-  @wip
   Scenario: Wait specific amount of time for element to appear
     When I navigate to the home page
     And I wait for a specifically short amount of time for an element to appear
@@ -34,4 +33,9 @@ Feature: Page element interaction
 	Scenario: Check that all elements are present
 		When I navigate to the home page
 		Then all expected elements are present
+
+  Scenario: Element without a locator (pending element)
+    When I navigate to a page with no title
+    Then an exception is raised when I try to deal with an element with no locator
+    And an exception is raised when I try to deal with elements with no locator
 
