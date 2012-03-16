@@ -135,7 +135,9 @@ module SitePrism::ElementContainer
       end
     else
       define_method method_name do
-        element_exists? element_locator
+        Capybara.using_wait_time 0 do
+          element_exists? element_locator
+        end
       end
     end
   end
