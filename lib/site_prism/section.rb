@@ -13,6 +13,14 @@ module SitePrism
       @root_element.visible?
     end
 
+    def execute_script input
+
+    end
+
+    def evaluate_script input
+
+    end
+
     private
 
     # Section specific element finder

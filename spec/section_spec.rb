@@ -38,5 +38,14 @@ describe SitePrism::Section do
   it "should respond to elements" do
     SitePrism::Section.should respond_to :elements
   end
+
+  it "should respond to javascript methods" do
+    class JsSection < SitePrism::Section
+
+    end
+
+    JsSection.new("a").should respond_to :execute_script
+    JsSection.new("a").should respond_to :evaluate_script
+  end
 end
 
