@@ -29,3 +29,7 @@ Feature: Page Sections
 		When I navigate to the section experiments page
 		Then all expected elements are present in the search results
 
+  Scenario: Check we can call JS methods against a section
+    When I navigate to the section experiments page
+    Then I can run javascript against the search results
+
