@@ -40,7 +40,7 @@ module SitePrism
 
     # Section specific element waiter
     def element_waiter locator
-      wait_until { element_exists? locator }
+      Capybara.current_session.wait_until { element_exists? locator }
     end
   end
 end
