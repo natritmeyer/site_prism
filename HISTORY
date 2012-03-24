@@ -1,0 +1,30 @@
+0.9.9
+- fixed bug where wait_for_ didn't work in sections
+
+0.9.8
+- added ability to call execute_javascript and evaluate_javascript in sections
+
+0.9.7
+- added ability to have pending elements, ie: elements declared without locators
+
+0.9.6
+- added parameterised wait_for_
+
+0.9.5
+-  refactoring all_there?
+
+0.9.4
+- added all_there? - returns true if all mapped elements and sections are present, false if they're not
+
+0.9.3
+- added wait_for_ functionality to pages and sections
+
+0.9.2
+- added ability to access a section's root_element
+
+0.9.1
+- added visible? to section
+
+0.9
+- first release!
+
