@@ -11,7 +11,7 @@
 - added parameterised wait_for_
 
 0.9.5
--  refactoring all_there?
+- refactoring all_there?
 
 0.9.4
 - added all_there? - returns true if all mapped elements and sections are present, false if they're not
