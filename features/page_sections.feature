@@ -33,3 +33,8 @@ Feature: Page Sections
     When I navigate to the section experiments page
     Then I can run javascript against the search results
 
+  Scenario: Wait for section element
+		When I navigate to the section experiments page
+		Then when I wait for the section element that takes a while to appear
+		Then I successfully wait for the slow section element to appear
+

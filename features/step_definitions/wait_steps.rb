@@ -14,3 +14,11 @@ Then /^the element I am waiting for doesn't appear in time$/ do
   @test_site.home.should_not be_all_there
 end
 
+Then /^when I wait for the section element that takes a while to appear$/ do
+  @test_site.section_experiments.parent_section.wait_for_slow_section_element
+end
+
+Then /^I successfully wait for the slow section element to appear$/ do
+  @test_site.section_experiments.parent_section.should have_slow_section_element
+end
+
