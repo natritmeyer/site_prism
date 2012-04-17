@@ -79,6 +79,10 @@ class Home < SitePrism::Page
 end
 ```
 
+Note that setting a URL is optional - you only need to set a url if you want to be able to navigate
+directly to that page. It makes sense to set the URL for a page model of a home
+page or a login page, but not a search results page.
+
 ### Navigating to the Page
 
 Once the URL has been set (using `set_url`), you can navigate directly
