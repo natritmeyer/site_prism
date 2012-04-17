@@ -98,6 +98,48 @@ home.load
 This will tell which ever capybara driver you have configured to
 navigate to the URL set against that page's class.
 
+### Verifying that a particular page is displayed
+
+Automated tests often need to verify that a particular page is
+displayed. Intuitively you'd think that simply checking that the URL
+defined using `set_url` would be enough, but experience shows that it's
+not. It is far more robust to check to see if the browser's current url
+matches a regular expression. For example, `account/1` and `account/2`
+are the same page, but their URLs are different. To deal with this,
+SitePrism provides the ability to set a URL matcher.
+
+```ruby
+class Account < SitePrism::Page
+  set_url_matcher /\account\/\d+/
+end
+```
+
+Once a URL matcher is set for a page, you can test to see if it is
+displayed:
+
+```ruby
+account_page = Account.new
+account_page.displayed? #=> true or false
+```
+
+Calling `#displayed?` will return true if the browser's current URL
+matches the regular expression for the page and false if it doesn't.
+
+#### Testing for Page display
+
+SitePrism's `#displayed?` predicate method allows for semantic code in
+your test:
+
+```ruby
+Then /^the account page is displayed$/ do
+  @home_page.should_not be_displayed
+  @account_page.should be_displayed
+end
+```
+
+
+The above example would
+
 
 # This README.md file is a work in progress. It should be finished soon...
 
