@@ -11,6 +11,8 @@ To install SitePrism:
 gem install site_prism
 ```
 
+### Using SitePrism with Cucumber
+
 If you are using cucumber, here's what needs requiring:
 
 ```ruby
@@ -20,6 +22,8 @@ require 'capybara/cucumber'
 require 'selenium-webdriver'
 require 'site_prism'
 ```
+
+### Using SitePrism with RSpec
 
 If you're using rspec instead, here's what needs requiring:
 
