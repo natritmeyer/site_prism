@@ -91,8 +91,8 @@ Once the URL has been set (using `set_url`), you can navigate directly
 to the page using `#load`:
 
 ```ruby
-home = Home.new
-home.load
+@home_page = Home.new
+@home_page.load
 ```
 
 This will tell which ever capybara driver you have configured to
@@ -118,8 +118,8 @@ Once a URL matcher is set for a page, you can test to see if it is
 displayed:
 
 ```ruby
-account_page = Account.new
-account_page.displayed? #=> true or false
+@account_page = Account.new
+@account_page.displayed? #=> true or false
 ```
 
 Calling `#displayed?` will return true if the browser's current URL
