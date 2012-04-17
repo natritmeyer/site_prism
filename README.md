@@ -48,8 +48,48 @@ element that can then be acted upon (clicked, set text value), or
 queried (is it enabled? visible?).
 
 SitePrism is based around this concept, but goes further as you'll see
-below.
+below by also allowing modelling of repeated sections that appear on
+muliple pages, or many times on a page using the concept of sections.
 
-### Pages
+## Pages
 
+As you might be able to guess from the name, pages are fairly central to
+the Page Object Model. Here's how SitePrism models them:
+
+### Creating a Page Model
+
+The simplest page is one that has nothing defined in it. Here's an
+example of how to begin modelling a home page:
+
+```ruby
+class Home < SitePrism::Page
+
+end
+```
+
+The above has nothing useful defined, only the name.
+
+### Adding a URL
+
+A page usually has a URL. If you want to be able to navigate to a page,
+you'll need to set its URL. Here's how:
+
+```ruby
+class Home < SitePrism::Page
+  set_url "http://www.google.com"
+end
+```
+
+### Navigating to the Page
+
+Once the URL has been set (using `set_url`), you can navigate directly
+to the page using `#load`:
+
+```ruby
+home = Home.new
+home.load
+```
+
+This will tell which ever capybara driver you have configured to
+navigate to the URL set against that page's class.
 
