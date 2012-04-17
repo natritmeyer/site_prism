@@ -5,6 +5,8 @@ SitePrism gives you a simple, clean and semantic DSL for describing your site us
 
 ## Setup
 
+### Installation
+
 To install SitePrism:
 
 ```bash
