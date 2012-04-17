@@ -96,3 +96,6 @@ home.load
 This will tell which ever capybara driver you have configured to
 navigate to the URL set against that page's class.
 
+
+# This README.md file is a work in progress. It should be finished soon...
+
