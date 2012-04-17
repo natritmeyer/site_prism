@@ -104,8 +104,8 @@ Automated tests often need to verify that a particular page is
 displayed. Intuitively you'd think that simply checking that the URL
 defined using `set_url` would be enough, but experience shows that it's
 not. It is far more robust to check to see if the browser's current url
-matches a regular expression. For example, `account/1` and `account/2`
-are the same page, but their URLs are different. To deal with this,
+matches a regular expression. For example, though `account/1` and `account/2`
+display the same page, their URLs are different. To deal with this,
 SitePrism provides the ability to set a URL matcher.
 
 ```ruby
