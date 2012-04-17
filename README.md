@@ -63,7 +63,6 @@ example of how to begin modelling a home page:
 
 ```ruby
 class Home < SitePrism::Page
-
 end
 ```
 
