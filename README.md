@@ -132,7 +132,6 @@ your test:
 
 ```ruby
 Then /^the account page is displayed$/ do
-  @home_page.should_not be_displayed
   @account_page.should be_displayed
 end
 ```
