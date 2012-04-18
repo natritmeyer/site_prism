@@ -290,7 +290,107 @@ The following methods are available:
 
 ### Element Collections
 
+Sometimes you don't want to deal with an individual element but rather
+with a collection of similar elements, for example, a list of names. To
+enable this, SitePrism provides the `elements` method on the Page class.
+Here's how it works:
 
+```ruby
+class Friends < SitePrism::Page
+  elements :names, "ul#names li a"
+end
+```
+
+Just like the `element` method, the `elements` method takes 2 arguments:
+the first being the name of the elements as a symbol, the second is the
+css locator that would return the array of capybara elements.
+
+#### Accessing the elements
+
+Just like the `element` method, the `elements` method adds a few methods
+to the Page class. The first one is of the name of the element
+collection which returns an array of capybara elements that match the
+css locator. Using the example above:
+
+```ruby
+class Friends < SitePrism::Page
+  elements :names, "ul#names li a"
+end
+```
+
+You can access the element collection like this:
+
+```ruby
+@friends_page = Friends.new
+# ...
+@friends_page.names #=> [<Capybara::Element>, <Capybara::Element>, <Capybara::Element>]
+```
+
+With that you can do all the normal things that are possible with
+arrays:
+
+
+```ruby
+@friends_page.names.each {|name| puts name.text}
+@friends_page.names.map {|name| name.text}.should == ["Alice", "Bob", "Fred"]
+@friends_page.names.size.should == 3
+```
+
+#### Testing for the existence of the element collection
+
+Just like the `element` method, the `elements` method adds a method to
+the page that will allow you to check for the existence of the
+collection, called `has_<element collection name>?`. As long as there is
+at least 1 element in the array, the method will return true, otherwise
+false. For example, with the following page:
+
+```ruby
+class Friends < SitePrism::Page
+  elements :names, "ul#names li a"
+end
+```
+
+... the following method is available:
+
+```ruby
+@friends_page.has_names? #=> returns true if at least one element is found using the relevant locator
+```
+
+...which allows for pretty test code:
+
+```ruby
+Then /^there should be some names listed on the page$/ do
+  @friends_page.should have_names
+end
+```
+
+#### Waiting for the element collection
+
+Just like for an individual element, the tests can be told to wait for
+the existence of the element collection. The `elements` method adds a
+`wait_for_<element collection name>` method that will wait for
+Capybara's default wait time until at least 1 element is found that
+matches the locator. For example, with the following page:
+
+```ruby
+class Friends < SitePrism::Page
+  elements :names, "ul#names li a"
+end
+
+```
+
+... you can wait for the existence of a list of names like this:
+
+```ruby
+@friends_page.wait_for_names
+```
+
+Again, you can customise the wait time by supplying a number of seconds
+to wait for:
+
+```ruby
+@friends_page.wait_for_names(10)
+```
 
 # This README.md file is a work in progress. It should be finished soon...
 
