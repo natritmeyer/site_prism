@@ -155,6 +155,18 @@ aren't limited to one environment but can verify that they are on the
 correct page regardless of the environment the tests are being executed
 against.
 
+#### Page Title
+
+Getting a page's title isn't hard:
+
+```ruby
+class Account < SitePrism::Page
+end
+
+@account = Account.new
+#...
+@account.title #=> "Welcome to Your Account"
+```
 
 # This README.md file is a work in progress. It should be finished soon...
 
