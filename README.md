@@ -185,6 +185,7 @@ the relevant page. SitePrism makes this easy:
 class Home < SitePrism::Page
   element :search_field, "input[name='q']"
 end
+```
 
 Here we're adding a search field to the Home page. The `element` method
 takes 2 arguments: the name of the element as a symbol, and a css locator
