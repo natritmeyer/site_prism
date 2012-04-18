@@ -191,6 +191,59 @@ Here we're adding a search field to the Home page. The `element` method
 takes 2 arguments: the name of the element as a symbol, and a css locator
 as a string.
 
+#### Accessing the individual element
+
+The `element` method will add a number of methods to instances of the
+particular Page class. The first method to be added is the name of the
+element. So using the following example:
+
+```ruby
+class Home < SitePrism::Page
+  set_url "http://www.google.com"
+
+  element :search_field, "input[name='q']"
+end
+```
+
+... the following shows how to get hold of the search field:
+
+```ruby
+@home_page = Home.new
+@home.load
+
+@home.search_field #=> will return the capybara element found using the locator
+@home.search_field.set "the search string" #=> since search_field returns a capybara element, you can use the capybara API to deal with it
+```
+
+#### Testing for the existence of the element
+
+Another method added to the Page class by the `element` method is the
+`has_<element name>?` method. Using the same example as above:
+
+```ruby
+class Home < SitePrism::Page
+  set_url "http://www.google.com"
+
+  element :search_field, "input[name='q']"
+end
+```
+
+... you can test for the existence of the element on the page like this:
+
+```ruby
+@home_page = Home.new
+@home.load
+@home.has_search_field? #=> returns true if it exists, false if it doesn't
+```
+
+...which makes for nice test code:
+
+```ruby
+Then /^the search field exists$/ do
+  @home.should have_search_field
+end
+```
+
 ### Element Collections
 
 
