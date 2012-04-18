@@ -119,6 +119,7 @@ displayed:
 
 ```ruby
 @account_page = Account.new
+#...
 @account_page.displayed? #=> true or false
 ```
 
