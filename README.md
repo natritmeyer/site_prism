@@ -137,8 +137,22 @@ Then /^the account page is displayed$/ do
 end
 ```
 
+Another example that demonstrates why using regex instead of string
+comparison for URL checking is when you want to be able to run your
+tests across multiple environments.
 
-The above example would
+```ruby
+class Login < SitePrism::Page
+  set_url "#{$test_environment}.example.com/login" #=> global var used for demonstration purposes only!!!
+  set_url_matcher /(?:dev|test|www)\.example\.com\/login/
+end
+```
+
+The above example would work for `dev.example.com/login`,
+`test.example.com/login` and `www.example.com/login`; now your tests
+aren't limited to one environment but can verify that they are on the
+correct page regardless of the environment the tests are being executed
+against.
 
 
 # This README.md file is a work in progress. It should be finished soon...
