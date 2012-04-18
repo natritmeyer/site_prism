@@ -269,7 +269,6 @@ end
 @home.wait_for_search_field(10) #will wait for 10 seconds for the search field to appear
 ```
 
-
 #### Summary of what the element method provides:
 
 Given:
