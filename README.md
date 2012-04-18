@@ -392,5 +392,7 @@ to wait for:
 @friends_page.wait_for_names(10)
 ```
 
+## Sections
+
 # This README.md file is a work in progress. It should be finished soon...
 
