@@ -23,7 +23,7 @@ Capybara.configure do |config|
   config.run_server = false
   config.default_selector = :css
   config.default_wait_time = 5
-  config.app_host = "file:///Users/nat/github/site_prism/test_site/html"
+  config.app_host = "file://" + File.dirname(__FILE__) + "/../../test_site/html"
 end
 
 Capybara.register_driver :selenium do |app|
