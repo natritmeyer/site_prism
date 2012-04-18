@@ -468,7 +468,43 @@ to wait for:
 
 ## Sections
 
+SitePrism allows you to model sections of a page that appear on multiple
+pages or that appear a number of times on a page seperatly from Pages.
+SitePrism provides the Section class for this task.
 
+A section that appears on multiple pages, though it has the same
+structure, may appear at a different location in the DOM on different
+pages. For this reason, each section has a concept of a root node; a
+capybara element that becomes the reference point from which the
+elements within sections can be found under.
+
+The following example demonstrates the concept of a section using the
+top level menu on the google home page:
+
+```ruby
+# define the section that appears on both pages
+
+class MenuSection < SitePrism::Section
+  element :search, "a.search"
+  element :images, "a.image-search"
+  element :maps, "a.map-search"
+end
+
+# define 2 pages, each containing the same section
+
+class Home < SitePrism::Page
+  section :menu, MenuSection, "#gbx3"
+end
+
+class SearchResults < SitePrism::Page
+  section :menu, MenuSection, "#gbx48"
+end
+```
+
+You can see that the `MenuSection` is used in both the `Home` and
+`SearchResults` pages, but each has slightly different root node. The
+capybara element that is found by the css locator becomes the root node
+for the relevant page's instance of the `MenuSection` section.
 
 # This README.md file is a work in progress. It should be finished soon...
 
