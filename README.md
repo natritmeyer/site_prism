@@ -244,6 +244,51 @@ Then /^the search field exists$/ do
 end
 ```
 
+#### Waiting for an element to appear on a page
+
+The final method added by calling `element` is the `wait_for_<element_name>` method.
+Calling the method will cause the test to wait for the Capybara's
+default wait time for the element to exist. It is also possible to use a
+custom amount of time to wait. Using the same example as above:
+
+```ruby
+class Home < SitePrism::Page
+  set_url "http://www.google.com"
+
+  element :search_field, "input[name='q']"
+end
+```
+
+... you can wait for the search field to exist like this:
+
+```ruby
+@home_page = Home.new
+@home.load
+@home.wait_for_search_field
+# or...
+@home.wait_for_search_field(10) #will wait for 10 seconds for the search field to appear
+```
+
+
+#### Summary of what the element method provides:
+
+Given:
+
+```ruby
+class Home < SitePrism::Page
+  element :search_field, "input[name='q']"
+end
+```
+
+The following methods are available:
+
+```ruby
+@home.search_field
+@home.has_search_field?
+@home.wait_for_search_field
+@home.wait_for_search_field(10)
+```
+
 ### Element Collections
 
 
