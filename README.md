@@ -168,5 +168,31 @@ end
 @account.title #=> "Welcome to Your Account"
 ```
 
+## Elements
+
+Pages are made up of elements (text fields, buttons, combo boxes, etc),
+either individual elements or groups of them. Examples of individual
+elements would be a search field or a company logo image; examples of
+element collections would be items in any sort of list, eg: menu items,
+images in a carousel, etc.
+
+### Individual Elements
+
+To interact with individual elements, they need to be defined as part of
+the relevant page. SitePrism makes this easy:
+
+```ruby
+class Home < SitePrism::Page
+  element :search_field, "input[name='q']"
+end
+
+Here we're adding a search field to the Home page. The `element` method
+takes 2 arguments: the name of the element as a symbol, and a css locator
+as a string.
+
+### Element Collections
+
+
+
 # This README.md file is a work in progress. It should be finished soon...
 
