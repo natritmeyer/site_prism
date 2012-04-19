@@ -494,7 +494,7 @@ end
 ## Sections
 
 SitePrism allows you to model sections of a page that appear on multiple
-pages or that appear a number of times on a page seperatly from Pages.
+pages or that appear a number of times on a page separately from Pages.
 SitePrism provides the Section class for this task.
 
 ### Individual Sections
