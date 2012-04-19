@@ -904,7 +904,7 @@ all over the place. Here's an example of this common problem:
 
 The annoyance (and, later, maintenance nightmare) is having to create
 `@home` and `@results_page`. It would be better to not have to create
-instances of pages all over the place. 
+instances of pages all over your tests. 
 
 The way I've dealt with this problem is to create a class containing
 methods that return instances of the pages. Eg:
