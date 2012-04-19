@@ -818,6 +818,9 @@ The css selector that is passed as the 3rd argument to the
 `sections` method ("#results li") is used to find a number of capybara
 elements. Each capybara element found using the css selector is used to
 create a new instance of the `SearchResultSection` and becomes its root
+element. So if the css selector finds 3 `li` elements, calling
+`search_results` will return an array containing 3 instances of
+`SearchResultSection`, each with one of the `li` elements as it's root
 element.
 
 #### Testing for existence of Sections
