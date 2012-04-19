@@ -492,22 +492,78 @@ SitePrism allows you to model sections of a page that appear on multiple
 pages or that appear a number of times on a page seperatly from Pages.
 SitePrism provides the Section class for this task.
 
-A section that appears on multiple pages, though it has the same
-structure, may appear at a different location in the DOM on different
-pages. For this reason, each section has a concept of a root node; a
-capybara element that becomes the reference point from which the
-elements within sections can be found under.
+### Defining a Section
 
-The following example demonstrates the concept of a section using the
-top level menu on the google home page:
+A section is similar to a page in that it inherits from a SitePrism
+class:
+
+```ruby
+class MenuSection < SitePrism::Section
+end
+```
+
+At the moment, this section does nothing.
+
+### Adding a section to a page
+
+Pages include sections that's how SitePrism works. Here's a page that
+includes the above `MenuSection` section:
+
+```ruby
+class Home < SitePrism::Page
+  section :menu, MenuSection, "#gbx3"
+end
+```
+
+The method used to add a section to a page (or another section -
+SitePrism allows adding sections to sections) is to call the `section`
+method. It takes 3 arguments: the first is the name of the section as
+referred to on the page (sections that appear on multiple pages can be
+named differently). The second argument is the class of which an
+instance will be created to represent the page section, and the third
+argument is a css selector that identifies the root node of the section
+on this page (note that the css selector can be different for different
+pages as the whole point of sections is that they can appear in
+different places on different pages).
+
+### Accessing a page's section
+
+The `section` method (like the `element` method) adds a few methods to
+the page or section class it was called against. The first method that
+is added is one that returns an instance of the section, the method name
+being the first argument to the `section` method. Here's an example:
+
+```ruby
+# the section:
+
+class MenuSection < SitePrism::Section
+end
+
+# the page that includes the section:
+
+class Home < SitePrism::Page
+  section :menu, MenuSection, "#gbx3"
+end
+
+# the page and section in action:
+
+@home = Home.new
+@home.menu #=> <MenuSection...>
+```
+
+When the `menu` method is called against `@home`, an instance of
+`MenuSection` (the second argument to the `section` method) is returned.
+The third argument that is passed to the `section` method is the css
+selector that will be used to find the root element of the section; this
+root node becomes the 'scope' of the section.
+
+The following shows that though the same section can appear on multiple
+pages, it can take a different root node: 
 
 ```ruby
 # define the section that appears on both pages
 
 class MenuSection < SitePrism::Section
-  element :search, "a.search"
-  element :images, "a.image-search"
-  element :maps, "a.map-search"
 end
 
 # define 2 pages, each containing the same section
@@ -525,6 +581,85 @@ You can see that the `MenuSection` is used in both the `Home` and
 `SearchResults` pages, but each has slightly different root node. The
 capybara element that is found by the css locator becomes the root node
 for the relevant page's instance of the `MenuSection` section.
+
+### Adding elements to a section
+
+This works just the same as adding elements to a page:
+
+```ruby
+class MenuSection < SitePrism::Section
+  element :search, "a.search"
+  element :images, "a.image-search"
+  element :maps, "a.map-search"
+end
+```
+
+When the section is added to a page...
+
+```ruby
+class Home < SitePrism::Page
+  section :menu, MenuSection, "#gbx3"
+end
+```
+
+...then the section's elements can be accessed like this:
+
+```ruby
+@home = Home.new
+@home.load
+
+@home.menu.search #=> returns a capybara element representing the link to the search page
+@home.menu.search.click #=> clicks the search link in the home page menu
+@home.menu.search['href'] #=> returns the value for the href attribute of the capybara element representing the search link
+@home.menu.has_images? #=> returns true or false based on whether the link is present in the section on the page
+@home.menu.wait_for_images #=> waits for capybara's default wait time until the element appears in the page section
+
+```
+
+...which leads to some pretty test code:
+
+```ruby
+Then /^the home page menu contains a link to the various search functions$/ do
+  @home.menu.should have_search
+  @home.menu.search['href'].should include "google.com"
+  @home.menu.should have_images
+  @home.menu.should have_maps
+end
+```
+
+### Testing for the existence of a section
+
+Just like elements, it is possible to test for the existence of a
+section. The `section` method adds a method called `has_<section name>?`
+to the page or section it's been added to - same idea as what the
+`has_<element name>?` method. Given the following setup:
+
+```ruby
+class MenuSection < SitePrism::Section
+  element :search, "a.search"
+  element :images, "a.image-search"
+  element :maps, "a.map-search"
+end
+
+class Home < SitePrism::Page
+  section :menu, MenuSection, "#gbx3"
+end
+```
+
+... you can check whether the section is present on the page or not:
+
+```ruby
+@home = Home.new
+#...
+#home.has_menu? #=> returns true or false
+```
+
+Again, this allows pretty test code:
+
+```ruby
+@home.should have_menu
+@home.should_not have_menu
+```
 
 # This README.md file is a work in progress. It should be finished soon...
 
