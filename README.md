@@ -770,5 +770,111 @@ supplies an array containing as many instances of the section class as
 there are capybara elements found by the supplied css selector. This is
 better explained in code :)
 
+#### Adding a Section collection to a page (or other section)
+
+Given the following setup:
+
+```ruby
+class SearchResultSection < SitePrism::Section
+  element :title, "a.title"
+  element :blurb, "span.result-decription"
+end
+
+class SearchResults < SitePrism::Page
+  sections :search_results, SearchResultSection, "#results li"
+end
+```
+
+... it is possible to access each of the search results:
+
+```ruby
+@results_page = SearchResults.new
+# ...
+@results_page.search_results.each do |search_result|
+  puts search_result.title.text
+end
+```
+
+... which allows for pretty tests:
+
+```ruby
+Then /^there are lots of search_results$/ do
+  @results_page.search_results.size.should == 10
+  @results_page.search_results.each do |search_result|
+    search_result.should have_title
+    search_result.blurb.text.should_not be_nil
+  end
+end
+```
+
+The css selector that is passed as the 3rd argument to the
+`sections` method ("#results li") is used to find a number of capybara
+elements. Each capybara element found using the css selector is used to
+create a new instance of the `SearchResultSection` and becomes its root
+element.
+
+#### Testing for existence of Sections
+
+Using the example above, it is possible to test for the existence of the
+sections. As long as there is at least one section in the array, the
+sections exist. The `sections` method adds a `has_<sections name>?`
+method to the page/section that our section has been added to. Given the
+following example:
+
+```ruby
+class SearchResultSection < SitePrism::Section
+  element :title, "a.title"
+  element :blurb, "span.result-decription"
+end
+
+class SearchResults < SitePrism::Page
+  sections :search_results, SearchResultSection, "#results li"
+end
+```
+
+... here's how to test for the existence of the section:
+
+```ruby
+@results_page = SearchResults.new
+# ...
+@results_page.has_search_results?
+```
+
+...which allows pretty tests:
+
+```ruby
+Then /^there are search results on the page$/ do
+  @results.page.should have_search_results
+end
+```
+
+#### Waiting for sections to appear
+
+The final method added by `sections` to the page/section we're adding
+our sections to is `wait_for_<sections name>`. It will wait for
+capybara's default wait time for there to be at least one instance of
+the section in the array of sections. For example:
+
+```ruby
+class SearchResultSection < SitePrism::Section
+  element :title, "a.title"
+  element :blurb, "span.result-decription"
+end
+
+class SearchResults < SitePrism::Page
+  sections :search_results, SearchResultSection, "#results li"
+end
+```
+
+... here's how to wait for the section:
+
+```ruby
+@results_page = SearchResults.new
+# ...
+@results_page.wait_for_search_results
+@results_page.wait_for_search_results(10) #=> waits for 10 seconds instead of the default capybara timeout
+```
+
+
 # This README.md file is a work in progress. It should be finished soon...
 
