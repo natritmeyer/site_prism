@@ -529,7 +529,7 @@ class Home < SitePrism::Page
 end
 ```
 
-The method used to add a section to a page (or another section -
+The way to add a section to a page (or another section -
 SitePrism allows adding sections to sections) is to call the `section`
 method. It takes 3 arguments: the first is the name of the section as
 referred to on the page (sections that appear on multiple pages can be
