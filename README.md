@@ -358,7 +358,7 @@ class Home < SitePrism::Page
 end
 ```
 
-The following methods are available:
+...then the following methods are available:
 
 ```ruby
 @home.search_field
