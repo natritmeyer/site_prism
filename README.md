@@ -291,6 +291,7 @@ end
 
 @home.search_field #=> will return the capybara element found using the locator
 @home.search_field.set "the search string" #=> since search_field returns a capybara element, you can use the capybara API to deal with it
+@home.search_field.text #=> standard method on a capybara element; returns a string
 ```
 
 #### Testing for the existence of the element
