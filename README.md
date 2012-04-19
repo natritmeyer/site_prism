@@ -266,7 +266,7 @@ end
 ```
 
 Here we're adding a search field to the Home page. The `element` method
-takes 2 arguments: the name of the element as a symbol, and a css locator
+takes 2 arguments: the name of the element as a symbol, and a css selector
 as a string.
 
 #### Accessing the individual element
@@ -289,7 +289,7 @@ end
 @home_page = Home.new
 @home.load
 
-@home.search_field #=> will return the capybara element found using the locator
+@home.search_field #=> will return the capybara element found using the selector
 @home.search_field.set "the search string" #=> since search_field returns a capybara element, you can use the capybara API to deal with it
 @home.search_field.text #=> standard method on a capybara element; returns a string
 ```
@@ -382,14 +382,14 @@ end
 
 Just like the `element` method, the `elements` method takes 2 arguments:
 the first being the name of the elements as a symbol, the second is the
-css locator that would return the array of capybara elements.
+css selector that would return the array of capybara elements.
 
 #### Accessing the elements
 
 Just like the `element` method, the `elements` method adds a few methods
 to the Page class. The first one is of the name of the element
 collection which returns an array of capybara elements that match the
-css locator. Using the example above:
+css selector. Using the example above:
 
 ```ruby
 class Friends < SitePrism::Page
@@ -432,7 +432,7 @@ end
 ... the following method is available:
 
 ```ruby
-@friends_page.has_names? #=> returns true if at least one element is found using the relevant locator
+@friends_page.has_names? #=> returns true if at least one element is found using the relevant selector
 ```
 
 ...which allows for pretty test code:
@@ -449,7 +449,7 @@ Just like for an individual element, the tests can be told to wait for
 the existence of the element collection. The `elements` method adds a
 `wait_for_<element collection name>` method that will wait for
 Capybara's default wait time until at least 1 element is found that
-matches the locator. For example, with the following page:
+matches the selector. For example, with the following page:
 
 ```ruby
 class Friends < SitePrism::Page
@@ -593,7 +593,7 @@ end
 
 You can see that the `MenuSection` is used in both the `Home` and
 `SearchResults` pages, but each has slightly different root node. The
-capybara element that is found by the css locator becomes the root node
+capybara element that is found by the css selector becomes the root node
 for the relevant page's instance of the `MenuSection` section.
 
 #### Adding elements to a section
