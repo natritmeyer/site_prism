@@ -178,10 +178,10 @@ navigate to the URL set against that page's class.
 
 Automated tests often need to verify that a particular page is
 displayed. Intuitively you'd think that simply checking that the URL
-defined using `set_url` would be enough, but experience shows that it's
+defined using `set_url` is the current page in the browser would be enough, but experience shows that it's
 not. It is far more robust to check to see if the browser's current url
 matches a regular expression. For example, though `account/1` and `account/2`
-display the same page, their URLs are different. To deal with this,
+are the same page, their URLs are different. To deal with this,
 SitePrism provides the ability to set a URL matcher.
 
 ```ruby
@@ -200,7 +200,9 @@ displayed:
 ```
 
 Calling `#displayed?` will return true if the browser's current URL
-matches the regular expression for the page and false if it doesn't.
+matches the regular expression for the page and false if it doesn't. So
+in the above example (`account/1` and `account/2`), calling
+`@account_page.displayed?` will return true for both examples.
 
 #### Testing for Page display
 
