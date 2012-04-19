@@ -767,9 +767,8 @@ can be called in a page or a section.
 The only difference between `section` and `sections` is that whereas the
 first returns an instance of the supplied section class, the second
 supplies an array containing as many instances of the section class as
-there are capybara elements found by the css selectors that are used as
-root nodes for the sections (I hope to win an 'incomprehensible english'
-award for this sentence). This is better explained in code :)
+there are capybara elements found by the supplied css selector. This is
+better explained in code :)
 
 # This README.md file is a work in progress. It should be finished soon...
 
