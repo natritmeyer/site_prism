@@ -876,5 +876,77 @@ end
 ```
 
 
-# This README.md file is a work in progress. It should be finished soon...
+# Epilogue
+
+So, we've seen how to use SitePrism to put together page objects made up
+of pages, elements and sections. But how to organise this stuff? There
+are a few ways of saving yourself having to create instances of pages
+all over the place. Here's an example of this common problem:
+
+```ruby
+@home = Home.new
+@home.load
+@home.search_field.set "Sausages"
+@home.search_field.search_button.click
+@results_page = SearchResults.new
+@results_page.should have_search_result_items
+```
+
+The annoyance (and, later, maintenance nightmare) is having to create
+`@home` and `@results_page`. It would be better to not have to create
+instances of pages all over the place. 
+
+The way I've dealt with this problem is to create a class containing
+methods that return instances of the pages. Eg:
+
+```ruby
+# our pages
+
+class Home < SitePrism::Page
+  #...
+end
+
+class SearchResults < SitePrism::Page
+  #...
+end
+
+class Maps < SitePrism::Page
+  #...
+end
+
+# here's the app class that represents our entire site:
+
+class App
+  def home
+    Home.new
+  end
+
+  def results_page
+      SearchResults.new
+  end
+
+  def maps
+    Maps.new
+  end
+end
+
+# and here's how to use it:
+
+#first line of the test...
+Given /^I start on the home page$/ do
+  @app = App.new
+  @app.home.load
+end
+
+When /^I search for Sausages$/ do
+  @app.home.search_field.set "sausages"
+  @app.home.search_button.click
+end
+
+# etc...
+```
+
+The only thing that needs instantiating is the App class - from then on
+pages don't need to be initialized, they are now returned by methods on
+@app. Maintenance win!
 
