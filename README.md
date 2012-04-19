@@ -773,7 +773,7 @@ can be called in a page or a section.
 
 The only difference between `section` and `sections` is that whereas the
 first returns an instance of the supplied section class, the second
-supplies an array containing as many instances of the section class as
+returns an array containing as many instances of the section class as
 there are capybara elements found by the supplied css selector. This is
 better explained in code :)
 
