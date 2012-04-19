@@ -754,5 +754,22 @@ When /^I enter my name into the home page's registration form$/ do
 end
 ```
 
+### Section Collections
+
+An individual section represents a discrete section of a page, but often
+sections are repeated on a page, an example is a search result listing -
+each listing contains a title, a url and a description of the content.
+It makes sense to model this only once and then to be able to access
+each instance of a search result on a page as an array of SitePrism
+sections. To achieve this, SitePrism provides the `sections` method that
+can be called in a page or a section.
+
+The only difference between `section` and `sections` is that whereas the
+first returns an instance of the supplied section class, the second
+supplies an array containing as many instances of the section class as
+there are capybara elements found by the css selectors that are used as
+root nodes for the sections (I hope to win an 'incomprehensible english'
+award for this sentence). This is better explained in code :)
+
 # This README.md file is a work in progress. It should be finished soon...
 
