@@ -468,7 +468,7 @@ to wait for:
 
 ### Checking that all mapped elements are present on the page
 
-Throught my time in test automation I keep getting asked to provide the
+Throughout my time in test automation I keep getting asked to provide the
 ability to check that all elements that should be on the page are on the
 page. Why people would want to test this, I don't know. But if that's
 what you want to do, SitePrism provides the `#all_there?` method that
