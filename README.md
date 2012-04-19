@@ -492,7 +492,9 @@ SitePrism allows you to model sections of a page that appear on multiple
 pages or that appear a number of times on a page seperatly from Pages.
 SitePrism provides the Section class for this task.
 
-### Defining a Section
+### Individual Sections
+
+#### Defining a Section
 
 A section is similar to a page in that it inherits from a SitePrism
 class:
@@ -504,7 +506,7 @@ end
 
 At the moment, this section does nothing.
 
-### Adding a section to a page
+#### Adding a section to a page
 
 Pages include sections that's how SitePrism works. Here's a page that
 includes the above `MenuSection` section:
@@ -526,7 +528,7 @@ on this page (note that the css selector can be different for different
 pages as the whole point of sections is that they can appear in
 different places on different pages).
 
-### Accessing a page's section
+#### Accessing a page's section
 
 The `section` method (like the `element` method) adds a few methods to
 the page or section class it was called against. The first method that
@@ -582,7 +584,7 @@ You can see that the `MenuSection` is used in both the `Home` and
 capybara element that is found by the css locator becomes the root node
 for the relevant page's instance of the `MenuSection` section.
 
-### Adding elements to a section
+#### Adding elements to a section
 
 This works just the same as adding elements to a page:
 
@@ -627,7 +629,7 @@ Then /^the home page menu contains a link to the various search functions$/ do
 end
 ```
 
-### Testing for the existence of a section
+#### Testing for the existence of a section
 
 Just like elements, it is possible to test for the existence of a
 section. The `section` method adds a method called `has_<section name>?`
@@ -661,7 +663,7 @@ Again, this allows pretty test code:
 @home.should_not have_menu
 ```
 
-### Waiting for a section to appear
+#### Waiting for a section to appear
 
 The final method added to the page or section by the `section` method is
 `wait_for_<section name>`. Similar to what `element` does, this method
@@ -688,10 +690,60 @@ end
 @home.wait_for_menu(10) # waits for 10 seconds instead of capybara's default timeout
 ```
 
+#### Sections within sections
 
-### Sections within sections
+You are not limited to adding sections only to pages; you can nest
+sections within sections within sections within sections!
 
+```ruby
 
+# define a page that contains an area that contains a section for both logging in and registration, then modelling each of the sub sections seperately
+
+class Login < SitePrism::Section
+  element :username, "#username"
+  element :password, "#password"
+  element :sign_in, "button"
+end
+
+class Registration < SitePrism::Section
+  element :first_name, "#first_name"
+  element :last_name, "#last_name"
+  element :next_step, "button.next-reg-step"
+end
+
+class LoginRegistrationForm < SitePrism::Section
+  section :login, Login, "div.login-area"
+  section :registration, Registration, "div.reg-area"
+end
+
+class Home < SitePrism::Page
+  section :login_and_registration, LoginRegistrationForm, "div.login-registration"
+end
+
+# how to login (fatuous, but demonstrates the point):
+
+Then /^I sign in$/ do
+  @home = Home.new
+  @home.load
+  @home.wait_for_login_and_registration
+  @home.should have_login_and_registration
+  @home.login_and_registration.should have_username
+  @home.login_and_registration.login.username.set "bob"
+  @home.login_and_registration.login.password.set "p4ssw0rd"
+  @home.login_and_registration.login.sign_in.click
+end
+
+# how to sign up:
+
+When /^I enter my name into the home page's registration form$/ do
+  @home = Home.new
+  @home.load
+  @home.login_and_registration.should have_first_name
+  @home.login_and_registration.should have_last_name
+  @home.login_and_registration.first_name.set "Bob"
+  # ...
+end
+```
 
 # This README.md file is a work in progress. It should be finished soon...
 
