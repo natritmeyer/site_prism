@@ -608,6 +608,10 @@ class MenuSection < SitePrism::Section
 end
 ```
 
+Note that the css selectors used to find elements are searched for
+within the scope of the root element of that section. The search for the
+element won't be page-wide but it will only look in the section.
+
 When the section is added to a page...
 
 ```ruby
