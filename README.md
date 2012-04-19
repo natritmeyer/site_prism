@@ -466,6 +466,26 @@ to wait for:
 @friends_page.wait_for_names(10)
 ```
 
+### Checking that all mapped elements are present on the page
+
+Throught my time in test automation I keep getting asked to provide the
+ability to check that all elements that should be on the page are on the
+page. Why people would want to test this, I don't know. But if that's
+what you want to do, SitePrism provides the `#all_there?` method that
+will return true if all mapped elements (and sections... see below) are
+present in the browser, false if they're not all there.
+
+```ruby
+@friends_page.all_there? #=> true/false
+
+# and...
+
+Then /^the friends page contains all the expected elements$/ do
+  @friends_page.should be_all_there
+end
+
+```
+
 ## Sections
 
 SitePrism allows you to model sections of a page that appear on multiple
