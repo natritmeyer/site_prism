@@ -661,5 +661,37 @@ Again, this allows pretty test code:
 @home.should_not have_menu
 ```
 
+### Waiting for a section to appear
+
+The final method added to the page or section by the `section` method is
+`wait_for_<section name>`. Similar to what `element` does, this method
+waits for the section to appear - the test will wait up to capybara's
+default wait time until the root node of the element exists on the
+page/section that our section was added to. Given the following setup:
+
+```ruby
+class MenuSection < SitePrism::Section
+  element :search, "a.search"
+  element :images, "a.image-search"
+  element :maps, "a.map-search"
+end
+
+class Home < SitePrism::Page
+  section :menu, MenuSection, "#gbx3"
+end
+```
+
+... we can wait for the menu section to appear on the page like this:
+
+```ruby
+@home.wait_for_menu
+@home.wait_for_menu(10) # waits for 10 seconds instead of capybara's default timeout
+```
+
+
+### Sections within sections
+
+
+
 # This README.md file is a work in progress. It should be finished soon...
 
