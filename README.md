@@ -494,6 +494,13 @@ SitePrism provides the Section class for this task.
 
 ### Individual Sections
 
+In the same way that SitePrism provides `element` and `elements`, it
+provides `section` and `sections`. The first returns an instance of a
+page section, the secont returns an array of section instances, one for
+each capybara element found by the supplied css selector. What follows
+is an explanation of `section`.
+
+
 #### Defining a Section
 
 A section is similar to a page in that it inherits from a SitePrism
