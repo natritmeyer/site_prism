@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.homepage    = "http://github.com/natritmeyer/site_prism"
   s.summary     = "A Page Object Model DSL for Capybara"
   s.description = "SitePrism gives you a simple, clean and semantic DSL for describing your site using the Page Object Model pattern, for use with Capybara"
-  s.files        = Dir.glob("lib/**/*") + %w(LICENSE)
+  s.files        = Dir.glob("lib/**/*") + %w(LICENSE README.rb)
   s.require_path = 'lib'
   s.add_dependency('capybara', '>= 1.1.1')
   s.add_dependency('rspec', '>= 2.0.0')
