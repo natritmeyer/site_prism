@@ -1,0 +1,4 @@
+Parameterized URL building - pass a hash to #load
+Add capybara::dsl to section
+Add custom method to readme - eg: def login(username, password)
+
