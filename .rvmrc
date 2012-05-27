@@ -1,2 +1,2 @@
-rvm --create 1.9.2@site_prism
+rvm --create 1.9.3@site_prism
 
