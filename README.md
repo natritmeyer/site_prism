@@ -246,6 +246,23 @@ end
 @account.title #=> "Welcome to Your Account"
 ```
 
+#### HTTP vs. HTTPS
+
+You can easily tell if the page is secure or not by checking to see if
+the current URL begins with 'https' or not. SitePrism provides the
+`secure?` method that will return true if the current url begins with
+'https' and false if it doesn't. For example:
+
+```ruby
+class Account < SitePrism::Page
+end
+
+@account = Account.new
+#...
+@account.secure? #=> true/false
+@account.should be_secure
+```
+
 ## Elements
 
 Pages are made up of elements (text fields, buttons, combo boxes, etc),
