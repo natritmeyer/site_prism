@@ -233,7 +233,7 @@ aren't limited to one environment but can verify that they are on the
 correct page regardless of the environment the tests are being executed
 against.
 
-#### Getting the Current Page's URL
+### Getting the Current Page's URL
 
 SitePrism allows you to get the current page's URL. Here's how it's
 done:
@@ -248,7 +248,7 @@ end
 @account.current_url.should include "example.com/account/"
 ```
 
-#### Page Title
+### Page Title
 
 Getting a page's title isn't hard:
 
@@ -261,7 +261,7 @@ end
 @account.title #=> "Welcome to Your Account"
 ```
 
-#### HTTP vs. HTTPS
+### HTTP vs. HTTPS
 
 You can easily tell if the page is secure or not by checking to see if
 the current URL begins with 'https' or not. SitePrism provides the
