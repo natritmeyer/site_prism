@@ -12,7 +12,10 @@ Feature: Page properties
 	Scenario: Get page text
 		Then I can see an expected bit of text
 
-  @wip
   Scenario: Get page url
     Then I can see the expected url
+
+  @wip
+  Scenario: Is page secure?
+    Then I can see that the page is not secure
 
