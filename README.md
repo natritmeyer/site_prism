@@ -233,6 +233,21 @@ aren't limited to one environment but can verify that they are on the
 correct page regardless of the environment the tests are being executed
 against.
 
+#### Getting the Current Page's URL
+
+SitePrism allows you to get the current page's URL. Here's how it's
+done:
+
+```ruby
+class Account < SitePrism::Page
+end
+
+@account = Account.new
+#...
+@account.current_url #=> "http://www.example.com/account/123"
+@account.current_url.should include "example.com/account/"
+```
+
 #### Page Title
 
 Getting a page's title isn't hard:
