@@ -84,7 +84,7 @@ module SitePrism::ElementContainer
         raise SitePrism::NoLocatorForElement.new("#{self.class.name} => :#{element_name} needs a locator")
       end
     else
-      define_method method_name do |*args|
+      define_method method_name do |*args| #used to use block args, but they don't work under ruby 1.8 :(
         timeout = args.shift || Capybara.default_wait_time
         Capybara.using_wait_time timeout do
           element_waiter element_locator
