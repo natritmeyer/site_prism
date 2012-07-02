@@ -8,3 +8,7 @@ Feature: Interaction with groups of elements
 		Then I can see the group of links
 		And I can get the group of links
 
+  Scenario: Get groups of elements from within a section
+    When I navigate to the home page
+    Then I can see individual people in the people list
+

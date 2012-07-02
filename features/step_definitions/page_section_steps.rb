@@ -41,3 +41,7 @@ Then /^I can run javascript against the search results$/ do
   @test_site.section_experiments.search_results.first.cell_value.should == "wibble"
 end
 
+Then /^I can see individual people in the people list$/ do
+  @test_site.home.people.should have(4).individuals
+end
+
