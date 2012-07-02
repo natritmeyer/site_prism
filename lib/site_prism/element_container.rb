@@ -47,6 +47,17 @@ module SitePrism::ElementContainer
     end
   end
 
+  def iframe iframe_name, iframe_page_class, iframe_id
+    add_element_name iframe_name
+    create_existence_checker iframe_name, iframe_id
+    create_waiter iframe_name, iframe_id
+    define_method iframe_name do |&block|
+      within_frame iframe_id.split("#").last do
+        block.call iframe_page_class.new
+      end
+    end
+  end
+
   def add_element_name element_name
     @element_names ||= []
     @element_names << element_name

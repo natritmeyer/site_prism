@@ -18,5 +18,8 @@ class TestHomePage < SitePrism::Page
 
   #sections
   section :people, People, '.people'
+
+  #iframes
+  iframe :my_iframe, MyIframe, '#the_iframe'
 end
 
