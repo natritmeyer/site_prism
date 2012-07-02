@@ -1,3 +1,6 @@
+require 'simplecov'
+SimpleCov.start
+
 require 'capybara'
 require 'capybara/dsl'
 require 'capybara/cucumber'

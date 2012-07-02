@@ -3,4 +3,5 @@ doc/*
 .DS_Store
 notes.txt
 Gemfile.lock
+coverage
 
