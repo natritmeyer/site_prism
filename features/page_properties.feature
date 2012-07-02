@@ -15,7 +15,6 @@ Feature: Page properties
   Scenario: Get page url
     Then I can see the expected url
 
-  @wip
   Scenario: Is page secure?
     Then I can see that the page is not secure
 
