@@ -917,20 +917,112 @@ end
 @results_page.wait_for_search_results(10) #=> waits for 10 seconds instead of the default capybara timeout
 ```
 
+## IFrames
+
+SitePrism allows you to interact with iframes. An iframe is declared as
+a `SitePrism::Page` class, and then referenced by the page or section it
+is embeded into. Like a section, it is possible to test for the
+existence of the iframe, wait for it to exist as well as interact with
+the page it contains.
+
+### Creating an iframe
+
+An iframe is declared in the same way as a Page:
+
+```ruby
+class MyIframe < SitePrism::Page
+  element :some_text_field, "input.username"
+end
+```
+
+To expose the iframe, reference it from another page or class using the `iframe`
+method. The `iframe` method takes 3 arguments; the name by which you
+would like to reference the iframe, the page class that represents the
+iframe, and an ID by which you can locate the iframe. For example:
+
+```ruby
+class PageContainingIframe < SitePrism::Page
+  iframe :my_iframe, MyIframe, "#my_iframe_id"
+end
+```
+
+NB: An iframe can only be referenced by its ID. This is a limitation
+imposed by Capybara. The third argument to the `iframe` method must
+contain a selector that will locate the iframe node, and the portion of
+the selector that locates the iframe node must use the iframe node's ID.
+
+### Testing for an iframe's existence
+
+Like an element or section, it is possible to test for an iframe's
+existence using the auto-generated `has_<iframe_name>?` method. Using
+the above example, here's how it's done:
+
+```ruby
+@page = PageContainingIframe.new
+# ...
+@page.has_my_iframe? #=> true
+@page.should have_my_iframe
+```
+
+### Waiting for an iframe
+
+Like an element or section, it is possible to wait for an iframe to
+exist by using the `wait_for_<iframe_name>` method. For example:
+
+```ruby
+@page = PageContainingIframe.new
+# ...
+@page.wait_for_my_iframe
+```
+
+### Interacting with an iframe's contents:
+
+Since an iframe contains a fully fledged SitePrism::Page, you are able
+to interact with the elements and sections defined within it. Due to
+capybara internals it is necessary to pass a block to the iframe instead
+of simply calling methods on it; the block argument is the
+SitePrism::Page that represents the iframe's contents. For example:
+
+```ruby
+# SitePrism::Page representing the iframe
+class Login < SitePrism::Page
+  element :username "input.username"
+  element :password "input.password"
+end
+
+# SitePrism::Page representing the page that contains the iframe
+class Home < SitePrism::Page
+  set_url "http://www.example.com"
+
+  iframe, :login_area, Login, "#login_and_registration"
+end
+
+# cucumber step that performs login
+When /^I log in$/ do
+  @home = Home.new
+  @home.load
+
+  @home.login_area do |frame|
+    #`frame` is an instance of the `Login` class
+    frame.username.set "admin"
+    frame.password.set "p4ssword"
+  end
+end
+```
 
 # Epilogue
 
 So, we've seen how to use SitePrism to put together page objects made up
-of pages, elements and sections. But how to organise this stuff? There
+of pages, elements, sections and iframes. But how to organise this stuff? There
 are a few ways of saving yourself having to create instances of pages
 all over the place. Here's an example of this common problem:
 
 ```ruby
-@home = Home.new
+@home = Home.new # <-- noise
 @home.load
 @home.search_field.set "Sausages"
 @home.search_field.search_button.click
-@results_page = SearchResults.new
+@results_page = SearchResults.new # <-- noise
 @results_page.should have_search_result_items
 ```
 
