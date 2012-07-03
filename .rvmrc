@@ -1,2 +1,2 @@
-rvm --create ruby-1.9.2-p180@site_prism
+rvm --create ruby-1.9.3-p194@site_prism
 
