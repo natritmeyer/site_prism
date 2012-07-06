@@ -342,7 +342,7 @@ end
 ... you can test for the existence of the element on the page like this:
 
 ```ruby
-@home_page = Home.new
+@home = Home.new
 @home.load
 @home.has_search_field? #=> returns true if it exists, false if it doesn't
 ```
@@ -373,7 +373,7 @@ end
 ... you can wait for the search field to exist like this:
 
 ```ruby
-@home_page = Home.new
+@home = Home.new
 @home.load
 @home.wait_for_search_field
 # or...
