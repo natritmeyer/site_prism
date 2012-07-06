@@ -445,6 +445,7 @@ arrays:
 @friends_page.names.each {|name| puts name.text}
 @friends_page.names.map {|name| name.text}.should == ["Alice", "Bob", "Fred"]
 @friends_page.names.size.should == 3
+@friends_page.should have(3).names
 ```
 
 #### Testing for the existence of the element collection
