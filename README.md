@@ -318,7 +318,7 @@ end
 ... the following shows how to get hold of the search field:
 
 ```ruby
-@home_page = Home.new
+@home = Home.new
 @home.load
 
 @home.search_field #=> will return the capybara element found using the selector
