@@ -1,2 +1,5 @@
-Parameterized URL building - pass a hash to #load
 Add custom method to readme - eg: def login(username, password)
+wait_while_#{}_visible
+wait_until_#{}_visible
+SitePrism::Page#load :arg1 => "thing1", :arg2 => "thing2"
+
