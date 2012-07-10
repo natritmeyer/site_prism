@@ -25,6 +25,7 @@ module SitePrism::ElementContainer
     end
     create_existence_checker collection_name, collection_locator
     create_waiter collection_name, collection_locator
+    create_visibility_waiter collection_name, collection_locator
   end
   alias :collection :elements
 
