@@ -357,7 +357,7 @@ end
 
 #### Waiting for an element to appear on a page
 
-The final method added by calling `element` is the `wait_for_<element_name>` method.
+Another method added by calling `element` is the `wait_for_<element_name>` method.
 Calling the method will cause the test to wait for the Capybara's
 default wait time for the element to exist. It is also possible to use a
 custom amount of time to wait. Using the same example as above:
@@ -380,6 +380,35 @@ end
 @home.wait_for_search_field(10) #will wait for 10 seconds for the search field to appear
 ```
 
+#### Waiting for an element to become visible
+
+Another method added by calling `element` is the
+`wait_until_<element_name>_visible` method. Calling this method will
+cause the test to wait for Capybara's default wait time for the element
+to become visible (*not* the same as existence!). You can customise the
+wait time be supplying a number of seconds to wait. Using the above
+example:
+
+```ruby
+@home.wait_until_search_field_visible
+# or...
+@home.wait_until_search_field_visible(10)
+```
+
+#### Waiting for an element to become invisible
+
+Another method added by calling `element` is the
+`wait_until_<element_name>_invisible` method. Calling this method will
+cause the test to wait for Capybara's default wait time for the element
+to become invisible. You can customise the wait time be supplying a number
+of seconds to wait. Using the above example:
+
+```ruby
+@home.wait_until_search_field_invisible
+# or...
+@home.wait_until_search_field_invisible(10)
+```
+
 #### Summary of what the element method provides:
 
 Given:
@@ -397,6 +426,11 @@ end
 @home.has_search_field?
 @home.wait_for_search_field
 @home.wait_for_search_field(10)
+@home.wait_until_search_field_visible
+@home.wait_until_search_field_visible(10)
+@home.wait_until_search_field_invisible
+@home.wait_until_search_field_invisible(10)
+
 ```
 
 ### Element Collections
