@@ -17,6 +17,7 @@
 			dumping_ground = document.getElementById('dumping_ground');
 			//wait for a second and then add the links
 			var t1 = setTimeout("dumping_ground.appendChild(slow_link);", 2000);
+			var t2 = setTimeout("document.getElementById('will_become_visible').style.display='block';", 2000);
 		}
 		window.onload = load;
 		</script>
@@ -50,6 +51,9 @@
 		<p id='dumping_ground'>
 			
 		</p>
+
+    <input type='submit' id='will_become_visible' value='Will become visible' style='display: none;'/>
+    <input type='submit' class='invisible' value='Invisible' style='display: none;'/>
 
     <iframe id='the_iframe' src='my_iframe.htm' />
 	</body>

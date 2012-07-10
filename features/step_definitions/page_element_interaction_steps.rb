@@ -62,3 +62,19 @@ Then /^an exception is raised when I try to deal with elements with no locator$/
   expect {@test_site.no_title.wait_for_elements_without_locator}.to raise_error SitePrism::NoLocatorForElement
 end
 
+When /^I wait until a particular element is visible$/ do
+  @test_site.home.wait_until_some_slow_element_visible
+end
+
+When /^I wait for a specific amount of time until a particular element is visible$/ do
+  @test_site.home.wait_until_shy_element_visible(5)
+end
+
+Then /^the previously invisible element is visible$/ do
+  @test_site.home.should have_shy_element
+end
+
+Then /^I get a timeout error when I wait for an element that never appears$/ do
+  expect {@test_site.home.wait_until_invisible_element_visible(1)}.to raise_error SitePrism::TimeOutWaitingForElementVisibility
+end
+

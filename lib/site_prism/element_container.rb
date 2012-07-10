@@ -11,6 +11,7 @@ module SitePrism::ElementContainer
     end
     create_existence_checker element_name, element_locator
     create_waiter element_name, element_locator
+    create_visibility_waiter element_name, element_locator
   end
 
   def elements collection_name, collection_locator = nil
@@ -91,6 +92,25 @@ module SitePrism::ElementContainer
         timeout = args.shift || Capybara.default_wait_time
         Capybara.using_wait_time timeout do
           element_waiter element_locator
+        end
+      end
+    end
+  end
+
+  def create_visibility_waiter element_name, element_locator
+    method_name = "wait_until_#{element_name.to_s}_visible"
+    if element_locator.nil?
+      create_no_locator element_name, method_name
+    else
+      define_method method_name do |*args|
+        timeout = args.shift || Capybara.default_wait_time
+        send "wait_for_#{element_name.to_s}".to_sym, timeout
+        begin
+          Timeout.timeout(timeout) do
+            sleep 0.1 until send(element_name.to_sym).visible?
+          end
+        rescue Timeout::Error
+          raise SitePrism::TimeOutWaitingForElementVisibility.new("The element named #{element_name} did not become visible")
         end
       end
     end

@@ -8,6 +8,8 @@ class TestHomePage < SitePrism::Page
   element :go_button, 'input'
   element :link_to_search_page, 'a'
   element :some_slow_element, 'a.slow'
+  element :invisible_element, 'input.invisible'
+  element :shy_element, 'input#will_become_visible'
 
   #element groups
   elements :lots_of_links, 'td a'
