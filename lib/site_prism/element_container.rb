@@ -35,6 +35,8 @@ module SitePrism::ElementContainer
     add_element_name section_name
     create_existence_checker section_name, section_locator
     create_waiter section_name, section_locator
+    create_visibility_waiter section_name, section_locator
+    create_invisibility_waiter section_name, section_locator
     define_method section_name do
       section_class.new find_one section_locator
     end
@@ -44,6 +46,8 @@ module SitePrism::ElementContainer
     add_element_name section_collection_name
     create_existence_checker section_collection_name, section_collection_locator
     create_waiter section_collection_name, section_collection_locator
+    create_visibility_waiter section_collection_name, section_collection_locator
+    create_invisibility_waiter section_collection_name, section_collection_locator
     define_method section_collection_name do
       find_all(section_collection_locator).collect do |element|
         section_class.new element
