@@ -11,7 +11,7 @@ module SitePrism
     end
 
     def visible?
-      @root_element.visible?
+      root_element.visible?
     end
 
     def execute_script input
@@ -25,15 +25,15 @@ module SitePrism
     private
 
     def find_one locator
-      @root_element.find locator
+      root_element.find locator
     end
 
     def find_all locator
-      @root_element.all locator
+      root_element.all locator
     end
 
     def element_exists? locator
-      @root_element.has_selector? locator
+      root_element.has_selector? locator
     end
 
     def element_waiter locator
