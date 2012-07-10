@@ -107,13 +107,15 @@ module SitePrism::ElementContainer
     else
       define_method method_name do |*args|
         timeout = args.shift || Capybara.default_wait_time
-        send "wait_for_#{element_name.to_s}".to_sym, timeout
+        Capybara.using_wait_time timeout do
+          element_waiter element_locator
+        end
         begin
           Timeout.timeout(timeout) do
-            sleep 0.1 until send(element_name.to_sym).visible?
+            sleep 0.1 until find_one(element_locator).visible?
           end
         rescue Timeout::Error
-          raise SitePrism::TimeOutWaitingForElementVisibility.new("The element named #{element_name} did not become visible")
+          raise SitePrism::TimeOutWaitingForElementVisibility.new("#{element_name} did not become visible")
         end
       end
     end
@@ -128,10 +130,10 @@ module SitePrism::ElementContainer
         timeout = args.shift || Capybara.default_wait_time
         begin
           Timeout.timeout(timeout) do
-            sleep 0.1 while send("has_#{element_name}?".to_sym) && send(element_name.to_sym).visible?
+            sleep 0.1 while element_exists?(element_locator) && find_one(element_locator).visible?
           end
         rescue Timeout::Error
-          raise SitePrism::TimeOutWaitingForElementInvisibility.new("The element named #{element_name} did not become invisible")
+          raise SitePrism::TimeOutWaitingForElementInvisibility.new("#{element_name} did not become invisible")
         end
       end
     end
