@@ -12,6 +12,7 @@ module SitePrism::ElementContainer
     create_existence_checker element_name, element_locator
     create_waiter element_name, element_locator
     create_visibility_waiter element_name, element_locator
+    create_invisibility_waiter element_name, element_locator
   end
 
   def elements collection_name, collection_locator = nil
@@ -26,6 +27,7 @@ module SitePrism::ElementContainer
     create_existence_checker collection_name, collection_locator
     create_waiter collection_name, collection_locator
     create_visibility_waiter collection_name, collection_locator
+    create_invisibility_waiter collection_name, collection_locator
   end
   alias :collection :elements
 
@@ -116,6 +118,25 @@ module SitePrism::ElementContainer
       end
     end
   end
+
+  def create_invisibility_waiter element_name, element_locator
+    method_name = "wait_until_#{element_name.to_s}_invisible"
+    if element_locator.nil?
+      create_no_locator element_name, method_name
+    else
+      define_method method_name do |*args|
+        timeout = args.shift || Capybara.default_wait_time
+        begin
+          Timeout.timeout(timeout) do
+            sleep 0.1 while send("has_#{element_name}?".to_sym) && send(element_name.to_sym).visible?
+          end
+        rescue Timeout::Error
+          raise SitePrism::TimeOutWaitingForElementInvisibility.new("The element named #{element_name} did not become invisible")
+        end
+      end
+    end
+  end
+
 
   def create_no_locator element_name, method_name = nil
     no_locator_method_name = method_name.nil? ? element_name : method_name

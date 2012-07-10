@@ -78,3 +78,19 @@ Then /^I get a timeout error when I wait for an element that never appears$/ do
   expect {@test_site.home.wait_until_invisible_element_visible(1)}.to raise_error SitePrism::TimeOutWaitingForElementVisibility
 end
 
+When /^I wait while for an element to become invisible$/ do
+  @test_site.home.wait_until_retiring_element_invisible
+end
+
+Then /^the previously visible element is invisible$/ do
+  @test_site.home.retiring_element.should_not be_visible
+end
+
+When /^I wait for a specific amount of time until a particular element is invisible$/ do
+  @test_site.home.wait_until_retiring_element_invisible(5)
+end
+
+Then /^I get a timeout error when I wait for an element that never disappears$/ do
+  expect {@test_site.home.wait_until_welcome_header_invisible(1)}.to raise_error SitePrism::TimeOutWaitingForElementInvisibility
+end
+

@@ -10,6 +10,7 @@ class TestHomePage < SitePrism::Page
   element :some_slow_element, 'a.slow'
   element :invisible_element, 'input.invisible'
   element :shy_element, 'input#will_become_visible'
+  element :retiring_element, 'input#will_become_invisible'
 
   #element groups
   elements :lots_of_links, 'td a'

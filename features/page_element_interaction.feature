@@ -53,3 +53,17 @@ Feature: Page element interaction
     When I navigate to the home page
     Then I get a timeout error when I wait for an element that never appears
 
+  Scenario: Wait for invisibility of element
+    When I navigate to the home page
+    And I wait while for an element to become invisible
+    Then the previously visible element is invisible
+
+  Scenario: Wait specific amount of time for invisibility of element
+    When I navigate to the home page
+    And I wait for a specific amount of time until a particular element is invisible
+    Then the previously visible element is invisible
+
+  Scenario: Wait for too short an amount of time for an element to become visible
+    When I navigate to the home page
+    Then I get a timeout error when I wait for an element that never disappears
+
