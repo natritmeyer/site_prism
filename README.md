@@ -355,7 +355,7 @@ Then /^the search field exists$/ do
 end
 ```
 
-#### Waiting for an element to appear on a page
+#### Waiting for an element to exist on a page
 
 Another method added by calling `element` is the `wait_for_<element_name>` method.
 Calling the method will cause the test to wait for the Capybara's
@@ -536,6 +536,29 @@ to wait for:
 
 ```ruby
 @friends_page.wait_for_names(10)
+```
+
+#### Waiting for the elements to be visible or invisible
+
+Like the individual elements, calling the `elements` method will create
+two methods: `wait_until_<elements_name>_visible` and
+`wait_until_<elements_name>_invisible`. Calling these methods will cause
+your test to wait for the elements to become visible or invisibe. Using
+the above example:
+
+```ruby
+@friends_page.wait_until_names_visible
+# and...
+@friends_page.wait_until_names_invisible
+```
+
+It is possible to wait for a specific amount of time instead of using
+the default Capybara wait time:
+
+```ruby
+@friends_page.wait_until_names_visible(5)
+# and...
+@friends_page.wait_until_names_invisible(7)
 ```
 
 ### Checking that all mapped elements are present on the page
