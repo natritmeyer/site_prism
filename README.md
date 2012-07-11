@@ -769,7 +769,7 @@ Again, this allows pretty test code:
 @home.should_not have_menu
 ```
 
-#### Waiting for a section to appear
+#### Waiting for a section to exist
 
 The final method added to the page or section by the `section` method is
 `wait_for_<section name>`. Similar to what `element` does, this method
