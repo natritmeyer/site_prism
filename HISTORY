@@ -1,3 +1,20 @@
+1.3
+- added 'wait_until_<element_name>_visible' and
+  'wait_until_<element_name>_invisible for elements and sections
+
+1.2
+- added ability to interact with iframes
+
+1.1.1
+- added ruby 1.8.* support
+
+1.1
+- added page.secure?
+
+1.0
+- added readme
+- first public release
+
 0.9.9
 - fixed bug where wait_for_ didn't work in sections
 
