@@ -771,7 +771,7 @@ Again, this allows pretty test code:
 
 #### Waiting for a section to exist
 
-The final method added to the page or section by the `section` method is
+Another method added to the page or section by the `section` method is
 `wait_for_<section name>`. Similar to what `element` does, this method
 waits for the section to appear - the test will wait up to capybara's
 default wait time until the root node of the element exists on the
@@ -794,6 +794,32 @@ end
 ```ruby
 @home.wait_for_menu
 @home.wait_for_menu(10) # waits for 10 seconds instead of capybara's default timeout
+```
+
+#### Waiting for a section to become visible or invisible
+
+Like an element, it is possible to wait for a section to become visible
+or invisible. Calling the `section` method creates two methods on the
+relevant page or section:
+`wait_until_<section_name>_visible` and
+`wait_until_<section_name>_invisible`. Using the above example, here's
+how they're used:
+
+```ruby
+@home = Home.new
+@home.wait_for_menu_visible
+# and...
+@home.wait_for_menu_invisible
+```
+
+Again, as for an element, it is possible to give a specific amount of
+time to wait for visibility/invisibility of a section. Here's how:
+
+```ruby
+@home = Home.new
+@home.wait_for_menu_visible(5)
+# and...
+@home.wait_for_menu_invisible(3)
 ```
 
 #### Sections within sections
