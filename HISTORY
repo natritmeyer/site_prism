@@ -3,7 +3,7 @@
 
 API Changes:
 - API change: `NoLocatorForElement` is now `NoSelectorForElement`
-- Renamed #element_names to #mapped_items
+- Renamed #element_names to #mapped_items for SitePrism::Page and SitePrism::Section
 
 1.3
 - added 'wait_until_<element_name>_visible' and
