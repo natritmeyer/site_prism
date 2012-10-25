@@ -73,12 +73,18 @@ module SitePrism::ElementContainer
     create_visibility_waiter name, selector
     create_invisibility_waiter name, selector
   end
+  
+  def build_checker_or_waiter element_name, proposed_method_name, selector
+    if selector.nil?
+      create_no_selector element_name, proposed_method_name
+    else
+      yield
+    end
+  end
 
   def create_existence_checker element_name, element_selector
     method_name = "has_#{element_name.to_s}?"
-    if element_selector.nil?
-      create_no_selector element_name, method_name
-    else
+    build_checker_or_waiter element_name, method_name, element_selector do
       define_method method_name do
         Capybara.using_wait_time 0 do
           element_exists? element_selector
@@ -89,9 +95,7 @@ module SitePrism::ElementContainer
 
   def create_waiter element_name, element_selector
     method_name = "wait_for_#{element_name.to_s}"
-    if element_selector.nil?
-      create_no_selector element_name, method_name
-    else
+    build_checker_or_waiter element_name, method_name, element_selector do
       define_method method_name do |*args| #used to use block args, but they don't work under ruby 1.8 :(
         timeout = args.shift || Capybara.default_wait_time
         Capybara.using_wait_time timeout do
@@ -103,9 +107,7 @@ module SitePrism::ElementContainer
 
   def create_visibility_waiter element_name, element_selector
     method_name = "wait_until_#{element_name.to_s}_visible"
-    if element_selector.nil?
-      create_no_selector element_name, method_name
-    else
+    build_checker_or_waiter element_name, method_name, element_selector do
       define_method method_name do |*args|
         timeout = args.shift || Capybara.default_wait_time
         Capybara.using_wait_time timeout do
@@ -124,9 +126,7 @@ module SitePrism::ElementContainer
 
   def create_invisibility_waiter element_name, element_selector
     method_name = "wait_until_#{element_name.to_s}_invisible"
-    if element_selector.nil?
-      create_no_selector element_name, method_name
-    else
+    build_checker_or_waiter element_name, method_name, element_selector do
       define_method method_name do |*args|
         timeout = args.shift || Capybara.default_wait_time
         begin
