@@ -1,44 +1,36 @@
 module SitePrism::ElementContainer
 
   def element element_name, element_selector = nil
-    if element_selector.nil?
-      create_no_selector element_name
-    else
-      add_to_mapped_items element_name
+    build element_name, element_selector do
       define_method element_name.to_s do
         find_one element_selector
       end
     end
-    add_checkers_and_waiters element_name, element_selector
   end
 
   def elements collection_name, collection_selector = nil
-    if collection_selector.nil?
-      create_no_selector collection_name
-    else
-      add_to_mapped_items collection_name
+    build collection_name, collection_selector do
       define_method collection_name.to_s do
         find_all collection_selector
       end
     end
-    add_checkers_and_waiters collection_name, collection_selector
   end
   alias :collection :elements
 
   def section section_name, section_class, section_selector
-    add_to_mapped_items section_name
-    add_checkers_and_waiters  section_name, section_selector
-    define_method section_name do
-      section_class.new find_one section_selector
+    build section_name, section_selector do
+      define_method section_name do
+        section_class.new find_one section_selector
+      end
     end
   end
 
   def sections section_collection_name, section_class, section_collection_selector
-    add_to_mapped_items section_collection_name
-    add_checkers_and_waiters section_collection_name, section_collection_selector
-    define_method section_collection_name do
-      find_all(section_collection_selector).collect do |element|
-        section_class.new element
+    build section_collection_name, section_collection_selector do
+      define_method section_collection_name do
+        find_all(section_collection_selector).collect do |element|
+          section_class.new element
+        end
       end
     end
   end
@@ -64,6 +56,16 @@ module SitePrism::ElementContainer
   end
 
   private
+  
+  def build name, selector
+    if selector.nil?
+      create_no_selector name
+    else
+      add_to_mapped_items name
+      yield
+    end
+    add_checkers_and_waiters name, selector
+  end
   
   def add_checkers_and_waiters name, selector
     create_existence_checker name, selector
