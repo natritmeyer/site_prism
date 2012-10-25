@@ -138,7 +138,6 @@ module SitePrism::ElementContainer
     end
   end
 
-
   def create_no_selector element_name, method_name = nil
     no_selector_method_name = method_name.nil? ? element_name : method_name
     define_method no_selector_method_name do
