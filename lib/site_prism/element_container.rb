@@ -4,15 +4,12 @@ module SitePrism::ElementContainer
     if element_selector.nil?
       create_no_selector element_name
     else
-      add_element_name element_name.to_s
+      add_element_name element_name
       define_method element_name.to_s do
         find_one element_selector
       end
     end
-    create_existence_checker element_name, element_selector
-    create_waiter element_name, element_selector
-    create_visibility_waiter element_name, element_selector
-    create_invisibility_waiter element_name, element_selector
+    add_checkers_and_waiters element_name, element_selector
   end
 
   def elements collection_name, collection_selector = nil
@@ -24,19 +21,13 @@ module SitePrism::ElementContainer
         find_all collection_selector
       end
     end
-    create_existence_checker collection_name, collection_selector
-    create_waiter collection_name, collection_selector
-    create_visibility_waiter collection_name, collection_selector
-    create_invisibility_waiter collection_name, collection_selector
+    add_checkers_and_waiters collection_name, collection_selector
   end
   alias :collection :elements
 
   def section section_name, section_class, section_selector
     add_element_name section_name
-    create_existence_checker section_name, section_selector
-    create_waiter section_name, section_selector
-    create_visibility_waiter section_name, section_selector
-    create_invisibility_waiter section_name, section_selector
+    add_checkers_and_waiters  section_name, section_selector
     define_method section_name do
       section_class.new find_one section_selector
     end
@@ -44,10 +35,7 @@ module SitePrism::ElementContainer
 
   def sections section_collection_name, section_class, section_collection_selector
     add_element_name section_collection_name
-    create_existence_checker section_collection_name, section_collection_selector
-    create_waiter section_collection_name, section_collection_selector
-    create_visibility_waiter section_collection_name, section_collection_selector
-    create_invisibility_waiter section_collection_name, section_collection_selector
+    add_checkers_and_waiters section_collection_name, section_collection_selector
     define_method section_collection_name do
       find_all(section_collection_selector).collect do |element|
         section_class.new element
@@ -68,7 +56,7 @@ module SitePrism::ElementContainer
 
   def add_element_name element_name
     @element_names ||= []
-    @element_names << element_name
+    @element_names << element_name.to_s
   end
 
   def element_names
@@ -76,6 +64,13 @@ module SitePrism::ElementContainer
   end
 
   private
+  
+  def add_checkers_and_waiters name, selector
+    create_existence_checker name, selector
+    create_waiter name, selector
+    create_visibility_waiter name, selector
+    create_invisibility_waiter name, selector
+  end
 
   def create_existence_checker element_name, element_selector
     method_name = "has_#{element_name.to_s}?"
