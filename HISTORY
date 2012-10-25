@@ -1,6 +1,9 @@
 1.4
 - changed all occurances of 'locator' to 'selector' in the code
-  - API change: `NoLocatorForElement` is now `NoSelectorForElement`
+
+API Changes:
+- API change: `NoLocatorForElement` is now `NoSelectorForElement`
+- Renamed #element_names to #mapped_items
 
 1.3
 - added 'wait_until_<element_name>_visible' and

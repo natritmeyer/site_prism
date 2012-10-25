@@ -4,7 +4,7 @@ module SitePrism::ElementContainer
     if element_selector.nil?
       create_no_selector element_name
     else
-      add_element_name element_name
+      add_to_mapped_items element_name
       define_method element_name.to_s do
         find_one element_selector
       end
@@ -16,7 +16,7 @@ module SitePrism::ElementContainer
     if collection_selector.nil?
       create_no_selector collection_name
     else
-      add_element_name collection_name
+      add_to_mapped_items collection_name
       define_method collection_name.to_s do
         find_all collection_selector
       end
@@ -26,7 +26,7 @@ module SitePrism::ElementContainer
   alias :collection :elements
 
   def section section_name, section_class, section_selector
-    add_element_name section_name
+    add_to_mapped_items section_name
     add_checkers_and_waiters  section_name, section_selector
     define_method section_name do
       section_class.new find_one section_selector
@@ -34,7 +34,7 @@ module SitePrism::ElementContainer
   end
 
   def sections section_collection_name, section_class, section_collection_selector
-    add_element_name section_collection_name
+    add_to_mapped_items section_collection_name
     add_checkers_and_waiters section_collection_name, section_collection_selector
     define_method section_collection_name do
       find_all(section_collection_selector).collect do |element|
@@ -44,7 +44,7 @@ module SitePrism::ElementContainer
   end
 
   def iframe iframe_name, iframe_page_class, iframe_id
-    add_element_name iframe_name
+    add_to_mapped_items iframe_name
     create_existence_checker iframe_name, iframe_id
     create_waiter iframe_name, iframe_id
     define_method iframe_name do |&block|
@@ -54,13 +54,13 @@ module SitePrism::ElementContainer
     end
   end
 
-  def add_element_name element_name
-    @element_names ||= []
-    @element_names << element_name.to_s
+  def add_to_mapped_items item
+    @mapped_items ||= []
+    @mapped_items << item.to_s
   end
 
-  def element_names
-    @element_names
+  def mapped_items
+    @mapped_items
   end
 
   private
