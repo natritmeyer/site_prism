@@ -24,20 +24,20 @@ module SitePrism
 
     private
 
-    def find_one locator
-      root_element.find locator
+    def find_one selector
+      root_element.find selector
     end
 
-    def find_all locator
-      root_element.all locator
+    def find_all selector
+      root_element.all selector
     end
 
-    def element_exists? locator
-      root_element.has_selector? locator
+    def element_exists? selector
+      root_element.has_selector? selector
     end
 
-    def element_waiter locator
-      Capybara.current_session.wait_until { element_exists? locator }
+    def element_waiter selector
+      Capybara.current_session.wait_until { element_exists? selector }
     end
   end
 end

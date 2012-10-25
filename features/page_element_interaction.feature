@@ -34,10 +34,10 @@ Feature: Page element interaction
 		When I navigate to the home page
 		Then all expected elements are present
 
-  Scenario: Element without a locator (pending element)
+  Scenario: Element without a selector (pending element)
     When I navigate to a page with no title
-    Then an exception is raised when I try to deal with an element with no locator
-    And an exception is raised when I try to deal with elements with no locator
+    Then an exception is raised when I try to deal with an element with no selector
+    And an exception is raised when I try to deal with elements with no selector
 
   Scenario: Wait for visibility of element
     When I navigate to the home page

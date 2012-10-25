@@ -49,20 +49,20 @@ module SitePrism
 
     private
 
-    def find_one locator
-      find locator
+    def find_one selector
+      find selector
     end
 
-    def find_all locator
-      all locator
+    def find_all selector
+      all selector
     end
 
-    def element_exists? locator
-      has_selector? locator
+    def element_exists? selector
+      has_selector? selector
     end
 
-    def element_waiter locator
-      wait_until { element_exists? locator }
+    def element_waiter selector
+      wait_until { element_exists? selector }
     end
   end
 end
