@@ -127,7 +127,7 @@ queried (is it enabled? visible?).
 
 SitePrism is based around this concept, but goes further as you'll see
 below by also allowing modelling of repeated sections that appear on
-muliple pages, or many times on a page using the concept of sections.
+multiple pages, or many times on a page using the concept of sections.
 
 ## Pages
 
@@ -171,7 +171,7 @@ to the page using `#load`:
 @home_page.load
 ```
 
-This will tell which ever capybara driver you have configured to
+This will tell whichever capybara driver you have configured to
 navigate to the URL set against that page's class.
 
 ### Verifying that a particular page is displayed
@@ -591,7 +591,7 @@ SitePrism provides the Section class for this task.
 
 In the same way that SitePrism provides `element` and `elements`, it
 provides `section` and `sections`. The first returns an instance of a
-page section, the secont returns an array of section instances, one for
+page section, the second returns an array of section instances, one for
 each capybara element found by the supplied css selector. What follows
 is an explanation of `section`.
 
@@ -807,9 +807,9 @@ how they're used:
 
 ```ruby
 @home = Home.new
-@home.wait_for_menu_visible
+@home.wait_until_menu_visible
 # and...
-@home.wait_for_menu_invisible
+@home.wait_until_menu_invisible
 ```
 
 Again, as for an element, it is possible to give a specific amount of
@@ -817,9 +817,9 @@ time to wait for visibility/invisibility of a section. Here's how:
 
 ```ruby
 @home = Home.new
-@home.wait_for_menu_visible(5)
+@home.wait_until_menu_visible(5)
 # and...
-@home.wait_for_menu_invisible(3)
+@home.wait_until_menu_invisible(3)
 ```
 
 #### Sections within sections
@@ -1005,7 +1005,7 @@ end
 
 SitePrism allows you to interact with iframes. An iframe is declared as
 a `SitePrism::Page` class, and then referenced by the page or section it
-is embeded into. Like a section, it is possible to test for the
+is embedded into. Like a section, it is possible to test for the
 existence of the iframe, wait for it to exist as well as interact with
 the page it contains.
 
