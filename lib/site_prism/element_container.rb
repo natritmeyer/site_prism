@@ -108,8 +108,7 @@ module SitePrism::ElementContainer
   def create_visibility_waiter element_name, element_selector
     method_name = "wait_until_#{element_name.to_s}_visible"
     build_checker_or_waiter element_name, method_name, element_selector do
-      define_method method_name do |*args|
-        timeout = args.shift || Capybara.default_wait_time
+      define_method method_name do |timeout = Capybara.default_wait_time|
         Capybara.using_wait_time timeout do
           element_waiter element_selector
         end
@@ -127,8 +126,7 @@ module SitePrism::ElementContainer
   def create_invisibility_waiter element_name, element_selector
     method_name = "wait_until_#{element_name.to_s}_invisible"
     build_checker_or_waiter element_name, method_name, element_selector do
-      define_method method_name do |*args|
-        timeout = args.shift || Capybara.default_wait_time
+      define_method method_name do |timeout = Capybara.default_wait_time|
         begin
           Timeout.timeout(timeout) do
             sleep 0.1 while element_exists?(element_selector) && find_first(element_selector).visible?
