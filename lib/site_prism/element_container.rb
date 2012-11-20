@@ -3,7 +3,7 @@ module SitePrism::ElementContainer
   def element element_name, element_selector = nil
     build element_name, element_selector do
       define_method element_name.to_s do
-        find_one element_selector
+        find_first element_selector
       end
     end
   end
@@ -20,7 +20,7 @@ module SitePrism::ElementContainer
   def section section_name, section_class, section_selector
     build section_name, section_selector do
       define_method section_name do
-        section_class.new find_one section_selector
+        section_class.new find_first section_selector
       end
     end
   end
@@ -115,7 +115,7 @@ module SitePrism::ElementContainer
         end
         begin
           Timeout.timeout(timeout) do
-            sleep 0.1 until find_one(element_selector).visible?
+            sleep 0.1 until find_first(element_selector).visible?
           end
         rescue Timeout::Error
           raise SitePrism::TimeOutWaitingForElementVisibility.new("#{element_name} did not become visible")
@@ -131,7 +131,7 @@ module SitePrism::ElementContainer
         timeout = args.shift || Capybara.default_wait_time
         begin
           Timeout.timeout(timeout) do
-            sleep 0.1 while element_exists?(element_selector) && find_one(element_selector).visible?
+            sleep 0.1 while element_exists?(element_selector) && find_first(element_selector).visible?
           end
         rescue Timeout::Error
           raise SitePrism::TimeOutWaitingForElementInvisibility.new("#{element_name} did not become invisible")

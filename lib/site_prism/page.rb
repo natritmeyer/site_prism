@@ -49,8 +49,8 @@ module SitePrism
 
     private
 
-    def find_one selector
-      find selector
+    def find_first selector
+      first selector
     end
 
     def find_all selector
