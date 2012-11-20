@@ -1,4 +1,4 @@
 module SitePrism
-  VERSION = "1.3"
+  VERSION = "1.4"
 end
 

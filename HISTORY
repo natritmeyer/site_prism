@@ -1,9 +1,9 @@
 1.4
 - changed all occurances of 'locator' to 'selector' in the code
-
-API Changes:
-- API change: `NoLocatorForElement` is now `NoSelectorForElement`
-- Renamed #element_names to #mapped_items for SitePrism::Page and SitePrism::Section
+- changed capybara version dependency to ~> 1.1 rspec to ~> 2.0
+- API Changes:
+  - API change: `NoLocatorForElement` is now `NoSelectorForElement`
+  - Renamed #element_names to #mapped_items for SitePrism::Page and SitePrism::Section
 
 1.3
 - added 'wait_until_<element_name>_visible' and

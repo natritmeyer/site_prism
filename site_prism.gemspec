@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.description = "SitePrism gives you a simple, clean and semantic DSL for describing your site using the Page Object Model pattern, for use with Capybara"
   s.files        = Dir.glob("lib/**/*") + %w(LICENSE README.md)
   s.require_path = 'lib'
-  s.add_dependency('capybara', '>= 1.1.1')
-  s.add_dependency('rspec', '>= 2.0.0')
+  s.add_dependency('capybara', '~> 1.1')
+  s.add_dependency('rspec', '~> 2.0')
 end
 
