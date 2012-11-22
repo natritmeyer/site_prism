@@ -98,7 +98,7 @@ module SitePrism::ElementContainer
     build_checker_or_waiter element_name, method_name, element_selector do
       define_method method_name do |timeout = Capybara.default_wait_time|
         Capybara.using_wait_time timeout do
-          element_waiter element_selector
+          element_exists? element_selector
         end
       end
     end
@@ -109,7 +109,7 @@ module SitePrism::ElementContainer
     build_checker_or_waiter element_name, method_name, element_selector do
       define_method method_name do |timeout = Capybara.default_wait_time|
         Capybara.using_wait_time timeout do
-          element_waiter element_selector
+          element_exists? element_selector
         end
         Timeout.timeout timeout, SitePrism::TimeOutWaitingForElementVisibility do
           sleep 0.1 until find_first(element_selector).visible?

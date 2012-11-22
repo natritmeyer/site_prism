@@ -35,10 +35,6 @@ module SitePrism
     def element_exists? selector
       root_element.has_selector? selector
     end
-
-    def element_waiter selector
-      Capybara.current_session.wait_until { element_exists? selector }
-    end
   end
 end
 

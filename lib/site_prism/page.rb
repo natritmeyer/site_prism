@@ -60,10 +60,6 @@ module SitePrism
     def element_exists? selector
       has_selector? selector
     end
-
-    def element_waiter selector
-      wait_until { element_exists? selector }
-    end
   end
 end
 
