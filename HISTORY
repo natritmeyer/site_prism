@@ -1,3 +1,7 @@
+2.0
+- capybara 2.0.1 now the minimum version of capybara SitePrism will work with
+- removed the `#wait_for_<element_name>` method, only `#wait_for_<element_name>(30)` remains to allow for custom wait times. Capybara does waiting out of the box, so there's no need to explicitly wait for an element unless you want to wait for a non-standard (ie: not `Capybara.default_wait_time`) length of time
+
 1.4
 - changed all occurances of 'locator' to 'selector' in the code
 - changed capybara version dependency to ~> 1.1 rspec to ~> 2.0

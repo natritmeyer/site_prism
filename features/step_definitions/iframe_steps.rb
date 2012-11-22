@@ -1,5 +1,4 @@
 Then /^I can see an iframe$/ do
-  @test_site.home.wait_for_my_iframe
   @test_site.home.should have_my_iframe
 end
 

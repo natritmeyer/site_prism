@@ -1,5 +1,5 @@
 Then /^when I wait for the element that takes a while to appear$/ do
-  @test_site.home.wait_for_some_slow_element
+  step 'I wait for a specifically short amount of time for an element to appear'
 end
 
 Then /^I successfully wait for it to appear$/ do
@@ -15,7 +15,7 @@ Then /^the element I am waiting for doesn't appear in time$/ do
 end
 
 Then /^when I wait for the section element that takes a while to appear$/ do
-  @test_site.section_experiments.parent_section.wait_for_slow_section_element
+  @test_site.section_experiments.parent_section.wait_for_slow_section_element(2)
 end
 
 Then /^I successfully wait for the slow section element to appear$/ do
