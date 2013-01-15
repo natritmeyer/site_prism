@@ -1,5 +1,5 @@
 2.0
-- capybara 2.0.1 now the minimum version of capybara SitePrism will work with
+- capybara 2 now the minimum version of capybara SitePrism will work with
 - site_prism now depends on Ruby 1.9; 1.8 is deprecated (capybara no longer supports 1.8, no point in site_prism doing so)
 
 1.4
