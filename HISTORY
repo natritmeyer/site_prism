@@ -1,3 +1,6 @@
+2.0
+- capybara 2.0.1 now the minimum version of capybara SitePrism will work with
+
 1.4
 - changed all occurances of 'locator' to 'selector' in the code
 - changed capybara version dependency to ~> 1.1 rspec to ~> 2.0
