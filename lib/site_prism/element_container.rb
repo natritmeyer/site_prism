@@ -96,7 +96,7 @@ module SitePrism::ElementContainer
   def create_waiter element_name, element_selector
     method_name = "wait_for_#{element_name.to_s}"
     build_checker_or_waiter element_name, method_name, element_selector do
-      define_method method_name do |timeout|
+      define_method method_name do |timeout = Capybara.default_wait_time|
         Capybara.using_wait_time timeout do
           element_exists? element_selector
         end
