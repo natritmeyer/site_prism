@@ -1,5 +1,5 @@
 class TestHomePage < SitePrism::Page
-  set_url "file://" + Dir.pwd + "/test_site/html/home.htm"
+  set_url "/home.htm"
   set_url_matcher /home\.htm$/
 
   #individual elements
