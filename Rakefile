@@ -24,6 +24,7 @@ namespace :code do
     t.config_files = "config.reek"
     t.source_files = "**/*.rb"
     t.fail_on_error = false
+    t.reek_opts = "-q"
   end
 end
 
