@@ -1,5 +1,6 @@
 require 'cucumber/rake/task'
 require 'rspec/core/rake_task'
+require 'reek/rake/task'
 
 namespace :cuke do
   Cucumber::Rake::Task.new(:all) do |t|
@@ -17,3 +18,12 @@ namespace :spec do
     t.ruby_opts = "-I lib"
   end
 end
+
+namespace :code do
+  Reek::Rake::Task.new do |t|
+    t.config_files = "config.reek"
+    t.source_files = "**/*.rb"
+    t.fail_on_error = false
+  end
+end
+

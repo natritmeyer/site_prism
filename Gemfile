@@ -6,4 +6,5 @@ gem "capybara", "~> 2"
 gem "yard"
 gem "redcarpet"
 gem "simplecov"
+gem "reek"
 
