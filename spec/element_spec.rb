@@ -36,5 +36,38 @@ describe SitePrism::Page do
     page = PageWithAFewElements.new
     page.should respond_to :all_there?
   end
+
+  it "element method with xpath should generate existence check method" do
+    class PageWithElement < SitePrism::Page
+      element :bob, :xpath, '//a[@class="b"]//c[@class="d"]'
+    end
+    page = PageWithElement.new
+    page.should respond_to :has_bob?
+  end
+
+  it "element method with xpathshould generate method to return the element" do
+    class PageWithElement < SitePrism::Page
+      element :bob, :xpath, '//a[@class="b"]//c[@class="d"]'
+    end
+    page = PageWithElement.new
+    page.should respond_to :bob
+  end
+
+  it "should be able to wait for an element defined with xpath selector" do
+    class PageWithElement < SitePrism::Page
+      element :some_slow_element, :xpath, '//a[@class="slow"]'
+    end
+    page = PageWithElement.new
+    page.should respond_to :wait_for_some_slow_element
+  end
+
+  it "should know if all mapped elements defined by xpath selector are on the page" do
+    class PageWithAFewElements < SitePrism::Page
+      element :bob, :xpath, '//a[@class="b"]//c[@class="d"]'
+    end
+    page = PageWithAFewElements.new
+    page.should respond_to :all_there?
+  end
+
 end
 
