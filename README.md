@@ -419,8 +419,9 @@ can use a CSS selector, you can use an XPath expression. An example:
 class Home < SitePrism::Page
   # CSS Selector:
   element :first_name, "div#signup input[name='first-name']"
-	#same thing as an XPath expression:
-	element :first_name, :xpath, "//div[@id='signup']//input[@name='first-name']"
+
+  #same thing as an XPath expression:
+  element :first_name, :xpath, "//div[@id='signup']//input[@name='first-name']"
 end
 ```
 
