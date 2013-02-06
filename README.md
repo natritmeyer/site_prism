@@ -409,6 +409,21 @@ of seconds to wait. Using the above example:
 @home.wait_until_search_field_invisible(10)
 ```
 
+#### CSS Selectors vs. XPath Expressions
+
+While the above examples all use CSS selectors to find elements, it is
+possible to use XPath expressions too. In SitePrism, everywhere that you
+can use a CSS selector, you can use an XPath expression. An example:
+
+```ruby
+class Home < SitePrism::Page
+  # CSS Selector:
+  element :first_name, "div#signup input[name='first-name']"
+	#same thing as an XPath expression:
+	element :first_name, :xpath, "//div[@id='signup']//input[@name='first-name']"
+end
+```
+
 #### Summary of what the element method provides:
 
 Given:
