@@ -24,16 +24,16 @@ module SitePrism
 
     private
 
-    def find_first *q
-      root_element.first *q
+    def find_first *find_args
+      root_element.first *find_args
     end
 
-    def find_all *q
-      root_element.all *q
+    def find_all *find_args
+      root_element.all *find_args
     end
 
-    def element_exists? *q
-      root_element.has_selector? *q
+    def element_exists? *find_args
+      root_element.has_selector? *find_args
     end
   end
 end

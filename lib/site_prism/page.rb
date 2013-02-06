@@ -49,16 +49,16 @@ module SitePrism
 
     private
 
-    def find_first *q
-      first *q
+    def find_first *find_args
+      first *find_args
     end
 
-    def find_all *q
-      all *q
+    def find_all *find_args
+      all *find_args
     end
 
-    def element_exists? *q
-      has_selector? *q
+    def element_exists? *find_args
+      has_selector? *find_args
     end
   end
 end
