@@ -45,7 +45,7 @@ describe SitePrism::Page do
     page.should respond_to :has_bob?
   end
 
-  it "element method with xpathshould generate method to return the element" do
+  it "element method with xpath should generate method to return the element" do
     class PageWithElement < SitePrism::Page
       element :bob, :xpath, '//a[@class="b"]//c[@class="d"]'
     end
