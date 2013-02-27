@@ -1,3 +1,4 @@
 Add custom method to readme - eg: def login(username, password)
 SitePrism::Page#load :arg1 => "thing1", :arg2 => "thing2"
+SitePrism::Page#wait_until_displayed
 
