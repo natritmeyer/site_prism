@@ -63,8 +63,13 @@ Feature: Page element interaction
     And I wait for a specific amount of time until a particular element is invisible
     Then the previously visible element is invisible
 
-  Scenario: Wait for too short an amount of time for an element to become visible
+  Scenario: Wait for too short an amount of time for an element to become invisible
     When I navigate to the home page
     Then I get a timeout error when I wait for an element that never disappears
     Then I do not wait for an nonexistent element
+
+  Scenario: Wait for invisibility of an element embedded into a section
+    When I navigate to the home page
+    And I wait for invisibility of an element embedded into a section which is removed
+    Then I do not receive an error when a section with the element I am waiting for is removed
 

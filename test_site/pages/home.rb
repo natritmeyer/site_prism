@@ -11,8 +11,8 @@ class TestHomePage < SitePrism::Page
   element :invisible_element, 'input.invisible'
   element :shy_element, 'input#will_become_visible'
   element :retiring_element, 'input#will_become_invisible'
-
   element :nonexistent_element, 'input#nonexistent'
+  element :remove_container_with_element_btn, 'input#remove_container_with_element'
 
   #element groups
   elements :lots_of_links, :xpath, '//td//a'
@@ -23,6 +23,7 @@ class TestHomePage < SitePrism::Page
 
   #sections
   section :people, People, '.people'
+  section :container_with_element, ContainerWithElement, '#container_with_element'
 
   #iframes
   iframe :my_iframe, MyIframe, '#the_iframe'

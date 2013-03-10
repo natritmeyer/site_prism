@@ -8,6 +8,7 @@ $: << './lib'
 require 'site_prism'
 require 'test_site'
 require 'sections/people'
+require 'sections/container_with_element'
 require 'pages/my_iframe'
 require 'pages/home'
 

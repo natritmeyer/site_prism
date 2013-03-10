@@ -102,3 +102,10 @@ Then /^I do not wait for an nonexistent element$/ do
   (Time.new - start).should < 1
 end
 
+When /^I wait for invisibility of an element embedded into a section which is removed$/ do
+  @test_site.home.remove_container_with_element_btn.click
+end
+
+Then /^I do not receive an error when a section with the element I am waiting for is removed$/ do
+  @test_site.home.container_with_element.wait_until_embedded_element_invisible
+end
