@@ -94,3 +94,11 @@ Then /^I get a timeout error when I wait for an element that never disappears$/ 
   expect {@test_site.home.wait_until_welcome_header_invisible(1)}.to raise_error SitePrism::TimeOutWaitingForElementInvisibility
 end
 
+Then /^I do not wait for an nonexistent element$/ do
+  start = Time.new
+
+  @test_site.home.wait_until_nonexistent_element_invisible(10)
+
+  (Time.new - start).should < 1
+end
+

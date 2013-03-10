@@ -12,6 +12,8 @@ class TestHomePage < SitePrism::Page
   element :shy_element, 'input#will_become_visible'
   element :retiring_element, 'input#will_become_invisible'
 
+  element :nonexistent_element, 'input#nonexistent'
+
   #element groups
   elements :lots_of_links, :xpath, '//td//a'
 

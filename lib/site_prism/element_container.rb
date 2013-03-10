@@ -1,6 +1,6 @@
 module SitePrism::ElementContainer
 
-  def element element_name, *find_args 
+  def element element_name, *find_args
     build element_name, *find_args do
       define_method element_name.to_s do
         find_first *find_args
@@ -56,7 +56,7 @@ module SitePrism::ElementContainer
   end
 
   private
-  
+
   def build name, *find_args
     if find_args.empty?
       create_no_selector name
@@ -66,14 +66,14 @@ module SitePrism::ElementContainer
     end
     add_checkers_and_waiters name, *find_args
   end
-  
+
   def add_checkers_and_waiters name, *find_args
     create_existence_checker name, *find_args
     create_waiter name, *find_args
     create_visibility_waiter name, *find_args
     create_invisibility_waiter name, *find_args
   end
-  
+
   def build_checker_or_waiter element_name, proposed_method_name, *find_args
     if find_args.empty?
       create_no_selector element_name, proposed_method_name
@@ -123,7 +123,9 @@ module SitePrism::ElementContainer
     build_checker_or_waiter element_name, method_name, *find_args do
       define_method method_name do |timeout = Capybara.default_wait_time|
         Timeout.timeout timeout, SitePrism::TimeOutWaitingForElementInvisibility do
-          sleep 0.1 while element_exists?(*find_args) && find_first(*find_args).visible?
+          Capybara.using_wait_time 0.05 do
+            sleep 0.05 while element_exists?(*find_args) && find_first(*find_args).visible?
+          end
         end
       end
     end

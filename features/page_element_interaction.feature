@@ -2,15 +2,15 @@ Feature: Page element interaction
 	As a tester
 	I want to be able to interact with individual elements on a page
 	In order to get and set values on the page
-	
+
 	Scenario: Get the page title
 		When I navigate to the home page
 		Then I can get the page title
-	
+
 	Scenario: Page with no title
 		When I navigate to a page with no title
 		Then the page has no title
-	
+
 	Scenario: Get individual elements
 		When I navigate to the home page
 		Then I can see the welcome header
@@ -19,7 +19,7 @@ Feature: Page element interaction
 		And I can see the link to the search page
 		But I cannot see the missing squirrel
 		And I cannot see the missing other thingy
-	
+
 	Scenario: Wait for element
 		When I navigate to the home page
 		Then when I wait for the element that takes a while to appear
@@ -66,4 +66,5 @@ Feature: Page element interaction
   Scenario: Wait for too short an amount of time for an element to become visible
     When I navigate to the home page
     Then I get a timeout error when I wait for an element that never disappears
+    Then I do not wait for an nonexistent element
 
