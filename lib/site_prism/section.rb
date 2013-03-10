@@ -33,7 +33,9 @@ module SitePrism
     end
 
     def element_exists? *find_args
-      root_element.has_selector? *find_args
+      unless root_element.nil?
+        root_element.has_selector? *find_args
+      end
     end
   end
 end

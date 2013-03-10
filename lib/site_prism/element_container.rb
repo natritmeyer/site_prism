@@ -122,14 +122,10 @@ module SitePrism::ElementContainer
     method_name = "wait_until_#{element_name.to_s}_invisible"
     build_checker_or_waiter element_name, method_name, *find_args do
       define_method method_name do |timeout = Capybara.default_wait_time|
-        begin
-          Timeout.timeout timeout, SitePrism::TimeOutWaitingForElementInvisibility do
-            Capybara.using_wait_time 0.05 do
-              sleep 0.05 while element_exists?(*find_args) && find_first(*find_args).visible?
-            end
+        Timeout.timeout timeout, SitePrism::TimeOutWaitingForElementInvisibility do
+          Capybara.using_wait_time 0.05 do
+            sleep 0.05 while element_exists?(*find_args) && find_first(*find_args).visible?
           end
-        # This case occurs when an element is embedded to a section which is removed
-        rescue NoMethodError => error
         end
       end
     end
