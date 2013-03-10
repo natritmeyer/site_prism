@@ -4,10 +4,10 @@ module SitePrism
     include ElementChecker
     extend ElementContainer
 
-    attr_reader :root_element
+    attr_reader :root_element, :parent
 
-    def initialize root_element
-      @root_element = root_element
+    def initialize root_element, parent
+      @root_element, @parent = root_element, parent
     end
 
     def visible?
@@ -20,6 +20,16 @@ module SitePrism
 
     def evaluate_script input
       Capybara.current_session.evaluate_script input
+    end
+
+    def current_page
+      page = self.parent
+
+      until page.is_a?(SitePrism::Page)
+        page = page.parent
+      end
+
+      page
     end
 
     private

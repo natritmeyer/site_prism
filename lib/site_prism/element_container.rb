@@ -1,6 +1,6 @@
 module SitePrism::ElementContainer
 
-  def element element_name, *find_args 
+  def element element_name, *find_args
     build element_name, *find_args do
       define_method element_name.to_s do
         find_first *find_args
@@ -20,7 +20,7 @@ module SitePrism::ElementContainer
   def section section_name, section_class, *find_args
     build section_name, *find_args do
       define_method section_name do
-        section_class.new find_first *find_args
+        section_class.new find_first(*find_args), self
       end
     end
   end
@@ -29,7 +29,7 @@ module SitePrism::ElementContainer
     build section_collection_name, *find_args do
       define_method section_collection_name do
         find_all(*find_args).collect do |element|
-          section_class.new element
+          section_class.new element, self
         end
       end
     end
@@ -56,7 +56,7 @@ module SitePrism::ElementContainer
   end
 
   private
-  
+
   def build name, *find_args
     if find_args.empty?
       create_no_selector name
@@ -66,14 +66,14 @@ module SitePrism::ElementContainer
     end
     add_checkers_and_waiters name, *find_args
   end
-  
+
   def add_checkers_and_waiters name, *find_args
     create_existence_checker name, *find_args
     create_waiter name, *find_args
     create_visibility_waiter name, *find_args
     create_invisibility_waiter name, *find_args
   end
-  
+
   def build_checker_or_waiter element_name, proposed_method_name, *find_args
     if find_args.empty?
       create_no_selector element_name, proposed_method_name
