@@ -29,3 +29,4 @@ namespace :code do
 end
 
 task default: ['spec:all', 'cuke:all']
+
