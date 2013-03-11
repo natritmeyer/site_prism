@@ -1,10 +1,13 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
-gem "cucumber"
-gem "rspec", "~> 2"
-gem "capybara", "~> 2"
-gem "yard"
-gem "redcarpet"
-gem "simplecov"
-gem "reek"
+gemspec
 
+gem 'cucumber'
+gem 'rake'
+
+group :development do
+  gem 'yard'
+  gem 'redcarpet'
+  gem 'simplecov'
+  gem 'reek'
+end

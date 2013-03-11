@@ -1,5 +1,7 @@
-require 'simplecov'
-SimpleCov.start
+unless ENV['CI']
+  require 'simplecov'
+  SimpleCov.start
+end
 
 require 'capybara'
 require 'capybara/dsl'
@@ -35,10 +37,5 @@ Capybara.register_driver :selenium do |app|
   profile = Selenium::WebDriver::Firefox::Profile.new
   profile["browser.cache.disk.enable"] = false
   profile["browser.cache.memory.enable"] = false
-  Capybara::Selenium::Driver.new(app, :browser => :firefox, :profile => profile)
+  Capybara::Selenium::Driver.new(app, :browser => :firefox, profile: profile)
 end
-
-World(Capybara)
-
-Capybara.run_server = false
-
