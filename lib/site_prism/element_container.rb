@@ -123,7 +123,7 @@ module SitePrism::ElementContainer
     build_checker_or_waiter element_name, method_name, *find_args do
       define_method method_name do |timeout = Capybara.default_wait_time|
         Timeout.timeout timeout, SitePrism::TimeOutWaitingForElementInvisibility do
-          Capybara.using_wait_time 0.05 do
+          Capybara.using_wait_time 0 do
             sleep 0.05 while element_exists?(*find_args) && find_first(*find_args).visible?
           end
         end
