@@ -44,8 +44,10 @@ describe SitePrism::Section do
 
     end
 
-    JsSection.new("a").should respond_to :execute_script
-    JsSection.new("a").should respond_to :evaluate_script
+    page = PageWithSection.new
+
+    JsSection.new("a", page).should respond_to :execute_script
+    JsSection.new("a", page).should respond_to :evaluate_script
   end
 end
 
