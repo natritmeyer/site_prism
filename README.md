@@ -5,6 +5,8 @@ SitePrism gives you a simple, clean and semantic DSL for describing your site us
 
 Find the pretty documentation here: http://rdoc.info/gems/site_prism/frames
 
+[![Build Status](https://travis-ci.org/natritmeyer/site_prism.png)](https://travis-ci.org/natritmeyer/site_prism)
+
 ## Synopsis
 
 Here's an overview of how SitePrism is designed to be used:
