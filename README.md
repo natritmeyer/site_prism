@@ -753,6 +753,60 @@ Then /^the home page menu contains a link to the various search functions$/ do
 end
 ```
 
+#### Getting a section's parent
+
+It is possible to ask a section for its parent (page, or section if this
+section is a subsection). For example, given the following setup:
+
+```ruby
+class MySubSection < SitePrism::Section
+  element :some_element, "abc"
+end
+
+class MySection < SitePrism::Section
+  section :my_subsection, MySubSection, "def"
+end
+
+class MyPage < SitePrism::Page
+  section :my_section, MySection, "ghi"
+end
+```
+
+...then calling `#parent` will return the following:
+
+```ruby
+@my_page = MyPage.new
+@my_page.load
+
+@my_page.my_section.parent #=> returns @my_page
+@my_page.my_section.my_subsection.parent #=> returns @my_section
+```
+
+#### Getting a section's parent page
+
+It is possible to ask a section for the page that it belongs to. For example,
+given the following setup:
+
+```ruby
+class MenuSection < SitePrism::Section
+  element :search, "a.search"
+  element :images, "a.image-search"
+  element :maps, "a.map-search"
+end
+
+class Home < SitePrism::Page
+  section :menu, MenuSection, "#gbx3"
+end
+```
+
+...you can get the section's parent page:
+
+```ruby
+@home = Home.new
+@home.load
+@home.menu.parent_page #=> returns @home
+```
+
 #### Testing for the existence of a section
 
 Just like elements, it is possible to test for the existence of a

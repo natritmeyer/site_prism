@@ -1,5 +1,10 @@
+2.2
+- added #parent and #parent_page to SitePrism::Section - thanks to Dmitriy Nesteryuk (@nestd)
+- various bug fixes - thanks to Dmitriy Nesteryuk (@nestd)
+- general code cleanup (including travis integration) - thanks to Andrey Botalov (@abotalov)
+
 2.1
-- added xpath support (thanks @3coins!) - see readme for details
+- added xpath support - thanks to Piyush Jain (@3coins)
 
 2.0
 - capybara 2 now the minimum version of capybara SitePrism will work with

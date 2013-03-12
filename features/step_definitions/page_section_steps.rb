@@ -45,3 +45,22 @@ Then /^I can see individual people in the people list$/ do
   @test_site.home.people.should have(4).individuals
 end
 
+Then /^I can get access to a page through a section$/ do
+  home = @test_site.home
+  home.people.parent.should eq(home)
+end
+
+Then /^I can get a parent section for a child section$/ do
+  parent_section = @test_site.section_experiments.parent_section
+  parent_section.child_section.parent.should eq(parent_section)
+end
+
+Then /^I can get access to a page through a child section$/ do
+  page = @test_site.section_experiments
+  page.parent_section.child_section.parent.parent.should eq(page)
+end
+
+Then /^I can get direct access to a page through a child section$/ do
+  page = @test_site.section_experiments
+  page.parent_section.child_section.parent_page.should eq(page)
+end
