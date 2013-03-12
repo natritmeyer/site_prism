@@ -2,6 +2,7 @@
 - added #parent and #parent_page to SitePrism::Section - thanks to Dmitriy Nesteryuk (@nestd)
 - various bug fixes - thanks to Dmitriy Nesteryuk (@nestd)
 - general code cleanup (including travis integration) - thanks to Andrey Botalov (@abotalov)
+- required ruby version now matches capybara's (1.9.3)
 
 2.1
 - added xpath support - thanks to Piyush Jain (@3coins)
