@@ -1,4 +1,8 @@
 Add custom method to readme - eg: def login(username, password)
-SitePrism::Page#load arg1: 'thing1', arg2: 'thing2'
+Dynamic urls - SitePrism::Page#load arg1: 'thing1', arg2: 'thing2'
 SitePrism::Page#wait_until_displayed
+anonymous sections
+Capybara 2.1 compatibility
+  - #find options
+  - iframe stuff
 
