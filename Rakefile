@@ -1,6 +1,7 @@
 require 'cucumber/rake/task'
 require 'rspec/core/rake_task'
 require 'reek/rake/task'
+require 'yard'
 
 namespace :cuke do
   Cucumber::Rake::Task.new(:all) do |t|
@@ -25,6 +26,12 @@ namespace :code do
     t.source_files = "**/*.rb"
     t.fail_on_error = false
     t.reek_opts = "-q"
+  end
+end
+
+namespace :docs do
+  YARD::Rake::YardocTask.new :generate do |t|
+    t.files   = ['lib/**/*.rb', '-', 'README.md']
   end
 end
 
