@@ -15,7 +15,7 @@ Here's an overview of how SitePrism is designed to be used:
 # define our site's pages
 
 class Home < SitePrism::Page
-  set_url "http://www.google.com"
+  set_url "/index.htm"
   set_url_matcher /google.com\/?/
 
   element :search_field, "input[name='q']"
