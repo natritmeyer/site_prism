@@ -1,3 +1,6 @@
+2.3
+- Dynamic URLs - thanks to David Haslem (@therabidbanana)
+
 2.2
 - added #parent and #parent_page to SitePrism::Section - thanks to Dmitriy Nesteryuk (@nestd)
 - various bug fixes - thanks to Dmitriy Nesteryuk (@nestd)

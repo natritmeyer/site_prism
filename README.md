@@ -159,9 +159,38 @@ class Home < SitePrism::Page
 end
 ```
 
+If you've set Capybara's `app_host` then you can set the URL as follows:
+
+```ruby
+class Home < SitePrism::Page
+  set_url "/home.htm"
+end
+```
+
 Note that setting a URL is optional - you only need to set a url if you want to be able to navigate
 directly to that page. It makes sense to set the URL for a page model of a home
 page or a login page, but probably not a search results page.
+
+#### Parameterized URLs
+
+SitePrism uses the Addressable gem and therefore allows for parameterized URLs. Here is
+a simple example:
+
+```ruby
+class UserProfile < SitePris::Page
+  set_url "/users{/username}"
+end
+```
+
+...and a more complex example:
+
+```ruby
+class Search < SitePris::Page
+  set_url "/search{?query*}"
+end
+```
+
+See https://github.com/sporkmonger/addressable for more details on parameterized URLs.
 
 ### Navigating to the Page
 
@@ -173,8 +202,36 @@ to the page using `#load`:
 @home_page.load
 ```
 
+#### Navigating to a page with a parameterized URL
+
+The `#load` method takes parameters and will apply them to the URL. Using the examples above:
+
+```ruby
+class UserProfile < SitePris::Page
+  set_url "/users{/username}"
+end
+
+@user_profile = UserProfile.new
+@user_profile.load #=> /users
+@user_profile.load(username: 'bob') #=> loads /users/bob
+```
+
+...and...
+
+```ruby
+class Search < SitePris::Page
+  set_url "/search{?query*}"
+end
+
+@search = Search.new
+@search.load(query: 'simple') #=> loads /search?query=simple
+@search.load(query: {'color'=> 'red', 'text'=> 'blue'}) #=> loads /search?color=red&text=blue
+```
+
 This will tell whichever capybara driver you have configured to
 navigate to the URL set against that page's class.
+
+See https://github.com/sporkmonger/addressable for more details on parameterized URLs.
 
 ### Verifying that a particular page is displayed
 
