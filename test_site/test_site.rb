@@ -7,6 +7,10 @@ class TestSite
     TestNoTitle.new
   end
 
+  def dynamic_page
+    TestDynamicPage.new
+  end
+
   def page_with_people
     TestPageWithPeople.new
   end

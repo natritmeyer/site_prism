@@ -4,9 +4,10 @@ module SitePrism
     include ElementChecker
     extend ElementContainer
 
-    def load
-      raise SitePrism::NoUrlForPage if url.nil?
-      visit url
+    def load(expansion = {})
+      expanded_url = url(expansion)
+      raise SitePrism::NoUrlForPage if expanded_url.nil?
+      visit expanded_url
     end
 
     def displayed?
@@ -30,8 +31,9 @@ module SitePrism
       @url_matcher
     end
 
-    def url
-      self.class.url
+    def url(expansion = {})
+      return nil if self.class.url.nil?
+      Addressable::Template.new(self.class.url).expand(expansion).to_s
     end
 
     def url_matcher

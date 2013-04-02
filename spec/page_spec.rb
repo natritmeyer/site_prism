@@ -38,6 +38,18 @@ describe SitePrism::Page do
     expect { page_with_url.load }.to_not raise_error SitePrism::NoUrlForPage
   end
 
+  it "should allow expansions if the url has them" do
+    class MyPageWithUriTemplate < SitePrism::Page
+      set_url "/users{/username}{?query*}"
+    end
+    page_with_url = MyPageWithUriTemplate.new
+    expect { page_with_url.load(username: 'foobar') }.to_not raise_error SitePrism::NoUrlForPage
+
+    page_with_url.url(username: 'foobar', query: {'recent_posts' => 'true'}).should == '/users/foobar?recent_posts=true'
+    page_with_url.url(username: 'foobar').should == '/users/foobar'
+    page_with_url.url.should == '/users'
+  end
+
   it "should respond to set_url_matcher" do
     SitePrism::Page.should respond_to :set_url_matcher
   end
