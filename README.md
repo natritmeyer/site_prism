@@ -1269,7 +1269,7 @@ class App
   end
 
   def results_page
-      SearchResults.new
+    SearchResults.new
   end
 
   def maps
@@ -1288,6 +1288,10 @@ end
 When /^I search for Sausages$/ do
   @app.home.search_field.set "sausages"
   @app.home.search_button.click
+end
+
+Then /^I am on the results page$/ do
+  @app.results_page.should be_displayed
 end
 
 # etc...
