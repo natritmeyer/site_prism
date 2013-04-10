@@ -4,6 +4,7 @@ gemspec
 
 gem 'cucumber'
 gem 'rake'
+gem 'selenium-webdriver'
 
 group :development do
   gem 'yard'
