@@ -1,3 +1,7 @@
+2.4
+- capybara dependency upgraded to 2.1
+- SitePrism::Page#title now returns "" instead of nil when there is no title
+
 2.3
 - Dynamic URLs - thanks to David Haslem (@therabidbanana)
 
