@@ -3,7 +3,7 @@ Then /^I can get the page title$/ do
 end
 
 Then /^the page has no title$/ do
-  @test_site.no_title.title.should be_nil
+  @test_site.no_title.title.should == ""
 end
 
 Then /^I can see the welcome header$/ do

@@ -44,11 +44,6 @@ module SitePrism
       !current_url.match(/^https/).nil?
     end
 
-    def title
-      title_selector = 'html > head > title'
-      using_wait_time(0) { page.find(title_selector).text if page.has_selector?(title_selector) }
-    end
-
     private
 
     def find_first *find_args
