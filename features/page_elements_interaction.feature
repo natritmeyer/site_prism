@@ -12,3 +12,6 @@ Feature: Interaction with groups of elements
     When I navigate to the home page
     Then I can see individual people in the people list
 
+  Scenario: Page with no elements
+    When I navigate to the home page
+    Then the page does not have elements

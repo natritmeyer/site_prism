@@ -54,3 +54,6 @@ Feature: Page Sections
     When I navigate to the section experiments page
 		Then I can get direct access to a page through a child section
 
+  Scenario: Page with no element
+    When I navigate to the home page
+    Then the page does not have section

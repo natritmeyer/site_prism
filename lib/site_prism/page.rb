@@ -57,6 +57,10 @@ module SitePrism
     def element_exists? *find_args
       has_selector? *find_args
     end
+
+    def element_does_not_exist? *find_args
+      has_no_selector? *find_args
+    end
   end
 end
 
