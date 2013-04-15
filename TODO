@@ -4,4 +4,4 @@ anonymous sections
 Capybara 2.1 compatibility
   - #find options
   - iframe stuff
-
+Add has_no_<element>? to README.md
