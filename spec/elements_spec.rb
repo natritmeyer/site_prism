@@ -13,7 +13,7 @@ describe SitePrism::Page do
     page.should respond_to :has_bobs?
   end
 
-  it "elements method hould generate method to return the elements" do
+  it "elements method should generate method to return the elements" do
     class PageWithElements < SitePrism::Page
       elements :bobs, 'a.b c.d'
     end
