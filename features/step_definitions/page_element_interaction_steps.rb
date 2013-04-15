@@ -6,6 +6,16 @@ Then /^the page has no title$/ do
   @test_site.no_title.title.should == ""
 end
 
+Then /^the page does not have element$/ do
+  @test_site.home.has_no_nonexistent_element?
+  @test_site.home.should have_no_nonexistent_element
+end
+
+Then /^the page does not have elements$/ do
+  @test_site.home.has_no_nonexistent_elements?
+  @test_site.home.should have_no_nonexistent_elements
+end
+
 Then /^I can see the welcome header$/ do
   @test_site.home.should have_welcome_header
   @test_site.home.welcome_header.text.should == "Welcome"

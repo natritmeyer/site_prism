@@ -38,6 +38,7 @@ module SitePrism::ElementContainer
   def iframe(iframe_name, iframe_page_class, iframe_id)
     add_to_mapped_items iframe_name
     create_existence_checker iframe_name, iframe_id
+    create_nonexistence_checker iframe_name, iframe_id
     create_waiter iframe_name, iframe_id
     define_method iframe_name do |&block|
       within_frame iframe_id.split("#").last do
@@ -69,6 +70,7 @@ module SitePrism::ElementContainer
 
   def add_helper_methods(name, *find_args)
     create_existence_checker name, *find_args
+    create_nonexistence_checker name, *find_args
     create_waiter name, *find_args
     create_visibility_waiter name, *find_args
     create_invisibility_waiter name, *find_args
@@ -88,6 +90,17 @@ module SitePrism::ElementContainer
       define_method method_name do
         Capybara.using_wait_time 0 do
           element_exists? *find_args
+        end
+      end
+    end
+  end
+
+  def create_nonexistence_checker(element_name, *find_args)
+    method_name = "has_no_#{element_name.to_s}?"
+    create_helper_method method_name, *find_args do
+      define_method method_name do
+        Capybara.using_wait_time 0 do
+          element_does_not_exist? *find_args
         end
       end
     end

@@ -21,6 +21,14 @@ describe SitePrism::Page do
     page.should respond_to :bob
   end
 
+  it "element method without css should generate existence check method" do
+    class PageWithElement < SitePrism::Page
+      element :thing, 'input#nonexistent'
+    end
+    page = PageWithElement.new
+    page.should respond_to :has_no_thing?
+  end
+
   it "should be able to wait for an element" do
     class PageWithElement < SitePrism::Page
       element :some_slow_element, 'a.slow'

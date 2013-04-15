@@ -3,6 +3,11 @@ Then /^I can see elements in the section$/ do
   @test_site.home.people.title.text.should == "People"
 end
 
+Then /^the page does not have section$/ do
+  @test_site.home.has_no_nonexistent_section?
+  @test_site.home.should have_no_nonexistent_section
+end
+
 Then /^that section is there too$/ do
   @test_site.page_with_people.should have_people_list
   @test_site.page_with_people.people_list.title.text.should == "People"

@@ -11,19 +11,22 @@ class TestHomePage < SitePrism::Page
   element :invisible_element, 'input.invisible'
   element :shy_element, 'input#will_become_visible'
   element :retiring_element, 'input#will_become_invisible'
-  element :nonexistent_element, 'input#nonexistent'
   element :remove_container_with_element_btn, 'input#remove_container_with_element'
 
-  #element groups
+  #elements groups
   elements :lots_of_links, :xpath, '//td//a'
+  elements :nonexistent_elements, 'input#nonexistent'
 
   #elements that should not exist
   element :squirrel, 'squirrel.nutz'
   element :other_thingy, 'other.thingy'
+  element :nonexistent_element, 'input#nonexistent'
 
   #sections
   section :people, People, '.people'
   section :container_with_element, ContainerWithElement, '#container_with_element'
+  section :nonexistent_section, NoElementWithinSection, 'input#nonexistent'
+  sections :nonexistent_section, NoElementWithinSection, 'input#nonexistent'
 
   #iframes
   iframe :my_iframe, MyIframe, '#the_iframe'
