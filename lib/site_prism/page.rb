@@ -47,7 +47,7 @@ module SitePrism
     private
 
     def find_first *find_args
-      first *find_args
+      find *find_args
     end
 
     def find_all *find_args

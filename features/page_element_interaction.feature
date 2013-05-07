@@ -78,5 +78,5 @@ Feature: Page element interaction
   Scenario: Wait for invisibility of an element embedded into a section
     When I navigate to the home page
     And I wait for invisibility of an element embedded into a section which is removed
-    Then I do not receive an error when a section with the element I am waiting for is removed
+    Then I receive an error when a section with the element I am waiting for is removed
 
