@@ -29,6 +29,10 @@ class SearchResults < SitePrism::Page
 
   section :menu, MenuSection, "#gbx3"
   sections :search_results, SearchResultSection, "#results li"
+  
+  def search_result_links
+    search_results.map {|sr| sr.title['href']}
+  end
 end
 
 # define sections used on multiple pages or multiple times on one page
@@ -75,7 +79,7 @@ Then /^the search results page contains 10 individual search results$/ do
 end
 
 Then /^the search results contain a link to the wikipedia sausages page$/ do
-  @results_page.search_results.map {|sr| sr.title['href']}.should include "http://en.wikipedia.org/wiki/Sausage"
+  @results_page.search_result_links.should include "http://en.wikipedia.org/wiki/Sausage"
 end
 ```
 
