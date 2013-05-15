@@ -35,13 +35,16 @@ module SitePrism::ElementContainer
     end
   end
 
-  def iframe(iframe_name, iframe_page_class, iframe_id)
+  def iframe(iframe_name, iframe_page_class, selector)
+    element_selector = deduce_iframe_element_selector(selector)
+    scope_selector = deduce_iframe_scope_selector(selector)
+
     add_to_mapped_items iframe_name
-    create_existence_checker iframe_name, iframe_id
-    create_nonexistence_checker iframe_name, iframe_id
-    create_waiter iframe_name, iframe_id
+    create_existence_checker iframe_name, element_selector
+    create_nonexistence_checker iframe_name, element_selector
+    create_waiter iframe_name, element_selector
     define_method iframe_name do |&block|
-      within_frame iframe_id.split("#").last do
+      within_frame scope_selector do
         block.call iframe_page_class.new
       end
     end
@@ -147,6 +150,14 @@ module SitePrism::ElementContainer
     define_method method_name do
       raise SitePrism::NoSelectorForElement.new("#{self.class.name} => :#{method_name} needs a selector")
     end
+  end
+
+  def deduce_iframe_scope_selector(selector)
+    selector.is_a?(Integer) ? selector : selector.split("#").last
+  end
+
+  def deduce_iframe_element_selector(selector)
+    selector.is_a?(Integer) ?  "iframe:nth-of-type(#{selector + 1})" : selector
   end
 end
 

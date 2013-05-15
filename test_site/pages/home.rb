@@ -30,5 +30,6 @@ class TestHomePage < SitePrism::Page
 
   #iframes
   iframe :my_iframe, MyIframe, '#the_iframe'
+  iframe :index_iframe, MyIframe, 0
 end
 
