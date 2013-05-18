@@ -70,3 +70,7 @@ Then /^I can get direct access to a page through a child section$/ do
   page.parent_section.child_section.parent_page.should eq(page)
 end
 
+Then /^the page contains a section with no element$/ do
+  @test_site.home.people.should have_no_dinosaur
+end
+
