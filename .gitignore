@@ -4,4 +4,4 @@ doc/*
 notes.txt
 Gemfile.lock
 coverage
-
+.bundle
