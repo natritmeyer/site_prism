@@ -41,7 +41,6 @@ describe SitePrism::Section do
 
   it "should respond to javascript methods" do
     class JsSection < SitePrism::Section
-
     end
 
     page = PageWithSection.new

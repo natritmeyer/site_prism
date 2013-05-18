@@ -76,6 +76,5 @@ describe SitePrism::Page do
     page = PageWithAFewElements.new
     page.should respond_to :all_there?
   end
-
 end
 

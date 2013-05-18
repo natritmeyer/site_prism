@@ -12,3 +12,4 @@ group :development do
   gem 'simplecov'
   gem 'reek'
 end
+

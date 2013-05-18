@@ -45,3 +45,4 @@ Capybara.register_driver :selenium do |app|
   profile["browser.cache.memory.enable"] = false
   Capybara::Selenium::Driver.new(app, :browser => :firefox, profile: profile)
 end
+

@@ -69,3 +69,4 @@ Then /^I can get direct access to a page through a child section$/ do
   page = @test_site.section_experiments
   page.parent_section.child_section.parent_page.should eq(page)
 end
+

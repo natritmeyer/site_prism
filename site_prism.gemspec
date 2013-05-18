@@ -16,3 +16,4 @@ Gem::Specification.new do |s|
   s.add_dependency 'rspec', '~> 2.0'
   s.add_dependency 'addressable', '~> 2.3.3'
 end
+

@@ -117,3 +117,4 @@ end
 Then /^I receive an error when a section with the element I am waiting for is removed$/ do
   expect {@test_site.home.container_with_element.wait_until_embedded_element_invisible}.to raise_error Capybara::ElementNotFound
 end
+
