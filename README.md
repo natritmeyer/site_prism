@@ -418,6 +418,26 @@ Then /^the search field exists$/ do
 end
 ```
 
+#### Testing that an element does not exist
+
+To test that an element does not exist on the page, it is not possible to just call
+`#should_not have_search_field`. SitePrism supplies the `#has_no_<element>?` method
+that should be used to test for non-existence. Using the above example:
+
+```ruby
+@home = Home.new
+@home.load
+@home.has_no_search_field? #=> returns true if it doesn't exist, false if it does
+```
+
+...which makes for nice test code:
+
+```ruby
+Then /^the search field exists$/ do
+  @home.should have_no_search_field #NB: NOT => @home.should_not_ have_search_field
+end
+```
+
 #### Waiting for an element to exist on a page
 
 Another method added by calling `element` is the `wait_for_<element_name>` method.
@@ -503,6 +523,7 @@ end
 ```ruby
 @home.search_field
 @home.has_search_field?
+@home.has_no_search_field?
 @home.wait_for_search_field
 @home.wait_for_search_field(10)
 @home.wait_until_search_field_visible

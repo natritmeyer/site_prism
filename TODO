@@ -2,5 +2,4 @@ SitePrism::Page#wait_until_displayed
 anonymous sections
 Capybara 2.1 compatibility
   - iframe stuff
-Add has_no_<element>? to README.md
 
