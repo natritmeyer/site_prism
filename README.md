@@ -101,7 +101,6 @@ If you are using cucumber, here's what needs requiring:
 
 ```ruby
 require 'capybara'
-require 'capybara/dsl'
 require 'capybara/cucumber'
 require 'selenium-webdriver'
 require 'site_prism'
@@ -113,7 +112,6 @@ If you're using rspec instead, here's what needs requiring:
 
 ```ruby
 require 'capybara'
-require 'capybara/dsl'
 require 'capybara/rspec'
 require 'selenium-webdriver'
 require 'site_prism'
