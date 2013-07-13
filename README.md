@@ -1246,6 +1246,13 @@ When /^I log in$/ do
 end
 ```
 
+## Using SitePrism with VCR
+
+There's a SitePrism plugin called `site_prism.vcr` that lets you use
+SitePrism with the VCR gem. Check it out here:
+
+* https://github.com/nestd/site_prism.vcr
+
 # Epilogue
 
 So, we've seen how to use SitePrism to put together page objects made up
