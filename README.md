@@ -179,7 +179,7 @@ SitePrism uses the Addressable gem and therefore allows for parameterized URLs. 
 a simple example:
 
 ```ruby
-class UserProfile < SitePris::Page
+class UserProfile < SitePrism::Page
   set_url "/users{/username}"
 end
 ```
@@ -187,7 +187,7 @@ end
 ...and a more complex example:
 
 ```ruby
-class Search < SitePris::Page
+class Search < SitePrism::Page
   set_url "/search{?query*}"
 end
 ```
@@ -209,7 +209,7 @@ to the page using `#load`:
 The `#load` method takes parameters and will apply them to the URL. Using the examples above:
 
 ```ruby
-class UserProfile < SitePris::Page
+class UserProfile < SitePrism::Page
   set_url "/users{/username}"
 end
 
@@ -221,7 +221,7 @@ end
 ...and...
 
 ```ruby
-class Search < SitePris::Page
+class Search < SitePrism::Page
   set_url "/search{?query*}"
 end
 
