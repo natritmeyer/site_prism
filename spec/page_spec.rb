@@ -82,6 +82,14 @@ describe SitePrism::Page do
     expect { page.displayed? }.to_not raise_error SitePrism::NoUrlMatcherForPage
   end
 
+  it "should wait for the page url if wait_until_displayed is called" do
+    class PageWithUrlMatcher < SitePrism::Page
+      set_url_matcher /bob/
+    end
+    page = PageWithUrlMatcher.new
+    assert page.wait_until_displayed
+  end
+
   it "should expose the page title" do
     SitePrism::Page.new.should respond_to :title
   end
