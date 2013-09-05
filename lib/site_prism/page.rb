@@ -17,7 +17,7 @@ module SitePrism
         Waiter.wait_until_true(seconds) {
           !(page.current_url =~ url_matcher).nil?
         }
-      rescue TimeoutException=>e
+      rescue SitePrism::TimeoutException=>e
         return false
       end
     end

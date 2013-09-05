@@ -11,6 +11,10 @@ class TestSite
     TestDynamicPage.new
   end
 
+  def redirect_page
+    RedirectPage.new
+  end
+
   def page_with_people
     TestPageWithPeople.new
   end
