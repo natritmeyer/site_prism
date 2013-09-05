@@ -11,7 +11,7 @@ module SitePrism
       visit expanded_url
     end
 
-    def displayed?(seconds = Capybara.default_wait_time)
+    def displayed?(seconds = Waiter.default_wait_time)
       raise SitePrism::NoUrlMatcherForPage if url_matcher.nil?
       begin
         Waiter.wait_until_true(seconds) {

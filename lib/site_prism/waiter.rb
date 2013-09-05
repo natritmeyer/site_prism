@@ -8,4 +8,12 @@ module SitePrism::Waiter
     }
     raise TimeoutException.new, "Timed out while waiting for block to return true."
   end
+
+  def self.default_wait_time
+    @@default_wait_time
+  end
+
+  private
+
+  @@default_wait_time = Capybara.default_wait_time
 end
