@@ -2,7 +2,6 @@ module SitePrism
   class Page
     include Capybara::DSL
     include ElementChecker
-    include Waiter
     extend ElementContainer
 
     def load(expansion = {})
