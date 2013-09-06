@@ -91,7 +91,7 @@ module SitePrism::ElementContainer
     method_name = "has_#{element_name.to_s}?"
     create_helper_method method_name, *find_args do
       define_method method_name do
-        wait_time = SitePrism.use_implicit_waits ? SitePrism::Waiter.default_wait_time : 0
+        wait_time = SitePrism.use_implicit_waits ? Capybara.default_wait_time : 0
         Capybara.using_wait_time wait_time do
           element_exists? *find_args
         end
@@ -103,7 +103,7 @@ module SitePrism::ElementContainer
     method_name = "has_no_#{element_name.to_s}?"
     create_helper_method method_name, *find_args do
       define_method method_name do
-        wait_time = SitePrism.use_implicit_waits ? SitePrism::Waiter.default_wait_time : 0
+        wait_time = SitePrism.use_implicit_waits ? Capybara.default_wait_time : 0
         Capybara.using_wait_time wait_time do
           element_does_not_exist? *find_args
         end
