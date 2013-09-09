@@ -1185,7 +1185,7 @@ the page has not finished loading the element(s):
 
 The above query can be rewritten to utilize the Capybara :count option when querying for
 the collection, which in turn causes Capybara to expect some number of results to be returned.
-The assertions below will succeed, provided the elements appear on the page within the timeout:
+The method calls below will succeed, provided the elements appear on the page within the timeout:
 
 ```ruby
 @results_page = SearchResults.new
