@@ -1153,14 +1153,14 @@ end
 @results_page.wait_for_search_results(10) #=> waits for 10 seconds instead of the default capybara timeout
 ```
 
-## Using Capybara Options for Locating Elements and Sections
+## Using Capybara Query Options
 
 When querying an element, section or a collection of elements or sections, you may
 supply Capybara query options as arguments to the element and section methods in order
 to refine the results of the query and enable Capybara to wait for all of the conditions
 necessary to properly fulfill your request.
 
-Given the following example:
+Given the following sample page and elements:
 
 ```ruby
 class SearchResultSection < SitePrism::Section
@@ -1174,18 +1174,18 @@ class SearchResults < SitePrism::Page
 end
 ```
 
-This old method of testing for some number of results may fail if all of the search results
-have not finished loading before the following call is performed:
+Asserting the attributes of an element or section returned by any method may fail if
+the page has not finished loading the element(s):
 
 ```ruby
 @results_page = SearchResults.new
 # ...
-@results_page.search_results.size.should == 25
+@results_page.search_results.size.should == 25 # This may fail!
 ```
 
 The above query can be rewritten to utilize the Capybara :count option when querying for
 the collection, which in turn causes Capybara to expect some number of results to be returned.
-The calls below will now succeed, provided the elements appear on the page within the timeout period:
+The assertions below will succeed, provided the elements appear on the page within the timeout:
 
 ```ruby
 @results_page = SearchResults.new
@@ -1205,6 +1205,9 @@ Then /^there are search results on the page$/ do
   @results.page.should have_search_results :count => 25
 end
 ```
+
+This is supported for all of the Capybara options including, but not limited to :count, :text,
+:wait, etc.
 
 ### Methods Supporting Capybara Options
 
