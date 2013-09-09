@@ -10,7 +10,7 @@ end
 
 Then /^I can see elements in an iframe$/ do
   @test_site.home.my_iframe do |f|
-    f.some_text.text.should == "Some text in an iframe"
+    f.should have_some_text :text => "Some text in an iframe"
   end
 end
 
