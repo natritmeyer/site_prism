@@ -131,6 +131,20 @@ SitePrism.configure do |config|
 end
 ```
 
+This enables you to replace this:
+
+```ruby
+# Use wait_until methods to wait for an element if implicit waits are not enabled.
+@search_page.wait_for_search_results
+```
+
+with this:
+
+```ruby
+# The following method call will wait until the element is found on the page if implicit waits are enabled.
+@search_page.search_results
+```
+
 ## Introduction to the Page Object Model
 
 The Page Object Model is a test automation pattern that aims to create
