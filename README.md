@@ -134,8 +134,7 @@ end
 This enables you to replace this:
 
 ```ruby
-# This method call will not wait for the element to be found on the page and fails immediately
-#   if the element is not found:
+# This fails immediately if the element is not found on the page and implicit waits are disabled:
 @search_page.search_results
 
 # wait_until methods always wait for the element to be present on the page:
@@ -145,9 +144,8 @@ This enables you to replace this:
 with this:
 
 ```ruby
-# With implicit waits enabled, use of wait_until methods is no longer required.
-# Element & section methods will now wait for the element to be found on the page
-#   until the Capybara default timeout value is reached.
+# With implicit waits enabled, use of wait_until methods is no longer required. This method will
+# wait for the element to be found on the page until the Capybara default timeout is reached.
 @search_page.search_results
 ```
 
