@@ -134,11 +134,11 @@ end
 This enables you to replace this:
 
 ```ruby
-# This fails immediately if the element is not found on the page and implicit waits are disabled:
-@search_page.search_results
-
 # wait_until methods always wait for the element to be present on the page:
 @search_page.wait_for_search_results
+
+# Element and section methods do not:
+@search_page.search_results
 ```
 
 with this:
