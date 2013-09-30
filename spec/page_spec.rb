@@ -11,10 +11,10 @@ describe SitePrism::Page do
 
   it "should be able to set a url against it" do
     class PageToSetUrlAgainst < SitePrism::Page
-      set_url "bob"
+      set_url "/bob"
     end
     page = PageToSetUrlAgainst.new
-    page.url.should == "bob"
+    page.url.should == "/bob"
   end
 
   it "url should be nil by default" do
@@ -27,15 +27,15 @@ describe SitePrism::Page do
   it "should not allow loading if the url hasn't been set" do
     class MyPageWithNoUrl < SitePrism::Page; end
     page_with_no_url = MyPageWithNoUrl.new
-    expect { page_with_no_url.load }.to raise_error SitePrism::NoUrlForPage
+    expect { page_with_no_url.load }.to raise_error
   end
 
   it "should allow loading if the url has been set" do
     class MyPageWithUrl < SitePrism::Page
-      set_url "bob"
+      set_url "/bob"
     end
     page_with_url = MyPageWithUrl.new
-    expect { page_with_url.load }.to_not raise_error SitePrism::NoUrlForPage
+    expect { page_with_url.load }.to_not raise_error
   end
 
   it "should allow expansions if the url has them" do
@@ -43,7 +43,7 @@ describe SitePrism::Page do
       set_url "/users{/username}{?query*}"
     end
     page_with_url = MyPageWithUriTemplate.new
-    expect { page_with_url.load(username: 'foobar') }.to_not raise_error SitePrism::NoUrlForPage
+    expect { page_with_url.load(username: 'foobar') }.to_not raise_error
 
     page_with_url.url(username: 'foobar', query: {'recent_posts' => 'true'}).should == '/users/foobar?recent_posts=true'
     page_with_url.url(username: 'foobar').should == '/users/foobar'
@@ -79,7 +79,7 @@ describe SitePrism::Page do
       set_url_matcher /bob/
     end
     page = PageWithUrlMatcher.new
-    expect { page.displayed? }.to_not raise_error SitePrism::NoUrlMatcherForPage
+    expect { page.displayed? }.to_not raise_error
   end
 
   it "should expose the page title" do
