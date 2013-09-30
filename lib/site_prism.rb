@@ -1,8 +1,9 @@
-require 'addressable/template'
-require 'site_prism/version'
 require 'site_prism/exceptions'
-require 'site_prism/element_container'
-require 'site_prism/element_checker'
-require 'site_prism/page'
-require 'site_prism/section'
 
+module SitePrism
+  autoload :Addressable,  'addressable/template'
+  autoload :ElementContainer,  'site_prism/element_container'
+  autoload :ElementChecker,  'site_prism/element_checker'
+  autoload :Page,  'site_prism/page'
+  autoload :Section,  'site_prism/section'
+end
