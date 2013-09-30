@@ -911,7 +911,7 @@ end
 ```ruby
 @home = Home.new
 #...
-#home.has_menu? #=> returns true or false
+@home.has_menu? #=> returns true or false
 ```
 
 Again, this allows pretty test code:
