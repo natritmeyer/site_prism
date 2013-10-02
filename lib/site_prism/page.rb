@@ -22,7 +22,7 @@ module SitePrism
     end
 
     def self.set_url page_url
-      @url = page_url
+      @url = page_url.to_s
     end
 
     def self.set_url_matcher page_url_matcher
