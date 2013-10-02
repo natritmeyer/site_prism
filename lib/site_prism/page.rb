@@ -13,9 +13,9 @@ module SitePrism
     def displayed?(seconds = Waiter.default_wait_time)
       raise SitePrism::NoUrlMatcherForPage if url_matcher.nil?
       begin
-        Waiter.wait_until_true(seconds) {
+        Waiter.wait_until_true(seconds) do
           !(page.current_url =~ url_matcher).nil?
-        }
+        end
       rescue SitePrism::TimeoutException=>e
         return false
       end
