@@ -117,6 +117,38 @@ require 'selenium-webdriver'
 require 'site_prism'
 ```
 
+### Using Capybara Implicit Waits
+
+By default, SitePrism element and section methods do not utilize
+Capybara's implicit wait methodology and will return immediately if
+the element or section requested is not found on the page.  Add the
+following code to your spec_helper file to enable Capybara's implicit
+wait methodology to pass through:
+
+```ruby
+SitePrism.configure do |config|
+  config.use_implicit_waits = true
+end
+```
+
+This enables you to replace this:
+
+```ruby
+# wait_until methods always wait for the element to be present on the page:
+@search_page.wait_for_search_results
+
+# Element and section methods do not:
+@search_page.search_results
+```
+
+with this:
+
+```ruby
+# With implicit waits enabled, use of wait_until methods is no longer required. This method will
+# wait for the element to be found on the page until the Capybara default timeout is reached.
+@search_page.search_results
+```
+
 ## Introduction to the Page Object Model
 
 The Page Object Model is a test automation pattern that aims to create
