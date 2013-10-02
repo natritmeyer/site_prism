@@ -10,9 +10,15 @@ module SitePrism
       visit expanded_url
     end
 
-    def displayed?
+    def displayed?(seconds = Waiter.default_wait_time)
       raise SitePrism::NoUrlMatcherForPage if url_matcher.nil?
-      !(page.current_url =~ url_matcher).nil?
+      begin
+        Waiter.wait_until_true(seconds) {
+          !(page.current_url =~ url_matcher).nil?
+        }
+      rescue SitePrism::TimeoutException=>e
+        return false
+      end
     end
 
     def self.set_url page_url

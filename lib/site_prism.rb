@@ -8,3 +8,7 @@ module SitePrism
   autoload :Section,  'site_prism/section'
 end
 
+require 'site_prism/waiter'
+require 'site_prism/version'
+require 'site_prism/config'
+
