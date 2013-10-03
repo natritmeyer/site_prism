@@ -1230,7 +1230,7 @@ end
 class Home < SitePrism::Page
   set_url "http://www.example.com"
 
-  iframe, :login_area, Login, "#login_and_registration"
+  iframe :login_area, Login, "#login_and_registration"
 end
 
 # cucumber step that performs login
