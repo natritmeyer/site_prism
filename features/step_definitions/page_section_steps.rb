@@ -47,10 +47,12 @@ end
 
 Then /^I can run javascript against the search results$/ do
   @test_site.section_experiments.search_results.first.set_cell_value
+  @test_site.section_experiments.search_results.first.cell_value.should == "wibble"
   @test_site.section_experiments.search_results.first.cell_value.should have_content "wibble"
 end
 
 Then /^I can see individual people in the people list$/ do
+  @test_site.home.people.should have(4).individuals
   @test_site.home.people.should have(4).individuals :count => 4
   @test_site.home.people.should have_individuals :count => 4
 end
