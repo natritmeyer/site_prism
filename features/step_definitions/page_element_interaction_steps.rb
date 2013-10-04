@@ -18,6 +18,11 @@ end
 
 Then /^I can see the welcome header$/ do
   @test_site.home.should have_welcome_header
+  @test_site.home.welcome_header.text.should == "Welcome"
+end
+
+Then /^I can see the welcome header with capybara query options$/ do
+  @test_site.home.should have_welcome_header
   @test_site.home.should have_welcome_header :text => "Welcome"
   expect { @test_site.home.welcome_header :text => "Welcome" }.to_not raise_error
 end
@@ -27,6 +32,11 @@ Then /^the welcome header is not matched with invalid text$/ do
 end
 
 Then /^I can see the welcome message$/ do
+  @test_site.home.should have_welcome_message
+  @test_site.home.welcome_message.text.should == "This is the home page, there is some stuff on it"
+end
+
+Then /^I can see the welcome message with capybara query options$/ do
   @test_site.home.should have_welcome_message
   @test_site.home.should have_welcome_message :text => "This is the home page, there is some stuff on it"
 end
