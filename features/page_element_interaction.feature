@@ -26,7 +26,7 @@ Feature: Page element interaction
 
   Scenario: Get individual elements with query options
     When I navigate to the home page
-      And the welcome header is not matched with invalid text
+    Then the welcome header is not matched with invalid text
 
   Scenario: Wait for element
     When I navigate to the home page
