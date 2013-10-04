@@ -2,16 +2,16 @@ module SitePrism::ElementContainer
 
   def element(element_name, *find_args)
     build element_name, *find_args do
-      define_method element_name.to_s do
-        find_first *find_args
+      define_method element_name.to_s do | *runtime_args |
+        find_first *find_args, *runtime_args
       end
     end
   end
 
   def elements(collection_name, *find_args)
     build collection_name, *find_args do
-      define_method collection_name.to_s do
-        find_all *find_args
+      define_method collection_name.to_s do | *runtime_args |
+        find_all *find_args, *runtime_args
       end
     end
   end
@@ -19,16 +19,16 @@ module SitePrism::ElementContainer
 
   def section(section_name, section_class, *find_args)
     build section_name, *find_args do
-      define_method section_name do
-        section_class.new self, find_first(*find_args)
+      define_method section_name do | *runtime_args |
+        section_class.new self, find_first(*find_args, *runtime_args)
       end
     end
   end
 
   def sections(section_collection_name, section_class, *find_args)
     build section_collection_name, *find_args do
-      define_method section_collection_name do
-        find_all(*find_args).collect do |element|
+      define_method section_collection_name do | *runtime_args |
+        find_all(*find_args, *runtime_args).collect do |element|
           section_class.new self, element
         end
       end
@@ -90,10 +90,10 @@ module SitePrism::ElementContainer
   def create_existence_checker(element_name, *find_args)
     method_name = "has_#{element_name.to_s}?"
     create_helper_method method_name, *find_args do
-      define_method method_name do
+      define_method method_name do |*runtime_args|
         wait_time = SitePrism.use_implicit_waits ? Capybara.default_wait_time : 0
         Capybara.using_wait_time wait_time do
-          element_exists? *find_args
+          element_exists? *find_args, *runtime_args
         end
       end
     end
@@ -102,10 +102,10 @@ module SitePrism::ElementContainer
   def create_nonexistence_checker(element_name, *find_args)
     method_name = "has_no_#{element_name.to_s}?"
     create_helper_method method_name, *find_args do
-      define_method method_name do
+      define_method method_name do |*runtime_args|
         wait_time = SitePrism.use_implicit_waits ? Capybara.default_wait_time : 0
         Capybara.using_wait_time wait_time do
-          element_does_not_exist? *find_args
+          element_does_not_exist? *find_args, *runtime_args
         end
       end
     end
@@ -114,10 +114,11 @@ module SitePrism::ElementContainer
   def create_waiter(element_name, *find_args)
     method_name = "wait_for_#{element_name.to_s}"
     create_helper_method method_name, *find_args do
-      define_method method_name do |timeout = Capybara.default_wait_time|
-      Capybara.using_wait_time timeout do
-        element_exists? *find_args
-      end
+      define_method method_name do |timeout = Capybara.default_wait_time, *runtime_args|
+        timeout ||= Capybara.default_wait_time
+        Capybara.using_wait_time timeout do
+          element_exists? *find_args, *runtime_args
+        end
       end
     end
   end
@@ -125,12 +126,13 @@ module SitePrism::ElementContainer
   def create_visibility_waiter(element_name, *find_args)
     method_name = "wait_until_#{element_name.to_s}_visible"
     create_helper_method method_name, *find_args do
-      define_method method_name do |timeout = Capybara.default_wait_time|
-      Timeout.timeout timeout, SitePrism::TimeOutWaitingForElementVisibility do
-        Capybara.using_wait_time 0 do
-          sleep 0.05 while not element_exists? *find_args, visible: true
+      define_method method_name do |timeout = Capybara.default_wait_time, *runtime_args|
+        timeout ||= Capybara.default_wait_time
+        Timeout.timeout timeout, SitePrism::TimeOutWaitingForElementVisibility do
+          Capybara.using_wait_time 0 do
+            sleep 0.05 while not element_exists? *find_args, *runtime_args, visible: true
+          end
         end
-      end
       end
     end
   end
@@ -138,12 +140,13 @@ module SitePrism::ElementContainer
   def create_invisibility_waiter(element_name, *find_args)
     method_name = "wait_until_#{element_name.to_s}_invisible"
     create_helper_method method_name, *find_args do
-      define_method method_name do |timeout = Capybara.default_wait_time|
-      Timeout.timeout timeout, SitePrism::TimeOutWaitingForElementInvisibility do
-        Capybara.using_wait_time 0 do
-          sleep 0.05 while element_exists? *find_args, visible: true
+      define_method method_name do |timeout = Capybara.default_wait_time, *runtime_args|
+        timeout ||= Capybara.default_wait_time
+        Timeout.timeout timeout, SitePrism::TimeOutWaitingForElementInvisibility do
+          Capybara.using_wait_time 0 do
+            sleep 0.05 while element_exists? *find_args, *runtime_args, visible: true
+          end
         end
-      end
       end
     end
   end

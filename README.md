@@ -1153,6 +1153,75 @@ end
 @results_page.wait_for_search_results(10) #=> waits for 10 seconds instead of the default capybara timeout
 ```
 
+## Using Capybara Query Options
+
+When querying an element, section or a collection of elements or sections, you may
+supply Capybara query options as arguments to the element and section methods in order
+to refine the results of the query and enable Capybara to wait for all of the conditions
+necessary to properly fulfill your request.
+
+Given the following sample page and elements:
+
+```ruby
+class SearchResultSection < SitePrism::Section
+  element :title, "a.title"
+  element :blurb, "span.result-decription"
+end
+
+class SearchResults < SitePrism::Page
+  element :footer, ".footer"
+  sections :search_results, SearchResultSection, "#results li"
+end
+```
+
+Asserting the attributes of an element or section returned by any method may fail if
+the page has not finished loading the element(s):
+
+```ruby
+@results_page = SearchResults.new
+# ...
+@results_page.search_results.size.should == 25 # This may fail!
+```
+
+The above query can be rewritten to utilize the Capybara :count option when querying for
+the collection, which in turn causes Capybara to expect some number of results to be returned.
+The method calls below will succeed, provided the elements appear on the page within the timeout:
+
+```ruby
+@results_page = SearchResults.new
+# ...
+@results_page.has_search_results? :count => 25
+# OR
+@results_page.search_results :count => 25
+# OR
+@results_page.wait_for_search_results nil, :count => 25 # wait_for_<element_name> expects a timeout value to be passed as the first parameter or nil to use the default timeout value.
+```
+
+Now we can write pretty, non-failing tests without hard coding these options
+into our page and section classes:
+
+```ruby
+Then /^there are search results on the page$/ do
+  @results.page.should have_search_results :count => 25
+end
+```
+
+This is supported for all of the Capybara options including, but not limited to :count, :text,
+:wait, etc.
+
+### Methods Supporting Capybara Options
+
+The following element methods allow Capybara options to be passed as arguments to the method:
+
+```ruby
+@results_page.<element_or_section_name> :text => "Welcome!"
+@results_page.has_<element_or_section_name>? :count => 25
+@results_page.has_no_<element_or_section_name>? :text => "Logout"
+@results_page.wait_for_<element_or_section_name> :count => 25
+@results_page.wait_until_<element_or_section_name>_visible :text => "Some ajaxy text appears!"
+@results_page.wait_until_<element_or_section_name>_invisible :text => "Some ajaxy text disappears!"
+```
+
 ## IFrames
 
 SitePrism allows you to interact with iframes. An iframe is declared as

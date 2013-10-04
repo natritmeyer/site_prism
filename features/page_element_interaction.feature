@@ -24,6 +24,10 @@ Feature: Page element interaction
     But I cannot see the missing squirrel
     And I cannot see the missing other thingy
 
+  Scenario: Get individual elements with query options
+    When I navigate to the home page
+      And the welcome header is not matched with invalid text
+
   Scenario: Wait for element
     When I navigate to the home page
     Then when I wait for the element that takes a while to appear
