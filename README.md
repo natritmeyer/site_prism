@@ -1207,7 +1207,15 @@ end
 ```
 
 This is supported for all of the Capybara options including, but not limited to :count, :text,
-:wait, etc.
+:wait, etc. This can also be used when defining page objects. Eg:
+
+```ruby
+class SearchResults < SitePrism::Page
+    element :footer, ".footer"
+    element :view_more, "li", text: "View More"
+    sections :search_results, SearchResultSection, "#results li"
+end
+```
 
 ### Methods Supporting Capybara Options
 
