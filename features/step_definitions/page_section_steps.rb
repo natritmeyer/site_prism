@@ -1,5 +1,6 @@
 Then /^I can see elements in the section$/ do
   @test_site.home.should have_people
+  @test_site.home.people.title.text.should == "People"
   @test_site.home.people.should have_title :text => "People"
 end
 
@@ -10,22 +11,25 @@ end
 
 Then /^that section is there too$/ do
   @test_site.page_with_people.should have_people_list
+  @test_site.page_with_people.people_list.title.text.should == "People"
   @test_site.page_with_people.people_list.should have_title :text => "People"
 end
 
 Then /^I can see a section within a section$/ do
   @test_site.section_experiments.should have_parent_section
   @test_site.section_experiments.parent_section.should have_child_section
+  @test_site.section_experiments.parent_section.child_section.nice_label.text.should == "something"
   @test_site.section_experiments.parent_section.child_section.should have_nice_label :text => "something"
 end
 
 Then /^I can see a collection of sections$/ do
   @test_site.section_experiments.should have_search_results
   @test_site.section_experiments.search_results.each_with_index do |search_result, i|
-    search_result.title.should have_content "title #{i}"
-    search_result.link.should have_content "link #{i}"
-    search_result.description.should have_content "description #{i}"
+    search_result.title.text.should == "title #{i}"
+    search_result.link.text.should == "link #{i}"
+    search_result.description.text.should == "description #{i}"
   end
+  @test_site.section_experiments.search_results.size.should == 4
   @test_site.section_experiments.should have(4).search_results(:count => 4)
 end
 
