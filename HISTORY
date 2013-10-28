@@ -1,6 +1,8 @@
 2.5
 - added ability to select iframe by index - thanks to Mike Kelly (@mikekelly)
 - site_prism now does lazy loading - thanks to @mrsutter
+- added config block and improved capybara integration - thanks to @tmertens (and to @LukasMac for testing it)
+- changed #set_url to convert its input to a string - thanks to Jared Fraser (@modsognir)
 
 2.4
 - capybara dependency upgraded to 2.1
