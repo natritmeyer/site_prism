@@ -14,7 +14,7 @@ describe SitePrism::Page do
   end
 
   it "should return true if block returns true" do
-    expect { SitePrism::Waiter.wait_until_true { true } }.to be_true
+    expect(SitePrism::Waiter.wait_until_true { true }).to be true
   end
 
   it "should allow custom timeouts" do
