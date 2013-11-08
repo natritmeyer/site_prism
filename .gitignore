@@ -5,3 +5,5 @@ notes.txt
 Gemfile.lock
 coverage
 .bundle
+.ruby-version
+.ruby-gemset
