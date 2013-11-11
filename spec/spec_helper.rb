@@ -13,6 +13,12 @@ require 'sections/container_with_element'
 require 'pages/my_iframe'
 require 'pages/home'
 
+RSpec.configure do |config|
+  config.expect_with :rspec do |c|
+    c.syntax = [:should, :expect]
+  end
+end
+
 class MyTest
   def response
     [200, {'Content-Length' => '9'}, ['MyTestApp']]
