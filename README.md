@@ -1364,7 +1364,7 @@ with this:
 There's a SitePrism plugin called `site_prism.vcr` that lets you use
 SitePrism with the VCR gem. Check it out here:
 
-* https://github.com/nestd/site_prism.vcr
+* https://github.com/dnesteryuk/site_prism.vcr
 
 # Epilogue
 
