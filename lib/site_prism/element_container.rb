@@ -17,7 +17,9 @@ module SitePrism::ElementContainer
   end
   alias :collection :elements
 
-  def section(section_name, section_class, *find_args)
+  def section(section_name, *args, &block)
+    section_class, find_args = extract_section_options args, &block
+
     build section_name, *find_args do
       define_method section_name do | *runtime_args |
         section_class.new self, find_first(*find_args, *runtime_args)
@@ -25,7 +27,9 @@ module SitePrism::ElementContainer
     end
   end
 
-  def sections(section_collection_name, section_class, *find_args)
+  def sections(section_collection_name, *args, &block)
+    section_class, find_args = extract_section_options args, &block
+
     build section_collection_name, *find_args do
       define_method section_collection_name do |*runtime_args|
         find_all(*find_args, *runtime_args).collect do |element|
@@ -160,6 +164,20 @@ module SitePrism::ElementContainer
 
   def deduce_iframe_element_selector(selector)
     selector.is_a?(Integer) ?  "iframe:nth-of-type(#{selector + 1})" : selector
+  end
+
+  def extract_section_options(args, &block)
+    if args.first.is_a? Class
+      section_class = args.shift
+    elsif block_given?
+      section_class = Class.new SitePrism::Section do |sc|
+        block.yield sc
+      end
+    else
+      raise ArgumentError.new "You should provide section class either as a block, or as the second argument"
+    end
+
+    return section_class, args
   end
 end
 

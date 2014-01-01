@@ -1029,6 +1029,24 @@ When /^I enter my name into the home page's registration form$/ do
 end
 ```
 
+#### Anonymous Sections
+
+If you want to use a section more as a namespace for elements and not
+planning on re-using it, you may find  define an anonymous section using
+a block:
+
+```ruby
+class Home < SitePrism::Page
+  section :menu, '.menu' do |s|
+    s.element :title, '.title'
+    s.elements :items, 'a'
+  end
+end
+```
+
+This code will create an anonymous class inherited from SitePrism::Section
+and yield it to the block.
+
 ### Section Collections
 
 An individual section represents a discrete section of a page, but often
@@ -1090,6 +1108,20 @@ element. So if the css selector finds 3 `li` elements, calling
 `search_results` will return an array containing 3 instances of
 `SearchResultSection`, each with one of the `li` elements as it's root
 element.
+
+#### Anonymous Section Collections
+
+You can define collections of anonymous sections the same way you would
+define a single anonymous section:
+
+```ruby
+class SearchResults < SitePrism::Page
+  sections :search_results, SearchResultSection, "#results li" do |s|
+    s.element :title, "a.title"
+    s.element :blurb, "span.result-decription"
+  end
+end
+```
 
 #### Testing for existence of Sections
 

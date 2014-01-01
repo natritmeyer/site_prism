@@ -33,6 +33,20 @@ Then /^I can see a collection of sections$/ do
   @test_site.section_experiments.should have(4).search_results(:count => 4)
 end
 
+Then /^I can see an anonymous section$/ do
+  @test_site.section_experiments.should have_anonymous_section
+  @test_site.section_experiments.anonymous_section.title.text.should == "Anonymous Section"
+end
+
+Then /^I can see a collection of anonymous sections$/ do
+  @test_site.section_experiments.should have_anonymous_section
+  @test_site.section_experiments.anonymous_sections.each_with_index do |section, i|
+    section.title.text.should == "Section #{i}"
+  end
+  @test_site.section_experiments.anonymous_sections.size.should == 2
+  @test_site.section_experiments.should have(2).anonymous_sections(:count => 2)
+end
+
 Then /^the section is visible$/ do
   @test_site.home.people.should be_visible
 end
