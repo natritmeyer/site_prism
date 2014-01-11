@@ -1032,20 +1032,20 @@ end
 #### Anonymous Sections
 
 If you want to use a section more as a namespace for elements and not
-planning on re-using it, you may find  define an anonymous section using
-a block:
+planning on re-using it, you may find it more convenient to define
+an anonymous section using a block:
 
 ```ruby
 class Home < SitePrism::Page
-  section :menu, '.menu' do |s|
-    s.element :title, '.title'
-    s.elements :items, 'a'
+  section :menu, '.menu' do
+    element :title, '.title'
+    elements :items, 'a'
   end
 end
 ```
 
 This code will create an anonymous class inherited from SitePrism::Section
-and yield it to the block.
+and then evaluate the block in a context of that class.
 
 ### Section Collections
 
@@ -1116,9 +1116,9 @@ define a single anonymous section:
 
 ```ruby
 class SearchResults < SitePrism::Page
-  sections :search_results, SearchResultSection, "#results li" do |s|
-    s.element :title, "a.title"
-    s.element :blurb, "span.result-decription"
+  sections :search_results, SearchResultSection, "#results li" do
+    element :title, "a.title"
+    element :blurb, "span.result-decription"
   end
 end
 ```

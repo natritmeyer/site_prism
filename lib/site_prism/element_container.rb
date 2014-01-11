@@ -170,9 +170,8 @@ module SitePrism::ElementContainer
     if args.first.is_a? Class
       section_class = args.shift
     elsif block_given?
-      section_class = Class.new SitePrism::Section do |sc|
-        block.yield sc
-      end
+      section_class = Class.new SitePrism::Section
+      section_class.class_eval &block
     else
       raise ArgumentError.new "You should provide section class either as a block, or as the second argument"
     end
