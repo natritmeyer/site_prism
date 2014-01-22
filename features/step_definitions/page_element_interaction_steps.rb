@@ -133,3 +133,16 @@ Then /^I receive an error when a section with the element I am waiting for is re
   expect {@test_site.home.container_with_element.wait_until_embedded_element_invisible}.to raise_error Capybara::ElementNotFound
 end
 
+Then /^I can wait a variable time for elements to appear$/ do
+  @test_site.home.wait_for_lots_of_links
+  @test_site.home.wait_for_lots_of_links(0.1)
+end
+
+Then /^I can wait a variable time and pass specific parameters$/ do
+  @test_site.home.wait_for_lots_of_links(0.1, count: 2)
+  Capybara.using_wait_time 0.3 do
+    # intentionally wait and pass nil to force this to cycle
+    expect(@test_site.home.wait_for_lots_of_links(nil, count: 19810814)).to be_false
+  end
+end
+
