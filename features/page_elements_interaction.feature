@@ -16,3 +16,7 @@ Feature: Interaction with groups of elements
     When I navigate to the home page
     Then the page does not have elements
 
+  Scenario: Waiting on a set of elements
+    When I navigate to the home page
+    Then I can wait a variable time for elements to appear
+    Then I can wait a variable time and pass specific parameters
