@@ -47,3 +47,7 @@ Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, :browser => :firefox, profile: profile)
 end
 
+SitePrism.configure do |config|
+  config.use_implicit_waits = false
+end
+
