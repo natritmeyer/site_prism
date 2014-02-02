@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe SitePrism::Page do
   it "should respond to elements" do
-    SitePrism::Page.should respond_to :elements
+    expect(SitePrism::Page).to respond_to :elements
   end
 
   it "elements method should generate existence check method" do
@@ -10,7 +10,7 @@ describe SitePrism::Page do
       elements :bobs, 'a.b c.d'
     end
     page = PageWithElements.new
-    page.should respond_to :has_bobs?
+    expect(page).to respond_to :has_bobs?
   end
 
   it "elements method should generate method to return the elements" do
@@ -18,7 +18,7 @@ describe SitePrism::Page do
       elements :bobs, 'a.b c.d'
     end
     page = PageWithElements.new
-    page.should respond_to :bobs
+    expect(page).to respond_to :bobs
   end
 end
 

@@ -2,11 +2,11 @@ require 'spec_helper'
 
 describe SitePrism::Page do
   it "should have a default wait time greater than 0" do
-    SitePrism::Waiter.default_wait_time.should > 0
+    expect(SitePrism::Waiter.default_wait_time).to be > 0
   end
 
   it "should have respond to wait_until_true" do
-    SitePrism::Waiter.should respond_to :wait_until_true
+    expect(SitePrism::Waiter).to respond_to :wait_until_true
   end
 
   it "should throw a Timeout exception if the block does not become true" do
@@ -22,7 +22,7 @@ describe SitePrism::Page do
     start_time = Time.now
     expect { SitePrism::Waiter.wait_until_true(timeout) { false } }.to raise_error SitePrism::TimeoutException
     d = Time.now - start_time
-    d.should >= timeout.to_f
-    d.should <= SitePrism::Waiter.default_wait_time.to_f
+    expect(d).to be >= timeout.to_f
+    expect(d).to be <= SitePrism::Waiter.default_wait_time.to_f
   end
 end
