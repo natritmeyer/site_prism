@@ -5,6 +5,7 @@ Gem::Specification.new do |s|
   s.version     = SitePrism::VERSION
   s.required_ruby_version = '>= 1.9.3'
   s.platform    = Gem::Platform::RUBY
+  s.license     = 'BSD3'
   s.author      = "Nat Ritmeyer"
   s.email       = "nat@natontesting.com"
   s.homepage    = "http://github.com/natritmeyer/site_prism"
