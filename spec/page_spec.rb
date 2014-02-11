@@ -44,7 +44,6 @@ describe SitePrism::Page do
     end
     page_with_url = MyPageWithUriTemplate.new
     expect { page_with_url.load(username: 'foobar') }.to_not raise_error
-
     page_with_url.url(username: 'foobar', query: {'recent_posts' => 'true'}).should == '/users/foobar?recent_posts=true'
     page_with_url.url(username: 'foobar').should == '/users/foobar'
     page_with_url.url.should == '/users'

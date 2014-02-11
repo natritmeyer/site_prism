@@ -1031,7 +1031,7 @@ end
 
 #### Anonymous Sections
 
-If you want to use a section more as a namespace for elements and not
+If you want to use a section more as a namespace for elements and are not
 planning on re-using it, you may find it more convenient to define
 an anonymous section using a block:
 
@@ -1044,8 +1044,13 @@ class Home < SitePrism::Page
 end
 ```
 
-This code will create an anonymous class inherited from SitePrism::Section
-and then evaluate the block in a context of that class.
+This code will create an anonymous section that you can use in the same way
+as an ordinary section:
+
+```ruby
+@home = Home.new
+@home.menu.should have_title
+```
 
 ### Section Collections
 

@@ -19,7 +19,6 @@ module SitePrism::ElementContainer
 
   def section(section_name, *args, &block)
     section_class, find_args = extract_section_options args, &block
-
     build section_name, *find_args do
       define_method section_name do | *runtime_args |
         section_class.new self, find_first(*find_args, *runtime_args)
@@ -29,7 +28,6 @@ module SitePrism::ElementContainer
 
   def sections(section_collection_name, *args, &block)
     section_class, find_args = extract_section_options args, &block
-
     build section_collection_name, *find_args do
       define_method section_collection_name do |*runtime_args|
         find_all(*find_args, *runtime_args).collect do |element|
@@ -42,7 +40,6 @@ module SitePrism::ElementContainer
   def iframe(iframe_name, iframe_page_class, selector)
     element_selector = deduce_iframe_element_selector(selector)
     scope_selector = deduce_iframe_scope_selector(selector)
-
     add_to_mapped_items iframe_name
     create_existence_checker iframe_name, element_selector
     create_nonexistence_checker iframe_name, element_selector
@@ -175,7 +172,6 @@ module SitePrism::ElementContainer
     else
       raise ArgumentError.new "You should provide section class either as a block, or as the second argument"
     end
-
     return section_class, args
   end
 end
