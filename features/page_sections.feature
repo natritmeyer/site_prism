@@ -17,6 +17,14 @@ Feature: Page Sections
     When I navigate to the section experiments page
     Then I can see a collection of sections
 
+  Scenario: anonymous section
+    When I navigate to the section experiments page
+    Then I can see an anonymous section
+
+  Scenario: anonymous sections collection
+    When I navigate to the section experiments page
+    Then I can see a collection of anonymous sections
+
   Scenario: sections visible on a page
     When I navigate to the home page
     Then the section is visible

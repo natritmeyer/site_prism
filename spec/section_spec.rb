@@ -5,28 +5,55 @@ describe SitePrism::Page do
     SitePrism::Page.should respond_to :section
   end
 
-  it "section method should create a method" do
-    class SomeSection < SitePrism::Section
+  describe ".section" do
+    context "second argument is a Class" do
+      it "should create a method" do
+        class SomeSection < SitePrism::Section
+        end
+
+        class PageWithSection < SitePrism::Page
+          section :bob, SomeSection, '.bob'
+        end
+
+        page = PageWithSection.new
+        page.should respond_to :bob
+      end
+
+      it "should create a matching existence method for a section" do
+        class SomePageWithSectionThatNeedsTestingForExistence < SitePrism::Section
+        end
+
+        class YetAnotherPageWithASection < SitePrism::Page
+          section :something, SomePageWithSectionThatNeedsTestingForExistence, '.bob'
+        end
+
+        page = YetAnotherPageWithASection.new
+        page.should respond_to :has_something?
+      end
     end
 
-    class PageWithSection < SitePrism::Page
-      section :bob, SomeSection, '.bob'
+    context "second argument is not a Class and a block given" do
+      context "block given" do
+        it "should create an anonymous section with the block" do
+          class PageWithSection < SitePrism::Page
+            section :anonymous_section, '.section' do |s|
+              s.element :title, 'h1'
+            end
+          end
+
+          page = PageWithSection.new
+          page.should respond_to :anonymous_section
+        end
+      end
     end
 
-    page = PageWithSection.new
-    page.should respond_to :bob
-  end
+    context "second argument is not a class and no block given" do
+      it "should raise an ArgumentError" do
+        class Page < SitePrism::Page; end
 
-  it "should create a matching existence method for a section" do
-    class SomePageWithSectionThatNeedsTestingForExistence < SitePrism::Section
+        expect { Page.section :incorrect_section, '.section' }.to raise_error ArgumentError, "You should provide section class either as a block, or as the second argument"
+      end
     end
-
-    class YetAnotherPageWithASection < SitePrism::Page
-      section :something, SomePageWithSectionThatNeedsTestingForExistence, '.bob'
-    end
-
-    page = YetAnotherPageWithASection.new
-    page.should respond_to :has_something?
   end
 end
 
