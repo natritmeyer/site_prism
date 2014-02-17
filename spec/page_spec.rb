@@ -49,6 +49,12 @@ describe SitePrism::Page do
     page_with_url.url.should == '/users'
   end
 
+  it "should allow to load html" do
+    class Page < SitePrism::Page; end
+    page = Page.new
+    expect { page.load('<html/>') }.to_not raise_error
+  end
+
   it "should respond to set_url_matcher" do
     SitePrism::Page.should respond_to :set_url_matcher
   end
