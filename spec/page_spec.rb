@@ -2,11 +2,11 @@ require 'spec_helper'
 
 describe SitePrism::Page do
   it "should respond to load" do
-    SitePrism::Page.new.should respond_to :load
+    expect(SitePrism::Page.new).to respond_to :load
   end
 
   it "should respond to set_url" do
-    SitePrism::Page.should respond_to :set_url
+    expect(SitePrism::Page).to respond_to :set_url
   end
 
   it "should be able to set a url against it" do
@@ -14,14 +14,14 @@ describe SitePrism::Page do
       set_url "/bob"
     end
     page = PageToSetUrlAgainst.new
-    page.url.should == "/bob"
+    expect(page.url).to eq("/bob")
   end
 
   it "url should be nil by default" do
     class PageDefaultUrl < SitePrism::Page; end
     page = PageDefaultUrl.new
-    PageDefaultUrl.url.should be_nil
-    page.url.should be_nil
+    expect(PageDefaultUrl.url).to be_nil
+    expect(page.url).to be_nil
   end
 
   it "should not allow loading if the url hasn't been set" do
@@ -44,20 +44,20 @@ describe SitePrism::Page do
     end
     page_with_url = MyPageWithUriTemplate.new
     expect { page_with_url.load(username: 'foobar') }.to_not raise_error
-    page_with_url.url(username: 'foobar', query: {'recent_posts' => 'true'}).should == '/users/foobar?recent_posts=true'
-    page_with_url.url(username: 'foobar').should == '/users/foobar'
-    page_with_url.url.should == '/users'
+    expect(page_with_url.url(username: 'foobar', query: {'recent_posts' => 'true'})).to eq('/users/foobar?recent_posts=true')
+    expect(page_with_url.url(username: 'foobar')).to eq('/users/foobar')
+    expect(page_with_url.url).to eq('/users')
   end
 
   it "should respond to set_url_matcher" do
-    SitePrism::Page.should respond_to :set_url_matcher
+    expect(SitePrism::Page).to respond_to :set_url_matcher
   end
 
   it "url matcher should be nil by default" do
     class PageDefaultUrlMatcher < SitePrism::Page; end
     page = PageDefaultUrlMatcher.new
-    PageDefaultUrlMatcher.url_matcher.should be_nil
-    page.url_matcher.should be_nil
+    expect(PageDefaultUrlMatcher.url_matcher).to be_nil
+    expect(page.url_matcher).to be_nil
   end
 
   it "should be able to set a url matcher against it" do
@@ -65,7 +65,7 @@ describe SitePrism::Page do
       set_url_matcher /bob/
     end
     page = PageToSetUrlMatcherAgainst.new
-    page.url_matcher.should == /bob/
+    expect(page.url_matcher).to eq(/bob/)
   end
 
   it "should raise an exception if displayed? is called before the matcher has been set" do
@@ -82,7 +82,7 @@ describe SitePrism::Page do
   end
 
   it "should expose the page title" do
-    SitePrism::Page.new.should respond_to :title
+    expect(SitePrism::Page.new).to respond_to :title
   end
 end
 

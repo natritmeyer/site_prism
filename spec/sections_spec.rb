@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe SitePrism::Page do
   it "should respond to sections" do
-    SitePrism::Page.should respond_to :sections
+    expect(SitePrism::Page).to respond_to :sections
   end
 
   it "should create a matching existence method for sections" do
@@ -14,7 +14,7 @@ describe SitePrism::Page do
     end
 
     page = YetAnotherPageWithSections.new
-    page.should respond_to :has_some_things?
+    expect(page).to respond_to :has_some_things?
   end
 end
 
