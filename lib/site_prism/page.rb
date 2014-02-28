@@ -4,10 +4,18 @@ module SitePrism
     include ElementChecker
     extend ElementContainer
 
-    def load(expansion = {})
-      expanded_url = url(expansion)
-      raise SitePrism::NoUrlForPage if expanded_url.nil?
-      visit expanded_url
+    def page
+      @page || Capybara.current_session
+    end
+
+    def load(expansion_or_html = {})
+      if expansion_or_html.is_a? String
+        @page = Capybara.string(expansion_or_html)
+      else
+        expanded_url = url(expansion_or_html)
+        raise SitePrism::NoUrlForPage if expanded_url.nil?
+        visit expanded_url
+      end
     end
 
     def displayed?(seconds = Waiter.default_wait_time)

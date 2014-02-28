@@ -1267,6 +1267,30 @@ The following element methods allow Capybara options to be passed as arguments t
 @results_page.wait_until_<element_or_section_name>_invisible :text => "Some ajaxy text disappears!"
 ```
 
+## Test views with Page objects
+
+It's possible to use the same page objects of integration tests for view tests, too,
+just pass the rendered HTML to the ```load``` method:
+
+```ruby
+require 'spec_helper'
+
+describe 'admin/things/index' do
+  let(:list_page) { AdminThingsListPage.new }
+  let(:thing) { build(:thing, some_attribute: 'some attribute') }
+
+  it 'contains the things we expect' do
+    assign(:things, [thing])
+
+    render template: 'admin/things/index'
+
+    list_page.load(rendered)
+
+    expect(list_page.rows.first.some_attribute).to have_text('some attribute')
+  end
+end
+```
+
 ## IFrames
 
 SitePrism allows you to interact with iframes. An iframe is declared as
