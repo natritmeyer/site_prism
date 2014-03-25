@@ -4,7 +4,17 @@ Then(/^I can see elements in the section$/) do
   expect(@test_site.home.people).to have_headline text: 'People'
 end
 
-Then(/^the page does not have section$/) do
+Then /^I can access elements within the section using a block$/ do
+  @test_site.home.should have_people
+  @test_site.home.people.within do |persons|
+    expect(persons).to have_title text: 'People'
+    expect(persons.title.text).to eq 'People'
+    expect(persons).to have_no_dinosaur
+    expect(persons).to have_individuals count: 4
+  end
+end
+
+Then /^the page does not have a section$/ do
   @test_site.home.has_no_nonexistent_section?
   expect(@test_site.home).to have_no_nonexistent_section
 end
@@ -22,8 +32,19 @@ Then(/^I can see a section within a section$/) do
   expect(@test_site.section_experiments.parent_section.child_section).to have_nice_label text: 'something'
 end
 
-Then(/^I can see a collection of sections$/) do
-  expect(@test_site.section_experiments).to have_search_results
+Then /^I can see a section within a section using nested blocks$/ do
+  @test_site.section_experiments.should have_parent_section
+  @test_site.section_experiments.parent_section.within do |parent|
+    parent.should have_child_section
+    parent.child_section.nice_label.text.should == "something"
+    parent.child_section.within do |child|
+      child.should have_nice_label :text => "something"
+    end
+  end
+end
+
+Then /^I can see a collection of sections$/ do
+  @test_site.section_experiments.should have_search_results
   @test_site.section_experiments.search_results.each_with_index do |search_result, i|
     expect(search_result.title.text).to eq "title #{i}"
     expect(search_result.link.text).to eq "link #{i}"

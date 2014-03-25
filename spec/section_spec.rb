@@ -51,6 +51,7 @@ describe SitePrism::Page do
       it 'should raise an ArgumentError' do
         class Page < SitePrism::Page
         end
+      
         expect { Page.section :incorrect_section, '.section' }.to raise_error ArgumentError, 'You should provide section class either as a block, or as the second argument'
       end
     end
@@ -66,13 +67,12 @@ describe SitePrism::Section do
     expect(SitePrism::Section).to respond_to :elements
   end
 
-  it 'should respond to javascript methods' do
-    class JsSection < SitePrism::Section
+  describe 'instance' do
+    subject(:section) { SitePrism::Section.new('parent', 'locator') }
+
+    it "should respond to javascript methods" do
+      expect(section).to respond_to :execute_script
+      expect(section).to respond_to :evaluate_script
     end
-
-    page = PageWithSection.new
-
-    expect(JsSection.new(page, 'a')).to respond_to :execute_script
-    expect(JsSection.new(page, 'a')).to respond_to :evaluate_script
   end
 end

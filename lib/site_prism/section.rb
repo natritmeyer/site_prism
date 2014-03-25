@@ -31,6 +31,12 @@ module SitePrism
       candidate_page
     end
 
+    def within &block
+      Capybara.within(@root_element) do
+        block.call(self)
+      end
+    end
+
     private
 
     def find_first(*find_args)
@@ -48,5 +54,6 @@ module SitePrism
     def element_does_not_exist?(*find_args)
       root_element.has_no_selector?(*find_args) unless root_element.nil?
     end
+
   end
 end
