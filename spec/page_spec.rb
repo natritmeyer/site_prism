@@ -282,14 +282,6 @@ describe SitePrism::Page do
     end.to raise_error(SitePrism::UnsupportedBlock)
   end
 
-  it 'should raise exception if passing a block to a section' do
-    expect do
-      TestHomePage.new.people do
-        puts 'bla'
-      end
-    end.to raise_error(SitePrism::UnsupportedBlock)
-  end
-
   it 'should raise exception if passing a block to sections' do
     expect do
       TestHomePage.new.nonexistent_section do

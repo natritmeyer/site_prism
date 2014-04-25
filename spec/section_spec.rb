@@ -59,7 +59,9 @@ describe SitePrism::Page do
 end
 
 describe SitePrism::Section do
-  it 'should respond to element' do
+  let(:a_page) { class Page < SitePrism::Page; end }
+
+  it "should respond to element" do
     expect(SitePrism::Section).to respond_to :element
   end
 
@@ -67,10 +69,20 @@ describe SitePrism::Section do
     expect(SitePrism::Section).to respond_to :elements
   end
 
+  it 'passes a given block to Capybara.within' do
+    expect(Capybara).to receive(:within).with('div')
+    SitePrism::Section.new(a_page, 'div') { 1+1 }
+  end
+
+  it 'does not require a block' do
+    expect(Capybara).to_not receive(:within)
+    SitePrism::Section.new(a_page, 'div')
+  end
+
   describe 'instance' do
     subject(:section) { SitePrism::Section.new('parent', 'locator') }
 
-    it "should respond to javascript methods" do
+    it "responds to javascript methods" do
       expect(section).to respond_to :execute_script
       expect(section).to respond_to :evaluate_script
     end

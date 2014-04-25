@@ -860,13 +860,14 @@ Then /^the home page menu contains a link to the various search functions$/ do
 end
 ```
 
-##### Accessing section elements in a block using `within`
+##### Accessing section elements using a block
 
 Sections have a `within` method that allows scoped access to the section's elements inside a block.  This is similar to Capybara's `within` method and allows for shorter test code particularly with nested sections.
+Some of this test code can be made a little prettier by simply passing a block in.
 
 ```ruby
 Then /^the home page menu contains a link to the various search functions$/ do
-  @home.menu.within do |submenu|
+  @home.menu do |menu|
     menu.should have_search
     menu.search['href'].should include "google.com"
     menu.should have_images

@@ -5,12 +5,26 @@ Then(/^I can see elements in the section$/) do
 end
 
 Then /^I can access elements within the section using a block$/ do
-  @test_site.home.should have_people
-  @test_site.home.people.within do |persons|
-    expect(persons).to have_title text: 'People'
-    expect(persons.title.text).to eq 'People'
+  expect(@test_site.home).to have_people
+  @test_site.home.people do |persons|
+    expect(persons).to have_headline text: 'People'
+    expect(persons.headline.text).to eq 'People'
     expect(persons).to have_no_dinosaur
     expect(persons).to have_individuals count: 4
+
+  end
+  # the above would pass if the block were ignored, this verifies it is executed:
+  expect do
+    @test_site.home.people { |p| expect(p).to have_dinosaur }
+  end.to raise_error
+end
+
+Then /^access to elements is constrained to those within the section$/ do
+  @test_site.home.should have_css('span.welcome')
+  @test_site.home.people do |persons|
+    persons.should have_no_css('.welcome')
+    expect{ persons.has_welcome_message? }.to raise_error(NoMethodError)
+    expect(persons).to have_no_welcome_message_on_the_parent
   end
 end
 
@@ -34,10 +48,10 @@ end
 
 Then /^I can see a section within a section using nested blocks$/ do
   @test_site.section_experiments.should have_parent_section
-  @test_site.section_experiments.parent_section.within do |parent|
+  @test_site.section_experiments.parent_section do |parent|
     parent.should have_child_section
     parent.child_section.nice_label.text.should == "something"
-    parent.child_section.within do |child|
+    parent.child_section do |child|
       child.should have_nice_label :text => "something"
     end
   end

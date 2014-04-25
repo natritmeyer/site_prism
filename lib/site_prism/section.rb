@@ -7,8 +7,8 @@ module SitePrism
     attr_reader :root_element, :parent
 
     def initialize(parent, root_element)
-      @parent = parent
-      @root_element = root_element
+      @parent, @root_element = parent, root_element
+      Capybara.within(@root_element) { yield(self) } if block_given?
     end
 
     def visible?
@@ -31,12 +31,6 @@ module SitePrism
       candidate_page
     end
 
-    def within &block
-      Capybara.within(@root_element) do
-        block.call(self)
-      end
-    end
-
     private
 
     def find_first(*find_args)
@@ -54,6 +48,5 @@ module SitePrism
     def element_does_not_exist?(*find_args)
       root_element.has_no_selector?(*find_args) unless root_element.nil?
     end
-
   end
 end
