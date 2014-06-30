@@ -11,4 +11,3 @@ class SearchResult < SitePrism::Section
     evaluate_script %Q{ document.getElementById("first_search_result").children[0].innerHTML }
   end
 end
-

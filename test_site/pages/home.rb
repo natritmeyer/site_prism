@@ -1,8 +1,8 @@
 class TestHomePage < SitePrism::Page
-  set_url "/home.htm"
-  set_url_matcher /home\.htm$/
+  set_url '/home.htm'
+  set_url_matcher(/home\.htm$/)
 
-  #individual elements
+  # individual elements
   element :welcome_header, :xpath, '//h1'
   element :welcome_message, :xpath, '//span'
   element :go_button, :xpath, '//input'
@@ -13,23 +13,22 @@ class TestHomePage < SitePrism::Page
   element :retiring_element, 'input#will_become_invisible'
   element :remove_container_with_element_btn, 'input#remove_container_with_element'
 
-  #elements groups
+  # elements groups
   elements :lots_of_links, :xpath, '//td//a'
   elements :nonexistent_elements, 'input#nonexistent'
 
-  #elements that should not exist
+  # elements that should not exist
   element :squirrel, 'squirrel.nutz'
   element :other_thingy, 'other.thingy'
   element :nonexistent_element, 'input#nonexistent'
 
-  #sections
+  # sections
   section :people, People, '.people'
   section :container_with_element, ContainerWithElement, '#container_with_element'
   section :nonexistent_section, NoElementWithinSection, 'input#nonexistent'
   sections :nonexistent_section, NoElementWithinSection, 'input#nonexistent'
 
-  #iframes
+  # iframes
   iframe :my_iframe, MyIframe, '#the_iframe'
   iframe :index_iframe, MyIframe, 0
 end
-

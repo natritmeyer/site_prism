@@ -11,5 +11,5 @@ group :development do
   gem 'redcarpet'
   gem 'simplecov'
   gem 'reek'
+  gem 'rubocop'
 end
-

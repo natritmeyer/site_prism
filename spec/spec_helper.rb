@@ -2,8 +2,8 @@ require 'capybara'
 require 'capybara/dsl'
 require 'selenium-webdriver'
 
-$: << './test_site'
-$: << './lib'
+$LOAD_PATH << './test_site'
+$LOAD_PATH << './lib'
 
 require 'site_prism'
 require 'test_site'
@@ -21,15 +21,14 @@ end
 
 class MyTest
   def response
-    [200, {'Content-Length' => '9'}, ['MyTestApp']]
+    [200, { 'Content-Length' => '9' }, ['MyTestApp']]
   end
 end
 
 class MyTestApp
-  def call(env)
+  def call(_env)
     MyTest.new.response
   end
 end
 
 Capybara.app = MyTestApp.new
-

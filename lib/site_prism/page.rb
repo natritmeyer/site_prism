@@ -13,27 +13,27 @@ module SitePrism
         @page = Capybara.string(expansion_or_html)
       else
         expanded_url = url(expansion_or_html)
-        raise SitePrism::NoUrlForPage if expanded_url.nil?
+        fail SitePrism::NoUrlForPage if expanded_url.nil?
         visit expanded_url
       end
     end
 
     def displayed?(seconds = Waiter.default_wait_time)
-      raise SitePrism::NoUrlMatcherForPage if url_matcher.nil?
+      fail SitePrism::NoUrlMatcherForPage if url_matcher.nil?
       begin
         Waiter.wait_until_true(seconds) do
           !(page.current_url =~ url_matcher).nil?
         end
-      rescue SitePrism::TimeoutException=>e
-        return false
+      rescue SitePrism::TimeoutException
+        false
       end
     end
 
-    def self.set_url page_url
+    def self.set_url(page_url)
       @url = page_url.to_s
     end
 
-    def self.set_url_matcher page_url_matcher
+    def self.set_url_matcher(page_url_matcher)
       @url_matcher = page_url_matcher
     end
 
@@ -60,21 +60,20 @@ module SitePrism
 
     private
 
-    def find_first *find_args
-      find *find_args
+    def find_first(*find_args)
+      find(*find_args)
     end
 
-    def find_all *find_args
-      all *find_args
+    def find_all(*find_args)
+      all(*find_args)
     end
 
-    def element_exists? *find_args
-      has_selector? *find_args
+    def element_exists?(*find_args)
+      has_selector?(*find_args)
     end
 
-    def element_does_not_exist? *find_args
-      has_no_selector? *find_args
+    def element_does_not_exist?(*find_args)
+      has_no_selector?(*find_args)
     end
   end
 end
-
