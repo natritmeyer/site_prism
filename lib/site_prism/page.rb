@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module SitePrism
   class Page
     include Capybara::DSL

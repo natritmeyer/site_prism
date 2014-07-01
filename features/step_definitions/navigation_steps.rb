@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 When(/^I navigate to the home page$/) do
   @test_site = TestSite.new
   @test_site.home.load

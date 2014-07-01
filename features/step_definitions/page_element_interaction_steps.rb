@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 Then(/^I can get the page title$/) do
   @test_site.home.title.should == 'Home Page'
 end

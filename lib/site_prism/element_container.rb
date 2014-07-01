@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module SitePrism
   module ElementContainer
     attr_reader :mapped_items

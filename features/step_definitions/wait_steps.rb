@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 Then(/^when I wait for the element that takes a while to appear$/) do
   @test_site.home.wait_for_some_slow_element
 end

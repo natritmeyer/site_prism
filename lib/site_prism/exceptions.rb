@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module SitePrism
   class NoUrlForPage < StandardError; end
   class NoUrlMatcherForPage < StandardError; end

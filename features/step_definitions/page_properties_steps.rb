@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 Then(/^I can see an expected bit of the html$/) do
   @test_site.home.html.should include "<span class=\"welcome\">This is the home page"
 end

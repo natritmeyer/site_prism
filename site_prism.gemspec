@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require './lib/site_prism/version'
 
 Gem::Specification.new do |s|

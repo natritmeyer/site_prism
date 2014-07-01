@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class TestSectionExperiments < SitePrism::Page
   set_url '/section_experiments.htm'
 
