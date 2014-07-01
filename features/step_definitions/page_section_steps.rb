@@ -29,7 +29,6 @@ Then(/^I can see a collection of sections$/) do
     search_result.link.text.should eq("link #{i}")
     search_result.description.text.should eq("description #{i}")
   end
-  @test_site.section_experiments.search_results.size.should eq(4)
   @test_site.section_experiments.should have_search_results count: 4
 end
 
@@ -45,7 +44,6 @@ Then(/^I can see a collection of anonymous sections$/) do
     section.title.text.should eq("Section #{i}")
     section.downcase_title_text.should eq("section #{i}")
   end
-  @test_site.section_experiments.anonymous_sections.size.should eq(2)
   @test_site.section_experiments.should have_anonymous_sections count: 2
 end
 
