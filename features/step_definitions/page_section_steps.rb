@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 Then(/^I can see elements in the section$/) do
   @test_site.home.should have_people
   @test_site.home.people.title.text.should eq('People')

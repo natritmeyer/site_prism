@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module SitePrism
   module ElementChecker
     def all_there?

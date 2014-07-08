@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require 'site_prism/exceptions'
 require 'addressable/template'
 

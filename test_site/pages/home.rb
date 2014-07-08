@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 class TestHomePage < SitePrism::Page
   set_url '/home.htm'
   set_url_matcher(/home\.htm$/)

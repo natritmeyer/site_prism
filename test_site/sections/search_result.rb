@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 class SearchResult < SitePrism::Section
   element :title, 'span.title'
   element :link, 'a'

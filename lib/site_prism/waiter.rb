@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module SitePrism
   class Waiter
     def self.wait_until_true(wait_time_seconds = default_wait_time)

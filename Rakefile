@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require 'cucumber/rake/task'
 require 'rspec/core/rake_task'
 require 'reek/rake/task'
