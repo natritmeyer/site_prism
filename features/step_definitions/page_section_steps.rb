@@ -1,7 +1,7 @@
 Then /^I can see elements in the section$/ do
   @test_site.home.should have_people
-  @test_site.home.people.title.text.should == "People"
-  @test_site.home.people.should have_title :text => "People"
+  @test_site.home.people.headline.should have_content "People"
+  @test_site.home.people.should have_headline text: "People"
 end
 
 Then /^the page does not have section$/ do
@@ -11,8 +11,8 @@ end
 
 Then /^that section is there too$/ do
   @test_site.page_with_people.should have_people_list
-  @test_site.page_with_people.people_list.title.text.should == "People"
-  @test_site.page_with_people.people_list.should have_title :text => "People"
+  @test_site.page_with_people.people_list.headline.should have_content 'People'
+  @test_site.page_with_people.people_list.should have_headline text: 'People'
 end
 
 Then /^I can see a section within a section$/ do

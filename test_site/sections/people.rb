@@ -1,5 +1,5 @@
 class People < SitePrism::Section
-  element :title, '.people-title'
+  element :headline, 'h1'
   element :dinosaur, '.dinosaur' #doesn't exist on the page
 
   elements :individuals, '.person'
