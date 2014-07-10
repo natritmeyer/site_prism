@@ -168,7 +168,7 @@ module SitePrism
       elsif block_given?
         section_class = Class.new SitePrism::Section, &block
       else
-        fail ArgumentError.new, 'You should provide section class either as a block, or as the second argument'
+        fail ArgumentError, 'You should provide section class either as a block, or as the second argument'
       end
       return section_class, args
     end
