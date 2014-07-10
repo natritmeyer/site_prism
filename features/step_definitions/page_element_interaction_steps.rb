@@ -28,7 +28,7 @@ Then(/^I can see the welcome header with capybara query options$/) do
 end
 
 Then(/^the welcome header is not matched with invalid text$/) do
-  @test_site.home.should have_no_welcome_header(text: 'This Doesn\'t Match!')
+  @test_site.home.should have_no_welcome_header(text: "This Doesn't Match!")
 end
 
 Then(/^I can see the welcome message$/) do
