@@ -237,32 +237,38 @@ See https://github.com/sporkmonger/addressable for more details on parameterized
 ### Verifying that a particular page is displayed
 
 Automated tests often need to verify that a particular page is
-displayed. Intuitively you'd think that simply checking that the URL
-defined using `set_url` is the current page in the browser would be enough, but experience shows that it's
-not. It is far more robust to check to see if the browser's current url
-matches a regular expression. For example, though `account/1` and `account/2`
-are the same page, their URLs are different. To deal with this,
-SitePrism provides the ability to set a URL matcher.
+displayed. SitePrism can automatically parse your URL template
+and verify that whatever components your template specifies match the
+currently viewed page.  For example, with the following URL template:
 
 ```ruby
 class Account < SitePrism::Page
-  set_url_matcher /\account\/\d+/
+  set_url "/accounts/{id}{?query*}"
 end
 ```
 
-Once a URL matcher is set for a page, you can test to see if it is
-displayed:
+The following test code would pass:
 
 ```ruby
 @account_page = Account.new
-#...
-@account_page.displayed? #=> true or false
+@account_page.load(id: 22, query: { token: "ca2786616a4285bc" })
+
+expect(@account_page.current_url).to end_with "/accounts/22?token=ca2786616a4285bc"
+expect(@account_page).to be_displayed
 ```
 
 Calling `#displayed?` will return true if the browser's current URL
-matches the regular expression for the page and false if it doesn't. So
-in the above example (`account/1` and `account/2`), calling
-`@account_page.displayed?` will return true for both examples.
+matches the page's template and false if it doesn't.
+
+If SitePrism's built-in URL matching is not sufficient for your needs
+ you can override and use SitePrism's previous support for regular expression-based
+URL matchers by it by calling `set_url_matcher`:
+
+```ruby
+class Account < SitePrism::Page
+  set_url_matcher %r{/accounts/\d+}
+end
+```
 
 #### Testing for Page display
 
