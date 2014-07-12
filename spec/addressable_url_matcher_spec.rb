@@ -80,12 +80,12 @@ describe SitePrism::AddressableUrlMatcher do
       expect_matches("/foos/22/bars/12{?query*}").to eq true
     end
 
-    it "matches on static path" do
-      expect_matches("/foos/22/bars/12").to eq true
+    it "matches on static query" do
+      expect_matches("/foos/22/bars/12?junk=janky").to eq true
     end
 
-    it "fails on bad path" do
-      expect_matches("/foos/22/bars/123").to eq false
+    it "fails on bad query" do
+      expect_matches("/foos/22/bars/123?junk=delightful").to eq false
     end
 
     it "matches on templated fragment" do
