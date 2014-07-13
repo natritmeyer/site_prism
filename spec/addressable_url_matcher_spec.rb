@@ -104,6 +104,14 @@ describe SitePrism::AddressableUrlMatcher do
       expect_matches("{scheme}://{user}:{password}@{host}:8443/foos{/foo_id}/bars{/id}{?params*}#middle").to eq true
     end
 
+    it "matches on no path" do
+      expect_matches("//bazzle.com").to eq true
+    end
+
+    it "doesn't match on root path" do
+      expect_matches("//bazzle.com/").to eq false
+    end
+
     def expect_matches(pattern)
       expect(matches?(pattern))
     end
