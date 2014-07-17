@@ -1,94 +1,98 @@
 Then(/^I can see elements in the section$/) do
-  @test_site.home.should have_people
-  @test_site.home.people.title.text.should eq('People')
-  @test_site.home.people.should have_title text: 'People'
+  expect(@test_site.home).to have_people
+  expect(@test_site.home.people.headline).to have_content 'People'
+  expect(@test_site.home.people).to have_headline text: 'People'
 end
 
 Then(/^the page does not have section$/) do
   @test_site.home.has_no_nonexistent_section?
-  @test_site.home.should have_no_nonexistent_section
+  expect(@test_site.home).to have_no_nonexistent_section
 end
 
 Then(/^that section is there too$/) do
-  @test_site.page_with_people.should have_people_list
-  @test_site.page_with_people.people_list.title.text.should eq('People')
-  @test_site.page_with_people.people_list.should have_title text: 'People'
+  expect(@test_site.page_with_people).to have_people_list
+  expect(@test_site.page_with_people.people_list.headline).to have_content 'People'
+  expect(@test_site.page_with_people.people_list).to have_headline text: 'People'
 end
 
 Then(/^I can see a section within a section$/) do
-  @test_site.section_experiments.should have_parent_section
-  @test_site.section_experiments.parent_section.should have_child_section
-  @test_site.section_experiments.parent_section.child_section.nice_label.text.should eq('something')
-  @test_site.section_experiments.parent_section.child_section.should have_nice_label text: 'something'
+  expect(@test_site.section_experiments).to have_parent_section
+  expect(@test_site.section_experiments.parent_section).to have_child_section
+  expect(@test_site.section_experiments.parent_section.child_section.nice_label.text).to eq 'something'
+  expect(@test_site.section_experiments.parent_section.child_section).to have_nice_label text: 'something'
 end
 
 Then(/^I can see a collection of sections$/) do
-  @test_site.section_experiments.should have_search_results
+  expect(@test_site.section_experiments).to have_search_results
   @test_site.section_experiments.search_results.each_with_index do |search_result, i|
-    search_result.title.text.should eq("title #{i}")
-    search_result.link.text.should eq("link #{i}")
-    search_result.description.text.should eq("description #{i}")
+    expect(search_result.title.text).to eq "title #{i}"
+    expect(search_result.link.text).to eq "link #{i}"
+    expect(search_result.description.text).to eq "description #{i}"
   end
-  @test_site.section_experiments.should have_search_results count: 4
+  expect(@test_site.section_experiments.search_results.size).to eq 4
+  expect(@test_site.section_experiments.search_results(count: 4).size).to eq 4
 end
 
 Then(/^I can see an anonymous section$/) do
-  @test_site.section_experiments.should have_anonymous_section
-  @test_site.section_experiments.anonymous_section.title.text.should eq('Anonymous Section')
-  @test_site.section_experiments.anonymous_section.upcase_title_text.should eq('ANONYMOUS SECTION')
+  expect(@test_site.section_experiments).to have_anonymous_section
+  expect(@test_site.section_experiments.anonymous_section.title.text).to eq 'Anonymous Section'
+  expect(@test_site.section_experiments.anonymous_section.upcase_title_text).to eq 'ANONYMOUS SECTION'
 end
 
 Then(/^I can see a collection of anonymous sections$/) do
-  @test_site.section_experiments.should have_anonymous_section
+  expect(@test_site.section_experiments).to have_anonymous_section
   @test_site.section_experiments.anonymous_sections.each_with_index do |section, i|
-    section.title.text.should eq("Section #{i}")
-    section.downcase_title_text.should eq("section #{i}")
+    expect(section.title.text).to eq "Section #{i}"
+    expect(section.downcase_title_text).to eq "section #{i}"
   end
-  @test_site.section_experiments.should have_anonymous_sections count: 2
+  expect(@test_site.section_experiments.anonymous_sections.size).to eq 2
+  expect(@test_site.section_experiments.anonymous_sections(count: 2).size).to eq 2
 end
 
 Then(/^the section is visible$/) do
-  @test_site.home.people.should be_visible
+  expect(@test_site.home.people).to be_visible
 end
 
 Then(/^I can get at the people section root element$/) do
-  @test_site.home.people.root_element.class.should == Capybara::Node::Element
+  expect(@test_site.home.people.root_element.class).to eq Capybara::Node::Element
 end
 
 Then(/^all expected elements are present in the search results$/) do
-  @test_site.section_experiments.search_results.first.should be_all_there
+  expect(@test_site.section_experiments.search_results.first).to be_all_there
 end
 
 Then(/^I can run javascript against the search results$/) do
   @test_site.section_experiments.search_results.first.set_cell_value
-  @test_site.section_experiments.search_results.first.cell_value.should eq('wibble')
-  @test_site.section_experiments.search_results.first.cell_value.should have_content 'wibble'
+  expect(@test_site.section_experiments.search_results.first.cell_value).to eq 'wibble'
+  expect(@test_site.section_experiments.search_results.first.cell_value).to have_content 'wibble'
 end
 
 Then(/^I can see individual people in the people list$/) do
-  @test_site.home.people.should have_individuals count: 4
+  expect(@test_site.home.people.individuals.size).to eq 4
+  expect(@test_site.home.people.individuals(count: 4).size).to eq 4
+  expect(@test_site.home.people).to have_individuals count: 4
 end
 
 Then(/^I can get access to a page through a section$/) do
   home = @test_site.home
-  home.people.parent.should eq(home)
+  expect(home.people.parent).to eq home
 end
 
 Then(/^I can get a parent section for a child section$/) do
   parent_section = @test_site.section_experiments.parent_section
-  parent_section.child_section.parent.should eq(parent_section)
+  expect(parent_section.child_section.parent).to eq parent_section
 end
 
 Then(/^I can get access to a page through a child section$/) do
   page = @test_site.section_experiments
-  page.parent_section.child_section.parent.parent.should eq(page)
+  expect(page.parent_section.child_section.parent.parent).to eq page
 end
 
 Then(/^I can get direct access to a page through a child section$/) do
   page = @test_site.section_experiments
-  page.parent_section.child_section.parent_page.should eq(page)
+  expect(page.parent_section.child_section.parent_page).to eq page
 end
 
 Then(/^the page contains a section with no element$/) do
-  @test_site.home.people.should have_no_dinosaur
+  expect(@test_site.home.people).to have_no_dinosaur
 end

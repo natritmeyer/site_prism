@@ -1121,7 +1121,7 @@ define a single anonymous section:
 
 ```ruby
 class SearchResults < SitePrism::Page
-  sections :search_results, SearchResultSection, "#results li" do
+  sections :search_results, "#results li" do
     element :title, "a.title"
     element :blurb, "span.result-decription"
   end
