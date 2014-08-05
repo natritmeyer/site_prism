@@ -205,7 +205,7 @@ describe SitePrism::Page do
 
     it 'passes through correct expected_mappings from the be_displayed matcher' do
       swap_current_url('http://localhost:3000/foos/28')
-      expect(page).to be_displayed
+      expect(page).to be_displayed id: 28
     end
   end
 
