@@ -174,6 +174,41 @@ describe SitePrism::Page do
     end
   end
 
+  context 'with a parameterized URL matcher' do
+    class PageWithParameterizedUrlMatcher < SitePrism::Page
+      set_url_matcher '/foos{/id}'
+    end
+
+    let(:page) { PageWithParameterizedUrlMatcher.new }
+
+    describe '#displayed?' do
+      it 'returns true without expected_mappings provided' do
+        swap_current_url('http://localhost:3000/foos/28')
+        expect(page.displayed?).to eq(true)
+      end
+
+      it 'returns true with correct expected_mappings provided' do
+        swap_current_url('http://localhost:3000/foos/28')
+        expect(page.displayed?(id: 28)).to eq(true)
+      end
+
+      it 'returns false with incorrect expected_mappings provided' do
+        swap_current_url('http://localhost:3000/foos/28')
+        expect(page.displayed?(id: 17)).to eq(false)
+      end
+    end
+
+    it 'passes through incorrect expected_mappings from the be_displayed matcher' do
+      swap_current_url('http://localhost:3000/foos/28')
+      expect(page).not_to be_displayed id: 17
+    end
+
+    it 'passes through correct expected_mappings from the be_displayed matcher' do
+      swap_current_url('http://localhost:3000/foos/28')
+      expect(page).to be_displayed
+    end
+  end
+
   it 'should expose the page title' do
     expect(SitePrism::Page.new).to respond_to :title
   end
