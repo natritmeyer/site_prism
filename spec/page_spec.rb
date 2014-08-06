@@ -176,7 +176,7 @@ describe SitePrism::Page do
 
   context 'with a parameterized URL matcher' do
     class PageWithParameterizedUrlMatcher < SitePrism::Page
-      set_url_matcher '/foos{/id}'
+      set_url_matcher '{scheme}:///foos{/id}'
     end
 
     let(:page) { PageWithParameterizedUrlMatcher.new }
@@ -206,6 +206,43 @@ describe SitePrism::Page do
     it 'passes through correct expected_mappings from the be_displayed matcher' do
       swap_current_url('http://localhost:3000/foos/28')
       expect(page).to be_displayed id: 28
+    end
+
+    describe '#url_matches' do
+      it 'returns mappings from the current_url' do
+        swap_current_url('http://localhost:3000/foos/15')
+        expect(page.url_matches).to eq 'scheme' => 'http', 'id' => '15'
+      end
+
+      it "returns nil if current_url doesn't match the url_matcher" do
+        swap_current_url('http://localhost:3000/bars/15')
+        expect(page.url_matches).to eq nil
+      end
+    end
+  end
+
+  describe 'with a regexp matcher' do
+    class PageWithRegexpUrlMatcher < SitePrism::Page
+      set_url_matcher(/foos\/(\d+)/)
+    end
+
+    let(:page) { PageWithRegexpUrlMatcher.new }
+
+    describe '#url_matches' do
+      it 'returns regexp MatchData' do
+        swap_current_url('http://localhost:3000/foos/15')
+        expect(page.url_matches).to be_kind_of(MatchData)
+      end
+
+      it 'lets you get at the captures' do
+        swap_current_url('http://localhost:3000/foos/15')
+        expect(page.url_matches[1]).to eq '15'
+      end
+
+      it "returns nil if current_url doesn't match the url_matcher" do
+        swap_current_url('http://localhost:3000/bars/15')
+        expect(page.url_matches).to eq nil
+      end
     end
   end
 

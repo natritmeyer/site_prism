@@ -29,6 +29,26 @@ module SitePrism
       end
     end
 
+    def url_matches(seconds = Waiter.default_wait_time)
+      return unless displayed?(seconds)
+
+      if url_matcher.is_a?(Regexp)
+        regexp_backed_matches
+      elsif url_matcher.respond_to?(:to_str)
+        template_backed_matches
+      else
+        fail SitePrism::InvalidUrlMatcher
+      end
+    end
+
+    def regexp_backed_matches
+      url_matcher.match(page.current_url)
+    end
+
+    def template_backed_matches
+      matcher_template.mappings(page.current_url)
+    end
+
     def self.set_url(page_url)
       @url = page_url.to_s
     end
@@ -87,7 +107,7 @@ module SitePrism
     end
 
     def url_matches_by_regexp?
-      !(page.current_url =~ url_matcher).nil?
+      !regexp_backed_matches.nil?
     end
 
     def url_matches_by_template?(expected_mappings)
