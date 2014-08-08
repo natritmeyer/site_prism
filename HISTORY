@@ -1,3 +1,7 @@
+2.7
+- Spring clean of the code - thanks to Jonathan Chrisp (@jonathanchrisp)
+- fixes around Capybara's #title method - thanks to @tgaff
+
 2.6
 - added rspec 3 compatibility - thanks to Bradley Schaefer (@soulcutter)
 - added anonymous sections - thanks to Constantine Zaytsev (@bassneck)
