@@ -23,4 +23,3 @@ class TestSite
     TestSectionExperiments.new
   end
 end
-

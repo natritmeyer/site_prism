@@ -1,56 +1,56 @@
 <html>
-	<head>
-		<title>Section Experiments</title>
+  <head>
+    <title>Section Experiments</title>
     <script type="text/javascript">
-		function load() {  
-			//create the link
-			slow_link = document.createElement("a");
-			//create a text node
-			some_text = document.createTextNode("slow link");
-			//set the link's href
-			slow_link.setAttribute('href', 'slowly.htm');
-			//set the link's class
-			slow_link.setAttribute('class', 'slow');
-			//add the text to the link
-			slow_link.appendChild(some_text);
-			//get the element that we're going to add the link to
-			dumping_ground = document.getElementById('dumping-ground');
-			//wait for a second and then add the links
-			var t1 = setTimeout("dumping_ground.appendChild(slow_link);", 2000);
-		}
-		window.onload = load;
-		</script>
-	</head>
-	<body>
-		<div class='parent-div' id='dumping-ground'>
-			<span>parent</span>
-			<div class='child-div'>
-				<span class='nice-label'>something</span>
-			</div>
-		</div>
-		
-		<div class='search-results'>
-			<div class='search-result' id ="first_search_result">
-				<span class='title'>title 0</span>
-				<a href="whatever">link 0</a>
-				<span class='description'>description 0</span>
-			</div>
-			<div class='search-result'>
-				<span class='title'>title 1</span>
-				<a href="whatever">link 1</a>
-				<span class='description'>description 1</span>
-			</div>
-			<div class='search-result'>
-				<span class='title'>title 2</span>
-				<a href="whatever">link 2</a>
-				<span class='description'>description 2</span>
-			</div>
-			<div class='search-result'>
-				<span class='title'>title 3</span>
-				<a href="whatever">link 3</a>
-				<span class='description'>description 3</span>
-			</div>
-		</div>
+    function load() {
+      //create the link
+      slow_link = document.createElement("a");
+      //create a text node
+      some_text = document.createTextNode("slow link");
+      //set the link's href
+      slow_link.setAttribute('href', 'slowly.htm');
+      //set the link's class
+      slow_link.setAttribute('class', 'slow');
+      //add the text to the link
+      slow_link.appendChild(some_text);
+      //get the element that we're going to add the link to
+      dumping_ground = document.getElementById('dumping-ground');
+      //wait for a second and then add the links
+      var t1 = setTimeout("dumping_ground.appendChild(slow_link);", 2000);
+    }
+    window.onload = load;
+    </script>
+  </head>
+  <body>
+    <div class='parent-div' id='dumping-ground'>
+      <span>parent</span>
+      <div class='child-div'>
+        <span class='nice-label'>something</span>
+      </div>
+    </div>
+
+    <div class='search-results'>
+      <div class='search-result' id ="first_search_result">
+        <span class='title'>title 0</span>
+        <a href="whatever">link 0</a>
+        <span class='description'>description 0</span>
+      </div>
+      <div class='search-result'>
+        <span class='title'>title 1</span>
+        <a href="whatever">link 1</a>
+        <span class='description'>description 1</span>
+      </div>
+      <div class='search-result'>
+        <span class='title'>title 2</span>
+        <a href="whatever">link 2</a>
+        <span class='description'>description 2</span>
+      </div>
+      <div class='search-result'>
+        <span class='title'>title 3</span>
+        <a href="whatever">link 3</a>
+        <span class='description'>description 3</span>
+      </div>
+    </div>
 
     <div class='anonymous-section'>
       <h1>Anonymous Section</h1>
@@ -60,6 +60,5 @@
       <li><h1>Section 0</h1></li>
       <li><h1>Section 1</h1></li>
     </ul>
-	</body>
+  </body>
 </html>
-

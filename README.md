@@ -29,7 +29,7 @@ class SearchResults < SitePrism::Page
 
   section :menu, MenuSection, "#gbx3"
   sections :search_results, SearchResultSection, "#results li"
-  
+
   def search_result_links
     search_results.map {|sr| sr.title['href']}
   end
@@ -760,7 +760,7 @@ selector that will be used to find the root element of the section; this
 root node becomes the 'scope' of the section.
 
 The following shows that though the same section can appear on multiple
-pages, it can take a different root node: 
+pages, it can take a different root node:
 
 ```ruby
 # define the section that appears on both pages
@@ -1445,7 +1445,7 @@ all over the place. Here's an example of this common problem:
 
 The annoyance (and, later, maintenance nightmare) is having to create
 `@home` and `@results_page`. It would be better to not have to create
-instances of pages all over your tests. 
+instances of pages all over your tests.
 
 The way I've dealt with this problem is to create a class containing
 methods that return instances of the pages. Eg:
@@ -1504,4 +1504,3 @@ end
 The only thing that needs instantiating is the App class - from then on
 pages don't need to be initialized, they are now returned by methods on
 @app. Maintenance win!
-

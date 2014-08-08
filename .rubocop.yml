@@ -1,0 +1,23 @@
+# See full list of defaults here: https://github.com/bbatsov/rubocop/blob/master/config/default.yml
+# To see all cops used see here: https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
+
+Documentation:
+  Enabled: false
+
+AccessorMethodName:
+  Enabled: false
+
+TrivialAccessors:
+  Enabled: false
+
+RedundantReturn:
+  Enabled: false
+
+Encoding:
+  EnforcedStyle: when_needed
+
+LineLength:
+  Max: 180
+
+MethodLength:
+  Max: 11

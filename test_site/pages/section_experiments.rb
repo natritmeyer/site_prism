@@ -21,4 +21,3 @@ class TestSectionExperiments < SitePrism::Page
     end
   end
 end
-
