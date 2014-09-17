@@ -9,7 +9,7 @@ describe SitePrism::Page do
     expect(SitePrism::Waiter).to respond_to :wait_until_true
   end
 
-  context "with stubbed timeout" do
+  context 'with stubbed timeout' do
     before { allow(SitePrism::Waiter).to receive(:default_wait_time).and_return 0 }
 
     it 'should throw a Timeout exception if the block does not become true' do
