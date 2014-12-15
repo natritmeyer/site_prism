@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe SitePrism::AddressableUrlMatcher do
-
   describe '#matches?' do
     let(:url) { 'https://joe:bleep@bazzle.com:8443/foos/22/bars/12?junk=janky#middle' }
 
