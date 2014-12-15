@@ -57,9 +57,9 @@ end
 
 Then /^the home page should contain the menu and the search form$/ do
   @home.wait_for_menu # menu loads after a second or 2, give it time to arrive
-  @home.should have_menu
-  @home.should have_search_field
-  @home.should have_search_button
+  expect(@home).to have_menu
+  expect(@home).to have_search_field
+  expect(@home).to have_search_button
 end
 
 When /^I search for Sausages$/ do
@@ -69,17 +69,16 @@ end
 
 Then /^the search results page is displayed$/ do
   @results_page = SearchResults.new
-  @results_page.should be_displayed
+  expect(@results_page).to be_displayed
 end
 
 Then /^the search results page contains 10 individual search results$/ do
   @results_page.wait_for_search_results
-  @results_page.should have_search_results
-  @results_page.search_results.size.should == 10
+  expect(@results_page).to have_search_results count: 10
 end
 
 Then /^the search results contain a link to the wikipedia sausages page$/ do
-  @results_page.search_result_links.should include "http://en.wikipedia.org/wiki/Sausage"
+  expect(@results_page.search_result_links).to include "http://en.wikipedia.org/wiki/Sausage"
 end
 ```
 
@@ -238,32 +237,38 @@ See https://github.com/sporkmonger/addressable for more details on parameterized
 ### Verifying that a particular page is displayed
 
 Automated tests often need to verify that a particular page is
-displayed. Intuitively you'd think that simply checking that the URL
-defined using `set_url` is the current page in the browser would be enough, but experience shows that it's
-not. It is far more robust to check to see if the browser's current url
-matches a regular expression. For example, though `account/1` and `account/2`
-are the same page, their URLs are different. To deal with this,
-SitePrism provides the ability to set a URL matcher.
+displayed. SitePrism can automatically parse your URL template
+and verify that whatever components your template specifies match the
+currently viewed page.  For example, with the following URL template:
 
 ```ruby
 class Account < SitePrism::Page
-  set_url_matcher /\account\/\d+/
+  set_url "/accounts/{id}{?query*}"
 end
 ```
 
-Once a URL matcher is set for a page, you can test to see if it is
-displayed:
+The following test code would pass:
 
 ```ruby
 @account_page = Account.new
-#...
-@account_page.displayed? #=> true or false
+@account_page.load(id: 22, query: { token: "ca2786616a4285bc" })
+
+expect(@account_page.current_url).to end_with "/accounts/22?token=ca2786616a4285bc"
+expect(@account_page).to be_displayed
 ```
 
 Calling `#displayed?` will return true if the browser's current URL
-matches the regular expression for the page and false if it doesn't. So
-in the above example (`account/1` and `account/2`), calling
-`@account_page.displayed?` will return true for both examples.
+matches the page's template and false if it doesn't.
+
+If SitePrism's built-in URL matching is not sufficient for your needs
+ you can override and use SitePrism's previous support for regular expression-based
+URL matchers by it by calling `set_url_matcher`:
+
+```ruby
+class Account < SitePrism::Page
+  set_url_matcher %r{/accounts/\d+}
+end
+```
 
 #### Testing for Page display
 
@@ -272,8 +277,8 @@ your test:
 
 ```ruby
 Then /^the account page is displayed$/ do
-  @account_page.should be_displayed
-  @some_other_page.should_not be_displayed
+  expect(@account_page).to be_displayed
+  expect(@some_other_page).not_to be_displayed
 end
 ```
 
@@ -306,7 +311,7 @@ end
 @account = Account.new
 #...
 @account.current_url #=> "http://www.example.com/account/123"
-@account.current_url.should include "example.com/account/"
+expect(@account.current_url).to include "example.com/account/"
 ```
 
 ### Page Title
@@ -336,7 +341,7 @@ end
 @account = Account.new
 #...
 @account.secure? #=> true/false
-@account.should be_secure
+expect(@account).to be_secure
 ```
 
 ## Elements
@@ -412,14 +417,14 @@ end
 
 ```ruby
 Then /^the search field exists$/ do
-  @home.should have_search_field
+  expect(@home).to have_search_field
 end
 ```
 
 #### Testing that an element does not exist
 
 To test that an element does not exist on the page, it is not possible to just call
-`#should_not have_search_field`. SitePrism supplies the `#has_no_<element>?` method
+`#not_to have_search_field`. SitePrism supplies the `#has_no_<element>?` method
 that should be used to test for non-existence. Using the above example:
 
 ```ruby
@@ -432,7 +437,7 @@ that should be used to test for non-existence. Using the above example:
 
 ```ruby
 Then /^the search field exists$/ do
-  @home.should have_no_search_field #NB: NOT => @home.should_not_ have_search_field
+  expect(@home).to have_no_search_field #NB: NOT => expect(@home).not_to_ have_search_field
 end
 ```
 
@@ -575,9 +580,9 @@ arrays:
 
 ```ruby
 @friends_page.names.each {|name| puts name.text}
-@friends_page.names.map {|name| name.text}.should == ["Alice", "Bob", "Fred"]
-@friends_page.names.size.should == 3
-@friends_page.should have(3).names
+expect(@friends_page.names.map {|name| name.text}.to eq ["Alice", "Bob", "Fred"]
+expect(@friends_page.names.size).to eq 3
+expect(@friends_page).to have(3).names
 ```
 
 #### Testing for the existence of the element collection
@@ -604,7 +609,7 @@ end
 
 ```ruby
 Then /^there should be some names listed on the page$/ do
-  @friends_page.should have_names
+  expect(@friends_page).to have_names
 end
 ```
 
@@ -674,7 +679,7 @@ present in the browser, false if they're not all there.
 # and...
 
 Then /^the friends page contains all the expected elements$/ do
-  @friends_page.should be_all_there
+  expect(@friends_page).to be_all_there
 end
 
 ```
@@ -826,10 +831,10 @@ end
 
 ```ruby
 Then /^the home page menu contains a link to the various search functions$/ do
-  @home.menu.should have_search
-  @home.menu.search['href'].should include "google.com"
-  @home.menu.should have_images
-  @home.menu.should have_maps
+  expect(@home.menu).to have_search
+  expect(@home.menu.search['href']).to include "google.com"
+  expect(@home.menu).to have_images
+  expect(@home.menu).to have_maps
 end
 ```
 
@@ -917,8 +922,8 @@ end
 Again, this allows pretty test code:
 
 ```ruby
-@home.should have_menu
-@home.should_not have_menu
+expect(@home).to have_menu
+expect(@home).not_to have_menu
 ```
 
 #### Waiting for a section to exist
@@ -1010,8 +1015,8 @@ Then /^I sign in$/ do
   @home = Home.new
   @home.load
   @home.wait_for_login_and_registration
-  @home.should have_login_and_registration
-  @home.login_and_registration.should have_username
+  expect(@home).to have_login_and_registration
+  expect(@home.login_and_registration).to have_username
   @home.login_and_registration.login.username.set "bob"
   @home.login_and_registration.login.password.set "p4ssw0rd"
   @home.login_and_registration.login.sign_in.click
@@ -1022,8 +1027,8 @@ end
 When /^I enter my name into the home page's registration form$/ do
   @home = Home.new
   @home.load
-  @home.login_and_registration.should have_first_name
-  @home.login_and_registration.should have_last_name
+  expect(@home.login_and_registration).to have_first_name
+  expect(@home.login_and_registration).to have_last_name
   @home.login_and_registration.first_name.set "Bob"
   # ...
 end
@@ -1049,7 +1054,7 @@ as an ordinary section:
 
 ```ruby
 @home = Home.new
-@home.menu.should have_title
+expect(@home.menu).to have_title
 ```
 
 ### Section Collections
@@ -1097,10 +1102,10 @@ end
 
 ```ruby
 Then /^there are lots of search_results$/ do
-  @results_page.search_results.size.should == 10
+  expect(@results_page.search_results.size).to eq 10
   @results_page.search_results.each do |search_result|
-    search_result.should have_title
-    search_result.blurb.text.should_not be_nil
+    expect(search_result).to have_title
+    expect(search_result.blurb.text).not_to be_nil
   end
 end
 ```
@@ -1159,7 +1164,7 @@ end
 
 ```ruby
 Then /^there are search results on the page$/ do
-  @results.page.should have_search_results
+  expect(@results.page).to have_search_results
 end
 ```
 
@@ -1217,7 +1222,7 @@ the page has not finished loading the element(s):
 ```ruby
 @results_page = SearchResults.new
 # ...
-@results_page.search_results.size.should == 25 # This may fail!
+expect(@results_page.search_results.size).to == 25 # This may fail!
 ```
 
 The above query can be rewritten to utilize the Capybara :count option when querying for
@@ -1239,7 +1244,7 @@ into our page and section classes:
 
 ```ruby
 Then /^there are search results on the page$/ do
-  @results.page.should have_search_results :count => 25
+  expect(@results.page).to have_search_results :count => 25
 end
 ```
 
@@ -1335,7 +1340,7 @@ the above example, here's how it's done:
 @page = PageContainingIframe.new
 # ...
 @page.has_my_iframe? #=> true
-@page.should have_my_iframe
+expect(@page).to have_my_iframe
 ```
 
 ### Waiting for an iframe
@@ -1440,7 +1445,7 @@ all over the place. Here's an example of this common problem:
 @home.search_field.set "Sausages"
 @home.search_field.search_button.click
 @results_page = SearchResults.new # <-- noise
-@results_page.should have_search_result_items
+expect(@results_page).to have_search_result_items
 ```
 
 The annoyance (and, later, maintenance nightmare) is having to create
@@ -1495,7 +1500,7 @@ When /^I search for Sausages$/ do
 end
 
 Then /^I am on the results page$/ do
-  @app.results_page.should be_displayed
+  expect(@app.results_page).to be_displayed
 end
 
 # etc...

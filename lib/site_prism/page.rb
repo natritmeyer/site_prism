@@ -21,9 +21,7 @@ module SitePrism
     def displayed?(seconds = Waiter.default_wait_time)
       fail SitePrism::NoUrlMatcherForPage if url_matcher.nil?
       begin
-        Waiter.wait_until_true(seconds) do
-          !(page.current_url =~ url_matcher).nil?
-        end
+        Waiter.wait_until_true(seconds) { url_matches? }
       rescue SitePrism::TimeoutException
         false
       end
@@ -42,7 +40,7 @@ module SitePrism
     end
 
     def self.url_matcher
-      @url_matcher
+      @url_matcher || url
     end
 
     def url(expansion = {})
@@ -74,6 +72,20 @@ module SitePrism
 
     def element_does_not_exist?(*find_args)
       has_no_selector?(*find_args)
+    end
+
+    def url_matches?
+      if url_matcher.is_a?(Regexp)
+        !(page.current_url =~ url_matcher).nil?
+      elsif url_matcher.respond_to?(:to_str)
+        matcher_template.matches?(page.current_url)
+      else
+        fail SitePrism::InvalidUrlMatcher
+      end
+    end
+
+    def matcher_template
+      @addressable_url_matcher ||= AddressableUrlMatcher.new(url_matcher)
     end
   end
 end
