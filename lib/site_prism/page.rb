@@ -34,10 +34,8 @@ module SitePrism
 
       if url_matcher.is_a?(Regexp)
         regexp_backed_matches
-      elsif url_matcher.respond_to?(:to_str)
-        template_backed_matches
       else
-        fail SitePrism::InvalidUrlMatcher
+        template_backed_matches
       end
     end
 

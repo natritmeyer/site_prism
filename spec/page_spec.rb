@@ -91,6 +91,22 @@ describe SitePrism::Page do
     expect { page.displayed? }.to_not raise_error
   end
 
+  describe 'with a bogus URL matcher' do
+    class PageWithBogusFullUrlMatcher < SitePrism::Page
+      set_url_matcher this: "isn't a URL matcher"
+    end
+
+    let(:page) { PageWithBogusFullUrlMatcher.new }
+
+    specify '#url_matches raises InvalidUrlMatcher' do
+      expect { page.url_matches }.to raise_error SitePrism::InvalidUrlMatcher
+    end
+
+    specify '#displayed? raises InvalidUrlMatcher' do
+      expect { page.displayed? }.to raise_error SitePrism::InvalidUrlMatcher
+    end
+  end
+
   describe 'with a full string URL matcher' do
     class PageWithStringFullUrlMatcher < SitePrism::Page
       set_url_matcher 'https://joe:bump@bla.org:443/foo?bar=baz&bar=boof#myfragment'
