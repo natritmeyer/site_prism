@@ -76,12 +76,20 @@ module SitePrism
 
     def url_matches?
       if url_matcher.is_a?(Regexp)
-        !(page.current_url =~ url_matcher).nil?
+        url_matches_by_regexp?
       elsif url_matcher.respond_to?(:to_str)
-        matcher_template.matches?(page.current_url)
+        url_matches_by_template?
       else
         fail SitePrism::InvalidUrlMatcher
       end
+    end
+
+    def url_matches_by_regexp?
+      !(page.current_url =~ url_matcher).nil?
+    end
+
+    def url_matches_by_template?
+      matcher_template.matches?(page.current_url)
     end
 
     def matcher_template
