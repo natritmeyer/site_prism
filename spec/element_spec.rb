@@ -48,25 +48,24 @@ describe SitePrism::Page do
   it 'should exclude elements from all_there if defined' do
     class PageWithAFewElements < SitePrism::Page
       element :bob, 'a.b c.d'
+      element :success_msg, 'span.alert-success'
       section :jills_modal, '#xyzz' do
         element :modal_input, '#modal_input'
       end
-      section :zanes_modal, '#zzxx' do
-        element :modal_date_picker, '#modal_date_picker'
-      end
 
       def excluded_elements
-        %w(jills_modal zanes_modal)
+        %w(success_msg jills_modal)
       end
     end
     page = PageWithAFewElements.new
     allow(page).to receive(:has_bob?).and_return(true)
+    allow(page).to receive(:has_success_msg?).and_return(false)
     allow(page).to receive(:has_jills_modal?).and_return(false)
-    allow(page).to receive(:has_zanes_modal?).and_return(false)
-    page.all_there?
+    is_all_there = page.all_there?
+    expect(is_all_there).to be_truthy
     expect(page).to have_received(:has_bob?).at_least(:once)
+    expect(page).to_not have_received(:has_success_msg?)
     expect(page).to_not have_received(:has_jills_modal?)
-    expect(page).to_not have_received(:has_zanes_modal?)
   end
 
   it 'element method with xpath should generate existence check method' do
