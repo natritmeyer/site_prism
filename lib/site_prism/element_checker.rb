@@ -11,7 +11,7 @@ module SitePrism
     def expected_elements
       elements = self.class.mapped_items
       if self.respond_to?(:excluded_elements)
-        elements = elements.select {|el| !self.excluded_elements.include? el}
+        elements = elements.select { |el| !excluded_elements.include? el }
       end
       elements
     end
