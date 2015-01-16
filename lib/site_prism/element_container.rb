@@ -3,6 +3,7 @@ module SitePrism::ElementContainer
   def element(element_name, *find_args)
     build element_name, *find_args do
       define_method element_name.to_s do |*runtime_args|
+        raise_if_block(element_name, block_given?)
         find_first *find_args, *runtime_args
       end
     end
@@ -11,6 +12,7 @@ module SitePrism::ElementContainer
   def elements(collection_name, *find_args)
     build collection_name, *find_args do
       define_method collection_name.to_s do |*runtime_args|
+        raise_if_block(collection_name, block_given?)
         find_all *find_args, *runtime_args
       end
     end
@@ -21,6 +23,7 @@ module SitePrism::ElementContainer
     section_class, find_args = extract_section_options args, &block
     build section_name, *find_args do
       define_method section_name do | *runtime_args |
+        raise_if_block(section_name, block_given?)
         section_class.new self, find_first(*find_args, *runtime_args)
       end
     end
@@ -30,6 +33,7 @@ module SitePrism::ElementContainer
     section_class, find_args = extract_section_options args, &block
     build section_collection_name, *find_args do
       define_method section_collection_name do |*runtime_args|
+        raise_if_block(section_collection_name, block_given?)
         find_all(*find_args, *runtime_args).collect do |element|
           section_class.new self, element
         end
@@ -61,6 +65,10 @@ module SitePrism::ElementContainer
   end
 
   private
+  def raise_if_block(name, has_block)
+    return unless has_block
+    raise "#{name} does not accept blocks, did you mean to define a (i)frame?"
+  end
 
   def build(name, *find_args)
     if find_args.empty?
