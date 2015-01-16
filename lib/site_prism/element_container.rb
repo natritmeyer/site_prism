@@ -2,43 +2,44 @@ module SitePrism::ElementContainer
 
   def element(element_name, *find_args)
     build element_name, *find_args do
-      define_method element_name.to_s do |*runtime_args|
-        raise_if_block(element_name, block_given?)
-        find_first *find_args, *runtime_args
-      end
-    end
+                        define_method element_name.to_s do |*runtime_args, &block|
+                          self.class.raise_if_block(self, element_name, !block.nil?)
+                          find_first *find_args, *runtime_args
+                        end
+                      end
   end
 
   def elements(collection_name, *find_args)
     build collection_name, *find_args do
-      define_method collection_name.to_s do |*runtime_args|
-        raise_if_block(collection_name, block_given?)
-        find_all *find_args, *runtime_args
-      end
-    end
+                           define_method collection_name.to_s do |*runtime_args, &block|
+                             self.class.raise_if_block(self, collection_name, !block.nil?)
+                             find_all *find_args, *runtime_args
+                           end
+                         end
   end
+
   alias :collection :elements
 
   def section(section_name, *args, &block)
     section_class, find_args = extract_section_options args, &block
     build section_name, *find_args do
-      define_method section_name do | *runtime_args |
-        raise_if_block(section_name, block_given?)
-        section_class.new self, find_first(*find_args, *runtime_args)
-      end
-    end
+                        define_method section_name do |*runtime_args, &block|
+                          self.class.raise_if_block(self, section_name, !block.nil?)
+                          section_class.new self, find_first(*find_args, *runtime_args)
+                        end
+                      end
   end
 
   def sections(section_collection_name, *args, &block)
     section_class, find_args = extract_section_options args, &block
     build section_collection_name, *find_args do
-      define_method section_collection_name do |*runtime_args|
-        raise_if_block(section_collection_name, block_given?)
-        find_all(*find_args, *runtime_args).collect do |element|
-          section_class.new self, element
-        end
-      end
-    end
+                                   define_method section_collection_name do |*runtime_args, &block|
+                                     self.class.raise_if_block(self, section_collection_name, !block.nil?)
+                                     find_all(*find_args, *runtime_args).collect do |element|
+                                       section_class.new self, element
+                                     end
+                                   end
+                                 end
   end
 
   def iframe(iframe_name, iframe_page_class, selector)
@@ -64,11 +65,15 @@ module SitePrism::ElementContainer
     @mapped_items
   end
 
-  private
-  def raise_if_block(name, has_block)
+  def raise_if_block(obj, name, has_block)
     return unless has_block
-    raise "#{name} does not accept blocks, did you mean to define a (i)frame?"
+    raise UnsupportedBlock, "#{obj.class}##{name} does not accept blocks, did you mean to define a (i)frame?"
   end
+
+  class UnsupportedBlock < StandardError;
+  end
+
+  private
 
   def build(name, *find_args)
     if find_args.empty?
@@ -99,63 +104,63 @@ module SitePrism::ElementContainer
   def create_existence_checker(element_name, *find_args)
     method_name = "has_#{element_name.to_s}?"
     create_helper_method method_name, *find_args do
-      define_method method_name do |*runtime_args|
-        wait_time = SitePrism.use_implicit_waits ? Capybara.default_wait_time : 0
-        Capybara.using_wait_time wait_time do
-          element_exists? *find_args, *runtime_args
-        end
-      end
-    end
+                                      define_method method_name do |*runtime_args|
+                                        wait_time = SitePrism.use_implicit_waits ? Capybara.default_wait_time : 0
+                                        Capybara.using_wait_time wait_time do
+                                          element_exists? *find_args, *runtime_args
+                                        end
+                                      end
+                                    end
   end
 
   def create_nonexistence_checker(element_name, *find_args)
     method_name = "has_no_#{element_name.to_s}?"
     create_helper_method method_name, *find_args do
-      define_method method_name do |*runtime_args|
-        wait_time = SitePrism.use_implicit_waits ? Capybara.default_wait_time : 0
-        Capybara.using_wait_time wait_time do
-          element_does_not_exist? *find_args, *runtime_args
-        end
-      end
-    end
+                                      define_method method_name do |*runtime_args|
+                                        wait_time = SitePrism.use_implicit_waits ? Capybara.default_wait_time : 0
+                                        Capybara.using_wait_time wait_time do
+                                          element_does_not_exist? *find_args, *runtime_args
+                                        end
+                                      end
+                                    end
   end
 
   def create_waiter(element_name, *find_args)
     method_name = "wait_for_#{element_name.to_s}"
     create_helper_method method_name, *find_args do
-      define_method method_name do |timeout = nil, *runtime_args|
-        timeout = timeout.nil? ? Capybara.default_wait_time : timeout
-        Capybara.using_wait_time timeout do
-          element_exists? *find_args, *runtime_args
-        end
-      end
-    end
+                                      define_method method_name do |timeout = nil, *runtime_args|
+                                        timeout = timeout.nil? ? Capybara.default_wait_time : timeout
+                                        Capybara.using_wait_time timeout do
+                                          element_exists? *find_args, *runtime_args
+                                        end
+                                      end
+                                    end
   end
 
   def create_visibility_waiter(element_name, *find_args)
     method_name = "wait_until_#{element_name.to_s}_visible"
     create_helper_method method_name, *find_args do
-      define_method method_name do |timeout = Capybara.default_wait_time, *runtime_args|
-        Timeout.timeout timeout, SitePrism::TimeOutWaitingForElementVisibility do
-          Capybara.using_wait_time 0 do
-            sleep 0.05 while not element_exists? *find_args, *runtime_args, visible: true
-          end
-        end
-      end
-    end
+                                      define_method method_name do |timeout = Capybara.default_wait_time, *runtime_args|
+                                        Timeout.timeout timeout, SitePrism::TimeOutWaitingForElementVisibility do
+                                          Capybara.using_wait_time 0 do
+                                            sleep 0.05 while not element_exists? *find_args, *runtime_args, visible: true
+                                          end
+                                        end
+                                      end
+                                    end
   end
 
   def create_invisibility_waiter(element_name, *find_args)
     method_name = "wait_until_#{element_name.to_s}_invisible"
     create_helper_method method_name, *find_args do
-      define_method method_name do |timeout = Capybara.default_wait_time, *runtime_args|
-        Timeout.timeout timeout, SitePrism::TimeOutWaitingForElementInvisibility do
-          Capybara.using_wait_time 0 do
-            sleep 0.05 while element_exists? *find_args, *runtime_args, visible: true
-          end
-        end
-      end
-    end
+                                      define_method method_name do |timeout = Capybara.default_wait_time, *runtime_args|
+                                        Timeout.timeout timeout, SitePrism::TimeOutWaitingForElementInvisibility do
+                                          Capybara.using_wait_time 0 do
+                                            sleep 0.05 while element_exists? *find_args, *runtime_args, visible: true
+                                          end
+                                        end
+                                      end
+                                    end
   end
 
   def create_no_selector(method_name)
@@ -169,7 +174,7 @@ module SitePrism::ElementContainer
   end
 
   def deduce_iframe_element_selector(selector)
-    selector.is_a?(Integer) ?  "iframe:nth-of-type(#{selector + 1})" : selector
+    selector.is_a?(Integer) ? "iframe:nth-of-type(#{selector + 1})" : selector
   end
 
   def extract_section_options(args, &block)
