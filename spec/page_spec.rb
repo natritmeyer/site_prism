@@ -90,5 +90,21 @@ describe SitePrism::Page do
   it "should expose the page title" do
     expect(SitePrism::Page.new).to respond_to :title
   end
+
+  it "should raise exception if passing a block to an element" do
+    expect{TestHomePage.new.invisible_element {puts "bla"}}.to raise_error(SitePrism::ElementContainer::UnsupportedBlock)
+  end
+
+  it "should raise exception if passing a block to elements" do
+    expect{TestHomePage.new.lots_of_links {puts "bla"}}.to raise_error(SitePrism::ElementContainer::UnsupportedBlock)
+  end
+
+  it "should raise exception if passing a block to a section" do
+    expect{TestHomePage.new.people {puts "bla"}}.to raise_error(SitePrism::ElementContainer::UnsupportedBlock)
+  end
+
+  it "should raise exception if passing a block to sections" do
+    expect{TestHomePage.new.nonexistent_section {puts "bla"}}.to raise_error(SitePrism::ElementContainer::UnsupportedBlock)
+  end
 end
 
