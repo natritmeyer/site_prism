@@ -22,16 +22,14 @@ describe SitePrism::Page do
   end
 
   it 'url should be nil by default' do
-    class PageDefaultUrl < SitePrism::Page;
-    end
+    class PageDefaultUrl < SitePrism::Page; end
     page = PageDefaultUrl.new
     expect(PageDefaultUrl.url).to be_nil
     expect(page.url).to be_nil
   end
 
   it "should not allow loading if the url hasn't been set" do
-    class MyPageWithNoUrl < SitePrism::Page;
-    end
+    class MyPageWithNoUrl < SitePrism::Page; end
     page_with_no_url = MyPageWithNoUrl.new
     expect { page_with_no_url.load }.to raise_error
   end
@@ -50,14 +48,13 @@ describe SitePrism::Page do
     end
     page_with_url = MyPageWithUriTemplate.new
     expect { page_with_url.load(username: 'foobar') }.to_not raise_error
-    expect(page_with_url.url(username: 'foobar', query: {'recent_posts' => 'true'})).to eq('/users/foobar?recent_posts=true')
+    expect(page_with_url.url(username: 'foobar', query: { 'recent_posts' => 'true' })).to eq('/users/foobar?recent_posts=true')
     expect(page_with_url.url(username: 'foobar')).to eq('/users/foobar')
     expect(page_with_url.url).to eq('/users')
   end
 
   it 'should allow to load html' do
-    class Page < SitePrism::Page;
-    end
+    class Page < SitePrism::Page; end
     page = Page.new
     expect { page.load('<html/>') }.to_not raise_error
   end
@@ -67,8 +64,7 @@ describe SitePrism::Page do
   end
 
   it 'url matcher should be nil by default' do
-    class PageDefaultUrlMatcher < SitePrism::Page;
-    end
+    class PageDefaultUrlMatcher < SitePrism::Page; end
     page = PageDefaultUrlMatcher.new
     expect(PageDefaultUrlMatcher.url_matcher).to be_nil
     expect(page.url_matcher).to be_nil
@@ -83,8 +79,7 @@ describe SitePrism::Page do
   end
 
   it 'should raise an exception if displayed? is called before the matcher has been set' do
-    class PageWithNoMatcher < SitePrism::Page;
-    end
+    class PageWithNoMatcher < SitePrism::Page; end
     expect { PageWithNoMatcher.new.displayed? }.to raise_error SitePrism::NoUrlMatcherForPage
   end
 
@@ -183,34 +178,34 @@ describe SitePrism::Page do
     expect(SitePrism::Page.new).to respond_to :title
   end
 
-  it "should raise exception if passing a block to an element" do
+  it 'should raise exception if passing a block to an element' do
     expect do
       TestHomePage.new.invisible_element do
-        puts "bla"
+        puts 'bla'
       end
     end.to raise_error(SitePrism::UnsupportedBlock)
   end
 
-  it "should raise exception if passing a block to elements" do
+  it 'should raise exception if passing a block to elements' do
     expect do
       TestHomePage.new.lots_of_links do
-        puts "bla"
+        puts 'bla'
       end
     end.to raise_error(SitePrism::UnsupportedBlock)
   end
 
-  it "should raise exception if passing a block to a section" do
+  it 'should raise exception if passing a block to a section' do
     expect do
       TestHomePage.new.people do
-        puts "bla"
+        puts 'bla'
       end
     end.to raise_error(SitePrism::UnsupportedBlock)
   end
 
-  it "should raise exception if passing a block to sections" do
+  it 'should raise exception if passing a block to sections' do
     expect do
       TestHomePage.new.nonexistent_section do
-        puts "bla"
+        puts 'bla'
       end
     end.to raise_error(SitePrism::UnsupportedBlock)
   end
