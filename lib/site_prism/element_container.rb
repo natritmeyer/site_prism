@@ -4,7 +4,8 @@ module SitePrism
 
     def element(element_name, *find_args)
       build element_name, *find_args do
-        define_method element_name.to_s do |*runtime_args|
+        define_method element_name.to_s do |*runtime_args, &block|
+          self.class.raise_if_block(self, element_name.to_s, !block.nil?)
           find_first(*find_args, *runtime_args)
         end
       end
@@ -12,7 +13,8 @@ module SitePrism
 
     def elements(collection_name, *find_args)
       build collection_name, *find_args do
-        define_method collection_name.to_s do |*runtime_args|
+        define_method collection_name.to_s do |*runtime_args, &block|
+          self.class.raise_if_block(self, collection_name.to_s, !block.nil?)
           find_all(*find_args, *runtime_args)
         end
       end
@@ -22,7 +24,8 @@ module SitePrism
     def section(section_name, *args, &block)
       section_class, find_args = extract_section_options args, &block
       build section_name, *find_args do
-        define_method section_name do | *runtime_args |
+        define_method section_name do | *runtime_args, &block |
+          self.class.raise_if_block(self, section_name.to_s, !block.nil?)
           section_class.new self, find_first(*find_args, *runtime_args)
         end
       end
@@ -31,7 +34,8 @@ module SitePrism
     def sections(section_collection_name, *args, &block)
       section_class, find_args = extract_section_options args, &block
       build section_collection_name, *find_args do
-        define_method section_collection_name do |*runtime_args|
+        define_method section_collection_name do |*runtime_args, &block|
+          self.class.raise_if_block(self, section_collection_name.to_s, !block.nil?)
           find_all(*find_args, *runtime_args).map do |element|
             section_class.new self, element
           end
@@ -56,6 +60,11 @@ module SitePrism
     def add_to_mapped_items(item)
       @mapped_items ||= []
       @mapped_items << item.to_s
+    end
+
+    def raise_if_block(obj, name, has_block)
+      return unless has_block
+      raise SitePrism::UnsupportedBlock, "#{obj.class}##{name} does not accept blocks, did you mean to define a (i)frame?"
     end
 
     private
