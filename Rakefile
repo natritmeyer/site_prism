@@ -1,6 +1,8 @@
 require 'cucumber/rake/task'
 require 'rspec/core/rake_task'
 require 'reek/rake/task'
+require 'rubocop/rake_task'
+
 require 'yard'
 
 namespace :cuke do
@@ -29,10 +31,12 @@ namespace :code do
   end
 end
 
+RuboCop::RakeTask.new
+
 namespace :docs do
   YARD::Rake::YardocTask.new :generate do |t|
     t.files   = ['lib/**/*.rb', '-', 'README.md']
   end
 end
 
-task default: ['spec:all', 'cuke:all']
+task default: ['rubocop', 'spec:all', 'cuke:all']
