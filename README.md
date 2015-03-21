@@ -646,7 +646,7 @@ to wait for:
 Like the individual elements, calling the `elements` method will create
 two methods: `wait_until_<elements_name>_visible` and
 `wait_until_<elements_name>_invisible`. Calling these methods will cause
-your test to wait for the elements to become visible or invisibe. Using
+your test to wait for the elements to become visible or invisible. Using
 the above example:
 
 ```ruby
@@ -986,7 +986,7 @@ sections within sections within sections within sections!
 
 ```ruby
 
-# define a page that contains an area that contains a section for both logging in and registration, then modelling each of the sub sections seperately
+# define a page that contains an area that contains a section for both logging in and registration, then modelling each of the sub sections separately
 
 class Login < SitePrism::Section
   element :username, "#username"
