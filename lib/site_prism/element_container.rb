@@ -22,7 +22,7 @@ module SitePrism
     def section(section_name, *args, &block)
       section_class, find_args = extract_section_options args, &block
       build section_name, *find_args do
-        define_method section_name do | *runtime_args |
+        define_method section_name do |*runtime_args|
           section_class.new self, find_first(*find_args, *runtime_args)
         end
       end
