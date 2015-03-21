@@ -22,7 +22,7 @@ end
 
 namespace :code do
   Reek::Rake::Task.new do |t|
-    t.config_files = 'config.reek'
+    t.config_file = 'config.reek'
     t.source_files = '**/*.rb'
     t.fail_on_error = false
     t.reek_opts = '-q'
