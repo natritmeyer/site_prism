@@ -15,12 +15,45 @@ module SitePrism
       @pattern = pattern
     end
 
-    def matches?(url)
+    # @return the hash of extracted mappings from parsing the provided URL according to our pattern,
+    # or nil if the URL doesn't conform to the matcher template.
+    def mappings(url)
       uri = Addressable::URI.parse(url)
-      COMPONENT_NAMES.all? { |component| component_matches?(component, uri) }
+      result = {}
+      COMPONENT_NAMES.each do |component|
+        component_result = component_matches(component, uri)
+        result = component_result ? result.merge!(component_result) : nil
+        break unless result
+      end
+      result
+    end
+
+    # Determine whether URL matches our pattern, and optionally whether the extracted mappings match
+    # a hash of expected values.  You can specify values as strings, numbers or regular expressions.
+    def matches?(url, expected_mappings = {})
+      actual_mappings = mappings(url)
+      if actual_mappings
+        expected_mappings.empty? ? true : all_expected_mappings_match?(expected_mappings, actual_mappings)
+      else
+        false
+      end
     end
 
     private
+
+    def all_expected_mappings_match?(expected_mappings, actual_mappings)
+      expected_mappings.all? do |key, expected_value|
+        actual_value = actual_mappings[key.to_s]
+        case expected_value
+        when Numeric
+          actual_value == expected_value.to_s
+        when Regexp
+          actual_value.match(expected_value)
+        else
+          expected_value == actual_value
+        end
+      end
+    end
 
     # Memoizes the extracted component templates
     def component_templates
@@ -41,18 +74,20 @@ module SitePrism
       end.freeze
     end
 
-    # Returns true if the template omits the component or the provided URI component matches the template component
-    def component_matches?(component, uri)
+    # Returns empty hash if the template omits the component, a set of substitutions if the
+    # provided URI component matches the template component, or nil if the match fails.
+    def component_matches(component, uri)
+      extracted_mappings = {}
       component_template = component_templates[component]
       if component_template
         component_url = uri.public_send(component).to_s
-        unless component_template.extract(component_url)
+        unless (extracted_mappings = component_template.extract(component_url))
           # to support Addressable's expansion of queries, ensure it's parsing the fragment as appropriate (e.g. {?params*})
           prefix = COMPONENT_PREFIXES[component]
-          return false unless prefix && component_template.extract(prefix + component_url)
+          return nil unless prefix && (extracted_mappings = component_template.extract(prefix + component_url))
         end
       end
-      true
+      extracted_mappings
     end
 
     # Convert the pattern into an Addressable URI by substituting the template slugs with nonsense strings.
