@@ -2,6 +2,7 @@
 - Spring clean of the code - thanks to Jonathan Chrisp (@jonathanchrisp)
 - fixes around Capybara's #title method - thanks to @tgaff
 - changes around url matching - thanks to @jmileham
+- added check for block being passed to page - thanks to @sponte
 
 2.6
 - added rspec 3 compatibility - thanks to Bradley Schaefer (@soulcutter)
