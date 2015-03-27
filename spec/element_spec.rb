@@ -68,6 +68,29 @@ describe SitePrism::Page do
     expect(page).to_not have_received(:has_jills_modal?)
   end
 
+  it 'excluded elements should be actually absent' do
+    class PageWithAFewElements < SitePrism::Page
+      element :bob, 'a.b c.d'
+      element :success_msg, 'span.alert-success'
+      section :jills_modal, '#xyzz' do
+        element :modal_input, '#modal_input'
+      end
+
+      def excluded_elements
+        %w(success_msg jills_modal)
+      end
+    end
+    page = PageWithAFewElements.new
+    allow(page).to receive(:has_no_bob?).and_return(false)
+    allow(page).to receive(:has_no_success_msg?).and_return(true)
+    allow(page).to receive(:has_no_jills_modal?).and_return(true)
+    excludeds_absent = page.excluded_all_absent?
+    expect(excludeds_absent).to be_truthy
+    expect(page).to_not have_received(:has_no_bob?)
+    expect(page).to have_received(:has_no_success_msg?).at_least(:once)
+    expect(page).to have_received(:has_no_jills_modal?).at_least(:once)
+  end
+
   it 'element method with xpath should generate existence check method' do
     class PageWithElement < SitePrism::Page
       element :bob, :xpath, '//a[@class="b"]//c[@class="d"]'
