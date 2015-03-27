@@ -27,8 +27,11 @@ module SitePrism
     end
 
     def excluded_elements
-      self.respond_to?(:excluded_elements) ?
-        excluded_elements : nil
+      if self.respond_to?(:excluded_elements)
+        excluded_elements
+      else
+        nil
+      end
     end
   end
 end
