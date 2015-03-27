@@ -111,12 +111,50 @@ describe SitePrism::AddressableUrlMatcher do
       expect_matches('//bazzle.com/').to eq false
     end
 
-    def expect_matches(pattern)
-      expect(matches?(pattern))
+    it 'matches with single mappings' do
+      expect_matches('//bazzle.{tld}', tld: 'com').to eq true
     end
 
-    def matches?(pattern)
-      SitePrism::AddressableUrlMatcher.new(pattern).matches?(url)
+    it 'matches with string keys on expected_mappings' do
+      expect_matches('//bazzle.{tld}', 'tld' => 'com').to eq true
+    end
+
+    it 'fails on incorrect mappings' do
+      expect_matches('//bazzle.{tld}{/path*}', tld: 'org').to eq false
+    end
+
+    it 'matches with partially specified mappings' do
+      expect_matches('//bazzle.{tld}{/path*}', tld: 'com').to eq true
+    end
+
+    it 'fails on overspecified mappings' do
+      expect_matches('{/path*}', tld: 'com').to eq false
+    end
+
+    it 'matches with completely specified mappings' do
+      expect_matches('/foos/{foo_id}/bars/{bar_id}', foo_id: '22', bar_id: '12').to eq true
+    end
+
+    it 'casts numbers to strings for comparison' do
+      expect_matches('/foos/{foo_id}/bars/{bar_id}', foo_id: 22, bar_id: 12).to eq true
+    end
+
+    it 'matches on correct regular expressions' do
+      expect_matches('/foos/{foo_id}/bars/{bar_id}', foo_id: /2\d/, bar_id: 12).to eq true
+    end
+
+    it 'fails on incorrect regular expressions' do
+      expect_matches('/foos/{foo_id}/bars/{bar_id}', foo_id: /2\d\d/, bar_id: 12).to eq false
+    end
+
+    def expect_matches(*args)
+      expect(matches?(*args))
+    end
+
+    def matches?(*args)
+      expected_mappings = args.last.is_a?(::Hash) ? args.pop : {}
+      pattern = args.first || fail('Must specify a pattern for matches?')
+      SitePrism::AddressableUrlMatcher.new(pattern).matches?(url, expected_mappings)
     end
   end
 end

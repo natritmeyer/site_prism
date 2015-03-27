@@ -1,3 +1,8 @@
+unless ENV['CI']
+  require 'simplecov'
+  SimpleCov.start
+end
+
 require 'capybara'
 require 'capybara/dsl'
 require 'selenium-webdriver'

@@ -260,6 +260,43 @@ expect(@account_page).to be_displayed
 Calling `#displayed?` will return true if the browser's current URL
 matches the page's template and false if it doesn't.
 
+#### Specifying parameter values for templated URLs
+
+Sometimes you want to verify not just that the current URL matches the
+template, but that you're looking at a specific page matching that
+template.
+
+Given the previous example, if you wanted to ensure that the browser had loaded
+account number 22, you could assert the following:
+
+```ruby
+expect(@account_page).to be_displayed(id: 22)
+```
+
+You can even use regular expressions.  If, as a contrived example, you wanted to
+ensure that the browser was displaying an account with an id ending with 2, you could
+say:
+
+```ruby
+expect(@account_page).to be_displayed(id: /2\z/)
+```
+
+#### Accessing specific matches from a templated URL in your tests
+
+If passing options to `displayed?` isn't powerful enough to meet your
+needs, you can directly access and assert on the `url_matches` found
+when comparing your page's URL template to the current_url:
+
+```ruby
+@account_page = Account.new
+@account_page.load(id: 22, query: { token: "ca2786616a4285bc", color: 'irrelevant' })
+
+expect(@account_page).to be_displayed(id: 22)
+expect(@account_page.url_matches['query']['token']).to eq "ca2786616a4285bc"
+```
+
+#### Falling back to basic regexp matchers
+
 If SitePrism's built-in URL matching is not sufficient for your needs
  you can override and use SitePrism's previous support for regular expression-based
 URL matchers by it by calling `set_url_matcher`:
@@ -281,23 +318,6 @@ Then /^the account page is displayed$/ do
   expect(@some_other_page).not_to be_displayed
 end
 ```
-
-Another example that demonstrates why using regex instead of string
-comparison for URL checking is when you want to be able to run your
-tests across multiple environments.
-
-```ruby
-class Login < SitePrism::Page
-  set_url "#{$test_environment}.example.com/login" #=> global var used for demonstration purposes only!!!
-  set_url_matcher /(?:dev|test|www)\.example\.com\/login/
-end
-```
-
-The above example would work for `dev.example.com/login`,
-`test.example.com/login` and `www.example.com/login`; now your tests
-aren't limited to one environment but can verify that they are on the
-correct page regardless of the environment the tests are being executed
-against.
 
 ### Getting the Current Page's URL
 
@@ -646,7 +666,7 @@ to wait for:
 Like the individual elements, calling the `elements` method will create
 two methods: `wait_until_<elements_name>_visible` and
 `wait_until_<elements_name>_invisible`. Calling these methods will cause
-your test to wait for the elements to become visible or invisibe. Using
+your test to wait for the elements to become visible or invisible. Using
 the above example:
 
 ```ruby
@@ -986,7 +1006,7 @@ sections within sections within sections within sections!
 
 ```ruby
 
-# define a page that contains an area that contains a section for both logging in and registration, then modelling each of the sub sections seperately
+# define a page that contains an area that contains a section for both logging in and registration, then modelling each of the sub sections separately
 
 class Login < SitePrism::Section
   element :username, "#username"

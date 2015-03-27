@@ -91,6 +91,22 @@ describe SitePrism::Page do
     expect { page.displayed? }.to_not raise_error
   end
 
+  describe 'with a bogus URL matcher' do
+    class PageWithBogusFullUrlMatcher < SitePrism::Page
+      set_url_matcher this: "isn't a URL matcher"
+    end
+
+    let(:page) { PageWithBogusFullUrlMatcher.new }
+
+    specify '#url_matches raises InvalidUrlMatcher' do
+      expect { page.url_matches }.to raise_error SitePrism::InvalidUrlMatcher
+    end
+
+    specify '#displayed? raises InvalidUrlMatcher' do
+      expect { page.displayed? }.to raise_error SitePrism::InvalidUrlMatcher
+    end
+  end
+
   describe 'with a full string URL matcher' do
     class PageWithStringFullUrlMatcher < SitePrism::Page
       set_url_matcher 'https://joe:bump@bla.org:443/foo?bar=baz&bar=boof#myfragment'
@@ -174,8 +190,112 @@ describe SitePrism::Page do
     end
   end
 
+  context 'with a parameterized URL matcher' do
+    class PageWithParameterizedUrlMatcher < SitePrism::Page
+      set_url_matcher '{scheme}:///foos{/id}'
+    end
+
+    let(:page) { PageWithParameterizedUrlMatcher.new }
+
+    describe '#displayed?' do
+      it 'returns true without expected_mappings provided' do
+        swap_current_url('http://localhost:3000/foos/28')
+        expect(page.displayed?).to eq(true)
+      end
+
+      it 'returns true with correct expected_mappings provided' do
+        swap_current_url('http://localhost:3000/foos/28')
+        expect(page.displayed?(id: 28)).to eq(true)
+      end
+
+      it 'returns false with incorrect expected_mappings provided' do
+        swap_current_url('http://localhost:3000/foos/28')
+        expect(page.displayed?(id: 17)).to eq(false)
+      end
+    end
+
+    it 'passes through incorrect expected_mappings from the be_displayed matcher' do
+      swap_current_url('http://localhost:3000/foos/28')
+      expect(page).not_to be_displayed id: 17
+    end
+
+    it 'passes through correct expected_mappings from the be_displayed matcher' do
+      swap_current_url('http://localhost:3000/foos/28')
+      expect(page).to be_displayed id: 28
+    end
+
+    describe '#url_matches' do
+      it 'returns mappings from the current_url' do
+        swap_current_url('http://localhost:3000/foos/15')
+        expect(page.url_matches).to eq 'scheme' => 'http', 'id' => '15'
+      end
+
+      it "returns nil if current_url doesn't match the url_matcher" do
+        swap_current_url('http://localhost:3000/bars/15')
+        expect(page.url_matches).to eq nil
+      end
+    end
+  end
+
+  describe 'with a regexp matcher' do
+    class PageWithRegexpUrlMatcher < SitePrism::Page
+      set_url_matcher(/foos\/(\d+)/)
+    end
+
+    let(:page) { PageWithRegexpUrlMatcher.new }
+
+    describe '#url_matches' do
+      it 'returns regexp MatchData' do
+        swap_current_url('http://localhost:3000/foos/15')
+        expect(page.url_matches).to be_kind_of(MatchData)
+      end
+
+      it 'lets you get at the captures' do
+        swap_current_url('http://localhost:3000/foos/15')
+        expect(page.url_matches[1]).to eq '15'
+      end
+
+      it "returns nil if current_url doesn't match the url_matcher" do
+        swap_current_url('http://localhost:3000/bars/15')
+        expect(page.url_matches).to eq nil
+      end
+    end
+  end
+
   it 'should expose the page title' do
     expect(SitePrism::Page.new).to respond_to :title
+  end
+
+  it 'should raise exception if passing a block to an element' do
+    expect do
+      TestHomePage.new.invisible_element do
+        puts 'bla'
+      end
+    end.to raise_error(SitePrism::UnsupportedBlock)
+  end
+
+  it 'should raise exception if passing a block to elements' do
+    expect do
+      TestHomePage.new.lots_of_links do
+        puts 'bla'
+      end
+    end.to raise_error(SitePrism::UnsupportedBlock)
+  end
+
+  it 'should raise exception if passing a block to a section' do
+    expect do
+      TestHomePage.new.people do
+        puts 'bla'
+      end
+    end.to raise_error(SitePrism::UnsupportedBlock)
+  end
+
+  it 'should raise exception if passing a block to sections' do
+    expect do
+      TestHomePage.new.nonexistent_section do
+        puts 'bla'
+      end
+    end.to raise_error(SitePrism::UnsupportedBlock)
   end
 
   def swap_current_url(url)
