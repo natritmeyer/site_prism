@@ -1,6 +1,5 @@
 module SitePrism
   module ElementChecker
-
     def all_there?
       Capybara.using_wait_time(0) do
         expected_elements.all? { |element| send "has_#{element}?" }
@@ -29,7 +28,7 @@ module SitePrism
 
     def excluded_elements
       self.respond_to?(:excluded_elements) ?
-        self.excluded_elements : nil
+        excluded_elements : nil
     end
   end
 end
