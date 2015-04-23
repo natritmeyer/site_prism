@@ -168,7 +168,7 @@ module SitePrism
     end
 
     def deduce_iframe_element_selector(selector)
-      selector.is_a?(Integer) ?  "iframe:nth-of-type(#{selector + 1})" : selector
+      selector.is_a?(Integer) ? "iframe:nth-of-type(#{selector + 1})" : selector
     end
 
     def extract_section_options(args, &block)

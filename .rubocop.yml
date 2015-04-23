@@ -21,3 +21,6 @@ LineLength:
 
 MethodLength:
   Max: 11
+
+Style/RegexpLiteral:
+  Enabled: false
