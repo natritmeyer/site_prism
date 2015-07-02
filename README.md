@@ -1337,7 +1337,7 @@ end
 To expose the iframe, reference it from another page or class using the `iframe`
 method. The `iframe` method takes 3 arguments; the name by which you
 would like to reference the iframe, the page class that represents the
-iframe, and an ID by which you can locate the iframe. For example:
+iframe, and an ID or class by which you can locate the iframe. For example:
 
 ```ruby
 class PageContainingIframe < SitePrism::Page
@@ -1345,10 +1345,8 @@ class PageContainingIframe < SitePrism::Page
 end
 ```
 
-NB: An iframe can only be referenced by its ID. This is a limitation
-imposed by Capybara. The third argument to the `iframe` method must
-contain a selector that will locate the iframe node, and the portion of
-the selector that locates the iframe node must use the iframe node's ID.
+The third argument to the `iframe` method must
+contain a selector that will locate the iframe node.
 
 ### Testing for an iframe's existence
 
