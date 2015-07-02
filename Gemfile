@@ -10,6 +10,5 @@ group :development do
   gem 'yard'
   gem 'redcarpet'
   gem 'simplecov', require: false
-  gem 'reek'
   gem 'rubocop'
 end
