@@ -13,6 +13,9 @@ TrivialAccessors:
 RedundantReturn:
   Enabled: false
 
+ModuleLength:
+  Enabled: false
+
 Encoding:
   EnforcedStyle: when_needed
 

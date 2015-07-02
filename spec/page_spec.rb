@@ -31,7 +31,7 @@ describe SitePrism::Page do
   it "should not allow loading if the url hasn't been set" do
     class MyPageWithNoUrl < SitePrism::Page; end
     page_with_no_url = MyPageWithNoUrl.new
-    expect { page_with_no_url.load }.to raise_error
+    expect { page_with_no_url.load }.to raise_error(SitePrism::NoUrlForPage)
   end
 
   it 'should allow loading if the url has been set' do
