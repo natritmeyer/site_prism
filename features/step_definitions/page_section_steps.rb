@@ -96,3 +96,8 @@ end
 Then(/^the page contains a section with no element$/) do
   expect(@test_site.home.people).to have_no_dinosaur
 end
+
+Then(/^the page contains a deeply nested span$/) do
+  expect(@test_site.section_experiments.level_1[0].level_2[0].level_3[0].level_4[0].level_5[0]).to have_deep_span
+  expect(@test_site.section_experiments.level_1[0].level_2[0].level_3[0].level_4[0].level_5[0].deep_span.text).to eq 'Deep span'
+end

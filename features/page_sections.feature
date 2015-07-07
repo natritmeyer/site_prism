@@ -70,3 +70,6 @@ Feature: Page Sections
     When I navigate to the home page
     Then the page contains a section with no element
 
+  Scenario: Page with deeply nested sections
+    When I navigate to the section experiments page
+    Then the page contains a deeply nested span
