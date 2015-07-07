@@ -7,6 +7,8 @@ Find the pretty documentation here: http://rdoc.info/gems/site_prism/frames
 
 [![Build Status](https://travis-ci.org/natritmeyer/site_prism.png)](https://travis-ci.org/natritmeyer/site_prism)
 
+Make sure to add your project/company to https://github.com/natritmeyer/site_prism/wiki/Who-is-using-SitePrism
+
 ## Synopsis
 
 Here's an overview of how SitePrism is designed to be used:
