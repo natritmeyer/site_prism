@@ -73,7 +73,7 @@ module SitePrism
     end
 
     def secure?
-      !current_url.match(/^https/).nil?
+      current_url.start_with? 'https'
     end
 
     private
