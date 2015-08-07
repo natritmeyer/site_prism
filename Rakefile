@@ -25,7 +25,7 @@ RuboCop::RakeTask.new
 
 namespace :docs do
   YARD::Rake::YardocTask.new :generate do |t|
-    t.files   = ['lib/**/*.rb', '-', 'README.md']
+    t.files = ['lib/**/*.rb', '-', 'README.md']
   end
 end
 
