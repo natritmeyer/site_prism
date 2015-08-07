@@ -868,10 +868,10 @@ Some of this test code can be made a little prettier by simply passing a block i
 ```ruby
 Then /^the home page menu contains a link to the various search functions$/ do
   @home.menu do |menu|
-    menu.should have_search
-    menu.search['href'].should include "google.com"
-    menu.should have_images
-    menu.should have_maps
+    expect(menu).to have_search
+    expect(menu.search['href']).to include "google.com"
+    expect(menu).to have_images
+    expect(menu).to have_maps
   end
 end
 ```
