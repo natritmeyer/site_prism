@@ -14,7 +14,6 @@ before_script:
   - sh -e /etc/init.d/xvfb start
 
 script:
-  - bundle exec rubocop
   - bundle exec rake
 
 branches:
