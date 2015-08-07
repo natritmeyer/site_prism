@@ -7,9 +7,6 @@ Documentation:
 AccessorMethodName:
   Enabled: false
 
-Style/SymbolProc:
-  Enabled: false
-
 TrivialAccessors:
   Enabled: false
 

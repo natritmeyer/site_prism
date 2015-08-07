@@ -1,4 +1,3 @@
-# rubocop:disable ModuleLength
 module SitePrism
   module ElementContainer
     attr_reader :mapped_items
