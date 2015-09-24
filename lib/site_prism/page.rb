@@ -1,20 +1,38 @@
+require 'site_prism/loadable'
+
 module SitePrism
   class Page
     include Capybara::DSL
     include ElementChecker
+    include Loadable
     extend ElementContainer
+
+    load_validation do
+      [ displayed?, "Expected #{current_url} to match #{url_matcher} but it did not." ]
+    end
 
     def page
       @page || Capybara.current_session
     end
 
-    def load(expansion_or_html = {})
+    # Loads the page.
+    # Executes the block, if given, after running load validations on the page.
+    #
+    # @param expansion_or_html
+    # @param block [&block] A block to run once the page is loaded.  The page will yield itself into the block.
+    def load(expansion_or_html = {}, &block)
+      self.loaded = false
+
       if expansion_or_html.is_a? String
         @page = Capybara.string(expansion_or_html)
       else
         expanded_url = url(expansion_or_html)
         fail SitePrism::NoUrlForPage if expanded_url.nil?
         visit expanded_url
+      end
+
+      if block_given?
+        when_loaded(&block)
       end
     end
 

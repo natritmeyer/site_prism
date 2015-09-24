@@ -1217,6 +1217,143 @@ end
 @results_page.wait_for_search_results(10) #=> waits for 10 seconds instead of the default capybara timeout
 ```
 
+## Load Validations
+
+Load validations enable common validations to be abstracted and performed on a Page or Section to determine
+when it has finished loading and is ready for interaction in your tests.
+
+For example, suppose you have a page which displays a 'Loading...' message while the body of
+the page is loaded in the background.  Load validations can be used to ensure tests wait for the correct url
+to be displayed and the loading message removed before trying to interact with with the page.
+
+Other use cases include Sections which are displayed conditionally and may take time to become ready to
+interact with, such as animated lightboxes.
+
+### Using Load Validations
+
+Load validations can be used in three constructs:
+
+* Passing a block to `Page#load`
+* Passing a block to `Loadable#when_loaded`
+* Calling `Loadable#loaded?`
+
+#### Page#load
+
+When a block is passed to the `Page#load` method, the url will be loaded normally and then the block will be
+executed within the context of `when_loaded`.  See `when_loaded` documentation below for further details.
+
+Example:
+
+```ruby
+# Load the page and then execute a block after all load validations pass:
+my_page_instance.load do |page|
+  page.do_something
+end
+```
+
+#### Loadable#when_loaded
+
+The `Loadable#when_loaded` method on a Loadable class instance will yield the instance of the class into a
+block after all load validations have passed.
+
+If any load validation fails, an error will be raised with the reason, if given, for the failure.
+
+Example:
+
+```ruby
+# Execute a block after all load validations pass:
+a_loadable_page_or_section.when_loaded do |loadable|
+  loadable.do_something
+end
+```
+
+#### Loadable#loaded?
+
+You can explicitly run load validations on a Loadable via the `loaded?` method.
+This method will execute all load validations on the object and return a boolean value.
+In the event of a validation failure, a validation error can be accessed via the `load_error`
+method on the object, if any error message was emitted by the failing validation.
+
+Example:
+
+```ruby
+it 'loads the page' do
+  some_page.load
+  some_page.loaded?    #=> true if/when all load validations pass
+  another_page.loaded? #=> false if any load validations fail
+  another_page.load_error #=> A string error message if one was supplied by the failing load validation, or nil
+end
+```
+
+### Defining Load Validations
+
+A load validation is a block which returns a boolean value when evaluated against an instance of the Loadable.
+
+```ruby
+class SomePage < SitePrism::Page
+  element :foo_element, '.foo'
+  load_validation { has_foo_element? }
+end
+```
+
+The block may instead return a two-element array which includes the boolean result as the first element and an
+error message as the second element. It is highly recommended to supply an error message, as they are
+extremely useful in debugging validation errors.
+
+The error message will be ignored unless the boolean value is falsey.
+
+```ruby
+class SomePage < SitePrism::Page
+  element :foo_element, '.foo'
+  load_validation { [has_foo_element?, 'did not have foo element!'] }
+end
+```
+
+Load validations may be defined on `SitePrism::Page` and `SitePrism::Section` classes (herein referred
+to as `Loadables`) and are evaluated against an instance of the class when executed.
+
+### Load Validation Inheritance and Execution Order
+
+Any number of load validations may be defined on a Loadable class and will be inherited by its subclasses.
+
+Load validations are executed in the order that they are defined.  Inherited load validations are executed
+from the top of the inheritance chain (e.g. `SitePrism::Page` or `SitePrism::Section`) to the bottom.
+
+For example:
+
+```ruby
+class BasePage < SitePrism::Page
+  element :loading_message, '.loader'
+
+  load_validation do
+    wait_for_loading_message(1)
+    [ has_no_loading_message?(wait: 10), 'loading message was still displayed' ]
+  end
+end
+
+class FooPage < BasePage
+  set_url '/foo'
+
+  section :form, '#form'
+  element :some_other_element, '.myelement'
+
+  load_validation { [has_form?, 'form did not appear'] }
+  load_validation { [has_some_other_element?, 'some other element did not appear'] }
+end
+```
+
+In the above example, when `loaded?` is called on an instance of `FooPage`, the validations will be performed in the
+following order:
+
+1. The `SitePrism::Page` default load validation will check `displayed?`
+2. The `BasePage` load validation will wait for the loading message to disappear.
+3. The `FooPage` load validation will wait for the `form` element to be present.
+4. The `FooPage` load validation will wait for the `some_other_element` element to be present.
+
+NOTE: `SitePrism::Page` includes a default load validation on `page.displayed?` which is applied
+to all pages.  It is therefore not necessary to define a load validation for this condition on
+inheriting page objects.
+
 ## Using Capybara Query Options
 
 When querying an element, section or a collection of elements or sections, you may

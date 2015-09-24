@@ -1,7 +1,10 @@
+require 'site_prism/loadable'
+
 module SitePrism
   class Section
     include Capybara::DSL
     include ElementChecker
+    include Loadable
     extend ElementContainer
 
     attr_reader :root_element, :parent
