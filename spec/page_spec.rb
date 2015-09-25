@@ -79,11 +79,11 @@ describe SitePrism::Page do
         Class.new(SitePrism::Page) do
           set_url '/foo_page'
 
-          def is_true?
+          def must_be_true
             true
           end
 
-          def is_also_true?
+          def also_true
             true
           end
 
@@ -91,8 +91,8 @@ describe SitePrism::Page do
             true
           end
 
-          load_validation { [ is_true?, 'It is not true!' ] }
-          load_validation { [ is_also_true?, 'It is not also true!' ] }
+          load_validation { [must_be_true, 'It is not true!'] }
+          load_validation { [also_true, 'It is not also true!'] }
         end
       end
 
@@ -104,12 +104,12 @@ describe SitePrism::Page do
       it 'yields itself to the passed block' do
         page = page_klass_with_load_validations.new
         expect(page).to receive(:foo?)
-        page.load { |p| p.foo? }
+        page.load { |p| p.foo? && true }
       end
 
       it 'raises an error when a block passed and load validations fail' do
         page = page_klass_with_load_validations.new
-        expect(page).to receive(:is_true?).and_return(false)
+        expect(page).to receive(:must_be_true).and_return(false)
         expect { page.load { puts 'foo' } }.to raise_error(SitePrism::NotLoadedError, /It is not true!/)
       end
     end

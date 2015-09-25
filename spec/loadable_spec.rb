@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'site_prism/loadable'
 
 describe SitePrism::Loadable do
-
   let(:loadable) do
     Class.new do
       include SitePrism::Loadable
@@ -27,7 +26,7 @@ describe SitePrism::Loadable do
         subclass.load_validation(&validation_3)
         loadable.load_validation(&validation_4)
 
-        expect(subclass.load_validations).to eql [validation_2, validation_4, validation_1, validation_3 ]
+        expect(subclass.load_validations).to eql [validation_2, validation_4, validation_1, validation_3]
       end
     end
 
@@ -50,7 +49,7 @@ describe SitePrism::Loadable do
       expect(instance).to receive(:foo)
 
       instance.when_loaded do |l|
-        l.foo
+        l.foo && true
       end
     end
 
@@ -60,9 +59,9 @@ describe SitePrism::Loadable do
       loadable.load_validation { true }
       loadable.load_validation { false }
 
-      expect {
+      expect do
         loadable.new.when_loaded { james_bond.drink_martini }
-      }.to raise_error(SitePrism::NotLoadedError, /no reason given/)
+      end.to raise_error(SitePrism::NotLoadedError, /no reason given/)
 
       expect(james_bond).not_to have_received(:drink_martini)
     end
@@ -70,9 +69,9 @@ describe SitePrism::Loadable do
     it 'raises an exception with specific error message if available when a load validation fails' do
       loadable.load_validation { [false, 'all your base are belong to us'] }
 
-      expect {
+      expect do
         loadable.new.when_loaded { puts 'foo' }
-      }.to raise_error(SitePrism::NotLoadedError, /all your base are belong to us/)
+      end.to raise_error(SitePrism::NotLoadedError, /all your base are belong to us/)
     end
 
     it 'raises immediately on the first validation failure' do
@@ -82,9 +81,9 @@ describe SitePrism::Loadable do
       loadable.load_validation { validation_spy_1.valid? }
       loadable.load_validation { validation_spy_2.valid? }
 
-      expect {
+      expect do
         loadable.new.when_loaded { puts 'foo' }
-      }.to raise_error(SitePrism::NotLoadedError)
+      end.to raise_error(SitePrism::NotLoadedError)
 
       expect(validation_spy_1).to have_received(:valid?).once
       expect(validation_spy_2).not_to have_received(:valid?)
@@ -115,9 +114,9 @@ describe SitePrism::Loadable do
       instance = loadable.new
       expect(instance.loaded).to be nil
 
-      instance.when_loaded { |i|
+      instance.when_loaded do |i|
         expect(i.loaded).to be true
-      }
+      end
 
       expect(instance.loaded).to be nil
     end

@@ -43,16 +43,16 @@ module SitePrism
     #
     # @param block [&block] The block to be executed once the page has finished loading.
     def when_loaded(&block)
-      previously_loaded = self.loaded # Get original loaded value, in case we are nested inside another when_loaded block.
-      raise ArgumentError unless block_given?
+      previously_loaded = loaded # Get original loaded value, in case we are nested inside another when_loaded block.
+      fail(ArgumentError, 'A block was expected, but none received.') unless block_given?
 
       # Within the block, cache loaded? to optimize performance.
       unless self.loaded = loaded?
         message = "Failed to load because: #{load_error || 'no reason given'}"
-        raise ::SitePrism::NotLoadedError.new(message)
+        fail(::SitePrism::NotLoadedError, message)
       end
 
-      yield self
+      block.call self
     ensure
       self.loaded = previously_loaded
     end

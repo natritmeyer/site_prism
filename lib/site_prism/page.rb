@@ -8,7 +8,7 @@ module SitePrism
     extend ElementContainer
 
     load_validation do
-      [ displayed?, "Expected #{current_url} to match #{url_matcher} but it did not." ]
+      [displayed?, "Expected #{current_url} to match #{url_matcher} but it did not."]
     end
 
     def page
@@ -31,9 +31,7 @@ module SitePrism
         visit expanded_url
       end
 
-      if block_given?
-        when_loaded(&block)
-      end
+      when_loaded(&block) if block_given?
     end
 
     def displayed?(*args)
