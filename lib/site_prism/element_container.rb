@@ -99,7 +99,7 @@ module SitePrism
       method_name = "has_#{element_name}?"
       create_helper_method method_name, *find_args do
         define_method method_name do |*runtime_args|
-          wait_time = SitePrism.use_implicit_waits ? Capybara.default_max_wait_time : 0
+          wait_time = SitePrism.use_implicit_waits ? Waiter.default_wait_time : 0
           Capybara.using_wait_time wait_time do
             element_exists?(*find_args, *runtime_args)
           end
@@ -111,7 +111,7 @@ module SitePrism
       method_name = "has_no_#{element_name}?"
       create_helper_method method_name, *find_args do
         define_method method_name do |*runtime_args|
-          wait_time = SitePrism.use_implicit_waits ? Capybara.default_max_wait_time : 0
+          wait_time = SitePrism.use_implicit_waits ? Waiter.default_wait_time : 0
           Capybara.using_wait_time wait_time do
             element_does_not_exist?(*find_args, *runtime_args)
           end
@@ -123,7 +123,7 @@ module SitePrism
       method_name = "wait_for_#{element_name}"
       create_helper_method method_name, *find_args do
         define_method method_name do |timeout = nil, *runtime_args|
-          timeout = timeout.nil? ? Capybara.default_max_wait_time : timeout
+          timeout = timeout.nil? ? Waiter.default_wait_time : timeout
           Capybara.using_wait_time timeout do
             element_exists?(*find_args, *runtime_args)
           end
@@ -134,7 +134,7 @@ module SitePrism
     def create_visibility_waiter(element_name, *find_args)
       method_name = "wait_until_#{element_name}_visible"
       create_helper_method method_name, *find_args do
-        define_method method_name do |timeout = Capybara.default_max_wait_time, *runtime_args|
+        define_method method_name do |timeout = Waiter.default_wait_time, *runtime_args|
           Timeout.timeout timeout, SitePrism::TimeOutWaitingForElementVisibility do
             Capybara.using_wait_time 0 do
               sleep 0.05 until element_exists?(*find_args, *runtime_args, visible: true)
@@ -147,7 +147,7 @@ module SitePrism
     def create_invisibility_waiter(element_name, *find_args)
       method_name = "wait_until_#{element_name}_invisible"
       create_helper_method method_name, *find_args do
-        define_method method_name do |timeout = Capybara.default_max_wait_time, *runtime_args|
+        define_method method_name do |timeout = Waiter.default_wait_time, *runtime_args|
           Timeout.timeout timeout, SitePrism::TimeOutWaitingForElementInvisibility do
             Capybara.using_wait_time 0 do
               sleep 0.05 while element_exists?(*find_args, *runtime_args, visible: true)

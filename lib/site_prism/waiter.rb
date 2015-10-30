@@ -11,7 +11,7 @@ module SitePrism
     end
 
     def self.default_wait_time
-      Capybara.default_max_wait_time
+      Capybara.respond_to?(:default_max_wait_time) ? Capybara.default_max_wait_time : Capybara.default_wait_time
     end
   end
 end
