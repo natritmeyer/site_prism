@@ -1387,8 +1387,8 @@ SitePrism::Page that represents the iframe's contents. For example:
 ```ruby
 # SitePrism::Page representing the iframe
 class Login < SitePrism::Page
-  element :username "input.username"
-  element :password "input.password"
+  element :username, "input.username"
+  element :password, "input.password"
 end
 
 # SitePrism::Page representing the page that contains the iframe
