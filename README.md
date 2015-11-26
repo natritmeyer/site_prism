@@ -459,7 +459,7 @@ that should be used to test for non-existence. Using the above example:
 
 ```ruby
 Then /^the search field exists$/ do
-  expect(@home).to have_no_search_field #NB: NOT => expect(@home).not_to_ have_search_field
+  expect(@home).to have_no_search_field #NB: NOT => expect(@home).not_to have_search_field
 end
 ```
 
