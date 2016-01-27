@@ -19,7 +19,7 @@ module SitePrism
         end
       end
     end
-    alias_method :collection, :elements
+    alias collection elements
 
     def section(section_name, *args, &block)
       section_class, find_args = extract_section_options args, &block
@@ -172,9 +172,10 @@ module SitePrism
     end
 
     def extract_section_options(args, &block)
-      if args.first.is_a? Class
+      case
+      when args.first.is_a?(Class)
         section_class = args.shift
-      elsif block_given?
+      when block_given?
         section_class = Class.new SitePrism::Section, &block
       else
         fail ArgumentError, 'You should provide section class either as a block, or as the second argument'

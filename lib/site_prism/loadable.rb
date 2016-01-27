@@ -42,7 +42,7 @@ module SitePrism
     # The loadable object instance is yielded into the block.
     #
     # @param block [&block] The block to be executed once the page has finished loading.
-    def when_loaded(&block)
+    def when_loaded(&_block)
       previously_loaded = loaded # Get original loaded value, in case we are nested inside another when_loaded block.
       fail(ArgumentError, 'A block was expected, but none received.') unless block_given?
 
@@ -52,7 +52,7 @@ module SitePrism
         fail(::SitePrism::NotLoadedError, message)
       end
 
-      block.call self
+      yield self
     ensure
       self.loaded = previously_loaded
     end

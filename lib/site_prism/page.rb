@@ -111,9 +111,10 @@ module SitePrism
     end
 
     def url_matches?(expected_mappings = {})
-      if url_matcher.is_a?(Regexp)
+      case
+      when url_matcher.is_a?(Regexp)
         url_matches_by_regexp?
-      elsif url_matcher.respond_to?(:to_str)
+      when url_matcher.respond_to?(:to_str)
         url_matches_by_template?(expected_mappings)
       else
         fail SitePrism::InvalidUrlMatcher
