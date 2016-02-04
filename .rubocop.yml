@@ -16,6 +16,9 @@ RedundantReturn:
 ModuleLength:
   Enabled: false
 
+ClassLength:
+  Enabled: false
+
 Encoding:
   EnforcedStyle: when_needed
 
