@@ -64,7 +64,7 @@ module SitePrism
 
     def raise_if_block(obj, name, has_block)
       return unless has_block
-      fail SitePrism::UnsupportedBlock, "#{obj.class}##{name} does not accept blocks, did you mean to define a (i)frame?"
+      raise SitePrism::UnsupportedBlock, "#{obj.class}##{name} does not accept blocks, did you mean to define a (i)frame?"
     end
 
     private
@@ -159,7 +159,7 @@ module SitePrism
 
     def create_no_selector(method_name)
       define_method method_name do
-        fail SitePrism::NoSelectorForElement.new, "#{self.class.name} => :#{method_name} needs a selector"
+        raise SitePrism::NoSelectorForElement.new, "#{self.class.name} => :#{method_name} needs a selector"
       end
     end
 
@@ -178,7 +178,7 @@ module SitePrism
       when block_given?
         section_class = Class.new SitePrism::Section, &block
       else
-        fail ArgumentError, 'You should provide section class either as a block, or as the second argument'
+        raise ArgumentError, 'You should provide section class either as a block, or as the second argument'
       end
       return section_class, args
     end

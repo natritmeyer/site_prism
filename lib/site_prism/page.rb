@@ -27,7 +27,7 @@ module SitePrism
         @page = Capybara.string(expansion_or_html)
       else
         expanded_url = url(expansion_or_html)
-        fail SitePrism::NoUrlForPage if expanded_url.nil?
+        raise SitePrism::NoUrlForPage if expanded_url.nil?
         visit expanded_url
       end
 
@@ -36,8 +36,8 @@ module SitePrism
 
     def displayed?(*args)
       expected_mappings = args.last.is_a?(::Hash) ? args.pop : {}
-      seconds = args.length > 0 ? args.first : Waiter.default_wait_time
-      fail SitePrism::NoUrlMatcherForPage if url_matcher.nil?
+      seconds = !args.empty? ? args.first : Waiter.default_wait_time
+      raise SitePrism::NoUrlMatcherForPage if url_matcher.nil?
       begin
         Waiter.wait_until_true(seconds) { url_matches?(expected_mappings) }
       rescue SitePrism::TimeoutException
@@ -117,7 +117,7 @@ module SitePrism
       when url_matcher.respond_to?(:to_str)
         url_matches_by_template?(expected_mappings)
       else
-        fail SitePrism::InvalidUrlMatcher
+        raise SitePrism::InvalidUrlMatcher
       end
     end
 
