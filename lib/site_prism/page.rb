@@ -89,25 +89,25 @@ module SitePrism
     end
 
     def secure?
-      current_url.start_with? 'https'
+      page.current_url.start_with? 'https'
     end
 
     private
 
     def find_first(*find_args)
-      find(*find_args)
+      page.find(*find_args)
     end
 
     def find_all(*find_args)
-      all(*find_args)
+      page.all(*find_args)
     end
 
     def element_exists?(*find_args)
-      has_selector?(*find_args)
+      page.has_selector?(*find_args)
     end
 
     def element_does_not_exist?(*find_args)
-      has_no_selector?(*find_args)
+      page.has_no_selector?(*find_args)
     end
 
     def url_matches?(expected_mappings = {})
