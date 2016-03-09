@@ -860,6 +860,22 @@ Then /^the home page menu contains a link to the various search functions$/ do
 end
 ```
 
+##### Accessing section elements using a block
+
+Sections have a `within` method that allows scoped access to the section's elements inside a block.  This is similar to Capybara's `within` method and allows for shorter test code particularly with nested sections.
+Some of this test code can be made a little prettier by simply passing a block in.
+
+```ruby
+Then /^the home page menu contains a link to the various search functions$/ do
+  @home.menu do |menu|
+    expect(menu).to have_search
+    expect(menu.search['href']).to include "google.com"
+    expect(menu).to have_images
+    expect(menu).to have_maps
+  end
+end
+```
+
 #### Getting a section's parent
 
 It is possible to ask a section for its parent (page, or section if this

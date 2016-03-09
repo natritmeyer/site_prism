@@ -322,7 +322,7 @@ describe SitePrism::Page do
     expect(SitePrism::Page.new).to respond_to :title
   end
 
-  it 'should raise exception if passing a block to an element' do
+  it 'should raise an exception if passing a block to an element' do
     expect do
       TestHomePage.new.invisible_element do
         puts 'bla'
@@ -330,7 +330,7 @@ describe SitePrism::Page do
     end.to raise_error(SitePrism::UnsupportedBlock)
   end
 
-  it 'should raise exception if passing a block to elements' do
+  it 'should raise an exception if passing a block to elements' do
     expect do
       TestHomePage.new.lots_of_links do
         puts 'bla'
@@ -338,15 +338,7 @@ describe SitePrism::Page do
     end.to raise_error(SitePrism::UnsupportedBlock)
   end
 
-  it 'should raise exception if passing a block to a section' do
-    expect do
-      TestHomePage.new.people do
-        puts 'bla'
-      end
-    end.to raise_error(SitePrism::UnsupportedBlock)
-  end
-
-  it 'should raise exception if passing a block to sections' do
+  it 'should raise an exception if passing a block to sections' do
     expect do
       TestHomePage.new.nonexistent_section do
         puts 'bla'

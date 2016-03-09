@@ -12,6 +12,7 @@ module SitePrism
     def initialize(parent, root_element)
       @parent = parent
       @root_element = root_element
+      Capybara.within(@root_element) { yield(self) } if block_given?
     end
 
     def visible?
