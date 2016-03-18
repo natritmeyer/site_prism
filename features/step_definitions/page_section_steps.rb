@@ -50,7 +50,7 @@ Then(/^I can see a section within a section$/) do
   expect(@test_site.section_experiments.parent_section.child_section).to have_nice_label text: 'something'
 end
 
-Then(/^I can see a section within a section using nested blocks$/)do
+Then(/^I can see a section within a section using nested blocks$/) do
   expect(@test_site.section_experiments).to have_parent_section
   @test_site.section_experiments.parent_section do |parent|
     expect(parent).to have_child_section
