@@ -85,3 +85,7 @@ Feature: Page Sections
   Scenario: Page with deeply nested sections
     When I navigate to the section experiments page
     Then the page contains a deeply nested span
+
+  Scenario: get text from page secion
+    When I navigate to the home page
+    Then I can see a section's full text 
