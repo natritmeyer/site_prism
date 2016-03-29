@@ -47,7 +47,8 @@ module SitePrism
       raise(ArgumentError, 'A block was expected, but none received.') unless block_given?
 
       # Within the block, cache loaded? to optimize performance.
-      unless self.loaded = loaded?
+      self.loaded = loaded?
+      unless loaded
         message = "Failed to load because: #{load_error || 'no reason given'}"
         raise(::SitePrism::NotLoadedError, message)
       end
