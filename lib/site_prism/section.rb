@@ -19,6 +19,10 @@ module SitePrism
       root_element.visible?
     end
 
+    def text
+      root_element.text
+    end
+
     def execute_script(input)
       Capybara.current_session.execute_script input
     end

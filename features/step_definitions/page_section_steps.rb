@@ -140,3 +140,8 @@ Then(/^the page contains a deeply nested span$/) do
   expect(@test_site.section_experiments.level_1[0].level_2[0].level_3[0].level_4[0].level_5[0]).to have_deep_span
   expect(@test_site.section_experiments.level_1[0].level_2[0].level_3[0].level_4[0].level_5[0].deep_span.text).to eq 'Deep span'
 end
+
+Then(/^I can see a section's full text$/) do
+  expect(@test_site.home.people.text).to eq 'People person 1 person 2 person 3 person 4'
+  expect(@test_site.home.container_with_element.text).to eq ''
+end
