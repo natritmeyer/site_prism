@@ -1,3 +1,9 @@
+2.10
+- Removed support for ruby < 2.2
+
+2.9
+- catch up on this
+
 2.8
 - Catching up with Capybara's #default_max_wait_time (@tpbowden, @mnohai-mdsol & @tmertens)
 - Simplified check for URI scheme (@benlovell)
