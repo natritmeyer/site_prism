@@ -171,10 +171,9 @@ module SitePrism
     end
 
     def extract_section_options(args, &block)
-      case
-      when args.first.is_a?(Class)
+      if args.first.is_a?(Class)
         section_class = args.shift
-      when block_given?
+      elsif block_given?
         section_class = Class.new SitePrism::Section, &block
       else
         raise ArgumentError, 'You should provide section class either as a block, or as the second argument'
