@@ -47,7 +47,7 @@ end
 
 class SearchResultSection < SitePrism::Section
   element :title, "a.title"
-  element :blurb, "span.result-decription"
+  element :blurb, "span.result-description"
 end
 
 # now for some tests
