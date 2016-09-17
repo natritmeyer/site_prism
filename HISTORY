@@ -1,5 +1,6 @@
 2.10
 - Removed support for ruby < 2.2
+- fixed clash with rspec (@tobithiel)
 
 2.9
 - catch up on this
