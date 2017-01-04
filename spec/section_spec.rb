@@ -63,5 +63,29 @@ describe SitePrism::Section do
       expect(section).to respond_to(:execute_script)
       expect(section).to respond_to(:evaluate_script)
     end
+
+    it 'responds to #visible? method' do
+      expect(section).to respond_to(:visible?)
+    end
+
+    it 'responds to Capybara methods' do
+      expect(section).to respond_to(*Capybara::Session::DSL_METHODS)
+    end
+  end
+
+  describe 'page' do
+    subject(:section) { SitePrism::Section.new('parent', root_element).page }
+
+    let(:root_element) { 'root' }
+
+    it { is_expected.to eq('root') }
+
+    context 'when root element is nil' do
+      let(:root_element) { nil }
+
+      before { allow(Capybara).to receive(:current_session).and_return('current session') }
+
+      it { is_expected.to eq('current session') }
+    end
   end
 end
