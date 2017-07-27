@@ -16,17 +16,17 @@ describe SitePrism::Loadable do
     describe '#load_validations' do
       it 'returns the load_validations from the current and all ancestral classes in hierarchical, defined order' do
         subclass = Class.new(loadable)
-        validation_1 = -> { true }
-        validation_2 = -> { true }
-        validation_3 = -> { true }
-        validation_4 = -> { true }
+        validation1 = -> { true }
+        validation2 = -> { true }
+        validation3 = -> { true }
+        validation4 = -> { true }
 
-        subclass.load_validation(&validation_1)
-        loadable.load_validation(&validation_2)
-        subclass.load_validation(&validation_3)
-        loadable.load_validation(&validation_4)
+        subclass.load_validation(&validation1)
+        loadable.load_validation(&validation2)
+        subclass.load_validation(&validation3)
+        loadable.load_validation(&validation4)
 
-        expect(subclass.load_validations).to eql [validation_2, validation_4, validation_1, validation_3]
+        expect(subclass.load_validations).to eql [validation2, validation4, validation1, validation3]
       end
     end
 
@@ -75,25 +75,25 @@ describe SitePrism::Loadable do
     end
 
     it 'raises immediately on the first validation failure' do
-      validation_spy_1 = spy(valid?: false)
-      validation_spy_2 = spy(valid?: false)
+      validation_spy1 = spy(valid?: false)
+      validation_spy2 = spy(valid?: false)
 
-      loadable.load_validation { validation_spy_1.valid? }
-      loadable.load_validation { validation_spy_2.valid? }
+      loadable.load_validation { validation_spy1.valid? }
+      loadable.load_validation { validation_spy2.valid? }
 
       expect do
         loadable.new.when_loaded { puts 'foo' }
       end.to raise_error(SitePrism::NotLoadedError)
 
-      expect(validation_spy_1).to have_received(:valid?).once
-      expect(validation_spy_2).not_to have_received(:valid?)
+      expect(validation_spy1).to have_received(:valid?).once
+      expect(validation_spy2).not_to have_received(:valid?)
     end
 
     it 'executes validations only once for nested calls' do
       james_bond = spy
-      validation_spy_1 = spy(valid?: true)
+      validation_spy1 = spy(valid?: true)
 
-      loadable.load_validation { validation_spy_1.valid? }
+      loadable.load_validation { validation_spy1.valid? }
       instance = loadable.new
 
       instance.when_loaded do
@@ -105,7 +105,7 @@ describe SitePrism::Loadable do
       end
 
       expect(james_bond).to have_received(:drink_martini)
-      expect(validation_spy_1).to have_received(:valid?).once
+      expect(validation_spy1).to have_received(:valid?).once
     end
 
     it 'resets the loaded cache at the end of the block' do
@@ -127,13 +127,13 @@ describe SitePrism::Loadable do
     let(:inheriting_loadable) { Class.new(loadable) }
 
     it 'returns true if loaded value is cached' do
-      validation_spy_1 = spy(valid?: true)
-      loadable.load_validation { validation_spy_1.valid? }
+      validation_spy1 = spy(valid?: true)
+      loadable.load_validation { validation_spy1.valid? }
       instance = loadable.new
       instance.loaded = true
 
       expect(instance).to be_loaded
-      expect(validation_spy_1).not_to have_received(:valid?)
+      expect(validation_spy1).not_to have_received(:valid?)
     end
 
     it 'returns true if all load validations pass' do
