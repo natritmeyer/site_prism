@@ -68,7 +68,7 @@ Then(/^I can see the group of links$/) do
 end
 
 Then(/^I can get the group of links$/) do
-  expect(@test_site.home.lots_of_links.map(&:text)).to eq(%w(a b c))
+  expect(@test_site.home.lots_of_links.map(&:text)).to eq(%w[a b c])
 end
 
 Then(/^all expected elements are present$/) do

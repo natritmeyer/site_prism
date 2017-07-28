@@ -30,3 +30,6 @@ MethodLength:
 
 Style/RegexpLiteral:
   Enabled: false
+
+BlockLength:
+  Enabled: false
