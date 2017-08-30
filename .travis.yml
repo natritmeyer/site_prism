@@ -10,7 +10,10 @@ before_install:
   - gem install bundler
 
 before_script:
-  - export DISPLAY=:99.0
+  - wget https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz
+  - mkdir geckodriver
+  - tar -xzf geckodriver*.tar.gz -C geckodriver
+  - export PATH=$PATH:$PWD/geckodriver DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
 
 script:
