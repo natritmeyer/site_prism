@@ -27,13 +27,13 @@ module SitePrism
 
       if expansion_or_html.is_a? String
         @page = Capybara.string(expansion_or_html)
+        yield self if block_given?
       else
         expanded_url = url(expansion_or_html)
         raise SitePrism::NoUrlForPage if expanded_url.nil?
         visit expanded_url
+        when_loaded(&block) if block_given?
       end
-
-      when_loaded(&block) if block_given?
     end
 
     def displayed?(*args)

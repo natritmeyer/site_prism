@@ -109,6 +109,12 @@ describe SitePrism::Page do
         page.load { |p| p.foo? && true }
       end
 
+      it 'should allow to load html and yields itself' do
+        class Page < SitePrism::Page; end
+        page = Page.new
+        expect(page.load('<html>hi<html/>', &:text)).to eq('hi')
+      end
+
       it 'raises an error when a block passed and load validations fail' do
         page = page_klass_with_load_validations.new
         expect(page).to receive(:must_be_true).and_return(false)
