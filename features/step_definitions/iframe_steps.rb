@@ -1,10 +1,12 @@
 Then(/^I can locate the iframe by id$/) do
   @test_site.home.wait_for_my_iframe
+
   expect(@test_site.home).to have_my_iframe
 end
 
 Then(/^I can locate the iframe by index$/) do
   @test_site.home.wait_for_index_iframe
+
   expect(@test_site.home).to have_index_iframe
 end
 

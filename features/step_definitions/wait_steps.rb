@@ -11,7 +11,7 @@ When(/^I wait for a specifically short amount of time for an element to appear$/
 end
 
 Then(/^the element I am waiting for doesn't appear in time$/) do
-  expect(@test_site.home).to_not be_all_there
+  expect(@test_site.home).not_to be_all_there
 end
 
 Then(/^when I wait for the section element that takes a while to appear$/) do

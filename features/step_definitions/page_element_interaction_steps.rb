@@ -8,23 +8,26 @@ end
 
 Then(/^the page does not have element$/) do
   @test_site.home.has_no_nonexistent_element?
+
   expect(@test_site.home).to have_no_nonexistent_element
 end
 
 Then(/^the page does not have elements$/) do
   @test_site.home.has_no_nonexistent_elements?
+
   expect(@test_site.home).to have_no_nonexistent_elements
 end
 
 Then(/^I can see the welcome header$/) do
   expect(@test_site.home).to have_welcome_header
-  expect(@test_site.home.welcome_header.text).to eq 'Welcome'
+
+  expect(@test_site.home.welcome_header.text).to eq('Welcome')
 end
 
 Then(/^I can see the welcome header with capybara query options$/) do
-  expect(@test_site.home).to have_welcome_header
-  expect(@test_site.home).to have_welcome_header text: 'Welcome'
-  expect { @test_site.home.welcome_header text: 'Welcome' }.to_not raise_error
+  expect(@test_site.home).to have_welcome_header(text: 'Welcome')
+
+  expect { @test_site.home.welcome_header text: 'Welcome' }.not_to raise_error
 end
 
 Then(/^the welcome header is not matched with invalid text$/) do
@@ -33,12 +36,14 @@ end
 
 Then(/^I can see the welcome message$/) do
   expect(@test_site.home).to have_welcome_message
-  expect(@test_site.home.welcome_message.text).to eq 'This is the home page, there is some stuff on it'
+
+  expect(@test_site.home.welcome_message.text).to eq('This is the home page, there is some stuff on it')
 end
 
 Then(/^I can see the welcome message with capybara query options$/) do
   expect(@test_site.home).to have_welcome_message
-  expect(@test_site.home).to have_welcome_message text: 'This is the home page, there is some stuff on it'
+
+  expect(@test_site.home).to have_welcome_message(text: 'This is the home page, there is some stuff on it')
 end
 
 Then(/^I can see the go button$/) do
@@ -48,7 +53,8 @@ end
 
 Then(/^I can see the link to the search page$/) do
   expect(@test_site.home).to have_link_to_search_page
-  expect(@test_site.home.link_to_search_page['href']).to include 'search.htm'
+
+  expect(@test_site.home.link_to_search_page['href']).to include('search.htm')
 end
 
 Then(/^I cannot see the missing squirrel$/) do
@@ -122,6 +128,7 @@ end
 Then(/^I do not wait for an nonexistent element when checking for invisibility$/) do
   start = Time.new
   @test_site.home.wait_until_nonexistent_element_invisible(10)
+
   expect(Time.new - start).to be < 1
 end
 

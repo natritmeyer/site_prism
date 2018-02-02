@@ -14,7 +14,7 @@ describe SitePrism::Loadable do
 
   describe 'class methods' do
     describe '#load_validations' do
-      it 'returns the load_validations from the current and all ancestral classes in hierarchical, defined order' do
+      it 'returns the load_validations from the current and all ancestral classes in a hierarchical, defined order' do
         subclass = Class.new(loadable)
         validation1 = -> { true }
         validation2 = -> { true }
@@ -26,7 +26,7 @@ describe SitePrism::Loadable do
         subclass.load_validation(&validation3)
         loadable.load_validation(&validation4)
 
-        expect(subclass.load_validations).to eql [validation2, validation4, validation1, validation3]
+        expect(subclass.load_validations).to eql([validation2, validation4, validation1, validation3])
       end
     end
 
@@ -38,8 +38,8 @@ describe SitePrism::Loadable do
   end
 
   describe '#when_loaded' do
-    it 'raises if no block given' do
-      expect { loadable.new.when_loaded }.to raise_error ArgumentError
+    it 'raises an ArgumentError if no block is given' do
+      expect { loadable.new.when_loaded }.to raise_error(ArgumentError)
     end
 
     it 'executes and yields itself to the provided block when all load validations pass' do
@@ -66,7 +66,7 @@ describe SitePrism::Loadable do
       expect(james_bond).not_to have_received(:drink_martini)
     end
 
-    it 'raises an exception with specific error message if available when a load validation fails' do
+    it 'raises an exception with a specific error message if available when a load validation fails' do
       loadable.load_validation { [false, 'all your base are belong to us'] }
 
       expect do
@@ -74,7 +74,7 @@ describe SitePrism::Loadable do
       end.to raise_error(SitePrism::NotLoadedError, /all your base are belong to us/)
     end
 
-    it 'raises immediately on the first validation failure' do
+    it 'raises an error immediately on the first validation failure' do
       validation_spy1 = spy(valid?: false)
       validation_spy2 = spy(valid?: false)
 
@@ -110,8 +110,8 @@ describe SitePrism::Loadable do
 
     it 'resets the loaded cache at the end of the block' do
       loadable.load_validation { true }
-
       instance = loadable.new
+
       expect(instance.loaded).to be nil
 
       instance.when_loaded do |i|
@@ -171,7 +171,8 @@ describe SitePrism::Loadable do
 
       instance = inheriting_loadable.new
       instance.loaded?
-      expect(instance.load_error).to eql 'fubar'
+
+      expect(instance.load_error).to eql('fubar')
     end
   end
 end

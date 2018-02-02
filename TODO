@@ -2,3 +2,6 @@ SitePrism::Page#wait_until_displayed
 anonymous sections
 Capybara 2.1 compatibility
   - iframe stuff
+
+page_element_interaction_steps.rb - Has triple expectations (Kind of bad)
+page_section_steps.rb - Has triple expectations (Kind of bad)
