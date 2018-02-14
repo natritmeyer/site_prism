@@ -1,27 +1,43 @@
+require 'site_prism/loadable'
+
 module SitePrism
   class Page
     include Capybara::DSL
     include ElementChecker
+    include Loadable
     extend ElementContainer
+
+    load_validation do
+      [displayed?, "Expected #{current_url} to match #{url_matcher} but it did not."]
+    end
 
     def page
       @page || Capybara.current_session
     end
 
-    def load(expansion_or_html = {})
+    # Loads the page.
+    # Executes the block, if given, after running load validations on the page.
+    #
+    # @param expansion_or_html
+    # @param block [&block] A block to run once the page is loaded.  The page will yield itself into the block.
+    def load(expansion_or_html = {}, &block)
+      self.loaded = false
+
       if expansion_or_html.is_a? String
         @page = Capybara.string(expansion_or_html)
       else
         expanded_url = url(expansion_or_html)
-        fail SitePrism::NoUrlForPage if expanded_url.nil?
+        raise SitePrism::NoUrlForPage if expanded_url.nil?
         visit expanded_url
       end
+
+      when_loaded(&block) if block_given?
     end
 
     def displayed?(*args)
       expected_mappings = args.last.is_a?(::Hash) ? args.pop : {}
-      seconds = args.length > 0 ? args.first : Waiter.default_wait_time
-      fail SitePrism::NoUrlMatcherForPage if url_matcher.nil?
+      seconds = !args.empty? ? args.first : Waiter.default_wait_time
+      raise SitePrism::NoUrlMatcherForPage if url_matcher.nil?
       begin
         Waiter.wait_until_true(seconds) { url_matches?(expected_mappings) }
       rescue SitePrism::TimeoutException
@@ -73,25 +89,25 @@ module SitePrism
     end
 
     def secure?
-      !current_url.match(/^https/).nil?
+      page.current_url.start_with? 'https'
     end
 
     private
 
     def find_first(*find_args)
-      find(*find_args)
+      page.find(*find_args)
     end
 
     def find_all(*find_args)
-      all(*find_args)
+      page.all(*find_args)
     end
 
     def element_exists?(*find_args)
-      has_selector?(*find_args)
+      page.has_selector?(*find_args)
     end
 
     def element_does_not_exist?(*find_args)
-      has_no_selector?(*find_args)
+      page.has_no_selector?(*find_args)
     end
 
     def url_matches?(expected_mappings = {})
@@ -100,7 +116,7 @@ module SitePrism
       elsif url_matcher.respond_to?(:to_str)
         url_matches_by_template?(expected_mappings)
       else
-        fail SitePrism::InvalidUrlMatcher
+        raise SitePrism::InvalidUrlMatcher
       end
     end
 

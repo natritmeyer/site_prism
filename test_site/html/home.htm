@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>Home Page</title>
@@ -36,28 +37,28 @@
     <p>
       <a href='search.htm'>Search Page</a>
     </p>
-    <p>
-      <table>
-        <tr>
-          <td><a href='a.htm'>a</a></td>
-          <td><a href='b.htm'>b</a></td>
-          <td><a href='c.htm'>c</a></td>
-      </table>
-    </p>
+    <table>
+      <tr>
+        <td><a href='a.htm'>a</a></td>
+        <td><a href='b.htm'>b</a></td>
+        <td><a href='c.htm'>c</a></td>
+      </tr>
+    </table>
 
-		<article class='people'>
-			<h1>People</h1>
-			<span class='person'>person 1</span>
-			<span class='person'>person 2</span>
-			<span class='person'>person 3</span>
-			<span class='person'>person 4</span>
-		</article>
+    <article class='people'>
+      <h1>People</h1>
+      <span class='person'>person 1</span>
+      <span class='person'>person 2</span>
+      <span class='person'>person 3</span>
+      <span class='person'>person 4</span>
+    </article>
 
     <input type='submit' id='remove_container_with_element' onClick='removeElement(document.getElementById("container_with_element"))'/>
 
     <div id='container_with_element'>
       <div class='embedded_element'>
-    <end>
+      </div>
+    </div>
 
     <p id='dumping_ground'>
 
@@ -67,6 +68,6 @@
     <input type='submit' id='will_become_invisible' value='Will become invisible' style='display: block;'/>
     <input type='submit' class='invisible' value='Invisible' style='display: none;'/>
 
-    <iframe id='the_iframe' src='my_iframe.htm' />
+    <iframe id='the_iframe' src='my_iframe.htm'></iframe>
   </body>
 </html>

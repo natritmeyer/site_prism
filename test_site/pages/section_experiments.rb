@@ -20,4 +20,16 @@ class TestSectionExperiments < SitePrism::Page
       title.text.downcase
     end
   end
+
+  sections :level_1, '.level-1' do
+    sections :level_2, '.level-2' do
+      sections :level_3, '.level-3' do
+        sections :level_4, '.level-4' do
+          sections :level_5, '.level-5' do
+            element :deep_span, '.deep-span'
+          end
+        end
+      end
+    end
+  end
 end

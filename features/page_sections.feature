@@ -9,9 +9,21 @@ Feature: Page Sections
     When I navigate to another page
     Then that section is there too
 
-  Scenario: section within a section
+  Scenario: access elements in the section by passing a block
+    When I navigate to the home page
+    Then I can access elements within the section using a block
+
+  Scenario: section in a section
     When I navigate to the section experiments page
-    Then I can see a section within a section
+    Then I can see a section in a section
+
+  Scenario: section within a section using blocks
+    When I navigate to the section experiments page
+    Then I can see a section within a section using nested blocks
+
+  Scenario: section scoping
+    When I navigate to the home page
+    Then access to elements is constrained to those within the section
 
   Scenario: collection of sections
     When I navigate to the section experiments page
@@ -64,9 +76,16 @@ Feature: Page Sections
 
   Scenario: Page with no section
     When I navigate to the home page
-    Then the page does not have section
+    Then the page does not have a section
 
   Scenario: Page with section that does not contain element
     When I navigate to the home page
     Then the page contains a section with no element
 
+  Scenario: Page with deeply nested sections
+    When I navigate to the section experiments page
+    Then the page contains a deeply nested span
+
+  Scenario: get text from page secion
+    When I navigate to the home page
+    Then I can see a section's full text 

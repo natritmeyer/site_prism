@@ -6,5 +6,6 @@ module SitePrism
   class TimeoutException < StandardError; end
   class TimeOutWaitingForElementVisibility < StandardError; end
   class TimeOutWaitingForElementInvisibility < StandardError; end
-  class UnsupportedBlock < StandardError;  end
+  class UnsupportedBlock < StandardError; end
+  NotLoadedError = Class.new(StandardError)
 end

@@ -13,6 +13,12 @@ TrivialAccessors:
 RedundantReturn:
   Enabled: false
 
+ModuleLength:
+  Enabled: false
+
+ClassLength:
+  Enabled: false
+
 Encoding:
   EnforcedStyle: when_needed
 
@@ -21,3 +27,9 @@ LineLength:
 
 MethodLength:
   Max: 11
+
+Style/RegexpLiteral:
+  Enabled: false
+
+BlockLength:
+  Enabled: false

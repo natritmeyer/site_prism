@@ -1,17 +1,26 @@
+require 'site_prism/loadable'
+
 module SitePrism
   class Section
     include Capybara::DSL
     include ElementChecker
+    include Loadable
     extend ElementContainer
 
     attr_reader :root_element, :parent
 
     def initialize(parent, root_element)
-      @parent, @root_element = parent, root_element
+      @parent = parent
+      @root_element = root_element
+      Capybara.within(@root_element) { yield(self) } if block_given?
     end
 
     def visible?
       root_element.visible?
+    end
+
+    def text
+      root_element.text
     end
 
     def execute_script(input)

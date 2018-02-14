@@ -3,7 +3,7 @@ require 'base64'
 
 module SitePrism
   class AddressableUrlMatcher
-    COMPONENT_NAMES = %w(scheme user password host port path query fragment).map(&:to_sym).freeze
+    COMPONENT_NAMES = %w[scheme user password host port path query fragment].map(&:to_sym).freeze
     COMPONENT_PREFIXES = {
       query: '?',
       fragment: '#'

@@ -7,11 +7,11 @@ module SitePrism
         break unless Time.now - start_time <= wait_time_seconds
         sleep(0.05)
       end
-      fail SitePrism::TimeoutException, 'Timed out while waiting for block to return true'
+      raise SitePrism::TimeoutException, 'Timed out while waiting for block to return true'
     end
 
     def self.default_wait_time
-      Capybara.default_wait_time
+      Capybara.respond_to?(:default_max_wait_time) ? Capybara.default_max_wait_time : Capybara.default_wait_time
     end
   end
 end

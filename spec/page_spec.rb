@@ -28,35 +28,91 @@ describe SitePrism::Page do
     expect(page.url).to be_nil
   end
 
-  it "should not allow loading if the url hasn't been set" do
-    class MyPageWithNoUrl < SitePrism::Page; end
-    page_with_no_url = MyPageWithNoUrl.new
-    expect { page_with_no_url.load }.to raise_error
-  end
-
-  it 'should allow loading if the url has been set' do
-    class MyPageWithUrl < SitePrism::Page
-      set_url '/bob'
+  describe 'loaded?' do
+    it 'is true if displayed' do
+      page = SitePrism::Page.new
+      allow(page).to receive(:displayed?).and_return true
+      expect(page).to be_loaded
     end
-    page_with_url = MyPageWithUrl.new
-    expect { page_with_url.load }.to_not raise_error
-  end
 
-  it 'should allow expansions if the url has them' do
-    class MyPageWithUriTemplate < SitePrism::Page
-      set_url '/users{/username}{?query*}'
+    it 'is false if not displayed' do
+      page = SitePrism::Page.new
+      allow(page).to receive(:displayed?).and_return false
+      expect(page).not_to be_loaded
     end
-    page_with_url = MyPageWithUriTemplate.new
-    expect { page_with_url.load(username: 'foobar') }.to_not raise_error
-    expect(page_with_url.url(username: 'foobar', query: { 'recent_posts' => 'true' })).to eq('/users/foobar?recent_posts=true')
-    expect(page_with_url.url(username: 'foobar')).to eq('/users/foobar')
-    expect(page_with_url.url).to eq('/users')
   end
 
-  it 'should allow to load html' do
-    class Page < SitePrism::Page; end
-    page = Page.new
-    expect { page.load('<html/>') }.to_not raise_error
+  describe '#load' do
+    it "should not allow loading if the url hasn't been set" do
+      class MyPageWithNoUrl < SitePrism::Page; end
+      page_with_no_url = MyPageWithNoUrl.new
+      expect { page_with_no_url.load }.to raise_error(SitePrism::NoUrlForPage)
+    end
+
+    it 'should allow loading if the url has been set' do
+      class MyPageWithUrl < SitePrism::Page
+        set_url '/bob'
+      end
+      page_with_url = MyPageWithUrl.new
+      expect { page_with_url.load }.to_not raise_error
+    end
+
+    it 'should allow expansions if the url has them' do
+      class MyPageWithUriTemplate < SitePrism::Page
+        set_url '/users{/username}{?query*}'
+      end
+      page_with_url = MyPageWithUriTemplate.new
+      expect { page_with_url.load(username: 'foobar') }.to_not raise_error
+      expect(page_with_url.url(username: 'foobar', query: { 'recent_posts' => 'true' })).to eq('/users/foobar?recent_posts=true')
+      expect(page_with_url.url(username: 'foobar')).to eq('/users/foobar')
+      expect(page_with_url.url).to eq('/users')
+    end
+
+    it 'should allow to load html' do
+      class Page < SitePrism::Page; end
+      page = Page.new
+      expect { page.load('<html/>') }.to_not raise_error
+    end
+
+    context 'when passed a block' do
+      let(:page_klass_with_load_validations) do
+        Class.new(SitePrism::Page) do
+          set_url '/foo_page'
+
+          def must_be_true
+            true
+          end
+
+          def also_true
+            true
+          end
+
+          def foo?
+            true
+          end
+
+          load_validation { [must_be_true, 'It is not true!'] }
+          load_validation { [also_true, 'It is not also true!'] }
+        end
+      end
+
+      it 'executes a block when load validations pass' do
+        page = page_klass_with_load_validations.new
+        expect { page.load { true } }.not_to raise_error
+      end
+
+      it 'yields itself to the passed block' do
+        page = page_klass_with_load_validations.new
+        expect(page).to receive(:foo?)
+        page.load { |p| p.foo? && true }
+      end
+
+      it 'raises an error when a block passed and load validations fail' do
+        page = page_klass_with_load_validations.new
+        expect(page).to receive(:must_be_true).and_return(false)
+        expect { page.load { puts 'foo' } }.to raise_error(SitePrism::NotLoadedError, /It is not true!/)
+      end
+    end
   end
 
   it 'should respond to set_url_matcher' do
@@ -266,7 +322,7 @@ describe SitePrism::Page do
     expect(SitePrism::Page.new).to respond_to :title
   end
 
-  it 'should raise exception if passing a block to an element' do
+  it 'should raise an exception if passing a block to an element' do
     expect do
       TestHomePage.new.invisible_element do
         puts 'bla'
@@ -274,7 +330,7 @@ describe SitePrism::Page do
     end.to raise_error(SitePrism::UnsupportedBlock)
   end
 
-  it 'should raise exception if passing a block to elements' do
+  it 'should raise an exception if passing a block to elements' do
     expect do
       TestHomePage.new.lots_of_links do
         puts 'bla'
@@ -282,15 +338,7 @@ describe SitePrism::Page do
     end.to raise_error(SitePrism::UnsupportedBlock)
   end
 
-  it 'should raise exception if passing a block to a section' do
-    expect do
-      TestHomePage.new.people do
-        puts 'bla'
-      end
-    end.to raise_error(SitePrism::UnsupportedBlock)
-  end
-
-  it 'should raise exception if passing a block to sections' do
+  it 'should raise an exception if passing a block to sections' do
     expect do
       TestHomePage.new.nonexistent_section do
         puts 'bla'

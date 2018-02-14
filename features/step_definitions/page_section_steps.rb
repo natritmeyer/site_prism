@@ -4,8 +4,36 @@ Then(/^I can see elements in the section$/) do
   expect(@test_site.home.people).to have_headline text: 'People'
 end
 
-Then(/^the page does not have section$/) do
-  @test_site.home.has_no_nonexistent_section?
+Then(/^I can see a section in a section$/) do
+  expect(@test_site.section_experiments.parent_section.child_section).to have_nice_label text: 'something'
+end
+
+Then(/^I can access elements within the section using a block$/) do
+  expect(@test_site.home).to have_people
+  @test_site.home.people do |persons|
+    expect(persons).to have_headline text: 'People'
+    expect(persons.headline.text).to eq 'People'
+    expect(persons).to have_no_dinosaur
+    expect(persons).to have_individuals count: 4
+  end
+
+  # the above would pass if the block were ignored, this verifies it is executed:
+  expect do
+    @test_site.home.people { |p| expect(p).to have_dinosaur }
+  end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+end
+
+Then(/^access to elements is constrained to those within the section$/) do
+  expect(@test_site.home).to have_css('span.welcome')
+  @test_site.home.people do |persons|
+    expect(persons).to have_no_css('.welcome')
+    expect { persons.has_welcome_message? }.to raise_error(NoMethodError)
+    expect(persons).to have_no_welcome_message_on_the_parent
+  end
+end
+
+Then(/^the page does not have a section$/) do
+  expect(@test_site.home.has_no_nonexistent_section?).to be_truthy
   expect(@test_site.home).to have_no_nonexistent_section
 end
 
@@ -20,6 +48,17 @@ Then(/^I can see a section within a section$/) do
   expect(@test_site.section_experiments.parent_section).to have_child_section
   expect(@test_site.section_experiments.parent_section.child_section.nice_label.text).to eq 'something'
   expect(@test_site.section_experiments.parent_section.child_section).to have_nice_label text: 'something'
+end
+
+Then(/^I can see a section within a section using nested blocks$/) do
+  expect(@test_site.section_experiments).to have_parent_section
+  @test_site.section_experiments.parent_section do |parent|
+    expect(parent).to have_child_section
+    expect(parent.child_section.nice_label.text).to eq 'something'
+    parent.child_section do |child|
+      expect(child).to have_nice_label text: 'something'
+    end
+  end
 end
 
 Then(/^I can see a collection of sections$/) do
@@ -95,4 +134,14 @@ end
 
 Then(/^the page contains a section with no element$/) do
   expect(@test_site.home.people).to have_no_dinosaur
+end
+
+Then(/^the page contains a deeply nested span$/) do
+  expect(@test_site.section_experiments.level_1[0].level_2[0].level_3[0].level_4[0].level_5[0]).to have_deep_span
+  expect(@test_site.section_experiments.level_1[0].level_2[0].level_3[0].level_4[0].level_5[0].deep_span.text).to eq 'Deep span'
+end
+
+Then(/^I can see a section's full text$/) do
+  expect(@test_site.home.people.text).to eq 'People person 1 person 2 person 3 person 4'
+  expect(@test_site.home.container_with_element.text).to eq ''
 end

@@ -19,14 +19,13 @@ module SitePrism
         end
       end
     end
-    alias_method :collection, :elements
+    alias collection elements
 
     def section(section_name, *args, &block)
       section_class, find_args = extract_section_options args, &block
       build section_name, *find_args do
-        define_method section_name do |*runtime_args, &element_block|
-          self.class.raise_if_block(self, section_name.to_s, !element_block.nil?)
-          section_class.new self, find_first(*find_args, *runtime_args)
+        define_method section_name do |*runtime_args, &runtime_block|
+          section_class.new self, find_first(*find_args, *runtime_args), &runtime_block
         end
       end
     end
@@ -64,7 +63,7 @@ module SitePrism
 
     def raise_if_block(obj, name, has_block)
       return unless has_block
-      fail SitePrism::UnsupportedBlock, "#{obj.class}##{name} does not accept blocks, did you mean to define a (i)frame?"
+      raise SitePrism::UnsupportedBlock, "#{obj.class}##{name} does not accept blocks, did you mean to define a (i)frame?"
     end
 
     private
@@ -99,7 +98,7 @@ module SitePrism
       method_name = "has_#{element_name}?"
       create_helper_method method_name, *find_args do
         define_method method_name do |*runtime_args|
-          wait_time = SitePrism.use_implicit_waits ? Capybara.default_wait_time : 0
+          wait_time = SitePrism.use_implicit_waits ? Waiter.default_wait_time : 0
           Capybara.using_wait_time wait_time do
             element_exists?(*find_args, *runtime_args)
           end
@@ -111,7 +110,7 @@ module SitePrism
       method_name = "has_no_#{element_name}?"
       create_helper_method method_name, *find_args do
         define_method method_name do |*runtime_args|
-          wait_time = SitePrism.use_implicit_waits ? Capybara.default_wait_time : 0
+          wait_time = SitePrism.use_implicit_waits ? Waiter.default_wait_time : 0
           Capybara.using_wait_time wait_time do
             element_does_not_exist?(*find_args, *runtime_args)
           end
@@ -123,7 +122,7 @@ module SitePrism
       method_name = "wait_for_#{element_name}"
       create_helper_method method_name, *find_args do
         define_method method_name do |timeout = nil, *runtime_args|
-          timeout = timeout.nil? ? Capybara.default_wait_time : timeout
+          timeout = timeout.nil? ? Waiter.default_wait_time : timeout
           Capybara.using_wait_time timeout do
             element_exists?(*find_args, *runtime_args)
           end
@@ -134,7 +133,7 @@ module SitePrism
     def create_visibility_waiter(element_name, *find_args)
       method_name = "wait_until_#{element_name}_visible"
       create_helper_method method_name, *find_args do
-        define_method method_name do |timeout = Capybara.default_wait_time, *runtime_args|
+        define_method method_name do |timeout = Waiter.default_wait_time, *runtime_args|
           Timeout.timeout timeout, SitePrism::TimeOutWaitingForElementVisibility do
             Capybara.using_wait_time 0 do
               sleep 0.05 until element_exists?(*find_args, *runtime_args, visible: true)
@@ -147,7 +146,7 @@ module SitePrism
     def create_invisibility_waiter(element_name, *find_args)
       method_name = "wait_until_#{element_name}_invisible"
       create_helper_method method_name, *find_args do
-        define_method method_name do |timeout = Capybara.default_wait_time, *runtime_args|
+        define_method method_name do |timeout = Waiter.default_wait_time, *runtime_args|
           Timeout.timeout timeout, SitePrism::TimeOutWaitingForElementInvisibility do
             Capybara.using_wait_time 0 do
               sleep 0.05 while element_exists?(*find_args, *runtime_args, visible: true)
@@ -159,7 +158,7 @@ module SitePrism
 
     def create_no_selector(method_name)
       define_method method_name do
-        fail SitePrism::NoSelectorForElement.new, "#{self.class.name} => :#{method_name} needs a selector"
+        raise SitePrism::NoSelectorForElement.new, "#{self.class.name} => :#{method_name} needs a selector"
       end
     end
 
@@ -168,16 +167,16 @@ module SitePrism
     end
 
     def deduce_iframe_element_selector(selector)
-      selector.is_a?(Integer) ?  "iframe:nth-of-type(#{selector + 1})" : selector
+      selector.is_a?(Integer) ? "iframe:nth-of-type(#{selector + 1})" : selector
     end
 
     def extract_section_options(args, &block)
-      if args.first.is_a? Class
+      if args.first.is_a?(Class)
         section_class = args.shift
       elsif block_given?
         section_class = Class.new SitePrism::Section, &block
       else
-        fail ArgumentError, 'You should provide section class either as a block, or as the second argument'
+        raise ArgumentError, 'You should provide section class either as a block, or as the second argument'
       end
       return section_class, args
     end

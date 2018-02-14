@@ -153,7 +153,7 @@ describe SitePrism::AddressableUrlMatcher do
 
     def matches?(*args)
       expected_mappings = args.last.is_a?(::Hash) ? args.pop : {}
-      pattern = args.first || fail('Must specify a pattern for matches?')
+      pattern = args.first || raise('Must specify a pattern for matches?')
       SitePrism::AddressableUrlMatcher.new(pattern).matches?(url, expected_mappings)
     end
   end

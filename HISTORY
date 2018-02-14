@@ -1,3 +1,14 @@
+2.10
+- Removed support for ruby < 2.2
+- fixed clash with rspec (@tobithiel)
+
+2.9
+- catch up on this
+
+2.8
+- Catching up with Capybara's #default_max_wait_time (@tpbowden, @mnohai-mdsol & @tmertens)
+- Simplified check for URI scheme (@benlovell)
+
 2.7
 - Spring clean of the code - thanks to Jonathan Chrisp (@jonathanchrisp)
 - fixes around Capybara's #title method - thanks to @tgaff
