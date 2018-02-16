@@ -12,12 +12,12 @@ end
 
 Then(/^I can see elements in an iframe$/) do
   @test_site.home.my_iframe do |f|
-    expect(f.some_text.text).to eq 'Some text in an iframe'
+    expect(f.some_text.text).to eq('Some text in an iframe')
   end
 end
 
 Then(/^I can see elements in an iframe with capybara query options$/) do
   @test_site.home.my_iframe do |f|
-    expect(f).to have_some_text text: 'Some text in an iframe'
+    expect(f).to have_some_text(text: 'Some text in an iframe')
   end
 end
