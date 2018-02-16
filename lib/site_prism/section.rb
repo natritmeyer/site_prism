@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'site_prism/loadable'
 
 module SitePrism

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './lib/site_prism/version'
 
 Gem::Specification.new do |s|

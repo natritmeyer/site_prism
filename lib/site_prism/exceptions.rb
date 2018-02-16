@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SitePrism
   class NoUrlForPage < StandardError; end
   class NoUrlMatcherForPage < StandardError; end

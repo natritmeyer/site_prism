@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SitePrism
   module ElementContainer
     attr_reader :mapped_items
