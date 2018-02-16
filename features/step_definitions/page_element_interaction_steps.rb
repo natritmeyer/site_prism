@@ -46,7 +46,7 @@ end
 
 Then(/^I can see the go button$/) do
   expect(@test_site.home).to have_go_button
-  #@test_site.home.go_button.click - Might cause one test failure
+  @test_site.home.go_button.click
 end
 
 Then(/^I can see the link to the search page$/) do
