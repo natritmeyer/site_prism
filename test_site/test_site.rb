@@ -3,6 +3,10 @@ class TestSite
     TestHomePage.new
   end
 
+  def home_with_excluded_elements
+    TestHomePageWithExcludedElements.new
+  end
+
   def no_title
     TestNoTitle.new
   end

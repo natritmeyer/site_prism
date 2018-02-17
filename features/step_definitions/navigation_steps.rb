@@ -3,6 +3,11 @@ When(/^I navigate to the home page$/) do
   @test_site.home.load
 end
 
+When(/^I navigate to the home page with excluded elements$/) do
+  @test_site = TestSite.new
+  @test_site.home_with_excluded_elements.load
+end
+
 When(/^I navigate to the letter A page$/) do
   @test_site = TestSite.new
   @test_site.dynamic_page.load(letter: 'a')

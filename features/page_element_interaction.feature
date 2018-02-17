@@ -44,6 +44,10 @@ Feature: Page element interaction
     When I navigate to the home page
     Then all expected elements are present
 
+  Scenario: Page with excluded_elements
+    When I navigate to the home page with excluded elements
+    Then all elements not specifically excluded are present
+
   Scenario: Element without a selector (pending element)
     When I navigate to a page with no title
     Then an exception is raised when I try to deal with an element with no selector
@@ -85,4 +89,3 @@ Feature: Page element interaction
     When I navigate to the home page
     And I wait for invisibility of an element embedded into a section which is removed
     Then I receive an error when a section with the element I am waiting for is removed
-

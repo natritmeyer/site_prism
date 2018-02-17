@@ -45,50 +45,21 @@ describe SitePrism::Page do
     expect(page).to respond_to :all_there?
   end
 
-  it 'should exclude elements from all_there if defined' do
+  it 'checks only expected_elements if excluded_elements specified' do
     class PageWithAFewElements < SitePrism::Page
       element :bob, 'a.b c.d'
       element :success_msg, 'span.alert-success'
-      section :jills_modal, '#xyzz' do
-        element :modal_input, '#modal_input'
-      end
 
       def excluded_elements
-        %w(success_msg jills_modal)
+        %w[success_msg]
       end
     end
     page = PageWithAFewElements.new
     allow(page).to receive(:has_bob?).and_return(true)
     allow(page).to receive(:has_success_msg?).and_return(false)
-    allow(page).to receive(:has_jills_modal?).and_return(false)
-    is_all_there = page.all_there?
-    expect(is_all_there).to be_truthy
+    expect(page.all_there?).to be_truthy
     expect(page).to have_received(:has_bob?).at_least(:once)
     expect(page).to_not have_received(:has_success_msg?)
-    expect(page).to_not have_received(:has_jills_modal?)
-  end
-
-  it 'excluded elements should be actually absent' do
-    class PageWithAFewElements < SitePrism::Page
-      element :bob, 'a.b c.d'
-      element :success_msg, 'span.alert-success'
-      section :jills_modal, '#xyzz' do
-        element :modal_input, '#modal_input'
-      end
-
-      def excluded_elements
-        %w(success_msg jills_modal)
-      end
-    end
-    page = PageWithAFewElements.new
-    allow(page).to receive(:has_no_bob?).and_return(false)
-    allow(page).to receive(:has_no_success_msg?).and_return(true)
-    allow(page).to receive(:has_no_jills_modal?).and_return(true)
-    excludeds_absent = page.excluded_all_absent?
-    expect(excludeds_absent).to be_truthy
-    expect(page).to_not have_received(:has_no_bob?)
-    expect(page).to have_received(:has_no_success_msg?).at_least(:once)
-    expect(page).to have_received(:has_no_jills_modal?).at_least(:once)
   end
 
   it 'element method with xpath should generate existence check method' do

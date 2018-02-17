@@ -75,6 +75,10 @@ Then(/^all expected elements are present$/) do
   expect(@test_site.home).to_not be_all_there
 end
 
+Then(/^all elements not specifically excluded are present$/) do
+  expect(@test_site.home_with_excluded_elements).to be_all_there
+end
+
 Then(/^an exception is raised when I try to deal with an element with no selector$/) do
   expect { @test_site.no_title.has_element_without_selector? }.to raise_error SitePrism::NoSelectorForElement
   expect { @test_site.no_title.element_without_selector }.to raise_error SitePrism::NoSelectorForElement
