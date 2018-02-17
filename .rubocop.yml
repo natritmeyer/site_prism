@@ -1,5 +1,3 @@
-inherit_from: .rubocop_todo.yml
-
 # See full list of defaults here: https://github.com/bbatsov/rubocop/blob/master/config/default.yml
 # To see all cops used see here: https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
 
@@ -21,8 +19,8 @@ ModuleLength:
 ClassLength:
   Enabled: false
 
-# Encoding:
-#   EnforcedStyle: when_needed
+Encoding:
+  EnforcedStyle: when_needed
 
 LineLength:
   Max: 180
