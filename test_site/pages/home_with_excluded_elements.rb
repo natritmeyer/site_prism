@@ -33,6 +33,10 @@ class TestHomePageWithExcludedElements < SitePrism::Page
   iframe :index_iframe, MyIframe, 0
 
   def excluded_elements
-    %w[some_slow_element non_existent_elements squirrel other_thingy nonexistent_elements nonexistent_element nonexistent_section nonexistent_sections]
+    %w[
+      some_slow_element non_existent_elements squirrel other_thingy
+      nonexistent_elements nonexistent_element nonexistent_section
+      nonexistent_sections
+    ]
   end
 end
