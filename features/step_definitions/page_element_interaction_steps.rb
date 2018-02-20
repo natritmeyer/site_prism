@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Then(/^I can get the page title$/) do
   expect(@test_site.home.title).to eq 'Home Page'
 end

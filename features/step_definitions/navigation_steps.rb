@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 When(/^I navigate to the home page$/) do
   @test_site = TestSite.new
   @test_site.home.load

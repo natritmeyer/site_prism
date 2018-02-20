@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SearchResult < SitePrism::Section
   element :title, 'span.title'
   element :link, 'a'

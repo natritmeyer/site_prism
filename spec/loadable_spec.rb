@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'site_prism/loadable'
 
@@ -5,10 +7,6 @@ describe SitePrism::Loadable do
   let(:loadable) do
     Class.new do
       include SitePrism::Loadable
-
-      def foo
-        :foo
-      end
     end
   end
 
@@ -39,7 +37,7 @@ describe SitePrism::Loadable do
 
   describe '#when_loaded' do
     it 'raises if no block given' do
-      expect { loadable.new.when_loaded }.to raise_error ArgumentError
+      expect { loadable.new.when_loaded }.to raise_error(ArgumentError)
     end
 
     it 'executes and yields itself to the provided block when all load validations pass' do
@@ -48,9 +46,7 @@ describe SitePrism::Loadable do
 
       expect(instance).to receive(:foo)
 
-      instance.when_loaded do |l|
-        l.foo && true
-      end
+      instance.when_loaded { |l| l.foo }
     end
 
     it 'raises an exception if any load validation fails' do
@@ -70,7 +66,7 @@ describe SitePrism::Loadable do
       loadable.load_validation { [false, 'all your base are belong to us'] }
 
       expect do
-        loadable.new.when_loaded { puts 'foo' }
+        loadable.new.when_loaded { :foo }
       end.to raise_error(SitePrism::NotLoadedError, /all your base are belong to us/)
     end
 

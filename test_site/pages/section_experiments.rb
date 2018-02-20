@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TestSectionExperiments < SitePrism::Page
   set_url '/section_experiments.htm'
 
