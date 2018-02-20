@@ -11,6 +11,7 @@ gem 'selenium-webdriver', '~> 3.4.0'
 group :development do
   gem 'redcarpet'
   gem 'rubocop'
+  gem 'rspec'
   gem 'simplecov', require: false
   gem 'yard'
 end
