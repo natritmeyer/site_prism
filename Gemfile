@@ -9,6 +9,7 @@ gem 'selenium-webdriver'
 group :development do
   gem 'redcarpet'
   gem 'rubocop'
+  gem 'rspec'
   gem 'simplecov', require: false
   gem 'yard'
 end

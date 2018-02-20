@@ -23,7 +23,7 @@ Encoding:
   EnforcedStyle: when_needed
 
 LineLength:
-  Max: 180
+  Max: 160
 
 MethodLength:
   Max: 11

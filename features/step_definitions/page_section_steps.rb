@@ -43,13 +43,6 @@ Then(/^that section is there too$/) do
   expect(@test_site.page_with_people.people_list).to have_headline text: 'People'
 end
 
-Then(/^I can see a section within a section$/) do
-  expect(@test_site.section_experiments).to have_parent_section
-  expect(@test_site.section_experiments.parent_section).to have_child_section
-  expect(@test_site.section_experiments.parent_section.child_section.nice_label.text).to eq 'something'
-  expect(@test_site.section_experiments.parent_section.child_section).to have_nice_label text: 'something'
-end
-
 Then(/^I can see a section within a section using nested blocks$/) do
   expect(@test_site.section_experiments).to have_parent_section
   @test_site.section_experiments.parent_section do |parent|

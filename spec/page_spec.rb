@@ -324,25 +324,19 @@ describe SitePrism::Page do
 
   it 'should raise an exception if passing a block to an element' do
     expect do
-      TestHomePage.new.invisible_element do
-        puts 'bla'
-      end
+      TestHomePage.new.invisible_element { :any_old_block }
     end.to raise_error(SitePrism::UnsupportedBlock)
   end
 
   it 'should raise an exception if passing a block to elements' do
     expect do
-      TestHomePage.new.lots_of_links do
-        puts 'bla'
-      end
+      TestHomePage.new.lots_of_links { :any_old_block }
     end.to raise_error(SitePrism::UnsupportedBlock)
   end
 
   it 'should raise an exception if passing a block to sections' do
     expect do
-      TestHomePage.new.nonexistent_section do
-        puts 'bla'
-      end
+      TestHomePage.new.nonexistent_section { :any_old_block }
     end.to raise_error(SitePrism::UnsupportedBlock)
   end
 
