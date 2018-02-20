@@ -10,10 +10,6 @@ namespace :cuke do
   Cucumber::Rake::Task.new(:all) do |t|
     t.cucumber_opts = '--format pretty'
   end
-
-  Cucumber::Rake::Task.new(:wip) do |t|
-    t.cucumber_opts = '--format pretty -t @wip'
-  end
 end
 
 namespace :spec do
@@ -31,4 +27,4 @@ namespace :docs do
   end
 end
 
-task default: ['rubocop', 'spec:all', 'cuke:all']
+task default: %w(spec:all cuke:all)
