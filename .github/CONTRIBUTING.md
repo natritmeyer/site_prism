@@ -1,5 +1,7 @@
 # PR template for SitePrism framework
-Thanks for offering to help and raise a PR for the SitePrism framework, we have a few simple requests to make managing the repo easier going forwards.
+Thanks for offering to help by contributing a PR to site_prism.
+
+Please help us understand your change by including the following information in your PR.
 
 ## Type of PR
 - Feature / Bugfix / Refactor
@@ -10,7 +12,7 @@ If you feel it easier to describe the change with code blocks feel free
 ## Steps to reproduce (If a Bugfix)
 Show us a before / after from your PR. So ideally a situation beforehand which was broken, and afterwards isn't broken.
 
-If needed try to include an SSCCE (Short, Self Contained, Correct [compilable] example) http://sscce.org/
+Try to include a Short, Self Contained, Correct compilable example [SSCCE](http://sscce.org/)
 
 ## Pointers
 
