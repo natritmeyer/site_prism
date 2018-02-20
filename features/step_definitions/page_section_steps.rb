@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Then(/^I can see elements in the section$/) do
   expect(@test_site.home).to have_people
   expect(@test_site.home.people.headline).to have_content 'People'

@@ -1,6 +1,0 @@
-SitePrism::Page#wait_until_displayed
-anonymous sections
-Capybara 2.1 compatibility
-  - iframe stuff
-
-Task for someone: Figure out why the loadable spec isn't playing nicely. One line to tidy up for full codecoverage compliance

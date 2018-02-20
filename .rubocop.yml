@@ -19,9 +19,6 @@ ModuleLength:
 ClassLength:
   Enabled: false
 
-Encoding:
-  EnforcedStyle: when_needed
-
 LineLength:
   Max: 160
 
