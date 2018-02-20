@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class People < SitePrism::Section
   element :headline, 'h1'
   element :dinosaur, '.dinosaur' # doesn't exist on the page

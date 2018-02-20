@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Then(/^I can see an expected bit of the html$/) do
   expect(@test_site.home.html).to include('<span class="welcome">This is the home page')
 end
