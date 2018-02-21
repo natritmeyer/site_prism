@@ -8,9 +8,8 @@ describe SitePrism do
   end
 
   it 'can be configured to use implicit waits' do
-    SitePrism.configure do |config|
-      config.use_implicit_waits = true
-    end
+    SitePrism.configure { |config| config.use_implicit_waits = true }
+
     expect(SitePrism.use_implicit_waits).to be true
   end
 end

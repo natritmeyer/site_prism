@@ -18,3 +18,7 @@ One line to tidy up for full compliance: `spec/page_spec.rb:91`
 - Add in multiple rubies
 - Add in Chrome
 - Update Driver/Browser
+3) Fix `page_element_interaction_steps.rb`: Triple Expectations and non-Helper expectation
+4) Fix `page_section_steps.rb` - Triple expectations
+5) Generic Features are sometimes hard to understand. Look to rework the Gherkin
+6) `page_element_interaction_steps.rb:49` Shouldn't be there as its performing Actions
