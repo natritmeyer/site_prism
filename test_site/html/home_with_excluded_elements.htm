@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home Page With Excluded Elements</title>
+    <script type="text/javascript">
+    function removeElement(node) {
+      node.parentNode.removeChild(node);
+    }
+
+    function load() {
+      //create the link
+      slow_link = document.createElement("a");
+      //create a text node
+      some_text = document.createTextNode("slow link");
+      //set the link's href
+      slow_link.setAttribute('href', 'slowly.htm');
+      //set the link's class
+      slow_link.setAttribute('class', 'slow');
+      //add the text to the link
+      slow_link.appendChild(some_text);
+      //get the element that we're going to add the link to
+      dumping_ground = document.getElementById('dumping_ground');
+      //wait for a second and then add the links
+      var t1 = setTimeout("dumping_ground.appendChild(slow_link);", 2000);
+    }
+    window.onload = load;
+    </script>
+  </head>
+  <body>
+    <h1>Welcome</h1>
+    <span class='welcome'>This is the home page, there is some stuff on it</span>
+    <p>
+      <input type='button' value='Go!'/>
+    </p>
+    <p>
+      <a href='search.htm'>Search Page</a>
+    </p>
+
+    <p id='dumping_ground'>
+
+    </p>
+  </body>
+</html>

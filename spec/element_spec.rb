@@ -47,21 +47,32 @@ describe SitePrism::Page do
     expect(page).to respond_to :all_there?
   end
 
-  it 'checks only expected_elements if excluded_elements specified' do
+  describe '#excluded_elements' do
     class PageWithAFewElements < SitePrism::Page
-      element :bob, 'a.b c.d'
-      element :success_msg, 'span.alert-success'
+      element(:bob, 'a.b c.d')
+      element(:success_msg, 'span.alert-success')
 
       def excluded_elements
         %w[success_msg]
       end
     end
-    page = PageWithAFewElements.new
-    allow(page).to receive(:has_bob?).and_return(true)
-    allow(page).to receive(:has_success_msg?).and_return(false)
-    expect(page.all_there?).to be_truthy
-    expect(page).to have_received(:has_bob?).at_least(:once)
-    expect(page).to_not have_received(:has_success_msg?)
+
+    let(:page) { PageWithAFewElements.new }
+
+    before do
+      allow(page).to receive(:has_bob?).and_return(true)
+      allow(page).to receive(:has_success_msg?).and_return(false)
+    end
+
+    it 'allows for a successful all_there? check' do
+      expect(page.all_there?).to be_truthy
+    end
+
+    it 'checks only the expected elements' do
+      page.all_there?
+      expect(page).to have_received(:has_bob?).at_least(:once)
+      expect(page).to_not have_received(:has_success_msg?)
+    end
   end
 
   it 'element method with xpath should generate existence check method' do

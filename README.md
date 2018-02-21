@@ -715,8 +715,8 @@ You may wish to have elements declared in a page object class that are not alway
 
 ```ruby
 class TestPage < SitePrism::Page
-  element :name_field, '#name'
-  element :success_msg, 'span.alert-success'
+  element(:name_field, '#name')
+  element(:success_msg, 'span.alert-success')
 
   def excluded_elements
     %w[success_msg]

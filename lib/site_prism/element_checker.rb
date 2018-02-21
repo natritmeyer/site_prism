@@ -10,9 +10,7 @@ module SitePrism
 
     def elements_to_check
       elements = self.class.mapped_items
-      if self.respond_to? :excluded_elements
-        elements = elements.select { |el| !self.excluded_elements.include? el }
-      end
+      elements = elements.reject { |el| excluded_elements.include?(el) } if respond_to?(:excluded_elements)
       elements
     end
   end
