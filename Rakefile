@@ -27,4 +27,4 @@ namespace :docs do
   end
 end
 
-task default: %w(spec:all cuke:all)
+task default: %w[spec:all cuke:all]

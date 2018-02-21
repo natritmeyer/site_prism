@@ -46,7 +46,7 @@ describe SitePrism::Loadable do
 
       expect(instance).to receive(:foo)
 
-      instance.when_loaded { |l| l.foo }
+      instance.when_loaded(&:foo)
     end
 
     it 'raises an exception if any load validation fails' do
