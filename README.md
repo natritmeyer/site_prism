@@ -599,11 +599,16 @@ You can access the element collection like this:
 With that you can do all the normal things that are possible with
 arrays:
 
+```ruby
+@friends_page.names.each { |name| puts name.text }
+@friends_page.names.map { |name| name.text }
+```
+
+Or even run some tests...
 
 ```ruby
-@friends_page.names.each {|name| puts name.text}
-expect(@friends_page.names.map {|name| name.text}.to eq ["Alice", "Bob", "Fred"]
-expect(@friends_page.names.size).to eq 3
+expect(@friends_page.names.map { |name| name.text }).to eq(["Alice", "Bob", "Fred"])
+expect(@friends_page.names.size).to eq(3)
 expect(@friends_page).to have(3).names
 ```
 
@@ -612,16 +617,16 @@ expect(@friends_page).to have(3).names
 Just like the `element` method, the `elements` method adds a method to
 the page that will allow you to check for the existence of the
 collection, called `has_<element collection name>?`. As long as there is
-at least 1 element in the array, the method will return true, otherwise
-false. For example, with the following page:
+at least 1 element in the array, the method will return `true`, otherwise
+it wil return `false`. For example, with the following page:
 
 ```ruby
 class Friends < SitePrism::Page
-  elements :names, "ul#names li a"
+  elements(:names, 'ul#names li a')
 end
 ```
 
-... the following method is available:
+... then the following method is available:
 
 ```ruby
 @friends_page.has_names? #=> returns true if at least one element is found using the relevant selector
