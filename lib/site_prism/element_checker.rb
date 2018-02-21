@@ -3,9 +3,7 @@
 module SitePrism
   module ElementChecker
     def all_there?
-      Capybara.using_wait_time(0) do
-        elements_to_check.all? { |element| send "has_#{element}?" }
-      end
+      elements_to_check.all? { |element| send "has_#{element}?" }
     end
 
     private
