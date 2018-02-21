@@ -6,147 +6,148 @@ describe SitePrism::AddressableUrlMatcher do
   describe '#matches?' do
     let(:url) { 'https://joe:bleep@bazzle.com:8443/foos/22/bars/12?junk=janky#middle' }
 
-    it 'matches on templated scheme' do
-      expect_matches('{scheme}://bazzle.com').to eq true
+    it 'passes on templated scheme' do
+      expect_matches('{scheme}://bazzle.com').to be true
     end
 
-    it 'matches on static scheme' do
-      expect_matches('https://bazzle.com').to eq true
+    it 'passes on static scheme' do
+      expect_matches('https://bazzle.com').to be true
     end
 
     it 'fails on bad scheme' do
-      expect_matches('ftp://bazzle.com').to eq false
+      expect_matches('ftp://bazzle.com').to be false
     end
 
-    it 'matches on templated user' do
-      expect_matches('//{user}@bazzle.com').to eq true
+    it 'passes on templated user' do
+      expect_matches('//{user}@bazzle.com').to be true
     end
 
-    it 'matches on static user' do
-      expect_matches('//joe@bazzle.com').to eq true
+    it 'passes on static user' do
+      expect_matches('//joe@bazzle.com').to be true
     end
 
     it 'fails on bad user' do
-      expect_matches('//bob@bazzle.com').to eq false
+      expect_matches('//bob@bazzle.com').to be false
     end
 
-    it 'matches on templated password' do
-      expect_matches('//joe:{password}@bazzle.com').to eq true
+    it 'passes on templated password' do
+      expect_matches('//joe:{password}@bazzle.com').to be true
     end
 
-    it 'matches on static password' do
-      expect_matches('//joe:bleep@bazzle.com').to eq true
+    it 'passes on static password' do
+      expect_matches('//joe:bleep@bazzle.com').to be true
     end
 
     it 'fails on bad password' do
-      expect_matches('//joe:bloop@bazzle.com').to eq false
+      expect_matches('//joe:bloop@bazzle.com').to be false
     end
 
-    it 'matches on templated host' do
-      expect_matches('//{host}').to eq true
+    it 'passes on templated host' do
+      expect_matches('//{host}').to be true
     end
 
-    it 'matches on static host' do
-      expect_matches('//bazzle.com').to eq true
+    it 'passes on static host' do
+      expect_matches('//bazzle.com').to be true
     end
 
     it 'fails on bad host' do
-      expect_matches('//bungle.com').to eq false
+      expect_matches('//bungle.com').to be false
     end
 
-    it 'raises on templated port' do
-      expect { matches? '//bazzle.com:{port}' }.to raise_error SitePrism::InvalidUrlMatcher
+    it 'raises an error on templated port' do
+      expect { matches? '//bazzle.com:{port}' }.to raise_error(SitePrism::InvalidUrlMatcher)
     end
 
-    it 'matches on static port' do
-      expect_matches('//bazzle.com:8443').to eq true
+    it 'passes on correct static port' do
+      expect_matches('//bazzle.com:8443').to be true
     end
 
-    it 'fails on bad port' do
-      expect_matches('//bungle.com:7654').to eq false
-    end
-    it 'matches on templated path' do
-      expect_matches('/foos/{foo_id}/bars{/bar_id}').to eq true
+    it 'fails on incorrect static port' do
+      expect_matches('//bungle.com:7654').to be false
     end
 
-    it 'matches on static path' do
-      expect_matches('/foos/22/bars/12').to eq true
+    it 'passes on templated path' do
+      expect_matches('/foos/{foo_id}/bars{/bar_id}').to be true
+    end
+
+    it 'passes on static path' do
+      expect_matches('/foos/22/bars/12').to be true
     end
 
     it 'fails on bad path' do
-      expect_matches('/foos/22/bars/123').to eq false
+      expect_matches('/foos/22/bars/123').to be false
     end
 
-    it 'matches on templated query' do
-      expect_matches('/foos/22/bars/12{?query*}').to eq true
+    it 'passes on templated query' do
+      expect_matches('/foos/22/bars/12{?query*}').to be true
     end
 
-    it 'matches on static query' do
-      expect_matches('/foos/22/bars/12?junk=janky').to eq true
+    it 'passes on static query' do
+      expect_matches('/foos/22/bars/12?junk=janky').to be true
     end
 
     it 'fails on bad query' do
-      expect_matches('/foos/22/bars/123?junk=delightful').to eq false
+      expect_matches('/foos/22/bars/123?junk=delightful').to be false
     end
 
-    it 'matches on templated fragment' do
-      expect_matches('{#fragment}').to eq true
+    it 'passes on templated fragment' do
+      expect_matches('{#fragment}').to be true
     end
 
-    it 'matches on static fragment' do
-      expect_matches('#middle').to eq true
+    it 'passes on static fragment' do
+      expect_matches('#middle').to be true
     end
 
     it 'fails on bad fragment' do
-      expect_matches('#muddle').to eq false
+      expect_matches('#muddle').to be false
     end
 
     it 'matches everything at once' do
-      expect_matches('{scheme}://{user}:{password}@{host}:8443/foos{/foo_id}/bars{/id}{?params*}#middle').to eq true
+      expect_matches('{scheme}://{user}:{password}@{host}:8443/foos{/foo_id}/bars{/id}{?params*}#middle').to be true
     end
 
-    it 'matches on no path' do
-      expect_matches('//bazzle.com').to eq true
+    it 'passes on no path' do
+      expect_matches('//bazzle.com').to be true
     end
 
     it "doesn't match on root path" do
-      expect_matches('//bazzle.com/').to eq false
+      expect_matches('//bazzle.com/').to be false
     end
 
     it 'matches with single mappings' do
-      expect_matches('//bazzle.{tld}', tld: 'com').to eq true
+      expect_matches('//bazzle.{tld}', tld: 'com').to be true
     end
 
     it 'matches with string keys on expected_mappings' do
-      expect_matches('//bazzle.{tld}', 'tld' => 'com').to eq true
+      expect_matches('//bazzle.{tld}', 'tld' => 'com').to be true
     end
 
     it 'fails on incorrect mappings' do
-      expect_matches('//bazzle.{tld}{/path*}', tld: 'org').to eq false
+      expect_matches('//bazzle.{tld}{/path*}', tld: 'org').to be false
     end
 
     it 'matches with partially specified mappings' do
-      expect_matches('//bazzle.{tld}{/path*}', tld: 'com').to eq true
+      expect_matches('//bazzle.{tld}{/path*}', tld: 'com').to be true
     end
 
     it 'fails on overspecified mappings' do
-      expect_matches('{/path*}', tld: 'com').to eq false
+      expect_matches('{/path*}', tld: 'com').to be false
     end
 
     it 'matches with completely specified mappings' do
-      expect_matches('/foos/{foo_id}/bars/{bar_id}', foo_id: '22', bar_id: '12').to eq true
+      expect_matches('/foos/{foo_id}/bars/{bar_id}', foo_id: '22', bar_id: '12').to be true
     end
 
     it 'casts numbers to strings for comparison' do
-      expect_matches('/foos/{foo_id}/bars/{bar_id}', foo_id: 22, bar_id: 12).to eq true
+      expect_matches('/foos/{foo_id}/bars/{bar_id}', foo_id: 22, bar_id: 12).to be true
     end
 
-    it 'matches on correct regular expressions' do
-      expect_matches('/foos/{foo_id}/bars/{bar_id}', foo_id: /2\d/, bar_id: 12).to eq true
+    it 'passes on correct regular expressions' do
+      expect_matches('/foos/{foo_id}/bars/{bar_id}', foo_id: /2\d/, bar_id: 12).to be true
     end
 
     it 'fails on incorrect regular expressions' do
-      expect_matches('/foos/{foo_id}/bars/{bar_id}', foo_id: /2\d\d/, bar_id: 12).to eq false
+      expect_matches('/foos/{foo_id}/bars/{bar_id}', foo_id: /2\d\d/, bar_id: 12).to be false
     end
 
     def expect_matches(*args)

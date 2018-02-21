@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe SitePrism::Page do
   before do
-    allow(SitePrism::Waiter).to receive(:default_wait_time).and_return 0
+    allow(SitePrism::Waiter).to receive(:default_wait_time).and_return(0)
   end
 
   it 'should respond to load' do
