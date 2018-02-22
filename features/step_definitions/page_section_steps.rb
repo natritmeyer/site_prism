@@ -113,7 +113,7 @@ end
 Then(/^I can see individual people in the people list$/) do
   expect(@test_site.home.people.individuals.size).to eq(4)
   expect(@test_site.home.people.individuals(count: 4).size).to eq(4)
-  expect(@test_site.home.people).to have_individuals count: 4
+  expect(@test_site.home.people).to have_individuals(count: 4)
 end
 
 Then(/^I can get access to a page through a section$/) do
