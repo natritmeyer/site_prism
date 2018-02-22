@@ -1,6 +1,7 @@
-<!-- `#200 last PR merged in` -->
+<!-- `#206 last Update to this document` -->
 
-HEAD - To form basis of 2.10 revision
+`2.10`
+- Established Roadmap of items to be fixed in coming months (@luke-hill)
 - Fixed a bug on documentation around `section` example (@iwollmann & @luke-hill)
 - Reworked specs / developmental code to read better and perform slightly better (@luke-hill)
 - Added base contributing / issue templates (@luke-hill)
@@ -15,7 +16,7 @@ HEAD - To form basis of 2.10 revision
 - Cap `cucumber` and `selenium-webdriver` dev dependencies (Whilst suite is being reworked as an interim measure) (@luke-hill)
 - Rework all text files into Markdown structure, improve formatting (@luke-hill)
 
-`v2.9.1` - UNRELEASED
+`v2.9.1`
 - Improved Codecoverage pass-rate from `85%` to `99%` (1 outstanding item) (@luke-hill)
 - Codebase cleanup of non-used config files (@luke-hill)
 - Bumped Travis Ruby version from `2.2` to `2.3`
