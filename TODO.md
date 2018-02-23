@@ -1,9 +1,8 @@
 To Update:
 1) (Need to update `Capybara` restrictions to something less old!)
-2) Generic Update of other dependencies
-3) Fix up of Gemfile and Gemspec to be inline with community guidelines
-See: http://yehudakatz.com/2010/12/16/clarifying-the-roles-of-the-gemspec-and-gemfile/
-4) Update to Rubies (Support & Documentation)
+2) Generic Update of dependencies
+3) Documentation of supported rubies
+4) Update of Ruby Version to supported version
 
 Next Up:
 1) Figure out why the loadable spec isn't playing nicely with code-coverage
