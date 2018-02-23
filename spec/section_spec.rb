@@ -50,10 +50,12 @@ describe SitePrism::Page do
     end
 
     context 'second argument is not a class and no block given' do
+      subject(:section) { Page.section(:incorrect_section, '.section') }
+
       it 'should raise an ArgumentError' do
         class Page < SitePrism::Page
         end
-        expect { Page.section :incorrect_section, '.section' }.to raise_error ArgumentError, 'You should provide section class either as a block, or as the second argument'
+        expect { section }.to raise_error ArgumentError, 'You should provide section class either as a block, or as the second argument'
       end
     end
   end
