@@ -47,7 +47,7 @@ describe SitePrism::Page do
     expect(page).to respond_to :all_there?
   end
 
-  describe '#excluded_elements' do
+  describe '#expected_elements' do
     class PageWithAFewElements < SitePrism::Page
       element :bob, 'a.b c.d'
       element :success_msg, 'span.alert-success'
