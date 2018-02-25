@@ -5,8 +5,8 @@ class TestSite
     TestHomePage.new
   end
 
-  def home_with_excluded_elements
-    TestHomePageWithExcludedElements.new
+  def home_with_expected_elements
+    TestHomePageWithExpectedElements.new
   end
 
   def no_title

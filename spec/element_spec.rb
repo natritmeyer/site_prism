@@ -52,7 +52,7 @@ describe SitePrism::Page do
       element :bob, 'a.b c.d'
       element :success_msg, 'span.alert-success'
 
-      excluded_elements :success_msg
+      expected_elements :bob
     end
 
     let(:page) { PageWithAFewElements.new }

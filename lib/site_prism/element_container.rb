@@ -2,7 +2,7 @@
 
 module SitePrism
   module ElementContainer
-    attr_reader :mapped_items, :excluded_items
+    attr_reader :mapped_items, :expected_items
 
     def element(element_name, *find_args)
       build element_name, *find_args do
@@ -23,8 +23,8 @@ module SitePrism
     end
     alias collection elements
 
-    def excluded_elements(*elements)
-      @excluded_items = elements.map(&:to_s)
+    def expected_elements(*elements)
+      @expected_items = elements.map(&:to_s)
     end
 
     def section(section_name, *args, &block)

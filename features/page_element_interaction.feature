@@ -44,9 +44,9 @@ Feature: Page element interaction
     When I navigate to the home page
     Then all expected elements are present
 
-  Scenario: Page with `excluded_elements`
-    When I navigate to the home page that contains excluded elements
-    Then all elements not specifically excluded are present
+  Scenario: Page with `expected_elements`
+    When I navigate to the home page that contains expected elements
+    Then all elements marked as expected are present
 
   Scenario: Element without a selector (pending element)
     When I navigate to a page with no title

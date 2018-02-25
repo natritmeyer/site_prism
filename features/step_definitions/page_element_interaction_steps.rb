@@ -81,8 +81,8 @@ Then(/^all expected elements are present$/) do
   expect(@test_site.home).not_to be_all_there
 end
 
-Then(/^all elements not specifically excluded are present$/) do
-  expect(@test_site.home_with_excluded_elements).to be_all_there
+Then(/^all elements marked as expected are present$/) do
+  expect(@test_site.home_with_expected_elements).to be_all_there
 end
 
 Then(/^an exception is raised when I try to deal with an element with no selector$/) do
