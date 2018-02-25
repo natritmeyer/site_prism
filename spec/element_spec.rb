@@ -49,12 +49,10 @@ describe SitePrism::Page do
 
   describe '#excluded_elements' do
     class PageWithAFewElements < SitePrism::Page
-      element(:bob, 'a.b c.d')
-      element(:success_msg, 'span.alert-success')
+      element :bob, 'a.b c.d'
+      element :success_msg, 'span.alert-success'
 
-      def excluded_elements
-        %w[success_msg]
-      end
+      excluded_elements :success_msg
     end
 
     let(:page) { PageWithAFewElements.new }

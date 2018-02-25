@@ -711,16 +711,14 @@ end
 
 ```
 
-You may wish to have elements declared in a page object class that are not always guaranteed to be present (success or error messages, etc.). If you'd still like to test such a page with `all_there?` you can define an `excluded_elements` method on your page object class that excludes the specified elements from the `all_there?` check.
+You may wish to have elements declared in a page object class that are not always guaranteed to be present (success or error messages, etc.). If you'd still like to test such a page with `all_there?` you can declare `excluded_elements` on your page object class that excludes the specified elements from the `all_there?` check.
 
 ```ruby
 class TestPage < SitePrism::Page
-  element(:name_field, '#name')
-  element(:success_msg, 'span.alert-success')
+  element :name_field, '#name'
+  element :success_msg, 'span.alert-success'
 
-  def excluded_elements
-    %w[success_msg]
-  end
+  excluded_elements :success_msg
 end
 ```
 
