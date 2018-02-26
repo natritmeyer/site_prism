@@ -18,14 +18,16 @@ module SitePrism
     end
 
     # Loads the page.
-    # Executes the block, if given, after running load validations on the page.
-    #
     # @param expansion_or_html
-    # @param block [&block] A block to run once the page is loaded.  The page will yield itself into the block.
+    # @param block [&block] An optional block to run once the page is loaded.
+    # The page will yield the block if defined.
+    #
+    # Executes the block, if given.
+    # Runs load validations on the page, unless input is a string
     def load(expansion_or_html = {}, &block)
       self.loaded = false
 
-      if expansion_or_html.is_a? String
+      if expansion_or_html.is_a?(String)
         @page = Capybara.string(expansion_or_html)
         yield self if block_given?
       else
