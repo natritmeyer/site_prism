@@ -3,26 +3,41 @@
 require 'spec_helper'
 
 describe SitePrism::Page do
-  it 'should respond to sections' do
-    expect(SitePrism::Page).to respond_to :sections
+  let(:page) { APage.new }
+
+  class SingleSection < SitePrism::Section; end
+  class PluralSection < SitePrism::Section; end
+
+  class APage < SitePrism::Page
+    section  :single_section,  SingleSection, '.bob'
+    sections :plural_sections, PluralSection, '.tim'
   end
 
-  it 'should create a matching existence method for sections' do
-    class SomePageWithSectionsThatNeedsTestingForExistence < SitePrism::Section
+  describe '.section' do
+    it 'should be callable' do
+      expect(SitePrism::Page).to respond_to(:section)
     end
 
-    class YetAnotherPageWithSections < SitePrism::Page
-      # in order to test method name collisions with rspec, we'll include its matchers
-      include RSpec::Matchers
-
-      section  :some_things,  SomePageWithSectionsThatNeedsTestingForExistence, '.bob'
-      sections :other_things, SomePageWithSectionsThatNeedsTestingForExistence, '.tim'
+    it 'should create matching object method' do
+      expect(page).to respond_to(:single_section)
     end
 
-    page = YetAnotherPageWithSections.new
-    expect(page).to respond_to :has_some_things?
-    expect(page).to respond_to :has_other_things?
-    # will throw a NoMethodError if methods overwritten by rspec matchers are called
-    expect { page.other_things }.not_to raise_error
+    it 'should create matching existence method' do
+      expect(page).to respond_to(:has_single_section?)
+    end
+  end
+
+  describe '.sections' do
+    it 'should be callable' do
+      expect(SitePrism::Page).to respond_to(:sections)
+    end
+
+    it 'should create matching object method' do
+      expect(page).to respond_to(:plural_sections)
+    end
+
+    it 'should create a matching existence method' do
+      expect(page).to respond_to(:has_plural_sections?)
+    end
   end
 end
