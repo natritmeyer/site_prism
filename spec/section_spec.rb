@@ -53,9 +53,11 @@ describe SitePrism::Page do
       subject(:section) { Page.section(:incorrect_section, '.section') }
 
       it 'should raise an ArgumentError' do
-        class Page < SitePrism::Page
-        end
-        expect { section }.to raise_error ArgumentError, 'You should provide section class either as a block, or as the second argument'
+        class Page < SitePrism::Page; end
+
+        expect { section }
+          .to raise_error(ArgumentError)
+          .with_message('You should provide section class either as a block, or as the second argument')
       end
     end
   end

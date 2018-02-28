@@ -23,7 +23,7 @@ ClassLength:
   Enabled: false
 
 LineLength:
-  Max: 160
+  Max: 130
 
 MethodLength:
   Max: 11
