@@ -1,30 +1,15 @@
 # frozen_string_literal: true
 
-require 'cucumber/rake/task'
-require 'rspec/core/rake_task'
-require 'rubocop/rake_task'
-
-require 'yard'
-
-namespace :cuke do
-  Cucumber::Rake::Task.new(:all) do |t|
-    t.cucumber_opts = '--format pretty'
-  end
+task :cukes do
+  system 'bundle exec cucumber' || raise('Cukes failed')
 end
 
-namespace :spec do
-  RSpec::Core::RakeTask.new(:all) do |t|
-    t.pattern = 'spec/**/*_spec.rb'
-    t.ruby_opts = '-I lib'
-  end
+task :specs do
+  system 'bundle exec rspec' || raise('Specs failed')
 end
 
-RuboCop::RakeTask.new
-
-namespace :docs do
-  YARD::Rake::YardocTask.new :generate do |t|
-    t.files = ['lib/**/*.rb', '-', 'README.md']
-  end
+task :rubocop do
+  system 'bundle exec rubocop' || raise('Cops failed')
 end
 
-task default: %w[rubocop spec:all cuke:all]
+task default: %i[rubocop specs cukes]

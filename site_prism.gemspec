@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'capybara', ['~> 2.3']
 
   s.add_development_dependency 'cucumber', ['2.4.0']
-  s.add_development_dependency 'rake', ['~> 11.0']
+  s.add_development_dependency 'rake', ['>= 11.0']
   s.add_development_dependency 'redcarpet', ['~> 3.0']
   s.add_development_dependency 'rspec', ['~> 3.2']
   s.add_development_dependency 'rubocop', ['0.50.0']
