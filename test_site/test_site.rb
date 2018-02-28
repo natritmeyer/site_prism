@@ -5,6 +5,10 @@ class TestSite
     TestHomePage.new
   end
 
+  def home_with_expected_elements
+    TestHomePageWithExpectedElements.new
+  end
+
   def no_title
     TestNoTitle.new
   end

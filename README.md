@@ -711,6 +711,17 @@ end
 
 ```
 
+You may wish to have elements declared in a page object class that are not always guaranteed to be present (success or error messages, etc.). If you'd still like to test such a page with `all_there?` you can declare `expected_elements` on your page object class that narrows the elements included in `all_there?` check to those that definitely should be present.
+
+```ruby
+class TestPage < SitePrism::Page
+  element :name_field, '#name'
+  element :success_msg, 'span.alert-success'
+
+  expected_elements :name_field
+end
+```
+
 ## Sections
 
 SitePrism allows you to model sections of a page that appear on multiple
