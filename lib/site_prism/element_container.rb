@@ -24,7 +24,7 @@ module SitePrism
     alias collection elements
 
     def expected_elements(*elements)
-      @expected_items = elements.map(&:to_s)
+      @expected_items = elements
     end
 
     def section(section_name, *args, &block)
@@ -64,7 +64,7 @@ module SitePrism
 
     def add_to_mapped_items(item)
       @mapped_items ||= []
-      @mapped_items << item.to_s
+      @mapped_items << item
     end
 
     def raise_if_block(obj, name, has_block)
