@@ -9,6 +9,14 @@ Find the pretty documentation here: http://rdoc.info/gems/site_prism/frames
 
 Make sure to add your project/company to https://github.com/natritmeyer/site_prism/wiki/Who-is-using-SitePrism
 
+## Supported Rubies / Browsers
+
+SitePrism is built and tested to work on Ruby 2.0 - 2.4. There is also some limited support for the Ruby 1.9 series.
+
+SitePrism should run on all major browsers. The gem's integration tests are ran on the latest version of Firefox.
+
+If you find your browser isn't working correctly with SitePrism, please open an [issue request](https://github.com/natritmeyer/site_prism/issues/new)
+
 ## Synopsis
 
 Here's an overview of how SitePrism is designed to be used:
@@ -17,20 +25,20 @@ Here's an overview of how SitePrism is designed to be used:
 # define our site's pages
 
 class Home < SitePrism::Page
-  set_url "/index.htm"
+  set_url '/index.htm'
   set_url_matcher /google.com\/?/
 
-  element :search_field, "input[name='q']"
+  element :search_field, 'input[name="q"]'
   element :search_button, "button[name='btnK']"
-  elements :footer_links, "#footer a"
-  section :menu, MenuSection, "#gbx3"
+  elements :footer_links, '#footer a'
+  section :menu, MenuSection, '#gbx3'
 end
 
 class SearchResults < SitePrism::Page
   set_url_matcher /google.com\/results\?.*/
 
-  section :menu, MenuSection, "#gbx3"
-  sections :search_results, SearchResultSection, "#results li"
+  section :menu, MenuSection, '#gbx3'
+  sections :search_results, SearchResultSection, '#results li'
 
   def search_result_links
     search_results.map {|sr| sr.title['href']}
@@ -40,14 +48,14 @@ end
 # define sections used on multiple pages or multiple times on one page
 
 class MenuSection < SitePrism::Section
-  element :search, "a.search"
-  element :images, "a.image-search"
-  element :maps, "a.map-search"
+  element :search, 'a.search'
+  element :images, 'a.image-search'
+  element :maps, 'a.map-search'
 end
 
 class SearchResultSection < SitePrism::Section
-  element :title, "a.title"
-  element :blurb, "span.result-description"
+  element :title, 'a.title'
+  element :blurb, 'span.result-description'
 end
 
 # now for some tests
@@ -174,7 +182,7 @@ Note that setting a URL is optional - you only need to set a url if you want to 
 directly to that page. It makes sense to set the URL for a page model of a home
 page or a login page, but probably not a search results page.
 
-#### Parameterized URLs
+#### Parametrized URLs
 
 SitePrism uses the Addressable gem and therefore allows for parameterized URLs. Here is
 a simple example:
@@ -333,7 +341,7 @@ end
 @account = Account.new
 #...
 @account.current_url #=> "http://www.example.com/account/123"
-expect(@account.current_url).to include "example.com/account/"
+expect(@account.current_url).to include 'example.com/account/'
 ```
 
 ### Page Title
@@ -381,7 +389,7 @@ the relevant page. SitePrism makes this easy:
 
 ```ruby
 class Home < SitePrism::Page
-  element :search_field, "input[name='q']"
+  element :search_field, 'input[name="q"]'
 end
 ```
 
@@ -397,9 +405,9 @@ element. So using the following example:
 
 ```ruby
 class Home < SitePrism::Page
-  set_url "http://www.google.com"
+  set_url 'http://www.google.com'
 
-  element :search_field, "input[name='q']"
+  element :search_field, 'input[name="q"]'
 end
 ```
 
@@ -410,7 +418,7 @@ end
 @home.load
 
 @home.search_field #=> will return the capybara element found using the selector
-@home.search_field.set "the search string" #=> since search_field returns a capybara element, you can use the capybara API to deal with it
+@home.search_field.set 'the search string' #=> since search_field returns a capybara element, you can use the capybara API to deal with it
 @home.search_field.text #=> standard method on a capybara element; returns a string
 ```
 
@@ -421,9 +429,9 @@ Another method added to the Page class by the `element` method is the
 
 ```ruby
 class Home < SitePrism::Page
-  set_url "http://www.google.com"
+  set_url 'http://www.google.com'
 
-  element :search_field, "input[name='q']"
+  element :search_field, 'input[name="q"]'
 end
 ```
 
@@ -472,9 +480,9 @@ custom amount of time to wait. Using the same example as above:
 
 ```ruby
 class Home < SitePrism::Page
-  set_url "http://www.google.com"
+  set_url 'http://www.google.com'
 
-  element :search_field, "input[name='q']"
+  element :search_field, 'input[name="q"]'
 end
 ```
 
@@ -526,10 +534,10 @@ can use a CSS selector, you can use an XPath expression. An example:
 ```ruby
 class Home < SitePrism::Page
   # CSS Selector:
-  element :first_name, "div#signup input[name='first-name']"
+  element :first_name, 'div#signup input[name="first-name"]'
 
   #same thing as an XPath expression:
-  element :first_name, :xpath, "//div[@id='signup']//input[@name='first-name']"
+  element :first_name, :xpath, '//div[@id="signup"]//input[@name="first-name"]'
 end
 ```
 
@@ -539,7 +547,7 @@ Given:
 
 ```ruby
 class Home < SitePrism::Page
-  element :search_field, "input[name='q']"
+  element :search_field, 'input[name="q"]'
 end
 ```
 
@@ -567,7 +575,7 @@ Here's how it works:
 
 ```ruby
 class Friends < SitePrism::Page
-  elements :names, "ul#names li a"
+  elements :names, 'ul#names li a'
 end
 ```
 
@@ -584,7 +592,7 @@ css selector. Using the example above:
 
 ```ruby
 class Friends < SitePrism::Page
-  elements :names, "ul#names li a"
+  elements :names, 'ul#names li a'
 end
 ```
 
@@ -607,7 +615,7 @@ arrays:
 Or even run some tests...
 
 ```ruby
-expect(@friends_page.names.map { |name| name.text }).to eq(["Alice", "Bob", "Fred"])
+expect(@friends_page.names.map { |name| name.text }).to eq(['Alice', 'Bob', 'Fred'])
 expect(@friends_page.names.size).to eq(3)
 expect(@friends_page).to have(3).names
 ```
@@ -650,7 +658,7 @@ matches the selector. For example, with the following page:
 
 ```ruby
 class Friends < SitePrism::Page
-  elements :names, "ul#names li a"
+  elements :names, 'ul#names li a'
 end
 
 ```
@@ -756,7 +764,7 @@ includes the above `MenuSection` section:
 
 ```ruby
 class Home < SitePrism::Page
-  section :menu, MenuSection, "#gbx3"
+  section :menu, MenuSection, '#gbx3'
 end
 ```
 
@@ -787,7 +795,7 @@ end
 # the page that includes the section:
 
 class Home < SitePrism::Page
-  section :menu, MenuSection, "#gbx3"
+  section :menu, MenuSection, '#gbx3'
 end
 
 # the page and section in action:
@@ -814,11 +822,11 @@ end
 # define 2 pages, each containing the same section
 
 class Home < SitePrism::Page
-  section :menu, MenuSection, "#gbx3"
+  section :menu, MenuSection, '#gbx3'
 end
 
 class SearchResults < SitePrism::Page
-  section :menu, MenuSection, "#gbx48"
+  section :menu, MenuSection, '#gbx48'
 end
 ```
 
@@ -833,9 +841,9 @@ This works just the same as adding elements to a page:
 
 ```ruby
 class MenuSection < SitePrism::Section
-  element :search, "a.search"
-  element :images, "a.image-search"
-  element :maps, "a.map-search"
+  element :search, 'a.search'
+  element :images, 'a.image-search'
+  element :maps, 'a.map-search'
 end
 ```
 
@@ -847,7 +855,7 @@ When the section is added to a page...
 
 ```ruby
 class Home < SitePrism::Page
-  section :menu, MenuSection, "#gbx3"
+  section :menu, MenuSection, '#gbx3'
 end
 ```
 
@@ -899,15 +907,15 @@ section is a subsection). For example, given the following setup:
 
 ```ruby
 class MySubSection < SitePrism::Section
-  element :some_element, "abc"
+  element :some_element, 'abc'
 end
 
 class MySection < SitePrism::Section
-  section :my_subsection, MySubSection, "def"
+  section :my_subsection, MySubSection, 'def'
 end
 
 class MyPage < SitePrism::Page
-  section :my_section, MySection, "ghi"
+  section :my_section, MySection, 'ghi'
 end
 ```
 
@@ -928,13 +936,13 @@ given the following setup:
 
 ```ruby
 class MenuSection < SitePrism::Section
-  element :search, "a.search"
-  element :images, "a.image-search"
-  element :maps, "a.map-search"
+  element :search, 'a.search'
+  element :images, 'a.image-search'
+  element :maps, 'a.map-search'
 end
 
 class Home < SitePrism::Page
-  section :menu, MenuSection, "#gbx3"
+  section :menu, MenuSection, '#gbx3'
 end
 ```
 
@@ -955,13 +963,13 @@ to the page or section it's been added to - same idea as what the
 
 ```ruby
 class MenuSection < SitePrism::Section
-  element :search, "a.search"
-  element :images, "a.image-search"
-  element :maps, "a.map-search"
+  element :search, 'a.search'
+  element :images, 'a.image-search'
+  element :maps, 'a.map-search'
 end
 
 class Home < SitePrism::Page
-  section :menu, MenuSection, "#gbx3"
+  section :menu, MenuSection, '#gbx3'
 end
 ```
 
@@ -990,13 +998,13 @@ page/section that our section was added to. Given the following setup:
 
 ```ruby
 class MenuSection < SitePrism::Section
-  element :search, "a.search"
-  element :images, "a.image-search"
-  element :maps, "a.map-search"
+  element :search, 'a.search'
+  element :images, 'a.image-search'
+  element :maps, 'a.map-search'
 end
 
 class Home < SitePrism::Page
-  section :menu, MenuSection, "#gbx3"
+  section :menu, MenuSection, '#gbx3'
 end
 ```
 
@@ -1043,24 +1051,24 @@ sections within sections within sections within sections!
 # define a page that contains an area that contains a section for both logging in and registration, then modelling each of the sub sections separately
 
 class Login < SitePrism::Section
-  element :username, "#username"
-  element :password, "#password"
-  element :sign_in, "button"
+  element :username, '#username'
+  element :password, '#password'
+  element :sign_in, 'button'
 end
 
 class Registration < SitePrism::Section
-  element :first_name, "#first_name"
-  element :last_name, "#last_name"
-  element :next_step, "button.next-reg-step"
+  element :first_name, '#first_name'
+  element :last_name, '#last_name'
+  element :next_step, 'button.next-reg-step'
 end
 
 class LoginRegistrationForm < SitePrism::Section
-  section :login, Login, "div.login-area"
-  section :registration, Registration, "div.reg-area"
+  section :login, Login, 'div.login-area'
+  section :registration, Registration, 'div.reg-area'
 end
 
 class Home < SitePrism::Page
-  section :login_and_registration, LoginRegistrationForm, "div.login-registration"
+  section :login_and_registration, LoginRegistrationForm, 'div.login-registration'
 end
 
 # how to login (fatuous, but demonstrates the point):
@@ -1133,12 +1141,12 @@ Given the following setup:
 
 ```ruby
 class SearchResultSection < SitePrism::Section
-  element :title, "a.title"
-  element :blurb, "span.result-decription"
+  element :title, 'a.title'
+  element :blurb, 'span.result-decription'
 end
 
 class SearchResults < SitePrism::Page
-  sections :search_results, SearchResultSection, "#results li"
+  sections :search_results, SearchResultSection, '#results li'
 end
 ```
 
@@ -1180,9 +1188,9 @@ define a single anonymous section:
 
 ```ruby
 class SearchResults < SitePrism::Page
-  sections :search_results, "#results li" do
-    element :title, "a.title"
-    element :blurb, "span.result-decription"
+  sections :search_results, '#results li' do
+    element :title, 'a.title'
+    element :blurb, 'span.result-decription'
   end
 end
 ```
@@ -1197,12 +1205,12 @@ following example:
 
 ```ruby
 class SearchResultSection < SitePrism::Section
-  element :title, "a.title"
-  element :blurb, "span.result-decription"
+  element :title, 'a.title'
+  element :blurb, 'span.result-decription'
 end
 
 class SearchResults < SitePrism::Page
-  sections :search_results, SearchResultSection, "#results li"
+  sections :search_results, SearchResultSection, '#results li'
 end
 ```
 
@@ -1231,12 +1239,12 @@ the section in the array of sections. For example:
 
 ```ruby
 class SearchResultSection < SitePrism::Section
-  element :title, "a.title"
-  element :blurb, "span.result-decription"
+  element :title, 'a.title'
+  element :blurb, 'span.result-decription'
 end
 
 class SearchResults < SitePrism::Page
-  sections :search_results, SearchResultSection, "#results li"
+  sections :search_results, SearchResultSection, '#results li'
 end
 ```
 
@@ -1397,13 +1405,13 @@ Given the following sample page and elements:
 
 ```ruby
 class SearchResultSection < SitePrism::Section
-  element :title, "a.title"
-  element :blurb, "span.result-decription"
+  element :title, 'a.title'
+  element :blurb, 'span.result-decription'
 end
 
 class SearchResults < SitePrism::Page
-  element :footer, ".footer"
-  sections :search_results, SearchResultSection, "#results li"
+  element :footer, '.footer'
+  sections :search_results, SearchResultSection, '#results li'
 end
 ```
 
@@ -1444,9 +1452,9 @@ This is supported for all of the Capybara options including, but not limited to 
 
 ```ruby
 class SearchResults < SitePrism::Page
-    element :footer, ".footer"
-    element :view_more, "li", text: "View More"
-    sections :search_results, SearchResultSection, "#results li"
+    element :footer, '.footer'
+    element :view_more, 'li', text: 'View More'
+    sections :search_results, SearchResultSection, '#results li'
 end
 ```
 
@@ -1501,7 +1509,7 @@ An iframe is declared in the same way as a Page:
 
 ```ruby
 class MyIframe < SitePrism::Page
-  element :some_text_field, "input.username"
+  element :some_text_field, 'input.username'
 end
 ```
 
@@ -1512,7 +1520,7 @@ iframe, and an ID or class by which you can locate the iframe. For example:
 
 ```ruby
 class PageContainingIframe < SitePrism::Page
-  iframe :my_iframe, MyIframe, "#my_iframe_id"
+  iframe :my_iframe, MyIframe, '#my_iframe_id'
 end
 ```
 
@@ -1554,15 +1562,15 @@ SitePrism::Page that represents the iframe's contents. For example:
 ```ruby
 # SitePrism::Page representing the iframe
 class Login < SitePrism::Page
-  element :username, "input.username"
-  element :password, "input.password"
+  element :username, 'input.username'
+  element :password, 'input.password'
 end
 
 # SitePrism::Page representing the page that contains the iframe
 class Home < SitePrism::Page
-  set_url "http://www.example.com"
+  set_url 'http://www.example.com'
 
-  iframe :login_area, Login, "#login_and_registration"
+  iframe :login_area, Login, '#login_and_registration'
 end
 
 # cucumber step that performs login
@@ -1572,8 +1580,8 @@ When /^I log in$/ do
 
   @home.login_area do |frame|
     #`frame` is an instance of the `Login` class
-    frame.username.set "admin"
-    frame.password.set "p4ssword"
+    frame.username.set 'admin'
+    frame.password.set 'p4ssword'
   end
 end
 ```

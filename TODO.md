@@ -1,7 +1,6 @@
 To Update:
 1) (Need to update `Capybara` restrictions to something less old!)
 2) Generic Update of dependencies
-3) Documentation of supported rubies
 4) Update of Ruby Version to supported version
 
 Next Up:
