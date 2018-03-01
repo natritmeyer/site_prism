@@ -724,9 +724,10 @@ You may wish to have elements declared in a page object class that are not alway
 ```ruby
 class TestPage < SitePrism::Page
   element :name_field, '#name'
+  element :address_field, '#address'
   element :success_msg, 'span.alert-success'
 
-  expected_elements :name_field
+  expected_elements :name_field, :address_field
 end
 ```
 
