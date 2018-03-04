@@ -1517,7 +1517,7 @@ end
 To expose the iframe, reference it from another page or class using the `iframe`
 method. The `iframe` method takes 3 arguments; the name by which you
 would like to reference the iframe, the page class that represents the
-iframe, and an ID or class by which you can locate the iframe. For example:
+iframe, and the CSS selector by which you can locate the iframe. For example:
 
 ```ruby
 class PageContainingIframe < SitePrism::Page
@@ -1525,8 +1525,21 @@ class PageContainingIframe < SitePrism::Page
 end
 ```
 
-The third argument to the `iframe` method must
-contain a selector that will locate the iframe node.
+### Locating an iframe
+
+While the above example uses a CSS selector to find the iframe, it is also
+possible to use an XPath expression or the index of the iframe in its parent
+(a shortcut for an `nth-of-type` CSS selector). For example:
+
+```ruby
+class PageContainingIframe < SitePrism::Page
+  # XPath Expression:
+  iframe :my_iframe, MyIframe, :xpath, '//iframe[@id="my_iframe_id"]'
+
+  # Index (nth-of-type) Selector:
+  iframe :my_iframe, MyIframe, 0
+end
+```
 
 ### Testing for an iframe's existence
 

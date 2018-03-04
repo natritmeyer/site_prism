@@ -33,4 +33,6 @@ class TestHomePage < SitePrism::Page
   # iframes
   iframe :my_iframe, MyIframe, '#the_iframe'
   iframe :index_iframe, MyIframe, 0
+  iframe :named_iframe, MyIframe, '[name="the_iframe"]'
+  iframe :xpath_iframe, MyIframe, :xpath, '//iframe[@name="the_iframe"]'
 end
