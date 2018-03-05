@@ -4,7 +4,6 @@ doc/*
 Gemfile.lock
 coverage
 .bundle
-.ruby-version
 .ruby-gemset
 .idea
 .todo-list
