@@ -2,7 +2,9 @@
 
 unless ENV['CI']
   require 'simplecov'
+  require 'dotenv'
   SimpleCov.start
+  Dotenv.load('.env')
 end
 
 require 'capybara'
@@ -43,26 +45,31 @@ Capybara.configure do |config|
   config.ignore_hidden_elements = false
 end
 
+SitePrism.configure do |config|
+  config.use_implicit_waits = false
+end
+
 Capybara.register_driver :selenium do |app|
-  profile = if chrome?
-              Selenium::WebDriver::Chrome::Profile.new
-            else
-              Selenium::WebDriver::Firefox::Profile.new
-            end
-  profile['browser.cache.disk.enable'] = false
-  profile['browser.cache.memory.enable'] = false
   Capybara::Selenium::Driver.new(app, browser: browser, profile: profile)
+end
 
-  private
-  def chrome?
-    browser == :chrome
-  end
+private
 
-  def browser
-    ENV['TARGET_BROWSER'].to_sym
+def profile
+  if chrome?
+    Selenium::WebDriver::Chrome::Profile.new
+  else
+    Selenium::WebDriver::Firefox::Profile.new.tap do |profile|
+      profile['browser.cache.disk.enable'] = false
+      profile['browser.cache.memory.enable'] = false
+    end
   end
 end
 
-SitePrism.configure do |config|
-  config.use_implicit_waits = false
+def browser
+  ENV['browser'].to_sym
+end
+
+def chrome?
+  browser == :chrome
 end
