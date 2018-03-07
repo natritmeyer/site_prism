@@ -1,4 +1,13 @@
-<!-- `#206 last Update to this document` -->
+<!-- `#211 last Update to this document` -->
+`2.11`
+- Refactor Addressable library so its slightly less confusing to debug - still in progress! (@luke-hill)
+- Update Travis to test on a variety of rubies: `2.0 -> 2.3`, and using the latest geckodriver (@luke-hill)
+- Improved Documentation around rubies (@luke-hill)
+- Compressed `Rakefile` into smaller shell tasks for Increased Verbosity on Failures and execution time (@luke-hill)
+- Allow `all_there?` to be extended in the DSL with `expected_elements`. Allowing pages with the correct number of sections/elements to be easily tested (@TheMetalCode)
+- Fix bug where SitePrism failed load-validation's when being passed Block Parameters without URL's (@kei2100)
+- Use the `.gemspec` file for all versioning needs and remove any references to gems in the Gemfile (@luke-hill & @tgaff)
+- Re-enable Rubocop compliance from PR signoff (Including fixing up some offences) (@RustyNail)
 
 `2.10`
 - Established Roadmap of items to be fixed in coming months (@luke-hill)

@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.0'
   s.platform    = Gem::Platform::RUBY
   s.license     = 'BSD3'
-  s.author      = 'Nat Ritmeyer'
-  s.email       = 'nat@natontesting.com'
+  s.authors     = ['Nat Ritmeyer', 'Luke Hill']
+  s.email       = ['nat@natontesting.com', 'lukehill_uk@hotmail.com']
   s.homepage    = 'http://github.com/natritmeyer/site_prism'
   s.summary     = 'A Page Object Model DSL for Capybara'
   s.description = 'SitePrism gives you a simple, clean and semantic DSL for describing your site.
@@ -17,7 +17,7 @@ SitePrism implements the Page Object Model pattern on top of Capybara.'
   s.files        = Dir.glob('lib/**/*') + %w[LICENSE.md README.md]
   s.require_path = 'lib'
   s.add_dependency 'addressable', ['~> 2.4']
-  s.add_dependency 'capybara', ['~> 2.3']
+  s.add_dependency 'capybara', ['~> 2.7']
 
   s.add_development_dependency 'cucumber', ['2.4.0']
   s.add_development_dependency 'rake', ['>= 11.0']
@@ -25,6 +25,5 @@ SitePrism implements the Page Object Model pattern on top of Capybara.'
   s.add_development_dependency 'rspec', ['~> 3.2']
   s.add_development_dependency 'rubocop', ['0.50.0']
   s.add_development_dependency 'selenium-webdriver', ['~> 3.4.0']
-  s.add_development_dependency 'simplecov', ['~> 0.10']
-  s.add_development_dependency 'yard', ['~> 0.8']
+  s.add_development_dependency 'simplecov', ['>= 0.11']
 end
