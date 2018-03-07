@@ -12,7 +12,8 @@ Gem::Specification.new do |s|
   s.email       = 'nat@natontesting.com'
   s.homepage    = 'http://github.com/natritmeyer/site_prism'
   s.summary     = 'A Page Object Model DSL for Capybara'
-  s.description = 'SitePrism gives you a simple, clean and semantic DSL for describing your site using the Page Object Model pattern, for use with Capybara'
+  s.description = 'SitePrism gives you a simple, clean and semantic DSL for describing your site.
+SitePrism implements the Page Object Model pattern on top of Capybara.'
   s.files        = Dir.glob('lib/**/*') + %w[LICENSE.md README.md]
   s.require_path = 'lib'
   s.add_dependency 'addressable', ['~> 2.4']

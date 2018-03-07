@@ -10,8 +10,7 @@ describe SitePrism::Page do
   describe '.section' do
     context 'second argument is a Class' do
       it 'should create a method' do
-        class SomeSection < SitePrism::Section
-        end
+        class SomeSection < SitePrism::Section; end
 
         class PageWithSection < SitePrism::Page
           section :bob, SomeSection, '.bob'
@@ -22,14 +21,13 @@ describe SitePrism::Page do
       end
 
       it 'should create a matching existence method for a section' do
-        class SomePageWithSectionThatNeedsTestingForExistence < SitePrism::Section
+        class PageWithSectionToTestForExistence < SitePrism::Section; end
+
+        class AnotherPageWithASection < SitePrism::Page
+          section :something, PageWithSectionToTestForExistence, '.bob'
         end
 
-        class YetAnotherPageWithASection < SitePrism::Page
-          section :something, SomePageWithSectionThatNeedsTestingForExistence, '.bob'
-        end
-
-        page = YetAnotherPageWithASection.new
+        page = AnotherPageWithASection.new
         expect(page).to respond_to :has_something?
       end
     end
@@ -53,9 +51,11 @@ describe SitePrism::Page do
       subject(:section) { Page.section(:incorrect_section, '.section') }
 
       it 'should raise an ArgumentError' do
-        class Page < SitePrism::Page
-        end
-        expect { section }.to raise_error ArgumentError, 'You should provide section class either as a block, or as the second argument'
+        class Page < SitePrism::Page; end
+
+        expect { section }
+          .to raise_error(ArgumentError)
+          .with_message('You should provide section class either as a block, or as the second argument.')
       end
     end
   end
@@ -78,7 +78,7 @@ describe SitePrism::Section do
   end
 
   it 'does not require a block' do
-    expect(Capybara).to_not receive(:within)
+    expect(Capybara).not_to receive(:within)
     SitePrism::Section.new(a_page, 'div')
   end
 

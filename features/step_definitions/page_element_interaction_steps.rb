@@ -126,7 +126,8 @@ When(/^I wait for a specific amount of time until a particular element is invisi
 end
 
 Then(/^I get a timeout error when I wait for an element that never disappears$/) do
-  expect { @test_site.home.wait_until_welcome_header_invisible(1) }.to raise_error(SitePrism::TimeOutWaitingForElementInvisibility)
+  expect { @test_site.home.wait_until_welcome_header_invisible(1) }
+    .to raise_error(SitePrism::TimeOutWaitingForElementInvisibility)
 end
 
 Then(/^I do not wait for an nonexistent element when checking for invisibility$/) do
@@ -141,7 +142,8 @@ When(/^I wait for invisibility of an element embedded into a section which is re
 end
 
 Then(/^I receive an error when a section with the element I am waiting for is removed$/) do
-  expect { @test_site.home.container_with_element.wait_until_embedded_element_invisible }.to raise_error(Capybara::ElementNotFound)
+  expect { @test_site.home.container_with_element.wait_until_embedded_element_invisible }
+    .to raise_error(Capybara::ElementNotFound)
 end
 
 Then(/^I can wait a variable time for elements to appear$/) do
