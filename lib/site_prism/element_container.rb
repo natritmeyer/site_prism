@@ -69,9 +69,8 @@ module SitePrism
 
     def raise_if_block(obj, name, has_block)
       return unless has_block
-      raise SitePrism::UnsupportedBlock(
-        "#{obj.class}##{name} does not accept blocks, did you mean to define a (i)frame?"
-      )
+
+      raise SitePrism::UnsupportedBlock, "#{obj.class}##{name}"
     end
 
     private

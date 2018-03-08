@@ -14,6 +14,12 @@ module SitePrism
   class TimeoutException < StandardError; end
   class TimeOutWaitingForElementVisibility < StandardError; end
   class TimeOutWaitingForElementInvisibility < StandardError; end
-  class UnsupportedBlock < StandardError; end
+
+  class UnsupportedBlock < StandardError
+    def message
+      "#{super} does not accept blocks, did you mean to define a (i)frame?"
+    end
+  end
+
   NotLoadedError = Class.new(StandardError)
 end
