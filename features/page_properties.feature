@@ -17,4 +17,3 @@ Feature: Page properties
 
   Scenario: Is page secure?
     Then I can see that the page is not secure
-

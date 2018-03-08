@@ -67,7 +67,7 @@ def profile
 end
 
 def browser
-  ENV['browser'].to_sym
+  @browser ||= ENV.fetch('browser', 'firefox').to_sym
 end
 
 def chrome?

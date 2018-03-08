@@ -13,4 +13,3 @@ Feature: IFrame interaction
     Then I can see elements in an iframe
     Then I can see elements in an iframe with capybara query options
     And I can see an expected bit of text
-
