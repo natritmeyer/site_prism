@@ -48,6 +48,7 @@ describe SitePrism::Page do
     it "should not allow loading if the url hasn't been set" do
       class MyPageWithNoUrl < SitePrism::Page; end
       page_with_no_url = MyPageWithNoUrl.new
+
       expect { page_with_no_url.load }.to raise_error(SitePrism::NoUrlForPage)
     end
 
@@ -56,7 +57,7 @@ describe SitePrism::Page do
         set_url '/bob'
       end
       page_with_url = MyPageWithUrl.new
-      expect { page_with_url.load }.to_not raise_error
+      expect { page_with_url.load }.not_to raise_error
     end
 
     it 'should allow expansions if the url has them' do
@@ -64,8 +65,10 @@ describe SitePrism::Page do
         set_url '/users{/username}{?query*}'
       end
       page_with_url = MyPageWithUriTemplate.new
-      expect { page_with_url.load(username: 'foobar') }.to_not raise_error
-      expect(page_with_url.url(username: 'foobar', query: { 'recent_posts' => 'true' })).to eq('/users/foobar?recent_posts=true')
+
+      expect { page_with_url.load(username: 'foobar') }.not_to raise_error
+      expect(page_with_url.url(username: 'foobar', query: { 'recent_posts' => 'true' }))
+        .to eq('/users/foobar?recent_posts=true')
       expect(page_with_url.url(username: 'foobar')).to eq('/users/foobar')
       expect(page_with_url.url).to eq('/users')
     end
@@ -73,7 +76,7 @@ describe SitePrism::Page do
     it 'should allow to load html' do
       class Page < SitePrism::Page; end
       page = Page.new
-      expect { page.load('<html/>') }.to_not raise_error
+      expect { page.load('<html/>') }.not_to raise_error
     end
 
     context 'when passed a block' do

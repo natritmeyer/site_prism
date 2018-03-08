@@ -145,8 +145,11 @@ Then(/^the page contains a section with no element$/) do
 end
 
 Then(/^the page contains a deeply nested span$/) do
-  expect(@test_site.section_experiments.level_1[0].level_2[0].level_3[0].level_4[0].level_5[0]).to have_deep_span
-  expect(@test_site.section_experiments.level_1[0].level_2[0].level_3[0].level_4[0].level_5[0].deep_span.text).to eq 'Deep span'
+  deeply_nested_section =
+    @test_site.section_experiments.level_1[0].level_2[0].level_3[0].level_4[0].level_5[0]
+
+  expect(deeply_nested_section).to have_deep_span
+  expect(deeply_nested_section.deep_span.text).to eq('Deep span')
 end
 
 Then(/^I can see a section's full text$/) do
