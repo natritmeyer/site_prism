@@ -48,6 +48,7 @@ describe SitePrism::Page do
     it "should not allow loading if the url hasn't been set" do
       class MyPageWithNoUrl < SitePrism::Page; end
       page_with_no_url = MyPageWithNoUrl.new
+
       expect { page_with_no_url.load }.to raise_error(SitePrism::NoUrlForPage)
     end
 
@@ -56,7 +57,7 @@ describe SitePrism::Page do
         set_url '/bob'
       end
       page_with_url = MyPageWithUrl.new
-      expect { page_with_url.load }.to_not raise_error
+      expect { page_with_url.load }.not_to raise_error
     end
 
     it 'should allow expansions if the url has them' do
@@ -64,8 +65,10 @@ describe SitePrism::Page do
         set_url '/users{/username}{?query*}'
       end
       page_with_url = MyPageWithUriTemplate.new
-      expect { page_with_url.load(username: 'foobar') }.to_not raise_error
-      expect(page_with_url.url(username: 'foobar', query: { 'recent_posts' => 'true' })).to eq('/users/foobar?recent_posts=true')
+
+      expect { page_with_url.load(username: 'foobar') }.not_to raise_error
+      expect(page_with_url.url(username: 'foobar', query: { 'recent_posts' => 'true' }))
+        .to eq('/users/foobar?recent_posts=true')
       expect(page_with_url.url(username: 'foobar')).to eq('/users/foobar')
       expect(page_with_url.url).to eq('/users')
     end
@@ -73,7 +76,7 @@ describe SitePrism::Page do
     it 'should allow to load html' do
       class Page < SitePrism::Page; end
       page = Page.new
-      expect { page.load('<html/>') }.to_not raise_error
+      expect { page.load('<html/>') }.not_to raise_error
     end
 
     context 'when passed a block' do
@@ -163,11 +166,15 @@ describe SitePrism::Page do
     let(:page) { PageWithBogusFullUrlMatcher.new }
 
     specify '#url_matches raises InvalidUrlMatcher' do
-      expect { page.url_matches }.to raise_error SitePrism::InvalidUrlMatcher
+      expect { page.url_matches }
+        .to raise_error(SitePrism::InvalidUrlMatcher)
+        .with_message('Could not automatically match your URL. Templated port numbers are unsupported.')
     end
 
     specify '#displayed? raises InvalidUrlMatcher' do
-      expect { page.displayed? }.to raise_error SitePrism::InvalidUrlMatcher
+      expect { page.displayed? }
+        .to raise_error(SitePrism::InvalidUrlMatcher)
+        .with_message('Could not automatically match your URL. Templated port numbers are unsupported.')
     end
   end
 
@@ -180,47 +187,51 @@ describe SitePrism::Page do
 
     it 'matches with all elements matching' do
       swap_current_url('https://joe:bump@bla.org:443/foo?bar=baz&bar=boof#myfragment')
-      expect(page.displayed?).to eq(true)
+
+      expect(page.displayed?).to be true
     end
 
     it "doesn't match with a non-matching fragment" do
       swap_current_url('https://joe:bump@bla.org:443/foo?bar=baz&bar=boof#otherfragment')
-      expect(page.displayed?).to eq(false)
+
+      expect(page.displayed?).to be false
     end
 
     it "doesn't match with a missing param" do
       swap_current_url('https://joe:bump@bla.org:443/foo?bar=baz#myfragment')
-      expect(page.displayed?).to eq(false)
+
+      expect(page.displayed?).to be false
     end
 
     it "doesn't match with wrong path" do
       swap_current_url('https://joe:bump@bla.org:443/not_foo?bar=baz&bar=boof#myfragment')
-      expect(page.displayed?).to eq(false)
+
+      expect(page.displayed?).to be false
     end
 
     it "doesn't match with wrong host" do
       swap_current_url('https://joe:bump@blabber.org:443/foo?bar=baz&bar=boof#myfragment')
-      expect(page.displayed?).to eq(false)
+      expect(page.displayed?).to be false
     end
 
     it "doesn't match with wrong user" do
       swap_current_url('https://joseph:bump@bla.org:443/foo?bar=baz&bar=boof#myfragment')
-      expect(page.displayed?).to eq(false)
+      expect(page.displayed?).to be false
     end
 
     it "doesn't match with wrong password" do
       swap_current_url('https://joe:bean@bla.org:443/foo?bar=baz&bar=boof#myfragment')
-      expect(page.displayed?).to eq(false)
+      expect(page.displayed?).to be false
     end
 
     it "doesn't match with wrong scheme" do
       swap_current_url('http://joe:bump@bla.org:443/foo?bar=baz&bar=boof#myfragment')
-      expect(page.displayed?).to eq(false)
+      expect(page.displayed?).to be false
     end
 
     it "doesn't match with wrong port" do
       swap_current_url('https://joe:bump@bla.org:8000/foo?bar=baz&bar=boof#myfragment')
-      expect(page.displayed?).to eq(false)
+      expect(page.displayed?).to be false
     end
   end
 
@@ -233,7 +244,7 @@ describe SitePrism::Page do
 
     it 'matches a complex URL by only path' do
       swap_current_url('https://joe:bump@bla.org:443/foo?bar=baz&bar=boof#myfragment')
-      expect(page.displayed?).to eq(true)
+      expect(page.displayed?).to be true
     end
   end
 
@@ -250,7 +261,7 @@ describe SitePrism::Page do
 
     it 'matches a realistic local dev URL' do
       swap_current_url('http://localhost:3000/foo')
-      expect(page.displayed?).to eq(true)
+      expect(page.displayed?).to be true
     end
   end
 
@@ -264,17 +275,17 @@ describe SitePrism::Page do
     describe '#displayed?' do
       it 'returns true without expected_mappings provided' do
         swap_current_url('http://localhost:3000/foos/28')
-        expect(page.displayed?).to eq(true)
+        expect(page.displayed?).to be true
       end
 
       it 'returns true with correct expected_mappings provided' do
         swap_current_url('http://localhost:3000/foos/28')
-        expect(page.displayed?(id: 28)).to eq(true)
+        expect(page.displayed?(id: 28)).to be true
       end
 
       it 'returns false with incorrect expected_mappings provided' do
         swap_current_url('http://localhost:3000/foos/28')
-        expect(page.displayed?(id: 17)).to eq(false)
+        expect(page.displayed?(id: 17)).to be false
       end
     end
 
@@ -331,21 +342,21 @@ describe SitePrism::Page do
   end
 
   it 'should raise an exception if passing a block to an element' do
-    expect do
-      TestHomePage.new.invisible_element { :any_old_block }
-    end.to raise_error(SitePrism::UnsupportedBlock)
+    expect { TestHomePage.new.invisible_element { :any_old_block } }
+      .to raise_error(SitePrism::UnsupportedBlock)
+      .with_message('TestHomePage#invisible_element does not accept blocks, did you mean to define a (i)frame?')
   end
 
   it 'should raise an exception if passing a block to elements' do
-    expect do
-      TestHomePage.new.lots_of_links { :any_old_block }
-    end.to raise_error(SitePrism::UnsupportedBlock)
+    expect { TestHomePage.new.lots_of_links { :any_old_block } }
+      .to raise_error(SitePrism::UnsupportedBlock)
+      .with_message('TestHomePage#lots_of_links does not accept blocks, did you mean to define a (i)frame?')
   end
 
   it 'should raise an exception if passing a block to sections' do
-    expect do
-      TestHomePage.new.nonexistent_section { :any_old_block }
-    end.to raise_error(SitePrism::UnsupportedBlock)
+    expect { TestHomePage.new.nonexistent_section { :any_old_block } }
+      .to raise_error(SitePrism::UnsupportedBlock)
+      .with_message('TestHomePage#nonexistent_section does not accept blocks, did you mean to define a (i)frame?')
   end
 
   def swap_current_url(url)

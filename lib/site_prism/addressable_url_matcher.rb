@@ -85,7 +85,8 @@ module SitePrism
         component_url = uri.public_send(component).to_s
         extracted_mappings = component_template.extract(component_url)
         unless extracted_mappings
-          # to support Addressable's expansion of queries, ensure it's parsing the fragment as appropriate (e.g. {?params*})
+          # to support Addressable's expansion of queries
+          # ensure it's parsing the fragment as appropriate (e.g. {?params*})
           prefix = COMPONENT_PREFIXES[component]
           return nil unless prefix && (extracted_mappings = component_template.extract(prefix + component_url))
         end

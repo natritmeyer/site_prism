@@ -86,15 +86,21 @@ Then(/^all elements marked as expected are present$/) do
 end
 
 Then(/^an exception is raised when I try to deal with an element with no selector$/) do
-  expect { @test_site.no_title.has_element_without_selector? }.to raise_error(SitePrism::NoSelectorForElement)
-  expect { @test_site.no_title.element_without_selector }.to raise_error(SitePrism::NoSelectorForElement)
-  expect { @test_site.no_title.wait_for_element_without_selector }.to raise_error(SitePrism::NoSelectorForElement)
+  expect { @test_site.no_title.has_element_without_selector? }
+    .to raise_error(SitePrism::NoSelectorForElement)
+  expect { @test_site.no_title.element_without_selector }
+    .to raise_error(SitePrism::NoSelectorForElement)
+  expect { @test_site.no_title.wait_for_element_without_selector }
+    .to raise_error(SitePrism::NoSelectorForElement)
 end
 
 Then(/^an exception is raised when I try to deal with elements with no selector$/) do
-  expect { @test_site.no_title.has_elements_without_selector? }.to raise_error(SitePrism::NoSelectorForElement)
-  expect { @test_site.no_title.elements_without_selector }.to raise_error(SitePrism::NoSelectorForElement)
-  expect { @test_site.no_title.wait_for_elements_without_selector }.to raise_error(SitePrism::NoSelectorForElement)
+  expect { @test_site.no_title.has_elements_without_selector? }
+    .to raise_error(SitePrism::NoSelectorForElement)
+  expect { @test_site.no_title.elements_without_selector }
+    .to raise_error(SitePrism::NoSelectorForElement)
+  expect { @test_site.no_title.wait_for_elements_without_selector }
+    .to raise_error(SitePrism::NoSelectorForElement)
 end
 
 When(/^I wait until a particular element is visible$/) do
@@ -110,7 +116,8 @@ Then(/^the previously invisible element is visible$/) do
 end
 
 Then(/^I get a timeout error when I wait for an element that never appears$/) do
-  expect { @test_site.home.wait_until_invisible_element_visible(1) }.to raise_error(SitePrism::TimeOutWaitingForElementVisibility)
+  expect { @test_site.home.wait_until_invisible_element_visible(1) }
+    .to raise_error(SitePrism::TimeOutWaitingForElementVisibility)
 end
 
 When(/^I wait while for an element to become invisible$/) do
