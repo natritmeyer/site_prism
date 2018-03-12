@@ -69,7 +69,7 @@ Feature: Page element interaction
 
   Scenario: Wait for invisibility of element
     When I navigate to the home page
-    And I wait while for an element to become invisible
+    And I wait for an element to become invisible
     Then the previously visible element is invisible
 
   Scenario: Wait specific amount of time for invisibility of element

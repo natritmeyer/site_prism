@@ -120,7 +120,7 @@ Then(/^I get a timeout error when I wait for an element that never appears$/) do
     .to raise_error(SitePrism::TimeOutWaitingForElementVisibility)
 end
 
-When(/^I wait while for an element to become invisible$/) do
+When(/^I wait for an element to become invisible$/) do
   @test_site.home.wait_until_retiring_element_invisible
 end
 
