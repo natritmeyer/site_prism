@@ -9,7 +9,7 @@ Then(/^the slow element appears$/) do
 end
 
 When(/^I wait for a short amount of time for an element to appear$/) do
-  @test_site.home.wait_for_some_slow_element(2)
+  @test_site.home.wait_for_some_slow_element(1)
 end
 
 Then(/^the element I am waiting for doesn't appear in time$/) do
