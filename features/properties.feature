@@ -1,10 +1,7 @@
-Feature: Page properties
-  As a tester
-  I want to be able to get properties of the page
-  In order to know more about the page
+Feature: Page Properties
 
   Background:
-    Given I navigate to the home page
+    When I navigate to the home page
 
   Scenario: Get page html
     Then I can see an expected bit of the html

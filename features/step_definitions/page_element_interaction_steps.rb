@@ -73,7 +73,7 @@ Then(/^I can see the group of links$/) do
   expect(@test_site.home).to have_lots_of_links
 end
 
-Then(/^I can get the group of links$/) do
+Then(/^I can get the text values for the group of links$/) do
   expect(@test_site.home.lots_of_links.map(&:text)).to eq(%w[a b c])
 end
 
@@ -153,7 +153,7 @@ Then(/^I receive an error when a section with the element I am waiting for is re
     .to raise_error(Capybara::ElementNotFound)
 end
 
-Then(/^I can wait a variable time for elements to appear$/) do
+When(/^I wait a variable time for elements to appear$/) do
   @test_site.home.wait_for_lots_of_links
   @test_site.home.wait_for_lots_of_links(0.1)
 end

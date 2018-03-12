@@ -1,7 +1,5 @@
 ### Backlog:
 -  code-coverage - line to fix up: `spec/page_spec.rb:91`
--  Fix `page_element_interaction_steps.rb`: Triple Expectations and non-Helper expectation
--  Fix `page_section_steps.rb` - Triple expectations
 -  Look to rework suite-wide Gherkin
     - Introduce Hooks to cache Page objects on a per-test basis (Should save a few fractions)
     - Don't memoize the individual page calls just incase (Also goes against readme)
@@ -22,7 +20,7 @@ people wanting to access the base native object (Honouring what maintainers said
 -  Rubocop MethodLength reduction (Should be a small-er PR)
 -  Begin to start using let blocks across specs (Dev points update)
 -  Add developmental guidelines / setup information
--  Review iFrame specs, add/amend where appropriate
+-  Create iFrame specs (Even though private methods)
 -  Allow scoping iFrames to then be passed into element native object
 - Generic suite wide linting in `/lib` need to wrap method arguments up (Remove space separations)
 - Generic spec walkthrough - (have done `sections_spec.rb` - which might need renaming)
