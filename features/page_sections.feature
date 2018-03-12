@@ -53,10 +53,10 @@ Feature: Page Sections
     When I navigate to the section experiments page
     Then I can run javascript against the search results
 
-  Scenario: Wait for section element
+  Scenario: Wait for section
     When I navigate to the section experiments page
-    Then when I wait for the section element that takes a while to appear
-    Then I successfully wait for the slow section element to appear
+    And I wait for the section element that takes a while to appear
+    Then the slow section appears
 
   Scenario: Get parent belonging to section
     When I navigate to the home page
@@ -86,6 +86,6 @@ Feature: Page Sections
     When I navigate to the section experiments page
     Then the page contains a deeply nested span
 
-  Scenario: get text from page secion
+  Scenario: get text from page section
     When I navigate to the home page
-    Then I can see a section's full text 
+    Then I can see a section's full text
