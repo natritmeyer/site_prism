@@ -35,8 +35,6 @@ require 'pages/section_experiments'
 Capybara.configure do |config|
   config.default_driver = :selenium
   config.javascript_driver = :selenium
-  config.run_server = false
-  config.default_selector = :css
   config.default_max_wait_time = 5
   config.app_host = 'file://' + File.dirname(__FILE__) + '/../../test_site/html'
 
@@ -50,26 +48,11 @@ SitePrism.configure do |config|
 end
 
 Capybara.register_driver :selenium do |app|
-  Capybara::Selenium::Driver.new(app, browser: browser, profile: profile)
+  Capybara::Selenium::Driver.new(app, browser: browser)
 end
 
 private
 
-def profile
-  if chrome?
-    Selenium::WebDriver::Chrome::Profile.new
-  else
-    Selenium::WebDriver::Firefox::Profile.new.tap do |profile|
-      profile['browser.cache.disk.enable'] = false
-      profile['browser.cache.memory.enable'] = false
-    end
-  end
-end
-
 def browser
   @browser ||= ENV.fetch('browser', 'firefox').to_sym
-end
-
-def chrome?
-  browser == :chrome
 end

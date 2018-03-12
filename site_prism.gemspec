@@ -21,9 +21,9 @@ SitePrism implements the Page Object Model pattern on top of Capybara.'
 
   s.add_development_dependency 'cucumber', ['2.4.0']
   s.add_development_dependency 'rake', ['>= 11.0']
-  s.add_development_dependency 'rspec', ['~> 3.2']
+  s.add_development_dependency 'rspec', ['~> 3.3']
   s.add_development_dependency 'rubocop', ['0.50.0']
-  s.add_development_dependency 'selenium-webdriver', ['~> 3.4.0']
-  s.add_development_dependency 'simplecov', ['>= 0.11']
+  s.add_development_dependency 'selenium-webdriver', ['>= 3.4.0', '<= 3.8.0']
+  s.add_development_dependency 'simplecov', ['>= 0.12']
   s.add_development_dependency 'dotenv', ['>= 2.1']
 end
