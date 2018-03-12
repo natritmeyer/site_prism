@@ -4,37 +4,56 @@ require 'spec_helper'
 
 describe SitePrism::Page do
   describe '.section' do
-    context 'second argument is not a Class and a block given' do
-      context 'block given' do
-        it 'should create an anonymous section with the block' do
-          class PageWithSection < SitePrism::Page
-            section :anonymous_section, '.section' do |s|
-              s.element :title, 'h1'
-            end
-          end
+    class Section < SitePrism::Section; end
 
-          page = PageWithSection.new
-          expect(page).to respond_to(:anonymous_section)
-        end
+    class PageWithAnonymousSection < SitePrism::Page
+      section :anonymous_section, '.section' do |s|
+        s.element :title, 'h1'
       end
     end
 
-    context 'second argument is not a class and no block given' do
-      subject(:section) { Page.section(:incorrect_section, '.section') }
+    class PageWithSection < SitePrism::Page
+      section :section, Section, '.section'
+    end
+
+    context 'second argument is a Class' do
+      subject { PageWithSection.new }
+
+      it 'should create a section using the Class' do
+        expect(subject).to respond_to(:section)
+      end
+    end
+
+    context 'second argument is not a Class and a block given' do
+      subject { PageWithAnonymousSection.new }
+
+      it 'should create an anonymous section using the block' do
+        expect(subject).to respond_to(:anonymous_section)
+      end
+    end
+
+    context 'second argument is not a Class and no block given' do
+      subject { Page.section(:incorrect_section, '.section') }
+      let(:error_message) do
+        'You should provide section class either as a block, or as the second argument.'
+      end
 
       it 'should raise an ArgumentError' do
         class Page < SitePrism::Page; end
 
-        expect { section }
+        expect { subject }
           .to raise_error(ArgumentError)
-          .with_message('You should provide section class either as a block, or as the second argument.')
+          .with_message(error_message)
       end
     end
   end
 end
 
 describe SitePrism::Section do
-  let(:a_page) { class Page < SitePrism::Page; end }
+  subject { SitePrism::Section.new(page, locator) }
+  let(:locator) { object_double(Capybara::Node::Element.new(:foo, :bar, :baz, :ignore)) }
+  let(:page) { class Page < SitePrism::Page; end }
+  let(:section_with_block) { SitePrism::Section.new(page, locator) { 1 + 1 } }
 
   it 'responds to element' do
     expect(SitePrism::Section).to respond_to(:element)
@@ -45,23 +64,40 @@ describe SitePrism::Section do
   end
 
   it 'passes a given block to Capybara.within' do
-    expect(Capybara).to receive(:within).with('div')
+    expect(Capybara).to receive(:within).with(locator)
 
-    SitePrism::Section.new(a_page, 'div') { 1 + 1 }
+    section_with_block
   end
 
   it 'does not require a block' do
     expect(Capybara).not_to receive(:within)
 
-    SitePrism::Section.new(a_page, 'div')
+    subject
   end
 
   describe 'instance' do
-    subject(:section) { SitePrism::Section.new('parent', 'locator') }
+    it 'evaluates visibility by delegating through root_element' do
+      expect(locator).to receive(:visible?)
 
-    it 'responds to javascript methods' do
-      expect(section).to respond_to(:execute_script)
-      expect(section).to respond_to(:evaluate_script)
+      subject.visible?
+    end
+
+    it 'obtains the text of a section by delegating through root_element' do
+      expect(locator).to receive(:text)
+
+      subject.text
+    end
+
+    it 'executes scripts using Capybara' do
+      expect(Capybara.current_session).to receive(:execute_script).with('JUMP!')
+
+      subject.execute_script('JUMP!')
+    end
+
+    it 'evaluates scripts using Capybara' do
+      expect(Capybara.current_session).to receive(:evaluate_script).with('How High?')
+
+      subject.evaluate_script('How High?')
     end
   end
 end

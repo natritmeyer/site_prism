@@ -3,14 +3,14 @@
 require 'spec_helper'
 
 describe SitePrism::Page do
-  let(:page) { APage.new }
+  subject { APage.new }
 
   class SingleSection < SitePrism::Section; end
-  class PluralSection < SitePrism::Section; end
+  class PluralSections < SitePrism::Section; end
 
   class APage < SitePrism::Page
     section  :single_section,  SingleSection, '.bob'
-    sections :plural_sections, PluralSection, '.tim'
+    sections :plural_sections, PluralSections, '.tim'
   end
 
   describe '.section' do
@@ -19,11 +19,11 @@ describe SitePrism::Page do
     end
 
     it 'should create matching object method' do
-      expect(page).to respond_to(:single_section)
+      expect(subject).to respond_to(:single_section)
     end
 
     it 'should create matching existence method' do
-      expect(page).to respond_to(:has_single_section?)
+      expect(subject).to respond_to(:has_single_section?)
     end
   end
 
@@ -33,11 +33,11 @@ describe SitePrism::Page do
     end
 
     it 'should create matching object method' do
-      expect(page).to respond_to(:plural_sections)
+      expect(subject).to respond_to(:plural_sections)
     end
 
     it 'should create a matching existence method' do
-      expect(page).to respond_to(:has_plural_sections?)
+      expect(subject).to respond_to(:has_plural_sections?)
     end
   end
 end
