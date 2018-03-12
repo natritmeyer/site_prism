@@ -1,33 +1,33 @@
-To Update:
-1) (Need to update `Capybara` restrictions to something less old!)
-2) Generic Update of dependencies
-4) Update of Ruby Version to supported version
-
-Next Up:
-1) Figure out why the loadable spec isn't playing nicely with code-coverage
-One line to tidy up for full compliance: `spec/page_spec.rb:91`
-2) Travis:
-- Add in Chrome
-- Update Driver/Browser
-3) Fix `page_element_interaction_steps.rb`: Triple Expectations and non-Helper expectation
-4) Fix `page_section_steps.rb` - Triple expectations
-5) Generic Features are sometimes hard to understand. Look to rework the Gherkin
-6) `page_element_interaction_steps.rb:49` Shouldn't be there as its performing Actions
-7) After Capybara dependency is 2.6+
-- capybara 2.5 was the first Capybara to introduce `default_max_wait_time`
-- Once we get pre-reqs up to there we can massively simplify `./lib/site_prism/waiter.rb`
-- This will basically make the entire class a 2/3liner
-8) `site_prism/addressable_url_matcher.rb` - Just needs a bit of a spring clean
-9) `SitePrism::Page#wait_until_displayed` - Re-call existing method and re-raise
-10) Begin to refactor displayed?(*args), to remove enumerable args (Shouldn't be enumerable)
-11) iFrame helper methods - Potential bug to fix (Assumed to be broken) (Issue #66)
-12) New feature `SitePrism::Section#native` returning `root_element.native` To help with
+### Backlog:
+-  code-coverage - line to fix up: `spec/page_spec.rb:91`
+-  Fix `page_element_interaction_steps.rb`: Triple Expectations and non-Helper expectation
+-  Fix `page_section_steps.rb` - Triple expectations
+-  Generic Features are sometimes hard to understand. Look to rework the Gherkin
+-  `page_element_interaction_steps.rb:49` Shouldn't be there as its performing Actions
+-  Now Capybara is 2.6+
+    - capybara 2.5 was the first Capybara to introduce `default_max_wait_time`
+    - We can massively simplify `./lib/site_prism/waiter.rb`
+    - This will basically make the entire class a 2/3liner
+-  `site_prism/addressable_url_matcher.rb` - Needs more of a spring clean
+-  `SitePrism::Page#wait_until_displayed` - Re-call existing method and re-raise
+-  Begin to refactor `displayed?(*args)`, to remove enumerable args (Shouldn't be enumerable)
+-  iFrame helper methods - Potential bug to fix (Issue #66)
+-  New feature `SitePrism::Section#native` returning `root_element.native` To help with
 people wanting to access the base native object (Honouring what maintainers said)
-13) Exceptions Spec needs writing
-14) element/s spec need a slight rename / tidy
-15) sections_spec.rb needs moving
-16) Version spec primitive needs making 
+-  Exceptions Spec needs writing
+-  element/s spec need a slight rename / tidy
+-  Release 2.11 to Rubygems
+-  Update of Ruby Version to supported version
+-  Generic Update of dependencies (Unrestrict everything we don't care about)
+-  Rubocop LineLength reduction (Continue this, will be hard work, probably several PR's)
+-  Rubocop MethodLength reduction (Should be a small-er PR)
+-  Begin to start using let blocks across specs (Dev points update)
+-  Add developmental guidelines / setup information
+-  Review iFrame specs, add/amend where appropriate
+-  Allow scoping iframes to then be passed into element native object
+- `.gitignore` review RE different development environments - Needs Mac/Windows/Other dev input
+- Generic suite wide linting in `/lib` need to wrap method arguments up (Remove space separations)
+- Generic spec walkthrough - (have done setions_spec.rb - which might need renaming)
 
-To monitor (Assumed fixed elsewhere)
-1) Capybara compatibility around iFrames
-2) SitePrism anonymous sections
+### To monitor (Assumed fixed elsewhere)
+-  Capybara compatibility around iFrames - Now should be more compatible. Remove once 2.12 is released

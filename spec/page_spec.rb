@@ -211,26 +211,31 @@ describe SitePrism::Page do
 
     it "doesn't match with wrong host" do
       swap_current_url('https://joe:bump@blabber.org:443/foo?bar=baz&bar=boof#myfragment')
+
       expect(page.displayed?).to be false
     end
 
     it "doesn't match with wrong user" do
       swap_current_url('https://joseph:bump@bla.org:443/foo?bar=baz&bar=boof#myfragment')
+
       expect(page.displayed?).to be false
     end
 
     it "doesn't match with wrong password" do
       swap_current_url('https://joe:bean@bla.org:443/foo?bar=baz&bar=boof#myfragment')
+
       expect(page.displayed?).to be false
     end
 
     it "doesn't match with wrong scheme" do
       swap_current_url('http://joe:bump@bla.org:443/foo?bar=baz&bar=boof#myfragment')
+
       expect(page.displayed?).to be false
     end
 
     it "doesn't match with wrong port" do
       swap_current_url('https://joe:bump@bla.org:8000/foo?bar=baz&bar=boof#myfragment')
+
       expect(page.displayed?).to be false
     end
   end
@@ -322,16 +327,19 @@ describe SitePrism::Page do
     describe '#url_matches' do
       it 'returns regexp MatchData' do
         swap_current_url('http://localhost:3000/foos/15')
+
         expect(page.url_matches).to be_kind_of(MatchData)
       end
 
       it 'lets you get at the captures' do
         swap_current_url('http://localhost:3000/foos/15')
+
         expect(page.url_matches[1]).to eq '15'
       end
 
       it "returns nil if current_url doesn't match the url_matcher" do
         swap_current_url('http://localhost:3000/bars/15')
+
         expect(page.url_matches).to eq nil
       end
     end

@@ -1,10 +1,6 @@
-doc/*
-.yardoc/*
 .DS_Store
 Gemfile.lock
 coverage
 .bundle
-.ruby-gemset
 .idea
-.todo-list
 .env

@@ -3,35 +3,7 @@
 require 'spec_helper'
 
 describe SitePrism::Page do
-  it 'should respond to section' do
-    expect(SitePrism::Page).to respond_to :section
-  end
-
   describe '.section' do
-    context 'second argument is a Class' do
-      it 'should create a method' do
-        class SomeSection < SitePrism::Section; end
-
-        class PageWithSection < SitePrism::Page
-          section :bob, SomeSection, '.bob'
-        end
-
-        page = PageWithSection.new
-        expect(page).to respond_to :bob
-      end
-
-      it 'should create a matching existence method for a section' do
-        class PageWithSectionToTestForExistence < SitePrism::Section; end
-
-        class AnotherPageWithASection < SitePrism::Page
-          section :something, PageWithSectionToTestForExistence, '.bob'
-        end
-
-        page = AnotherPageWithASection.new
-        expect(page).to respond_to :has_something?
-      end
-    end
-
     context 'second argument is not a Class and a block given' do
       context 'block given' do
         it 'should create an anonymous section with the block' do
@@ -42,7 +14,7 @@ describe SitePrism::Page do
           end
 
           page = PageWithSection.new
-          expect(page).to respond_to :anonymous_section
+          expect(page).to respond_to(:anonymous_section)
         end
       end
     end
@@ -65,20 +37,22 @@ describe SitePrism::Section do
   let(:a_page) { class Page < SitePrism::Page; end }
 
   it 'responds to element' do
-    expect(SitePrism::Section).to respond_to :element
+    expect(SitePrism::Section).to respond_to(:element)
   end
 
   it 'responds to elements' do
-    expect(SitePrism::Section).to respond_to :elements
+    expect(SitePrism::Section).to respond_to(:elements)
   end
 
   it 'passes a given block to Capybara.within' do
     expect(Capybara).to receive(:within).with('div')
+
     SitePrism::Section.new(a_page, 'div') { 1 + 1 }
   end
 
   it 'does not require a block' do
     expect(Capybara).not_to receive(:within)
+
     SitePrism::Section.new(a_page, 'div')
   end
 
@@ -86,8 +60,8 @@ describe SitePrism::Section do
     subject(:section) { SitePrism::Section.new('parent', 'locator') }
 
     it 'responds to javascript methods' do
-      expect(section).to respond_to :execute_script
-      expect(section).to respond_to :evaluate_script
+      expect(section).to respond_to(:execute_script)
+      expect(section).to respond_to(:evaluate_script)
     end
   end
 end
