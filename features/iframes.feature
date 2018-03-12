@@ -11,5 +11,4 @@ Feature: IFrame interaction
 
   Scenario: interact with elements in an iframe
     Then I can see elements in an iframe
-    Then I can see elements in an iframe with capybara query options
-    And I can see an expected bit of text
+    And I can see elements in an iframe with capybara query options

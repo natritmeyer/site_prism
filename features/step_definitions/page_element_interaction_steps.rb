@@ -14,7 +14,7 @@ Then(/^the page does not have element$/) do
   expect(@test_site.home).to have_no_nonexistent_element
 end
 
-Then(/^the page does not have elements$/) do
+Then(/^the page does not have a group of elements$/) do
   expect(@test_site.home.has_no_nonexistent_elements?).to be true
 
   expect(@test_site.home).to have_no_nonexistent_elements
@@ -67,10 +67,6 @@ Then(/^I cannot see the missing other thingy$/) do
   using_wait_time(0) do
     expect(@test_site.home).not_to have_other_thingy
   end
-end
-
-Then(/^I can see the group of links$/) do
-  expect(@test_site.home).to have_lots_of_links
 end
 
 Then(/^I can get the text values for the group of links$/) do
