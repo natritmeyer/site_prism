@@ -1,4 +1,4 @@
-Copyright (c) 2011-2016, Nathaniel Ritmeyer
+Copyright (c) 2011-2018, Nathaniel Ritmeyer
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

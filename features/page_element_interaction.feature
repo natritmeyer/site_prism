@@ -15,12 +15,10 @@ Feature: Page element interaction
     When I navigate to the home page
     Then the page does not have element
 
-  Scenario: Get individual elements
+  Scenario: Get an individual element
     When I navigate to the home page
     Then I can see the welcome header
-    # And I can see the welcome header with capybara query options - This needs moving out
     And I can see the welcome message
-    # And I can see the welcome message with capybara query options - Again this needs moving out into a plural test
     And I can see the go button
     And I can see the link to the search page
     But I cannot see the missing squirrel
@@ -29,6 +27,9 @@ Feature: Page element interaction
   Scenario: Get individual elements with query options
     When I navigate to the home page
     Then the welcome header is not matched with invalid text
+    And I can see a message using capybara query options
+    And I can see a header using capybara query options
+    And I can see a row using capybara query options
 
   Scenario: Wait for element
     When I navigate to the home page

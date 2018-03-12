@@ -18,6 +18,9 @@ class TestHomePage < SitePrism::Page
   # elements groups
   elements :lots_of_links, :xpath, '//td//a'
   elements :nonexistent_elements, 'input#nonexistent'
+  elements :welcome_headers, :xpath, '//h3'
+  elements :welcome_messages, :xpath, '//span'
+  elements :rows, 'td'
 
   # elements that should not exist
   element :squirrel, 'squirrel.nutz'
