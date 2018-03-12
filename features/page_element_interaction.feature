@@ -18,9 +18,9 @@ Feature: Page element interaction
   Scenario: Get individual elements
     When I navigate to the home page
     Then I can see the welcome header
-    And I can see the welcome header with capybara query options
+    # And I can see the welcome header with capybara query options - This needs moving out
     And I can see the welcome message
-    And I can see the welcome message with capybara query options
+    # And I can see the welcome message with capybara query options - Again this needs moving out into a plural test
     And I can see the go button
     And I can see the link to the search page
     But I cannot see the missing squirrel
