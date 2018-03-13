@@ -48,15 +48,15 @@ module SitePrism
       end
     end
 
-    def iframe(iframe_name, iframe_page_class, selector)
-      element_selector = deduce_iframe_element_selector(selector)
-      scope_selector = deduce_iframe_scope_selector(selector)
+    def iframe(iframe_name, iframe_page_class, *args)
+      element_find_args = deduce_iframe_element_find_args(args)
+      scope_find_args = deduce_iframe_scope_find_args(args)
       add_to_mapped_items iframe_name
-      create_existence_checker iframe_name, element_selector
-      create_nonexistence_checker iframe_name, element_selector
-      create_waiter iframe_name, element_selector
+      create_existence_checker iframe_name, *element_find_args
+      create_nonexistence_checker iframe_name, *element_find_args
+      create_waiter iframe_name, *element_find_args
       define_method iframe_name do |&block|
-        within_frame scope_selector do
+        within_frame(*scope_find_args) do
           block.call iframe_page_class.new
         end
       end
@@ -169,12 +169,26 @@ module SitePrism
       end
     end
 
-    def deduce_iframe_scope_selector(selector)
-      selector.is_a?(Integer) ? selector : selector.split('#').last
+    def deduce_iframe_scope_find_args(args)
+      case args[0]
+      when Integer
+        [args[0]]
+      when String
+        [:css, args[0]]
+      else
+        args
+      end
     end
 
-    def deduce_iframe_element_selector(selector)
-      selector.is_a?(Integer) ? "iframe:nth-of-type(#{selector + 1})" : selector
+    def deduce_iframe_element_find_args(args)
+      case args[0]
+      when Integer
+        "iframe:nth-of-type(#{args[0] + 1})"
+      when String
+        [:css, args[0]]
+      else
+        args
+      end
     end
 
     def extract_section_options(args, &block)
