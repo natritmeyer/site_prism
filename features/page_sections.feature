@@ -6,12 +6,13 @@ Feature: Page Sections
   Scenario: Designate a section of a page
     When I navigate to the home page
     Then I can see elements in the section
-    When I navigate to another page
-    Then that section is there too
+    When I navigate to the people page
+    Then I can see a list of people
 
   Scenario: access elements in the section by passing a block
     When I navigate to the home page
     Then I can access elements within the section using a block
+    But I cannot access elements not in the section using a block
 
   Scenario: section in a section
     When I navigate to the section experiments page

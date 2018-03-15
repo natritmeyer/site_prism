@@ -20,7 +20,7 @@ When(/^I navigate to a page with no title$/) do
   @test_site.no_title.load
 end
 
-When(/^I navigate to another page$/) do
+When(/^I navigate to the people page$/) do
   @test_site.page_with_people.load
 end
 

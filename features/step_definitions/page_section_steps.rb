@@ -18,8 +18,9 @@ Then(/^I can access elements within the section using a block$/) do
 
     expect(section).to have_individuals(count: 4)
   end
+end
 
-  # the above would pass if the block were ignored, this verifies it is executed:
+Then(/^I cannot access elements not in the section using a block$/) do
   expect do
     @test_site.home.people { |section| expect(section).to have_dinosaur }
   end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
@@ -43,9 +44,7 @@ Then(/^the page does not have a section$/) do
   expect(@test_site.home).to have_no_nonexistent_section
 end
 
-Then(/^that section is there too$/) do
-  expect(@test_site.page_with_people).to have_people_list
-
+Then(/^I can see a list of people$/) do
   expect(@test_site.page_with_people.people_list.headline).to have_content('People')
 end
 

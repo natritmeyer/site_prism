@@ -28,7 +28,7 @@ class TestHomePage < SitePrism::Page
   section :people, People, '.people'
   section :container_with_element, ContainerWithElement, '#container_with_element'
   section :nonexistent_section, NoElementWithinSection, 'input#nonexistent'
-  sections :nonexistent_section, NoElementWithinSection, 'input#nonexistent'
+  sections :nonexistent_sections, NoElementWithinSection, 'input#nonexistent'
 
   # iframes
   iframe :my_iframe, MyIframe, '#the_iframe'
