@@ -41,6 +41,10 @@ module SitePrism
       candidate_page
     end
 
+    def native
+      root_element.native
+    end
+
     private
 
     def find_first(*find_args)

@@ -4,6 +4,7 @@ require 'spec_helper'
 
 describe SitePrism::Page do
   describe '.section' do
+    class Page < SitePrism::Page; end
     class Section < SitePrism::Section; end
 
     class PageWithAnonymousSection < SitePrism::Page
@@ -39,8 +40,6 @@ describe SitePrism::Page do
       end
 
       it 'should raise an ArgumentError' do
-        class Page < SitePrism::Page; end
-
         expect { subject }
           .to raise_error(ArgumentError)
           .with_message(error_message)
@@ -50,10 +49,11 @@ describe SitePrism::Page do
 end
 
 describe SitePrism::Section do
-  subject { SitePrism::Section.new(page, locator) }
+  class Page < SitePrism::Page; end
+
+  subject { SitePrism::Section.new(Page.new, locator) }
   let(:locator) { object_double(Capybara::Node::Element.new(:foo, :bar, :baz, :ignore)) }
-  let(:page) { class Page < SitePrism::Page; end }
-  let(:section_with_block) { SitePrism::Section.new(page, locator) { 1 + 1 } }
+  let(:section_with_block) { SitePrism::Section.new(Page.new, locator) { 1 + 1 } }
 
   it 'responds to element' do
     expect(SitePrism::Section).to respond_to(:element)
@@ -63,19 +63,19 @@ describe SitePrism::Section do
     expect(SitePrism::Section).to respond_to(:elements)
   end
 
-  it 'passes a given block to Capybara.within' do
-    expect(Capybara).to receive(:within).with(locator)
-
-    section_with_block
-  end
-
-  it 'does not require a block' do
-    expect(Capybara).not_to receive(:within)
-
-    subject
-  end
-
   describe 'instance' do
+    it 'passes a given block to Capybara.within' do
+      expect(Capybara).to receive(:within).with(locator)
+
+      section_with_block
+    end
+
+    it 'does not require a block' do
+      expect(Capybara).not_to receive(:within)
+
+      subject
+    end
+
     it 'evaluates visibility by delegating through root_element' do
       expect(locator).to receive(:visible?)
 
@@ -88,6 +88,12 @@ describe SitePrism::Section do
       subject.text
     end
 
+    it 'obtains the native property of a section by delegating through root_element' do
+      expect(locator).to receive(:native)
+
+      subject.native
+    end
+
     it 'executes scripts using Capybara' do
       expect(Capybara.current_session).to receive(:execute_script).with('JUMP!')
 
@@ -98,6 +104,30 @@ describe SitePrism::Section do
       expect(Capybara.current_session).to receive(:evaluate_script).with('How High?')
 
       subject.evaluate_script('How High?')
+    end
+
+    describe '#parent_page' do
+      let(:section) { SitePrism::Section.new(page, '.locator') }
+      let(:deeply_nested_section) do
+        SitePrism::Section.new(
+          SitePrism::Section.new(
+            SitePrism::Section.new(
+              page, '.locator-section-large'
+            ), '.locator-section-medium'
+          ), '.locator-small'
+        )
+      end
+      let(:page) { Page.new }
+
+      it 'returns the parent of a section' do
+        expect(section.parent_page).to eq(page)
+
+        expect(section.parent_page).to be_a SitePrism::Page
+      end
+
+      it 'returns the parent page of a deeply nested section' do
+        expect(deeply_nested_section.parent_page).to be_a SitePrism::Page
+      end
     end
   end
 end
