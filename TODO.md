@@ -20,3 +20,13 @@ people wanting to access the base native object (Honouring what maintainers said
 -  Allow scoping iFrames to then be passed into element native object
 - Generic suite wide linting in `/lib` need to wrap method arguments up (Remove space separations)
 - Generic spec walkthrough - (have done `sections_spec.rb` - which might need renaming)
+
+### To monitor (Assumed fixed elsewhere)
+-  Capybara compatibility around iFrames - Now should be more compatible. Remove once 2.12 is released
+
+### Bug
+- Waiter.default_wait_time is not being called inter-suite. And is somehow being hard-coded as 0
+When removing this value, and verbosely referencing Capybara, spec times shoot up (And possibly code changes)
+Need to ensure `seconds = !args.empty? ? args.first : Waiter.default_wait_time` gets fixed to grab 0
+when implicit waits are off, and the Capybara default value when waits are on
+NOTE: This only affects specs. The cucumber tests do seem to interrogate this value correctly.
