@@ -89,3 +89,7 @@ Feature: Page element interaction
     When I navigate to the home page
     And I wait for invisibility of an element embedded into a section which is removed
     Then I receive an error when a section with the element I am waiting for is removed
+
+  Scenario: Get native property from element
+    When I navigate to the home page
+    Then I can obtain the native property of an element
