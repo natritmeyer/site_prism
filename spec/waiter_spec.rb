@@ -3,14 +3,6 @@
 require 'spec_helper'
 
 describe SitePrism::Waiter do
-  describe '.default_wait_time' do
-    it 'uses Capybara.default_max_wait_time' do
-      allow(Capybara).to receive(:default_max_wait_time).and_return(2)
-
-      expect(described_class.default_wait_time).to be 2
-    end
-  end
-
   describe '.wait_until_true' do
     it 'throws a Timeout exception if the block does not become true' do
       allow(Capybara).to receive(:default_max_wait_time).and_return(0.1)
