@@ -161,3 +161,11 @@ Then(/^I can wait a variable time and pass specific parameters$/) do
     expect(@test_site.home.wait_for_lots_of_links(nil, count: 198_108_14)).to be false
   end
 end
+
+Then(/^I can obtain the native property of an element$/) do
+  expect(@test_site.home.welcome_header.native).to be_a Selenium::WebDriver::Element
+end
+
+Then(/^I can obtain the native property of a section$/) do
+  expect(@test_site.home.people.native).to be_a Selenium::WebDriver::Element
+end

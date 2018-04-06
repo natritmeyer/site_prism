@@ -90,3 +90,7 @@ Feature: Page Sections
   Scenario: get text from page section
     When I navigate to the home page
     Then I can see a section's full text
+
+  Scenario: Get native property from section
+    When I navigate to the home page
+    Then I can obtain the native property of a section
