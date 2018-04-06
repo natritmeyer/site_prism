@@ -46,8 +46,7 @@ Then(/^I can see the welcome message with capybara query options$/) do
   expect(@test_site.home).to have_welcome_message(text: 'This is the home page, there is some stuff on it')
 end
 
-Then(/^I can see the go button$/) do
-  expect(@test_site.home).to have_go_button
+Then(/^I click the go button$/) do
   @test_site.home.go_button.click
 end
 
@@ -55,18 +54,6 @@ Then(/^I can see the link to the search page$/) do
   expect(@test_site.home).to have_link_to_search_page
 
   expect(@test_site.home.link_to_search_page['href']).to include('search.htm')
-end
-
-Then(/^I cannot see the missing squirrel$/) do
-  using_wait_time(0) do
-    expect(@test_site.home).not_to have_squirrel
-  end
-end
-
-Then(/^I cannot see the missing other thingy$/) do
-  using_wait_time(0) do
-    expect(@test_site.home).not_to have_other_thingy
-  end
 end
 
 Then(/^I can see the group of links$/) do
@@ -77,7 +64,7 @@ Then(/^I can get the group of links$/) do
   expect(@test_site.home.lots_of_links.map(&:text)).to eq(%w[a b c])
 end
 
-Then(/^all expected elements are present$/) do
+Then(/^not all expected elements are present$/) do
   expect(@test_site.home).not_to be_all_there
 end
 
@@ -144,7 +131,7 @@ Then(/^I do not wait for an nonexistent element when checking for invisibility$/
   expect(Time.new - start).to be < 1
 end
 
-When(/^I wait for invisibility of an element embedded into a section which is removed$/) do
+When(/^I remove the parent section of the element$/) do
   @test_site.home.remove_container_with_element_btn.click
 end
 
