@@ -1,5 +1,8 @@
 Feature: IFrame interaction
 
+  I want to be able to scope my operations to an iFrame
+  So I can query for elements within it
+
   Scenario: locate an iframe by id
     When I navigate to the home page
     Then I can locate the iframe by id

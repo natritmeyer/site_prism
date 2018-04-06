@@ -1,7 +1,7 @@
 Feature: Interaction with groups of elements
-  As a tester
+
   I want to be able to interact with element collections on a page
-  In order to get and set values on the page
+  In order to work with large collections of data
 
   Scenario: Get groups of elements
     When I navigate to the home page

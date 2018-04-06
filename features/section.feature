@@ -1,6 +1,6 @@
 Feature: Page Sections
-  As a tester
-  I want to be able to interact with element collections on a page
+
+  I want to be able to interact with a section of a page
   In order to get and set values on the page
 
   Scenario: Designate a section of a page

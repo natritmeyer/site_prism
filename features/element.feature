@@ -1,7 +1,7 @@
 Feature: Element Methods
 
-  I want to be able to perform some basic commands on elements
-  In order to get values on the page
+  I want to be able to perform some basic commands on an element
+  In order to get specific values from them
 
   Scenario: Element Text - Positive Test
     When I navigate to the home page
@@ -15,9 +15,10 @@ Feature: Element Methods
     Then the page does not have element
     And the welcome header is not matched with invalid text
 
-  Scenario: Element Properties - HREF
+  Scenario: Element Properties
     When I navigate to the home page
-    Then I can see the link to the search page
+    Then I can see the the HREF of the link
+    And I can see the CLASS of the link
 
   Scenario: Expected Elements Present - Positive
     When I navigate to the home page that contains expected elements

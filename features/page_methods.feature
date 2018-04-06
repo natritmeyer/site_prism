@@ -1,7 +1,6 @@
-Feature: Page element interaction
-  As a tester
-  I want to be able to interact with individual elements on a page
-  In order to get and set values on the page
+Feature: Page interaction
+
+  I want to be able to interact with full pages
 
   Scenario: Page Title - Defined
     When I navigate to the home page

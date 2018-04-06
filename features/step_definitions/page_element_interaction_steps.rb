@@ -50,10 +50,14 @@ Then(/^I click the go button$/) do
   @test_site.home.go_button.click
 end
 
-Then(/^I can see the link to the search page$/) do
+Then(/^I can see the the HREF of the link$/) do
   expect(@test_site.home).to have_link_to_search_page
 
-  expect(@test_site.home.link_to_search_page['href']).to include('search.htm')
+  expect(@test_site.home.link_to_search_page['href']).to include('no_title.htm')
+end
+
+Then(/^I can see the CLASS of the link$/) do
+  expect(@test_site.home.link_to_search_page['class']).to include('search.htm')
 end
 
 Then(/^I can see the group of links$/) do
