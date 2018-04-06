@@ -1,7 +1,4 @@
-Feature: Page navigation
-  As a tester
-  I want to be able to point my test at a page
-  In order to interact with it
+Feature: Page Navigation
 
   Scenario: Navigate to a page
     When I navigate to the home page
@@ -14,7 +11,7 @@ Feature: Page navigation
   Scenario: Wait to be redirected to a page
     When I navigate to the redirect page
     Then I am on the redirect page
-      And I will be redirected to the home page
+    And I will be redirected to the home page
 
   Scenario: Navigate to the wrong page
     When I navigate to the home page

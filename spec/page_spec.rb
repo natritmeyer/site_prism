@@ -362,9 +362,9 @@ describe SitePrism::Page do
   end
 
   it 'should raise an exception if passing a block to sections' do
-    expect { TestHomePage.new.nonexistent_section { :any_old_block } }
+    expect { TestHomePage.new.nonexistent_sections { :any_old_block } }
       .to raise_error(SitePrism::UnsupportedBlock)
-      .with_message('TestHomePage#nonexistent_section does not accept blocks, did you mean to define a (i)frame?')
+      .with_message('TestHomePage#nonexistent_sections does not accept blocks, did you mean to define a (i)frame?')
   end
 
   def swap_current_url(url)

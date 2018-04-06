@@ -17,20 +17,21 @@ module SitePrism
       Capybara.within(@root_element) { yield(self) } if block_given?
     end
 
-    def visible?
-      root_element.visible?
+    # Capybara::DSL module "delegates" Capybara methods to the "page" method
+    def page
+      root_element || Capybara.current_session
     end
 
-    def text
-      root_element.text
+    def visible?
+      page.visible?
     end
 
     def execute_script(input)
-      Capybara.current_session.execute_script input
+      Capybara.current_session.execute_script(input)
     end
 
     def evaluate_script(input)
-      Capybara.current_session.evaluate_script input
+      Capybara.current_session.evaluate_script(input)
     end
 
     def parent_page
@@ -41,14 +42,14 @@ module SitePrism
       candidate_page
     end
 
+    def native
+      root_element.native
+    end
+
     private
 
     def find_first(*find_args)
       root_element.find(*find_args)
-    end
-
-    def find_all(*find_args)
-      root_element.all(*find_args)
     end
 
     def element_exists?(*find_args)
