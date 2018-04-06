@@ -26,10 +26,12 @@ Then(/^I can see the welcome header$/) do
   expect(@test_site.home.welcome_header.text).to eq('Welcome')
 end
 
-Then(/^I can see the welcome header with capybara query options$/) do
-  expect(@test_site.home).to have_welcome_header(text: 'Welcome')
+Then(/^I can see a header using capybara query options$/) do
+  expect(@test_site.home).to have_welcome_headers(text: 'Sub-Heading 2')
+end
 
-  expect { @test_site.home.welcome_header text: 'Welcome' }.not_to raise_error
+Then(/^I can see a row using capybara query options$/) do
+  expect(@test_site.home).to have_rows(class: 'link_c')
 end
 
 Then(/^the welcome header is not matched with invalid text$/) do
@@ -42,12 +44,13 @@ Then(/^I can see the welcome message$/) do
   expect(@test_site.home.welcome_message.text).to eq('This is the home page, there is some stuff on it')
 end
 
-Then(/^I can see the welcome message with capybara query options$/) do
-  expect(@test_site.home).to have_welcome_message(text: 'This is the home page, there is some stuff on it')
+Then(/^I can see a message using capybara query options$/) do
+  expect(@test_site.home).to have_welcome_messages(text: 'This is the home page, there is some stuff on it')
 end
 
 Then(/^I can see the go button$/) do
   expect(@test_site.home).to have_go_button
+
   @test_site.home.go_button.click
 end
 

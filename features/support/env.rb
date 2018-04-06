@@ -37,9 +37,6 @@ Capybara.configure do |config|
   config.javascript_driver = :selenium
   config.default_max_wait_time = 5
   config.app_host = 'file://' + File.dirname(__FILE__) + '/../../test_site/html'
-
-  # capybara 2.1 config options
-  config.match = :prefer_exact
   config.ignore_hidden_elements = false
 end
 
