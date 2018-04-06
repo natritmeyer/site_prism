@@ -14,7 +14,7 @@ Then(/^the page does not have element$/) do
   expect(@test_site.home).to have_no_nonexistent_element
 end
 
-Then(/^the page does not have elements$/) do
+Then(/^the page does not have a group of elements$/) do
   expect(@test_site.home.has_no_nonexistent_elements?).to be true
 
   expect(@test_site.home).to have_no_nonexistent_elements
@@ -69,15 +69,11 @@ Then(/^I cannot see the missing other thingy$/) do
   end
 end
 
-Then(/^I can see the group of links$/) do
-  expect(@test_site.home).to have_lots_of_links
-end
-
-Then(/^I can get the group of links$/) do
+Then(/^I can get the text values for the group of links$/) do
   expect(@test_site.home.lots_of_links.map(&:text)).to eq(%w[a b c])
 end
 
-Then(/^all expected elements are present$/) do
+Then(/^not all expected elements are present$/) do
   expect(@test_site.home).not_to be_all_there
 end
 
@@ -120,7 +116,7 @@ Then(/^I get a timeout error when I wait for an element that never appears$/) do
     .to raise_error(SitePrism::TimeOutWaitingForElementVisibility)
 end
 
-When(/^I wait while for an element to become invisible$/) do
+When(/^I wait for an element to become invisible$/) do
   @test_site.home.wait_until_retiring_element_invisible
 end
 
@@ -153,7 +149,7 @@ Then(/^I receive an error when a section with the element I am waiting for is re
     .to raise_error(Capybara::ElementNotFound)
 end
 
-Then(/^I can wait a variable time for elements to appear$/) do
+When(/^I wait a variable time for elements to appear$/) do
   @test_site.home.wait_for_lots_of_links
   @test_site.home.wait_for_lots_of_links(0.1)
 end

@@ -9,10 +9,6 @@ class TestSectionExperiments < SitePrism::Page
 
   section :anonymous_section, '.anonymous-section' do
     element :title, 'h1'
-
-    def upcase_title_text
-      title.text.upcase
-    end
   end
 
   sections :anonymous_sections, 'ul.anonymous-sections li' do

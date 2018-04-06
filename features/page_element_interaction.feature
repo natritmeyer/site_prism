@@ -32,17 +32,17 @@ Feature: Page element interaction
 
   Scenario: Wait for element
     When I navigate to the home page
-    Then when I wait for the element that takes a while to appear
-    Then I successfully wait for it to appear
+    And I wait for the element that takes a while to appear
+    Then the slow element appears
 
   Scenario: Wait specific amount of time for element to appear
     When I navigate to the home page
-    And I wait for a specifically short amount of time for an element to appear
+    And I wait for a short amount of time for an element to appear
     Then the element I am waiting for doesn't appear in time
 
-  Scenario: Check that all elements are present
+  Scenario: Page without `expected_elements`
     When I navigate to the home page
-    Then all expected elements are present
+    Then not all expected elements are present
 
   Scenario: Page with `expected_elements`
     When I navigate to the home page that contains expected elements
@@ -69,7 +69,7 @@ Feature: Page element interaction
 
   Scenario: Wait for invisibility of element
     When I navigate to the home page
-    And I wait while for an element to become invisible
+    And I wait for an element to become invisible
     Then the previously visible element is invisible
 
   Scenario: Wait specific amount of time for invisibility of element
