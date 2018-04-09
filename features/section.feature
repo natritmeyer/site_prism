@@ -6,12 +6,13 @@ Feature: Page Sections
   Scenario: Designate a section of a page
     When I navigate to the home page
     Then I can see elements in the section
-    When I navigate to another page
-    Then that section is there too
+    When I navigate to the people page
+    Then I can see a list of people
 
   Scenario: access elements in the section by passing a block
     When I navigate to the home page
     Then I can access elements within the section using a block
+    But I cannot access elements not in the section using a block
 
   Scenario: section in a section
     When I navigate to the section experiments page
@@ -53,10 +54,10 @@ Feature: Page Sections
     When I navigate to the section experiments page
     Then I can run javascript against the search results
 
-  Scenario: Wait for section element
+  Scenario: Wait for section
     When I navigate to the section experiments page
-    Then when I wait for the section element that takes a while to appear
-    Then I successfully wait for the slow section element to appear
+    And I wait for the section element that takes a while to appear
+    Then the slow section appears
 
   Scenario: Get parent belonging to section
     When I navigate to the home page

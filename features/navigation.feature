@@ -1,4 +1,4 @@
-Feature: Page navigation
+Feature: Page Navigation
 
   I want to be able to load and navigate around the web
   In order to interact with different pages

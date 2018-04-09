@@ -6,10 +6,10 @@ class TestHomePage < SitePrism::Page
 
   # individual elements
   element :welcome_header, :xpath, '//h1'
-  element :welcome_message, :xpath, '//span'
-  element :go_button, :xpath, '//input'
-  element :link_to_search_page, :xpath, '//a'
-  element :some_slow_element, :xpath, '//a[@class="slow"]'
+  element :welcome_message, 'body > span'
+  element :go_button, '[value="Go!"]'
+  element :link_to_search_page, :xpath, '//p[2]/a'
+  element :some_slow_element, :xpath, '//a[@class="slow"]' # This takes just over 2 seconds to appear
   element :invisible_element, 'input.invisible'
   element :shy_element, 'input#will_become_visible'
   element :retiring_element, 'input#will_become_invisible'
@@ -18,6 +18,9 @@ class TestHomePage < SitePrism::Page
   # elements groups
   elements :lots_of_links, :xpath, '//td//a'
   elements :nonexistent_elements, 'input#nonexistent'
+  elements :welcome_headers, :xpath, '//h3'
+  elements :welcome_messages, :xpath, '//span'
+  elements :rows, 'td'
 
   # elements that should not exist
   element :squirrel, 'squirrel.nutz'
@@ -28,7 +31,7 @@ class TestHomePage < SitePrism::Page
   section :people, People, '.people'
   section :container_with_element, ContainerWithElement, '#container_with_element'
   section :nonexistent_section, NoElementWithinSection, 'input#nonexistent'
-  sections :nonexistent_section, NoElementWithinSection, 'input#nonexistent'
+  sections :nonexistent_sections, NoElementWithinSection, 'input#nonexistent'
 
   # iframes
   iframe :my_iframe, MyIframe, '#the_iframe'

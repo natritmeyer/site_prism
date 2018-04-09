@@ -1,7 +1,4 @@
-Feature: Page properties
-
-  I want to be able to get properties of the page
-  In order to know more about the page
+Feature: Page Properties
 
   Background:
     When I navigate to the home page
