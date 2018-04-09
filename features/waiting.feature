@@ -6,11 +6,11 @@ Feature: Waiting for Elements
   Scenario: Wait for Element - Positive
     When I navigate to the home page
     And I wait for the element that takes a while to appear
-    Then the element will appear
+    Then the slow element appears
 
   Scenario: Wait for Element - Negative
     When I navigate to the home page
-    And I wait for a specifically short amount of time for an element to appear
+    And I wait for a short amount of time for an element to appear
     Then the element I am waiting for doesn't appear in time
 
   Scenario: Wait for Visibility of element - Default Timeout
@@ -29,7 +29,7 @@ Feature: Waiting for Elements
 
   Scenario: Wait for Invisibility of element - Default Timeout
     When I navigate to the home page
-    And I wait while for an element to become invisible
+    And I wait for an element to become invisible
     Then the previously visible element is invisible
 
   Scenario: Wait for Invisibility of element - Overriden Timeout

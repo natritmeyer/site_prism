@@ -51,3 +51,7 @@ end
 Then(/^I will be redirected to the page without a title$/) do
   expect(@test_site.no_title).to be_displayed
 end
+
+When(/^I click the go button$/) do
+  @test_site.home.go_button.click
+end
