@@ -6,9 +6,11 @@ Feature: Element Methods
   Scenario: Element Text - Positive Test
     When I navigate to the home page
     Then I can see the welcome header
-    And I can see the welcome header with capybara query options
+    And I can see a header using a capybara text query
     And I can see the welcome message
-    And I can see the welcome message with capybara query options
+    And I can see a message using a capybara text query
+    And I can see the first row
+    And I can see a row using a capybara class query
 
   Scenario: Element Text - Negative Test
     When I navigate to the home page
