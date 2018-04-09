@@ -1,13 +1,5 @@
 # frozen_string_literal: true
 
-Then(/^I can get the page title$/) do
-  expect(@test_site.home.title).to eq('Home Page')
-end
-
-Then(/^the page has no title$/) do
-  expect(@test_site.no_title.title).to eq('')
-end
-
 Then(/^the page does not have element$/) do
   expect(@test_site.home.has_no_nonexistent_element?).to be true
 
@@ -26,12 +18,18 @@ Then(/^I can see the welcome header$/) do
   expect(@test_site.home.welcome_header.text).to eq('Welcome')
 end
 
-Then(/^I can see a header using capybara query options$/) do
+Then(/^I can see a header using a capybara text query$/) do
   expect(@test_site.home).to have_welcome_headers(text: 'Sub-Heading 2')
 end
 
-Then(/^I can see a row using capybara query options$/) do
+Then(/^I can see a row using a capybara class query$/) do
   expect(@test_site.home).to have_rows(class: 'link_c')
+end
+
+Then(/^I can see the first row$/) do
+  expect(@test_site.home).to have_rows
+
+  expect(@test_site.home.rows.first.text).to eq('a')
 end
 
 Then(/^the welcome header is not matched with invalid text$/) do
@@ -44,12 +42,8 @@ Then(/^I can see the welcome message$/) do
   expect(@test_site.home.welcome_message.text).to eq('This is the home page, there is some stuff on it')
 end
 
-Then(/^I can see a message using capybara query options$/) do
+Then(/^I can see a message using a capybara text query$/) do
   expect(@test_site.home).to have_welcome_messages(text: 'This is the home page, there is some stuff on it')
-end
-
-When(/^I click the go button$/) do
-  @test_site.home.go_button.click
 end
 
 Then(/^I can see the go button$/) do
@@ -59,11 +53,11 @@ end
 Then(/^I can see the the HREF of the link$/) do
   expect(@test_site.home).to have_link_to_search_page
 
-  expect(@test_site.home.link_to_search_page['href']).to include('no_title.htm')
+  expect(@test_site.home.link_to_search_page['href']).to include('search.htm')
 end
 
 Then(/^I can see the CLASS of the link$/) do
-  expect(@test_site.home.link_to_search_page['class']).to include('search.htm')
+  expect(@test_site.home.link_to_search_page['class']).to eq('link link--undefined')
 end
 
 Then(/^I can get the text values for the group of links$/) do

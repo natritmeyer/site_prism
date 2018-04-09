@@ -48,20 +48,6 @@ Then(/^I will be redirected to the home page$/) do
   expect(@test_site.home).to be_displayed
 end
 
-When(/^I navigate to a page with no title$/) do
-  @test_site = TestSite.new
-  @test_site.no_title.load
-end
-
-When(/^I navigate to another page$/) do
-  @test_site.page_with_people.load
-end
-
-When(/^I navigate to the section experiments page$/) do
-  @test_site = TestSite.new
-  @test_site.section_experiments.load
-end
-
 Then(/^I will be redirected to the page without a title$/) do
   expect(@test_site.no_title).to be_displayed
 end

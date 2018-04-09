@@ -15,3 +15,11 @@ end
 Then(/^I can see that the page is not secure$/) do
   expect(@test_site.home).not_to be_secure
 end
+
+Then(/^I can get the page title$/) do
+  expect(@test_site.home.title).to eq('Home Page')
+end
+
+Then(/^the page has no title$/) do
+  expect(@test_site.no_title.title).to eq('')
+end
