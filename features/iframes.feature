@@ -1,5 +1,8 @@
 Feature: IFrame interaction
 
+  I want to be able to scope my operations to an iFrame
+  So I can query for elements within it
+
   Background:
     When I navigate to the home page
 
@@ -11,12 +14,10 @@ Feature: IFrame interaction
     And I can see elements in an indexed iframe
 
   Scenario: locate an iframe by name
-    When I navigate to the home page
     Then I can locate the iframe by name
     And I can see elements in a named iframe
 
   Scenario: locate an iframe by xpath
-    When I navigate to the home page
     Then I can locate the iframe by xpath
     And I can see elements in an xpath iframe
 

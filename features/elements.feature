@@ -1,6 +1,7 @@
 Feature: Interaction with groups of elements
 
   I want to be able to interact with element collections on a page
+  In order to work with large collections of data
 
   Background:
     When I navigate to the home page

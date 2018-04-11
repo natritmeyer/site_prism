@@ -41,9 +41,17 @@ Then(/^I am on the redirect page$/) do
 end
 
 Then(/^I am not on the redirect page$/) do
-  expect(@test_site.redirect_page).to_not be_displayed
+  expect(@test_site.redirect_page).not_to be_displayed
 end
 
 Then(/^I will be redirected to the home page$/) do
   expect(@test_site.home).to be_displayed
+end
+
+Then(/^I will be redirected to the page without a title$/) do
+  expect(@test_site.no_title).to be_displayed
+end
+
+When(/^I click the go button$/) do
+  @test_site.home.go_button.click
 end
