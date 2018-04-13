@@ -7,6 +7,22 @@ describe SitePrism::Page do
     allow(SitePrism::Waiter).to receive(:default_wait_time).and_return(0)
   end
 
+  it 'should respond to section' do
+    expect(SitePrism::Page).to respond_to(:section)
+  end
+
+  it 'should respond to sections' do
+    expect(SitePrism::Page).to respond_to(:sections)
+  end
+
+  it 'should respond to element' do
+    expect(SitePrism::Page).to respond_to(:element)
+  end
+
+  it 'should respond to elements' do
+    expect(SitePrism::Page).to respond_to(:elements)
+  end
+
   it 'should respond to load' do
     expect(SitePrism::Page.new).to respond_to :load
   end

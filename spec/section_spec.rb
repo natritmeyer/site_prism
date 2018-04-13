@@ -12,9 +12,10 @@ describe SitePrism::Page do
         section :section, Section, '.section'
       end
 
-      subject(:page_with_section) { PageWithSection.new }
+      subject { PageWithSection.new }
 
       it { is_expected.to respond_to(:section) }
+      it { is_expected.to respond_to(:has_section?) }
     end
 
     context 'second argument is not a Class and a block given' do
@@ -24,9 +25,10 @@ describe SitePrism::Page do
         end
       end
 
-      subject(:page_with_anonymous_section) { PageWithAnonymousSection.new }
+      subject { PageWithAnonymousSection.new }
 
       it { is_expected.to respond_to(:anonymous_section) }
+      it { is_expected.to respond_to(:has_anonymous_section?) }
     end
 
     context 'second argument is not a Class and no block given' do
@@ -45,7 +47,7 @@ describe SitePrism::Page do
 end
 
 describe SitePrism::Section do
-  let(:instance) { SitePrism::Section.new(Page.new, locator) }
+  let(:section_without_block) { SitePrism::Section.new(Page.new, locator) }
   let(:locator) { instance_double('Capybara::Node::Element') }
   let(:section_with_block) { SitePrism::Section.new(Page.new, locator) { 1 + 1 } }
 
@@ -69,7 +71,7 @@ describe SitePrism::Section do
       it 'does not pass a block to Capybara.within' do
         expect(Capybara).not_to receive(:within)
 
-        instance
+        section_without_block
       end
     end
   end
@@ -78,7 +80,7 @@ describe SitePrism::Section do
     it 'delegates through root_element' do
       expect(locator).to receive(:visible?)
 
-      instance.visible?
+      section_without_block.visible?
     end
   end
 
@@ -86,7 +88,7 @@ describe SitePrism::Section do
     it 'delegates through root_element' do
       expect(locator).to receive(:text)
 
-      instance.text
+      section_without_block.text
     end
   end
 
@@ -94,7 +96,7 @@ describe SitePrism::Section do
     it 'delegates through root_element' do
       expect(locator).to receive(:native)
 
-      instance.native
+      section_without_block.native
     end
   end
 
@@ -102,7 +104,7 @@ describe SitePrism::Section do
     it 'delegates through Capybara' do
       expect(Capybara.current_session).to receive(:execute_script).with('JUMP!')
 
-      instance.execute_script('JUMP!')
+      section_without_block.execute_script('JUMP!')
     end
   end
 
@@ -110,7 +112,7 @@ describe SitePrism::Section do
     it 'delegates through Capybara' do
       expect(Capybara.current_session).to receive(:evaluate_script).with('How High?')
 
-      instance.evaluate_script('How High?')
+      section_without_block.evaluate_script('How High?')
     end
   end
 
@@ -149,7 +151,7 @@ describe SitePrism::Section do
   end
 
   describe 'page' do
-    subject(:section) { SitePrism::Section.new('parent', root_element).page }
+    subject { SitePrism::Section.new('parent', root_element).page }
 
     let(:root_element) { 'root' }
 
