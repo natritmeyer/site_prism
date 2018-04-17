@@ -1,4 +1,15 @@
-<!-- `#211 last Update to this document` -->
+<!-- `#234 last Update to this document` -->
+`2.12`
+- Performed a suite-wide cleanup of Gherkin. Made everything a lot more organised (@luke-hill)
+- Expose the `#native` method on Section Objects (@luke-hill)
+- Fix issue where within a section, we lose our scoping due to leveraging the full `Capybara::DSL` - So we need to re-scope our `page` object to be our new `root_element` (@ilyasgaraev)
+- Unlock testing on Selenium up to v3.8 (@luke-hill)
+- Fix suite incidentally masking several issues due to incorrect cucumber setup (@luke-hill)
+- Allow iFrames to be specified using several new types of selector (ID / Class / XPath / Index) (@ricmatsui)
+- Generic SitePrism cleanup (Improved Test Coverage, Updated Dependencies, Cleared out some TODO tasks) (@luke-hill)
+- Update Travis Environment to now test on Chrome and Firefox (@RustyNail & @luke-hill)
+- Increase testing coverage of framework to include Ruby 2.4 (@luke-hill)
+
 `2.11`
 - Refactor Addressable library so its slightly less confusing to debug - still in progress! (@luke-hill)
 - Update Travis to test on a variety of rubies: `2.0 -> 2.3`, and using the latest geckodriver (@luke-hill)
