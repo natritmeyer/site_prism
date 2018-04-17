@@ -52,7 +52,8 @@ Feature: Page Sections
 
   Scenario: Check we can call JS methods against a section
     When I navigate to the section experiments page
-    Then I can run javascript against the search results
+    And I execute some javascript to set a value
+    Then I can evaluate some javascript to get the value
 
   Scenario: Wait for section
     When I navigate to the section experiments page

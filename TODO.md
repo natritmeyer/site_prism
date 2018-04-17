@@ -19,7 +19,6 @@ people wanting to access the base native object (Honouring what maintainers said
 -  Rubocop LineLength reduction (Continue this, will be hard work, probably several PR's)
 -  Rubocop MethodLength reduction (Should be a small-er PR)
 -  Begin to start using let blocks across specs (Dev points update)
--  Add developmental guidelines / setup information
 -  Create iFrame specs (Even though private methods)
 -  Allow scoping iFrames to then be passed into element native object
 - Generic suite wide linting in `/lib` need to wrap method arguments up (Remove space separations)
