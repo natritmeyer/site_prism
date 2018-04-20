@@ -9,6 +9,12 @@ Find the pretty documentation here: http://rdoc.info/gems/site_prism/frames
 
 Make sure to add your project/company to https://github.com/natritmeyer/site_prism/wiki/Who-is-using-SitePrism
 
+## Developing / Contributing to SitePrism
+
+We love it when people want to get involved with our Open Source Project.
+
+We have a brief set of setup docs [HERE](https://github.com/natritmeyer/site_prism/development_setup.md)
+
 ## Supported Rubies / Browsers
 
 SitePrism is built and tested to work on Ruby 2.1 - 2.4. There is also some limited support for the Ruby 1.9/2.0 series.
