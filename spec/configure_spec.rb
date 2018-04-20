@@ -3,6 +3,10 @@
 require 'spec_helper'
 
 describe SitePrism do
+  after(:all) do
+    SitePrism.configure { |config| config.use_implicit_waits = false }
+  end
+
   it 'should have implicit waits disabled by default' do
     expect(SitePrism.use_implicit_waits).to be false
   end

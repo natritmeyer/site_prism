@@ -5,10 +5,6 @@
     - Don't memoize the individual page calls just incase (Also goes against readme)
     - Expand on existing large scale features and try tear down into more relevant ones
 -  `page_element_interaction_steps.rb:49` Shouldn't be there as its performing Actions
--  Now Capybara is 2.6+
-    - capybara 2.5 was the first Capybara to introduce `default_max_wait_time`
-    - We can massively simplify `./lib/site_prism/waiter.rb`
-    - This will basically make the entire class a 2/3liner
 -  `site_prism/addressable_url_matcher.rb` - Needs more of a spring clean
 -  `SitePrism::Page#wait_until_displayed` - Re-call existing method and re-raise
 -  Begin to refactor `displayed?(*args)`, to remove enumerable args (Shouldn't be enumerable)
@@ -23,3 +19,13 @@ people wanting to access the base native object (Honouring what maintainers said
 -  Allow scoping iFrames to then be passed into element native object
 - Generic suite wide linting in `/lib` need to wrap method arguments up (Remove space separations)
 - Generic spec walkthrough - (have done `sections_spec.rb` - which might need renaming)
+
+### To monitor (Assumed fixed elsewhere)
+-  Capybara compatibility around iFrames - Now should be more compatible. Remove once 2.12 is released
+
+### Bug
+- Waiter.default_wait_time is not being called inter-suite. And is somehow being hard-coded as 0
+When removing this value, and verbosely referencing Capybara, spec times shoot up (And possibly code changes)
+Need to ensure `seconds = !args.empty? ? args.first : Waiter.default_wait_time` gets fixed to grab 0
+when implicit waits are off, and the Capybara default value when waits are on
+NOTE: This only affects specs. The cucumber tests do seem to interrogate this value correctly.

@@ -11,7 +11,13 @@ module SitePrism
   end
 
   class NoSelectorForElement < StandardError; end
-  class TimeoutException < StandardError; end
+
+  class TimeoutException < StandardError
+    def message
+      "Timed out after #{super}s while waiting for block to evaluate as true."
+    end
+  end
+
   class TimeOutWaitingForElementVisibility < StandardError; end
   class TimeOutWaitingForElementInvisibility < StandardError; end
 
