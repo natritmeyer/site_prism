@@ -97,7 +97,7 @@ Then(/^all expected elements are present in the search results$/) do
 end
 
 When(/^I execute some javascript to set a value$/) do
-  @test_site.section_experiments.search_results.first.cell_value=('wibble')
+  @test_site.section_experiments.search_results.first.cell_value = 'wibble'
 end
 
 Then(/^I can evaluate some javascript to get the value$/) do
