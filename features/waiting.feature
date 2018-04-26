@@ -13,6 +13,16 @@ Feature: Waiting for Elements
     And I wait for a short amount of time for an element to appear
     Then the element I am waiting for doesn't appear in time
 
+  Scenario: Wait for No Element - Positive
+    When I navigate to the home page
+    And I wait for the element that takes a while to disappear
+    Then the removing element disappears
+
+  Scenario: Wait for No Element - Negative
+    When I navigate to the home page
+    And I wait for a short amount of time for an element to disappear
+    Then the element I am waiting for doesn't disappear in time
+
   Scenario: Wait for Visibility of element - Default Timeout
     When I navigate to the home page
     And I wait until a particular element is visible

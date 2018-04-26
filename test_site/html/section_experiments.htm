@@ -17,6 +17,7 @@
       dumping_ground = document.getElementById('dumping-ground');
       //wait for a second and then add the links
       var t1 = setTimeout("dumping_ground.appendChild(slow_link);", 2000);
+      var t2 = setTimeout("document.getElementById('removing-element').remove();", 2000);
     }
     window.onload = load;
     </script>
@@ -27,6 +28,10 @@
       <div class='child-div'>
         <span class='nice-label'>something</span>
       </div>
+    </div>
+
+    <div class='removing-parent-div'>
+      <span class='removing-element' id='removing-element'>something</span>
     </div>
 
     <div class='search-results'>
