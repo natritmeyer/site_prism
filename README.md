@@ -1025,8 +1025,8 @@ Additional methods added to the page or section by the `section` method are
 `wait_for_<section name>` and `wait_for_no_<section name>`. Similar to what
 `element` does, these methods wait for the section to appear or disappear,
 respectively - the test will wait up to capybara's
-default wait time until the root node of the element exists or does not exist on the
-page/section that our section was added to. Given the following setup:
+default wait time until the `root_element` of the section exists or does
+not exist on the page/section that our section was added to. Given the following setup:
 
 ```ruby
 class MenuSection < SitePrism::Section

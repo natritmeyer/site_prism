@@ -35,7 +35,7 @@ class TestHomePage < SitePrism::Page
   section :nonexistent_section, NoElementWithinSection, 'input#nonexistent'
   section :removing_section, NoElementWithinSection, 'input#will_become_nonexistent'
 
-  # sections groups
+  # section groups
   sections :nonexistent_sections, NoElementWithinSection, 'input#nonexistent'
   sections :removing_sections, NoElementWithinSection, '#link_container_will_become_nonexistent > a'
 

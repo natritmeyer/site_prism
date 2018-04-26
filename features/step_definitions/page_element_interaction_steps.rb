@@ -159,7 +159,7 @@ Then(/^I can wait a variable time and pass specific parameters$/) do
 end
 
 Then(/^I can wait a variable time for elements to disappear and pass specific parameters$/) do
-  @test_site.home.wait_for_no_removing_links(0.1, text: 'wibble')
+  expect(@test_site.home.wait_for_no_removing_links(0.1, text: 'wibble')).to be true
 end
 
 Then(/^I can obtain the native property of an element$/) do
