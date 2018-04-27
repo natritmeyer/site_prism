@@ -52,9 +52,7 @@ module SitePrism
       element_find_args = deduce_iframe_element_find_args(args)
       scope_find_args = deduce_iframe_scope_find_args(args)
       add_to_mapped_items(iframe_name)
-      create_existence_checker(iframe_name, *element_find_args)
-      create_nonexistence_checker(iframe_name, *element_find_args)
-      create_waiter(iframe_name, *element_find_args)
+      add_iframe_helper_methods(iframe_name, *element_find_args)
       define_method(iframe_name) do |&block|
         within_frame(*scope_find_args) do
           block.call iframe_page_class.new
@@ -80,6 +78,13 @@ module SitePrism
             "Timed out after #{timeout}s waiting for #{obj.class}##{name}"
     end
 
+    def raise_wait_for_no_if_failed(obj, name, timeout, failed)
+      return unless SitePrism.raise_on_wait_fors && failed
+
+      raise SitePrism::TimeOutWaitingForNonExistenceError, \
+            "Timed out after #{timeout}s waiting for no #{obj.class}##{name}"
+    end
+
     private
 
     def build(name, *find_args)
@@ -96,8 +101,16 @@ module SitePrism
       create_existence_checker(name, *find_args)
       create_nonexistence_checker(name, *find_args)
       create_waiter(name, *find_args)
+      create_nonexistence_waiter(name, *find_args)
       create_visibility_waiter(name, *find_args)
       create_invisibility_waiter(name, *find_args)
+    end
+
+    def add_iframe_helper_methods(name, *find_args)
+      create_existence_checker(name, *find_args)
+      create_nonexistence_checker(name, *find_args)
+      create_waiter(name, *find_args)
+      create_nonexistence_waiter(name, *find_args)
     end
 
     def create_helper_method(proposed_method_name, *find_args)
@@ -141,6 +154,20 @@ module SitePrism
             element_exists?(*find_args, *runtime_args)
           end
           self.class.raise_wait_for_if_failed(self, element_name.to_s, timeout, !result)
+          result
+        end
+      end
+    end
+
+    def create_nonexistence_waiter(element_name, *find_args)
+      method_name = "wait_for_no_#{element_name}"
+      create_helper_method(method_name, *find_args) do
+        define_method(method_name) do |timeout = nil, *runtime_args|
+          timeout = timeout.nil? ? Waiter.default_wait_time : timeout
+          result = Capybara.using_wait_time(timeout) do
+            element_does_not_exist?(*find_args, *runtime_args)
+          end
+          self.class.raise_wait_for_no_if_failed(self, element_name.to_s, timeout, !result)
           result
         end
       end

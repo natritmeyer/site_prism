@@ -19,6 +19,7 @@ module SitePrism
   end
 
   class TimeOutWaitingForExistenceError < StandardError; end
+  class TimeOutWaitingForNonExistenceError < StandardError; end
   class TimeOutWaitingForElementVisibility < StandardError; end
   class TimeOutWaitingForElementInvisibility < StandardError; end
 
