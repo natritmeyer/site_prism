@@ -1689,14 +1689,15 @@ with this:
 
 ## Raising Errors on wait_for
 
-By default, when using `wait_for_*` methods, SitePrism will not raise
-an error if an element does not appear within the timeout period and will
+By default, when using `wait_for_*` and `wait_for_no_*` methods, SitePrism will not raise
+an error if an element does not appear or disappear within the timeout period and will
 simply return `false` and allow the test to continue. This is different from
 the other methods such as `wait_until_*_visible` which do raise errors.
 
 Add the following code your spec_helper file to enable errors to be
-raised immediately when a `wait_for_*` does not find the element it is
-waiting for:
+raised immediately when a `wait_for_*` method does not find the element it is
+waiting for and when a `wait_for_no_*` method continues to find an element it is
+waiting to not exist:
 
 ```ruby
 SitePrism.configure do |config|
@@ -1708,6 +1709,8 @@ This enables you to replace this:
 
 ```ruby
 raise unless @search_page.wait_for_search_results
+# or...
+raise unless @search_page.wait_for_no_search_results
 ```
 
 with this:
@@ -1716,6 +1719,8 @@ with this:
 # With raise on wait_fors enabled, this will automatically raise
 # if no search results are found
 @search_page.wait_for_search_results
+# or automatically raise if search results are still found
+@search_page.wait_for_no_search_results
 ```
 
 ## Using SitePrism with VCR
