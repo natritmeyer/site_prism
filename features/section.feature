@@ -30,6 +30,11 @@ Feature: Page Sections
     When I navigate to the section experiments page
     Then I can see a collection of sections
 
+  Scenario: waiting on a collection of sections to disappear
+    When I navigate to the home page
+    And I wait for the collection of sections that takes a while to disappear
+    Then the removing collection of sections disappears
+
   Scenario: anonymous section
     When I navigate to the section experiments page
     Then I can see an anonymous section
@@ -59,6 +64,11 @@ Feature: Page Sections
     When I navigate to the section experiments page
     And I wait for the section element that takes a while to appear
     Then the slow section appears
+
+  Scenario: Wait for section to disappear
+    When I navigate to the section experiments page
+    And I wait for the section element that takes a while to disappear
+    Then the removing section disappears
 
   Scenario: Get parent belonging to section
     When I navigate to the home page
