@@ -13,10 +13,12 @@ class TestHomePage < SitePrism::Page
   element :invisible_element, 'input.invisible'
   element :shy_element, 'input#will_become_visible'
   element :retiring_element, 'input#will_become_invisible'
+  element :removing_element, 'input#will_become_nonexistent'
   element :remove_container_with_element_btn, 'input#remove_container_with_element'
 
   # elements groups
   elements :lots_of_links, :xpath, '//td//a'
+  elements :removing_links, '#link_container_will_become_nonexistent > a'
   elements :nonexistent_elements, 'input#nonexistent'
   elements :welcome_headers, :xpath, '//h3'
   elements :welcome_messages, :xpath, '//span'
@@ -27,11 +29,15 @@ class TestHomePage < SitePrism::Page
   element :other_thingy, 'other.thingy'
   element :nonexistent_element, 'input#nonexistent'
 
-  # sections
+  # individual sections
   section :people, People, '.people'
   section :container_with_element, ContainerWithElement, '#container_with_element'
   section :nonexistent_section, NoElementWithinSection, 'input#nonexistent'
+  section :removing_section, NoElementWithinSection, 'input#will_become_nonexistent'
+
+  # section groups
   sections :nonexistent_sections, NoElementWithinSection, 'input#nonexistent'
+  sections :removing_sections, NoElementWithinSection, '#link_container_will_become_nonexistent > a'
 
   # iframes
   iframe :my_iframe, MyIframe, '#the_iframe'

@@ -12,6 +12,7 @@ describe SitePrism::Page do
     it { is_expected.to respond_to(:has_bob?) }
     it { is_expected.to respond_to(:has_no_bob?) }
     it { is_expected.to respond_to(:wait_for_bob) }
+    it { is_expected.to respond_to(:wait_for_no_bob) }
     it { is_expected.to respond_to(:all_there?) }
 
     describe '#all_there?' do
