@@ -4,17 +4,12 @@
 -  `site_prism/addressable_url_matcher.rb` - Needs more of a spring clean
 -  `SitePrism::Page#wait_until_displayed` - Re-call existing method and re-raise
 -  Begin to refactor `displayed?(*args)`, to remove enumerable args (Shouldn't be enumerable)
--  element/s spec need a slight rename / tidy
 -  Update of Ruby Version to supported version
 -  Rubocop LineLength reduction (Continue this, will be hard work, probably several PR's)
 -  Rubocop MethodLength reduction (Should be a small-er PR)
--  Begin to start using let blocks across specs (Dev points update)
 -  Create iFrame specs (Even though private methods)
 -  Allow scoping iFrames to then be passed into element native object
 - Generic spec walkthrough - (have done section/sections/element/elements)
-
-### To monitor (Assumed fixed elsewhere)
--  Capybara compatibility around iFrames - Now should be more compatible. Remove once 2.12 is released
 
 ### Bug
 - Waiter.default_wait_time is not being called inter-suite. And is somehow being hard-coded as 0
