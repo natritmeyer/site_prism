@@ -7,7 +7,6 @@ end
 
 require 'capybara'
 require 'capybara/dsl'
-require 'selenium-webdriver'
 
 $LOAD_PATH << './test_site'
 $LOAD_PATH << './lib'
@@ -21,20 +20,12 @@ require 'pages/my_iframe'
 require 'pages/home'
 
 RSpec.configure do |config|
-  config.expect_with :rspec do |c|
-    c.syntax = %i[should expect]
-  end
-end
-
-class MyTest
-  def response
-    [200, { 'Content-Length' => '9' }, ['MyTestApp']]
-  end
+  config.default_formatter = :documentation
 end
 
 class MyTestApp
   def call(_env)
-    MyTest.new.response
+    [200, { 'Content-Length' => '9' }, ['MyTestApp']]
   end
 end
 
