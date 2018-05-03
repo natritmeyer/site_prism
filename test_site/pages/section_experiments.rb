@@ -4,7 +4,7 @@ class TestSectionExperiments < SitePrism::Page
   set_url '/section_experiments.htm'
 
   section :parent_section, Parent, '.parent-div'
-
+  section :removing_parent_section, Parent, '.removing-parent-div'
   sections :search_results, SearchResult, '.search-results .search-result'
 
   section :anonymous_section, '.anonymous-section' do

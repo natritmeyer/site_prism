@@ -502,6 +502,19 @@ end
 @home.wait_for_search_field(10) #will wait for 10 seconds for the search field to appear
 ```
 
+#### Waiting for an element to not exist on a page
+
+Another method added by calling `element` is the `wait_for_no_<element_name>` method.
+Calling the method will cause the test to wait for the Capybara's
+default wait time for the element to not exist. It is also possible to use a
+custom amount of time to wait. Using the same example as above:
+
+```ruby
+@home.wait_for_no_search_field
+# or...
+@home.wait_for_no_search_field(10) #will wait for 10 seconds for the search field to disappear
+```
+
 #### Waiting for an element to become visible
 
 Another method added by calling `element` is the
@@ -565,6 +578,8 @@ end
 @home.has_no_search_field?
 @home.wait_for_search_field
 @home.wait_for_search_field(10)
+@home.wait_for_no_search_field
+@home.wait_for_no_search_field(10)
 @home.wait_until_search_field_visible
 @home.wait_until_search_field_visible(10)
 @home.wait_until_search_field_invisible
@@ -657,10 +672,12 @@ end
 #### Waiting for the element collection
 
 Just like for an individual element, the tests can be told to wait for
-the existence of the element collection. The `elements` method adds a
-`wait_for_<element collection name>` method that will wait for
+the existence or non-existence of the element collection. The `elements`
+method adds `wait_for_<element collection name>` and
+`wait_for_no_<element collection name>` methods that will wait for
 Capybara's default wait time until at least 1 element is found that
-matches the selector. For example, with the following page:
+matches the selector, or no elements are found that match the selector,
+respectively. For example, with the following page:
 
 ```ruby
 class Friends < SitePrism::Page
@@ -675,11 +692,18 @@ end
 @friends_page.wait_for_names
 ```
 
+or wait for the non-existence of a list of names like this:
+
+```ruby
+@friends_page.wait_for_no_names
+```
+
 Again, you can customise the wait time by supplying a number of seconds
 to wait for:
 
 ```ruby
 @friends_page.wait_for_names(10)
+@friends_page.wait_for_no_names(10)
 ```
 
 #### Waiting for the elements to be visible or invisible
@@ -997,11 +1021,12 @@ expect(@home).not_to have_menu
 
 #### Waiting for a section to exist
 
-Another method added to the page or section by the `section` method is
-`wait_for_<section name>`. Similar to what `element` does, this method
-waits for the section to appear - the test will wait up to capybara's
-default wait time until the root node of the element exists on the
-page/section that our section was added to. Given the following setup:
+Additional methods added to the page or section by the `section` method are
+`wait_for_<section name>` and `wait_for_no_<section name>`. Similar to what
+`element` does, these methods wait for the section to appear or disappear,
+respectively - the test will wait up to capybara's
+default wait time until the `root_element` of the section exists or does
+not exist on the page/section that our section was added to. Given the following setup:
 
 ```ruby
 class MenuSection < SitePrism::Section
@@ -1020,6 +1045,13 @@ end
 ```ruby
 @home.wait_for_menu
 @home.wait_for_menu(10) # waits for 10 seconds instead of capybara's default timeout
+```
+
+... and we can wait for the menu section to disappear on the page like this:
+
+```ruby
+@home.wait_for_no_menu
+@home.wait_for_no_menu(10) # waits for 10 seconds instead of capybara's default timeout
 ```
 
 #### Waiting for a section to become visible or invisible
@@ -1239,10 +1271,11 @@ end
 
 #### Waiting for sections to appear
 
-The final method added by `sections` to the page/section we're adding
-our sections to is `wait_for_<sections name>`. It will wait for
-capybara's default wait time for there to be at least one instance of
-the section in the array of sections. For example:
+The last methods added by `sections` to the page/section we're adding
+our sections to are `wait_for_<sections name>` and `wait_for_no_<sections name>`.
+They will wait for capybara's default wait time for there to be at least one instance of
+the section in the array of sections or no instances of the section in the array
+of sections, respectively. For example:
 
 ```ruby
 class SearchResultSection < SitePrism::Section
@@ -1262,6 +1295,15 @@ end
 # ...
 @results_page.wait_for_search_results
 @results_page.wait_for_search_results(10) #=> waits for 10 seconds instead of the default capybara timeout
+```
+
+... and how to wait for the sections to disappear
+
+```ruby
+@results_page = SearchResults.new
+# ...
+@results_page.wait_for_no_search_results
+@results_page.wait_for_no_search_results(10) #=> waits for 10 seconds instead of the default capybara timeout
 ```
 
 ## Load Validations
@@ -1474,7 +1516,8 @@ The following element methods allow Capybara options to be passed as arguments t
 @results_page.<element_or_section_name>(text: 'Welcome!')
 @results_page.has_<element_or_section_name>?(count: 25)
 @results_page.has_no_<element_or_section_name>?(text: 'Logout')
-@results_page.wait_for_<element_or_section_name>(count: 25)
+@results_page.wait_for_<element_or_section_name>(nil, count: 25)
+@results_page.wait_for_no_<element_or_section_name>(nil, count: 25)
 @results_page.wait_until_<element_or_section_name>_visible(text: 'Some ajaxy text appears!')
 @results_page.wait_until_<element_or_section_name>_invisible(text: 'Some ajaxy text disappears!')
 ```
@@ -1564,12 +1607,14 @@ expect(@page).to have_my_iframe
 ### Waiting for an iframe
 
 Like an element or section, it is possible to wait for an iframe to
-exist by using the `wait_for_<iframe_name>` method. For example:
+exist or not exist by using the `wait_for_<iframe_name>` and
+`wait_for_no_<iframe_name>` methods. For example:
 
 ```ruby
 @page = PageContainingIframe.new
 # ...
 @page.wait_for_my_iframe
+@page.wait_for_no_my_iframe
 ```
 
 ### Interacting with an iframe's contents:
