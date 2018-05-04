@@ -20,7 +20,7 @@ Then('I can access elements within the section using a block') do
   end
 end
 
-Then('I cannot access elements not in the section using a block') do
+Then('I cannot access elements that are not in the section using a block') do
   expect do
     @test_site.home.people { |section| expect(section).to have_dinosaur }
   end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
@@ -60,40 +60,16 @@ Then('I can see a section within a section using nested blocks') do
   end
 end
 
-Then('I can see a collection of sections') do
-  @test_site.section_experiments.search_results.each_with_index do |search_result, i|
-    expect(search_result.title.text).to eq("title #{i}")
-
-    expect(search_result.description.text).to eq("description #{i}")
-  end
-
-  expect(@test_site.section_experiments.search_results.size).to eq(4)
-end
-
 Then('I can see an anonymous section') do
   expect(@test_site.section_experiments.anonymous_section.title.text).to eq('Anonymous Section')
-end
-
-Then('I can see a collection of anonymous sections') do
-  @test_site.section_experiments.anonymous_sections.each_with_index do |section, index|
-    expect(section.title.text).to eq("Section #{index}")
-
-    expect(section.downcase_title_text).to eq("section #{index}")
-  end
-
-  expect(@test_site.section_experiments.anonymous_sections.size).to eq(2)
 end
 
 Then('the section is visible') do
   expect(@test_site.home.people).to be_visible
 end
 
-Then('I can get at the people section root element') do
+Then('I can access the sections root element') do
   expect(@test_site.home.people.root_element.class).to eq(Capybara::Node::Element)
-end
-
-Then('all expected elements are present in the search results') do
-  expect(@test_site.section_experiments.search_results.first).to be_all_there
 end
 
 When('I execute some javascript to set a value') do
@@ -102,12 +78,6 @@ end
 
 Then('I can evaluate some javascript to get the value') do
   expect(@test_site.section_experiments.search_results.first.cell_value).to eq('wibble')
-end
-
-Then('I can see individual people in the people list') do
-  expect(@test_site.home.people.individuals.size).to eq(4)
-
-  expect(@test_site.home.people).to have_individuals(count: 4)
 end
 
 Then('I can get access to a page through a section') do
