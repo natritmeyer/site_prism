@@ -266,6 +266,7 @@ describe SitePrism::Page do
 
     it 'matches a realistic local dev URL' do
       swap_current_url('http://localhost:3000/foo')
+
       expect(page.displayed?).to be true
     end
   end
@@ -280,39 +281,46 @@ describe SitePrism::Page do
     describe '#displayed?' do
       it 'returns true without expected_mappings provided' do
         swap_current_url('http://localhost:3000/foos/28')
+
         expect(page.displayed?).to be true
       end
 
       it 'returns true with correct expected_mappings provided' do
         swap_current_url('http://localhost:3000/foos/28')
+
         expect(page.displayed?(id: 28)).to be true
       end
 
       it 'returns false with incorrect expected_mappings provided' do
         swap_current_url('http://localhost:3000/foos/28')
+
         expect(page.displayed?(id: 17)).to be false
       end
     end
 
     it 'passes through incorrect expected_mappings from the be_displayed matcher' do
       swap_current_url('http://localhost:3000/foos/28')
-      expect(page).not_to be_displayed id: 17
+
+      expect(page).not_to be_displayed(id: 17)
     end
 
     it 'passes through correct expected_mappings from the be_displayed matcher' do
       swap_current_url('http://localhost:3000/foos/28')
-      expect(page).to be_displayed id: 28
+
+      expect(page).to be_displayed(id: 28)
     end
 
     describe '#url_matches' do
       it 'returns mappings from the current_url' do
         swap_current_url('http://localhost:3000/foos/15')
-        expect(page.url_matches).to eq 'scheme' => 'http', 'id' => '15'
+
+        expect(page.url_matches).to eq('scheme' => 'http', 'id' => '15')
       end
 
       it "returns nil if current_url doesn't match the url_matcher" do
         swap_current_url('http://localhost:3000/bars/15')
-        expect(page.url_matches).to eq nil
+
+        expect(page.url_matches).to be_nil
       end
     end
   end

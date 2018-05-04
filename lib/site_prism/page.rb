@@ -40,7 +40,8 @@ module SitePrism
 
     def displayed?(*args)
       expected_mappings = args.last.is_a?(::Hash) ? args.pop : {}
-      seconds = !args.empty? ? args.first : Waiter.default_wait_time
+      seconds = !args.empty? ? args.first : Capybara.default_max_wait_time
+
       raise SitePrism::NoUrlMatcherForPage if url_matcher.nil?
       begin
         Waiter.wait_until_true(seconds) { url_matches?(expected_mappings) }
@@ -49,7 +50,7 @@ module SitePrism
       end
     end
 
-    def url_matches(seconds = Waiter.default_wait_time)
+    def url_matches(seconds = Capybara.default_max_wait_time)
       return unless displayed?(seconds)
 
       if url_matcher.is_a?(Regexp)

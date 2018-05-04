@@ -19,6 +19,8 @@ require 'sections/container_with_element'
 require 'pages/my_iframe'
 require 'pages/home'
 
+Capybara.default_max_wait_time = 0
+
 RSpec.configure do |config|
   config.default_formatter = :documentation
 end
