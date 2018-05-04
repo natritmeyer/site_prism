@@ -34,7 +34,6 @@ require 'pages/section_experiments'
 
 Capybara.configure do |config|
   config.default_driver = :selenium
-  config.javascript_driver = :selenium
   config.default_max_wait_time = 5
   config.app_host = 'file://' + File.dirname(__FILE__) + '/../../test_site/html'
   config.ignore_hidden_elements = false

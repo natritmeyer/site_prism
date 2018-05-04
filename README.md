@@ -66,35 +66,35 @@ end
 
 # now for some tests
 
-When /^I navigate to the google home page$/ do
+When(/^I navigate to the google home page$/) do
   @home = Home.new
   @home.load
 end
 
-Then /^the home page should contain the menu and the search form$/ do
+Then(/^the home page should contain the menu and the search form$/) do
   @home.wait_for_menu # menu loads after a second or 2, give it time to arrive
   expect(@home).to have_menu
   expect(@home).to have_search_field
   expect(@home).to have_search_button
 end
 
-When /^I search for Sausages$/ do
+When(/^I search for Sausages$/) do
   @home.search_field.set "Sausages"
   @home.search_button.click
 end
 
-Then /^the search results page is displayed$/ do
+Then(/^the search results page is displayed$/) do
   @results_page = SearchResults.new
   expect(@results_page).to be_displayed
 end
 
-Then /^the search results page contains 10 individual search results$/ do
+Then(/^the search results page contains 10 individual search results$/) do
   @results_page.wait_for_search_results
-  expect(@results_page).to have_search_results count: 10
+  expect(@results_page).to have_search_results(count: 10)
 end
 
-Then /^the search results contain a link to the wikipedia sausages page$/ do
-  expect(@results_page.search_result_links).to include "http://en.wikipedia.org/wiki/Sausage"
+Then(/^the search results contain a link to the wikipedia sausages page$/) do
+  expect(@results_page.search_result_links).to include('http://en.wikipedia.org/wiki/Sausage')
 end
 ```
 
@@ -172,7 +172,7 @@ you'll need to set its URL. Here's how:
 
 ```ruby
 class Home < SitePrism::Page
-  set_url "http://www.google.com"
+  set_url 'http://www.google.com'
 end
 ```
 
@@ -180,7 +180,7 @@ If you've set Capybara's `app_host` then you can set the URL as follows:
 
 ```ruby
 class Home < SitePrism::Page
-  set_url "/home.htm"
+  set_url '/home.htm'
 end
 ```
 
@@ -267,9 +267,9 @@ The following test code would pass:
 
 ```ruby
 @account_page = Account.new
-@account_page.load(id: 22, query: { token: "ca2786616a4285bc" })
+@account_page.load(id: 22, query: { token: 'ca2786616a4285bc' })
 
-expect(@account_page.current_url).to end_with "/accounts/22?token=ca2786616a4285bc"
+expect(@account_page.current_url).to end_with('/accounts/22?token=ca2786616a4285bc')
 expect(@account_page).to be_displayed
 ```
 
@@ -305,10 +305,10 @@ when comparing your page's URL template to the current_url:
 
 ```ruby
 @account_page = Account.new
-@account_page.load(id: 22, query: { token: "ca2786616a4285bc", color: 'irrelevant' })
+@account_page.load(id: 22, query: { token: 'ca2786616a4285bc', color: 'irrelevant' })
 
 expect(@account_page).to be_displayed(id: 22)
-expect(@account_page.url_matches['query']['token']).to eq "ca2786616a4285bc"
+expect(@account_page.url_matches['query']['token']).to eq('ca2786616a4285bc')
 ```
 
 #### Falling back to basic regexp matchers
@@ -347,7 +347,7 @@ end
 @account = Account.new
 #...
 @account.current_url #=> "http://www.example.com/account/123"
-expect(@account.current_url).to include 'example.com/account/'
+expect(@account.current_url).to include('example.com/account/')
 ```
 
 ### Page Title
@@ -686,7 +686,7 @@ end
 
 ```
 
-... you can wait for the existence of a list of names like this:
+... you can also wait for the existence of a list of names like this:
 
 ```ruby
 @friends_page.wait_for_names
@@ -818,18 +818,18 @@ is added is one that returns an instance of the section, the method name
 being the first argument to the `section` method. Here's an example:
 
 ```ruby
-# the section:
+# the section
 
 class MenuSection < SitePrism::Section
 end
 
-# the page that includes the section:
+# the page that includes the section
 
 class Home < SitePrism::Page
   section :menu, MenuSection, '#gbx3'
 end
 
-# the page and section in action:
+# the page and section in action
 
 @home = Home.new
 @home.menu #=> <MenuSection...>
@@ -909,7 +909,7 @@ end
 ```ruby
 Then /^the home page menu contains a link to the various search functions$/ do
   expect(@home.menu).to have_search
-  expect(@home.menu.search['href']).to include "google.com"
+  expect(@home.menu.search['href']).to include('google.com')
   expect(@home.menu).to have_images
   expect(@home.menu).to have_maps
 end
@@ -924,7 +924,7 @@ Some of this test code can be made a little prettier by simply passing a block i
 Then /^the home page menu contains a link to the various search functions$/ do
   @home.menu do |menu|
     expect(menu).to have_search
-    expect(menu.search['href']).to include "google.com"
+    expect(menu.search['href']).to include('google.com')
     expect(menu).to have_images
     expect(menu).to have_maps
   end
@@ -1118,8 +1118,8 @@ Then /^I sign in$/ do
   @home.wait_for_login_and_registration
   expect(@home).to have_login_and_registration
   expect(@home.login_and_registration).to have_username
-  @home.login_and_registration.login.username.set "bob"
-  @home.login_and_registration.login.password.set "p4ssw0rd"
+  @home.login_and_registration.login.username.set 'bob'
+  @home.login_and_registration.login.password.set 'p4ssw0rd'
   @home.login_and_registration.login.sign_in.click
 end
 
@@ -1130,7 +1130,7 @@ When /^I enter my name into the home page's registration form$/ do
   @home.load
   expect(@home.login_and_registration).to have_first_name
   expect(@home.login_and_registration).to have_last_name
-  @home.login_and_registration.first_name.set "Bob"
+  @home.login_and_registration.first_name.set 'Bob'
   # ...
 end
 ```
@@ -1480,11 +1480,12 @@ The method calls below will succeed, provided the elements appear on the page wi
 ```ruby
 @results_page = SearchResults.new
 # ...
-@results_page.has_search_results? :count => 25
+@results_page.has_search_results?(count: 25)
 # OR
-@results_page.search_results :count => 25
+@results_page.search_results(count: 25)
 # OR
-@results_page.wait_for_search_results nil, :count => 25 # wait_for_<element_name> expects a timeout value to be passed as the first parameter or nil to use the default timeout value.
+@results_page.wait_for_search_results(nil, :count => 25)
+# Note that wait_for_<element_name> expects a timeout value to be passed as the first parameter or nil to use the default timeout value.
 ```
 
 Now we can write pretty, non-failing tests without hard coding these options
@@ -1492,7 +1493,7 @@ into our page and section classes:
 
 ```ruby
 Then /^there are search results on the page$/ do
-  expect(@results.page).to have_search_results :count => 25
+  expect(@results.page).to have_search_results(count: 25)
 end
 ```
 
@@ -1512,13 +1513,13 @@ end
 The following element methods allow Capybara options to be passed as arguments to the method:
 
 ```ruby
-@results_page.<element_or_section_name> :text => "Welcome!"
-@results_page.has_<element_or_section_name>? :count => 25
-@results_page.has_no_<element_or_section_name>? :text => "Logout"
-@results_page.wait_for_<element_or_section_name> nil, :count => 25
-@results_page.wait_for_no_<element_or_section_name> nil, :count => 25
-@results_page.wait_until_<element_or_section_name>_visible :text => "Some ajaxy text appears!"
-@results_page.wait_until_<element_or_section_name>_invisible :text => "Some ajaxy text disappears!"
+@results_page.<element_or_section_name>(text: 'Welcome!')
+@results_page.has_<element_or_section_name>?(count: 25)
+@results_page.has_no_<element_or_section_name>?(text: 'Logout')
+@results_page.wait_for_<element_or_section_name>(nil, count: 25)
+@results_page.wait_for_no_<element_or_section_name>(nil, count: 25)
+@results_page.wait_until_<element_or_section_name>_visible(text: 'Some ajaxy text appears!')
+@results_page.wait_until_<element_or_section_name>_invisible(text: 'Some ajaxy text disappears!')
 ```
 
 ## Test views with Page objects
@@ -1740,7 +1741,7 @@ all over the place. Here's an example of this common problem:
 ```ruby
 @home = Home.new # <-- noise
 @home.load
-@home.search_field.set "Sausages"
+@home.search_field.set 'Sausages'
 @home.search_field.search_button.click
 @results_page = SearchResults.new # <-- noise
 expect(@results_page).to have_search_result_items
@@ -1784,20 +1785,20 @@ class App
   end
 end
 
-# and here's how to use it:
+# and here's how to use it
 
 #first line of the test...
-Given /^I start on the home page$/ do
+Given(/^I start on the home page$/) do
   @app = App.new
   @app.home.load
 end
 
-When /^I search for Sausages$/ do
-  @app.home.search_field.set "sausages"
+When(/^I search for Sausages$/) do
+  @app.home.search_field.set 'Sausages'
   @app.home.search_button.click
 end
 
-Then /^I am on the results page$/ do
+Then(/^I am on the results page$/) do
   expect(@app.results_page).to be_displayed
 end
 
