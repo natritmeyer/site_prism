@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+Given('exceptions are configured to raise on wait_fors') do
+  SitePrism.raise_on_wait_fors = true
+end
+
 When('I wait for the element that takes a while to appear') do
   @test_site.home.wait_for_some_slow_element
 end
@@ -24,6 +28,18 @@ When('I wait for a short amount of time for an element to disappear') do
   @test_site.home.wait_for_no_removing_element(1)
 end
 
+Then("an exception is raised when I wait for an element that won't appear") do
+  expect { @test_site.home.wait_for_some_slow_element(1) }
+    .to raise_error(SitePrism::TimeOutWaitingForExistenceError)
+    .with_message('Timed out after 1s waiting for TestHomePage#some_slow_element')
+end
+
+Then("an exception is raised when I wait for an element that won't disappear") do
+  expect { @test_site.home.wait_for_no_removing_element(1) }
+    .to raise_error(SitePrism::TimeOutWaitingForNonExistenceError)
+    .with_message('Timed out after 1s waiting for no TestHomePage#removing_element')
+end
+
 Then("the element I am waiting for doesn't appear in time") do
   expect(@test_site.home).not_to have_some_slow_element
 end
@@ -46,6 +62,18 @@ end
 
 Then(/^the removing section disappears$/) do
   expect(@test_site.section_experiments.removing_parent_section).not_to have_removing_section_element
+end
+
+Then(/^an exception is raised when I wait for a section that won't appear$/) do
+  expect { @test_site.section_experiments.parent_section.wait_for_slow_section_element(1) }
+    .to raise_error(SitePrism::TimeOutWaitingForExistenceError)
+    .with_message('Timed out after 1s waiting for Parent#slow_section_element')
+end
+
+Then(/^an exception is raised when I wait for a section that won't disappear$/) do
+  expect { @test_site.section_experiments.removing_parent_section.wait_for_no_removing_section_element(1) }
+    .to raise_error(SitePrism::TimeOutWaitingForNonExistenceError)
+    .with_message('Timed out after 1s waiting for no Parent#removing_section_element')
 end
 
 When(/^I wait for the collection of sections that takes a while to disappear$/) do

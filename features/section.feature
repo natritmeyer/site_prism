@@ -70,6 +70,28 @@ Feature: Page Sections
     And I wait for the section element that takes a while to disappear
     Then the removing section disappears
 
+  Scenario: Wait for section - Exceptions - Positive
+    Given exceptions are configured to raise on wait_fors
+    When I navigate to the section experiments page
+    And I wait for the section element that takes a while to appear
+    Then the slow section appears
+
+  Scenario: Wait for section - Exceptions - Negative
+    Given exceptions are configured to raise on wait_fors
+    When I navigate to the section experiments page
+    Then an exception is raised when I wait for a section that won't appear
+
+  Scenario: Wait for section to disappear - Exceptions - Positive
+    Given exceptions are configured to raise on wait_fors
+    When I navigate to the section experiments page
+    And I wait for the section element that takes a while to disappear
+    Then the removing section disappears
+
+  Scenario: Wait for section to disappear - Exceptions - Negative
+    Given exceptions are configured to raise on wait_fors
+    When I navigate to the section experiments page
+    Then an exception is raised when I wait for a section that won't disappear
+
   Scenario: Get parent belonging to section
     When I navigate to the home page
     Then I can get access to a page through a section

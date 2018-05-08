@@ -71,6 +71,20 @@ module SitePrism
       raise SitePrism::UnsupportedBlock, "#{obj.class}##{name}"
     end
 
+    def raise_wait_for_if_failed(obj, name, timeout, failed)
+      return unless SitePrism.raise_on_wait_fors && failed
+
+      raise SitePrism::TimeOutWaitingForExistenceError, \
+            "Timed out after #{timeout}s waiting for #{obj.class}##{name}"
+    end
+
+    def raise_wait_for_no_if_failed(obj, name, timeout, failed)
+      return unless SitePrism.raise_on_wait_fors && failed
+
+      raise SitePrism::TimeOutWaitingForNonExistenceError, \
+            "Timed out after #{timeout}s waiting for no #{obj.class}##{name}"
+    end
+
     private
 
     def build(name, *find_args)
@@ -136,9 +150,11 @@ module SitePrism
       create_helper_method(method_name, *find_args) do
         define_method(method_name) do |timeout = nil, *runtime_args|
           timeout = timeout.nil? ? Capybara.default_max_wait_time : timeout
-          Capybara.using_wait_time(timeout) do
+          result = Capybara.using_wait_time(timeout) do
             element_exists?(*find_args, *runtime_args)
           end
+          self.class.raise_wait_for_if_failed(self, element_name.to_s, timeout, !result)
+          result
         end
       end
     end
@@ -148,9 +164,11 @@ module SitePrism
       create_helper_method(method_name, *find_args) do
         define_method(method_name) do |timeout = nil, *runtime_args|
           timeout = timeout.nil? ? Waiter.default_wait_time : timeout
-          Capybara.using_wait_time(timeout) do
+          result = Capybara.using_wait_time(timeout) do
             element_does_not_exist?(*find_args, *runtime_args)
           end
+          self.class.raise_wait_for_no_if_failed(self, element_name.to_s, timeout, !result)
+          result
         end
       end
     end

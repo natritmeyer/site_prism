@@ -13,6 +13,17 @@ Feature: Waiting for Elements
     And I wait for a short amount of time for an element to appear
     Then the element I am waiting for doesn't appear in time
 
+  Scenario: Wait for Element - Exceptions - Positive
+    Given exceptions are configured to raise on wait_fors
+    When I navigate to the home page
+    And I wait for the element that takes a while to appear
+    Then the slow element appears
+
+  Scenario: Wait for Element - Exceptions - Negative
+    Given exceptions are configured to raise on wait_fors
+    When I navigate to the home page
+    Then an exception is raised when I wait for an element that won't appear
+
   Scenario: Wait for No Element - Positive
     When I navigate to the home page
     And I wait for the element that takes a while to disappear
@@ -22,6 +33,17 @@ Feature: Waiting for Elements
     When I navigate to the home page
     And I wait for a short amount of time for an element to disappear
     Then the element I am waiting for doesn't disappear in time
+
+  Scenario: Wait for No Element - Exceptions - Positive
+    Given exceptions are configured to raise on wait_fors
+    When I navigate to the home page
+    And I wait for the element that takes a while to disappear
+    Then the removing element disappears
+
+  Scenario: Wait for No Element - Exceptions - Negative
+    Given exceptions are configured to raise on wait_fors
+    When I navigate to the home page
+    Then an exception is raised when I wait for an element that won't disappear
 
   Scenario: Wait for Visibility of element - Default Timeout
     When I navigate to the home page
