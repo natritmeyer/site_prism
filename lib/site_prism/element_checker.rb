@@ -21,7 +21,7 @@ module SitePrism
     end
 
     def mapped_items
-      self.class.mapped_items
+      self.class.mapped_items.uniq
     end
 
     def present?(element)
