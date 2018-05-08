@@ -1,4 +1,16 @@
-<!-- `#234 last Update to this document` -->
+<!-- `#249 last Update to this document` -->
+`2.13`
+- Cleanup cucumber tests into more granular structure (@luke-hill)
+- Use `shared_examples` in RSpec tests to enhance coverage and check xpath selectors ((@luke-hill))
+- Introduced configuration to raise an Exception after `wait_for` meta-programmed methods fail to find pass (@ricmatsui)
+- Altered output of RSpec to show test names, and unlock testing on Selenium up to v3.10 (@luke-hill)
+- Upgraded Cucumber to `3.0.1` (Allowing new syntax testing) (@luke-hill)
+- Added Feature to wait for non-existence of element/section (@ricmatsui)
+- Updated Travis to test on Ruby `2.5`. Removed testing for Ruby `2.0` (@luke-hill)
+- Updated Suite Ruby Requirements (**Minimum Ruby is now `2.1`**) (@luke-hill)
+- Refactored Waiter Class (cleaner `.wait_until_true`, deprecated `.default_wait_time`) (@luke-hill)
+- Added new development docs to aid new and existing contributors (@luke-hill)
+
 `2.12`
 - Performed a suite-wide cleanup of Gherkin. Made everything a lot more organised (@luke-hill)
 - Expose the `#native` method on Section Objects (@luke-hill)
