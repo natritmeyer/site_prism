@@ -1265,7 +1265,7 @@ end
 
 ```ruby
 Then /^there are search results on the page$/ do
-  expect(@results.page).to have_search_results
+  expect(@results_page).to have_search_results
 end
 ```
 
@@ -1493,7 +1493,7 @@ into our page and section classes:
 
 ```ruby
 Then /^there are search results on the page$/ do
-  expect(@results.page).to have_search_results(count: 25)
+  expect(@results_page).to have_search_results(count: 25)
 end
 ```
 
