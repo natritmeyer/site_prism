@@ -1733,6 +1733,18 @@ with this:
 @search_page.search_results
 ```
 
+Note that even with implicit waits on you can temporarily modify wait times in SitePrism to help work-around special circumstances.  
+
+```rb
+# Option 1: using wait_for
+@search_page.wait_for_search_results(30) # will wait up to 30seconds
+
+# Option 2: using Capybara directly 
+Capybara.using_wait_time(30) do
+  @search_page.subsection.search_results
+end
+```
+
 ## Raising Errors on wait_for
 
 By default, when using `wait_for_*` and `wait_for_no_*` methods, SitePrism will not raise
