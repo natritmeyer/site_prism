@@ -26,6 +26,16 @@
       var t3 = setTimeout("document.getElementById('will_become_invisible').style.display='none';", 2000);
       var t4 = setTimeout("document.getElementById('will_become_nonexistent').remove();", 2000);
       var t5 = setTimeout("document.getElementById('link_container_will_become_nonexistent').remove();", 2000);
+
+      var slow_section = document.createElement("div");
+      slow_section.className = 'slow-section first';
+      var slow_section2 = document.createElement("div");
+      slow_section2.className = 'slow-section second';
+      setTimeout(function() {
+        [slow_section, slow_section2].forEach(function(item) {
+          dumping_ground.appendChild(item);
+        });
+      }, 2000)
     }
     window.onload = load;
     </script>

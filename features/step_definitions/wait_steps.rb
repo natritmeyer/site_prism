@@ -203,3 +203,37 @@ Then(/^the slow elements are not waited for$/) do
   expect { @test_site.home.slow_elements(count: 1) }.to raise_error(Capybara::ElementNotFound)
   expect(Time.now - start_time).to be < 0.5
 end
+
+
+Then(/^the slow section is waited for$/) do
+  start_time = Time.now
+  @test_site.home.slow_section(count: 1)
+  expect(Time.now - start_time).to be > 1.5
+end
+
+Then(/^the slow section is not waited for$/) do
+  start_time = Time.now
+  expect { @test_site.home.slow_section(count: 1) }.to raise_error(Capybara::ElementNotFound)
+  expect(Time.now - start_time).to be < 0.5
+end
+
+Then(/^the slow sections are waited for$/) do
+  start_time = Time.now
+  @test_site.home.slow_sections(count: 2)
+  expect(Time.now - start_time).to be > 1.5
+end
+
+Then(/^the slow sections are not waited for$/) do
+  start_time = Time.now
+  expect { @test_site.home.slow_sections(count: 2) }.to raise_error(Capybara::ElementNotFound)
+  expect(Time.now - start_time).to be < 0.5
+end
+
+Then(/^the slow element is waited for only as long as a user set Capybara.using_wait_time$/) do
+  start_time = Time.now
+  Capybara.using_wait_time(1) do
+    expect { @test_site.home.some_slow_element }.to raise_error(Capybara::ElementNotFound)
+  end
+  expect(Time.now - start_time).to be < 2
+  expect(Time.now - start_time).to be > 0.5
+end
