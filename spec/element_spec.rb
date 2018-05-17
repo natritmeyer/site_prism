@@ -33,6 +33,18 @@ describe SitePrism::Page do
       end
     end
 
+    describe '#elements_present' do
+      before do
+        allow(page).to receive(:present?).with(:bob).and_return(true)
+        allow(page).to receive(:present?).with(:dave).and_return(false)
+        allow(page).to receive(:present?).with(:success_msg).and_return(true)
+      end
+
+      it 'only lists the SitePrism objects that are present on the page' do
+        expect(subject.elements_present).to eq(%i[bob success_msg])
+      end
+    end
+
     describe '.expected_elements' do
       it 'sets the value of expected_items' do
         expect(klass.expected_items).to eq([:bob])
@@ -43,12 +55,13 @@ describe SitePrism::Page do
   context 'with css elements' do
     class PageCSS < SitePrism::Page
       element :bob, 'a.b c.d'
+      element :dave, 'w.x y.z'
       element :success_msg, 'span.alert-success'
 
       expected_elements :bob
     end
 
-    subject { PageCSS.new }
+    subject { page }
     let(:page) { PageCSS.new }
     let(:klass) { PageCSS }
 
@@ -58,12 +71,13 @@ describe SitePrism::Page do
   context 'with xpath elements' do
     class PageXPath < SitePrism::Page
       element :bob, :xpath, '//a[@class="b"]//c[@class="d"]'
+      element :dave, :xpath, '//w[@class="x"]//y[@class="z"]'
       element :success_msg, :xpath, '//span[@class="alert-success"]'
 
       expected_elements :bob
     end
 
-    subject { PageXPath.new }
+    subject { page }
     let(:page) { PageXPath.new }
     let(:klass) { PageXPath }
 
