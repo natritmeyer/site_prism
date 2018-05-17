@@ -12,7 +12,7 @@ Feature: Page Sections
   Scenario: access elements in the section by passing a block
     When I navigate to the home page
     Then I can access elements within the section using a block
-    But I cannot access elements not in the section using a block
+    But I cannot access elements that are not in the section using a block
 
   Scenario: section in a section
     When I navigate to the section experiments page
@@ -26,30 +26,17 @@ Feature: Page Sections
     When I navigate to the home page
     Then access to elements is constrained to those within the section
 
-  Scenario: collection of sections
-    When I navigate to the section experiments page
-    Then I can see a collection of sections
-
-  Scenario: waiting on a collection of sections to disappear
-    When I navigate to the home page
-    And I wait for the collection of sections that takes a while to disappear
-    Then the removing collection of sections disappears
-
   Scenario: anonymous section
     When I navigate to the section experiments page
     Then I can see an anonymous section
 
-  Scenario: anonymous sections collection
-    When I navigate to the section experiments page
-    Then I can see a collection of anonymous sections
-
-  Scenario: sections visible on a page
+  Scenario: section visible on a page
     When I navigate to the home page
     Then the section is visible
 
   Scenario: get root element belonging to section
     When I navigate to the home page
-    Then I can get at the people section root element
+    Then I can access the sections root element
 
   Scenario: Check that all elements are present
     When I navigate to the section experiments page
@@ -116,7 +103,7 @@ Feature: Page Sections
     When I navigate to the home page
     Then the page contains a section with no element
 
-  Scenario: Page with deeply nested sections
+  Scenario: Page with a deeply nested section
     When I navigate to the section experiments page
     Then the page contains a deeply nested span
 

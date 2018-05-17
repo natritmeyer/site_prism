@@ -1,6 +1,5 @@
 ### Backlog:
 -  code-coverage - line to fix up: `spec/page_spec.rb:91`
--  `page_element_interaction_steps.rb:49` Shouldn't be there as its performing Actions
 -  `site_prism/addressable_url_matcher.rb` - Needs more of a spring clean
 -  `SitePrism::Page#wait_until_displayed` - Re-call existing method and re-raise
 -  Begin to refactor `displayed?(*args)`, to remove enumerable args (Shouldn't be enumerable)
