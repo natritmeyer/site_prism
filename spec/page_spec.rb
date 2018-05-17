@@ -7,12 +7,28 @@ describe SitePrism::Page do
     allow(SitePrism::Waiter).to receive(:default_wait_time).and_return(0)
   end
 
-  it 'should respond to load' do
-    expect(SitePrism::Page.new).to respond_to :load
+  it 'responds to section' do
+    expect(SitePrism::Page).to respond_to(:section)
   end
 
-  it 'should respond to set_url' do
-    expect(SitePrism::Page).to respond_to :set_url
+  it 'responds to sections' do
+    expect(SitePrism::Page).to respond_to(:sections)
+  end
+
+  it 'responds to element' do
+    expect(SitePrism::Page).to respond_to(:element)
+  end
+
+  it 'responds to elements' do
+    expect(SitePrism::Page).to respond_to(:elements)
+  end
+
+  it 'responds to load' do
+    expect(SitePrism::Page.new).to respond_to(:load)
+  end
+
+  it 'responds to set_url' do
+    expect(SitePrism::Page).to respond_to(:set_url)
   end
 
   it 'should be able to set a url against it' do

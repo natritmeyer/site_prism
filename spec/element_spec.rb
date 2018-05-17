@@ -3,91 +3,70 @@
 require 'spec_helper'
 
 describe SitePrism::Page do
-  class PageWithElement < SitePrism::Page
-    element :bob, 'a.b c.d'
+  shared_examples 'SitePrism Page' do
+    it 'responds to #element' do
+      expect(SitePrism::Page).to respond_to(:element)
+    end
+
+    it { is_expected.to respond_to(:bob) }
+    it { is_expected.to respond_to(:has_bob?) }
+    it { is_expected.to respond_to(:has_no_bob?) }
+    it { is_expected.to respond_to(:wait_for_bob) }
+    it { is_expected.to respond_to(:wait_for_no_bob) }
+    it { is_expected.to respond_to(:all_there?) }
+
+    describe '#all_there?' do
+      subject { page.all_there? }
+
+      before do
+        allow(page).to receive(:has_bob?).and_return(true)
+        allow(page).to receive(:has_success_msg?).and_return(false)
+      end
+
+      it { is_expected.to be_truthy }
+
+      it 'checks only the expected elements' do
+        expect(page).to receive(:has_bob?).at_least(:once)
+        expect(page).not_to receive(:has_success_msg?)
+
+        subject
+      end
+    end
+
+    describe '.expected_elements' do
+      it 'sets the value of expected_items' do
+        expect(klass.expected_items).to eq([:bob])
+      end
+    end
   end
 
-  let(:page) { PageWithElement.new }
-
-  it 'should respond to element' do
-    expect(SitePrism::Page).to respond_to(:element)
-  end
-
-  it 'element method should generate existence check method' do
-    expect(page).to respond_to(:has_bob?)
-  end
-
-  it 'element method should generate method to return the element' do
-    expect(page).to respond_to(:bob)
-  end
-
-  it 'element method should generate non-existence check method' do
-    expect(page).to respond_to(:has_no_bob?)
-  end
-
-  it 'should know if all mapped elements are on the page' do
-    expect(page).to respond_to(:all_there?)
-  end
-
-  it 'should be able to wait for an element' do
-    expect(page).to respond_to(:wait_for_bob)
-  end
-
-  it 'should be able to wait for an element to not exist' do
-    expect(page).to respond_to(:wait_for_no_bob)
-  end
-
-  describe '#expected_elements' do
-    class PageWithAFewElements < SitePrism::Page
+  context 'with css elements' do
+    class PageCSS < SitePrism::Page
       element :bob, 'a.b c.d'
       element :success_msg, 'span.alert-success'
 
       expected_elements :bob
     end
 
-    let(:page) { PageWithAFewElements.new }
+    subject { PageCSS.new }
+    let(:page) { PageCSS.new }
+    let(:klass) { PageCSS }
 
-    before do
-      allow(page).to receive(:has_bob?).and_return(true)
-      allow(page).to receive(:has_success_msg?).and_return(false)
-    end
-
-    it 'allows for a successful all_there? check' do
-      expect(page.all_there?).to be_truthy
-    end
-
-    it 'checks only the expected elements' do
-      page.all_there?
-      expect(page).to have_received(:has_bob?).at_least(:once)
-      expect(page).not_to have_received(:has_success_msg?)
-    end
+    it_behaves_like 'SitePrism Page'
   end
 
-  context 'with xpath selector' do
-    class PageWithElement < SitePrism::Page
+  context 'with xpath elements' do
+    class PageXPath < SitePrism::Page
       element :bob, :xpath, '//a[@class="b"]//c[@class="d"]'
+      element :success_msg, :xpath, '//span[@class="alert-success"]'
+
+      expected_elements :bob
     end
 
-    let(:page) { PageWithElement.new }
+    subject { PageXPath.new }
+    let(:page) { PageXPath.new }
+    let(:klass) { PageXPath }
 
-    it 'element method should generate existence check method' do
-      expect(page).to respond_to(:has_bob?)
-    end
-
-    it 'element method should generate method to return the element' do
-      expect(page).to respond_to(:bob)
-    end
-
-    it 'should know if all mapped elements defined are on the page' do
-      expect(page).to respond_to(:all_there?)
-    end
-
-    it 'should be able to wait for an element' do
-      expect(page).to respond_to(:wait_for_bob)
-    end
-
-    it 'should be able to wait for an element to not exist' do
-      expect(page).to respond_to(:wait_for_no_bob)
-    end
+    it_behaves_like 'SitePrism Page'
   end
 end

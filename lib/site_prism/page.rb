@@ -93,7 +93,7 @@ module SitePrism
     end
 
     def secure?
-      page.current_url.start_with? 'https'
+      page.current_url.start_with?('https')
     end
 
     private
