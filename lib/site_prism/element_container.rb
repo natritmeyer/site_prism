@@ -148,8 +148,7 @@ module SitePrism
     def create_waiter(element_name, *find_args)
       method_name = "wait_for_#{element_name}"
       create_helper_method(method_name, *find_args) do
-        define_method(method_name) do |timeout = nil, *runtime_args|
-          timeout = timeout.nil? ? Capybara.default_max_wait_time : timeout
+        define_method(method_name) do |timeout = Capybara.default_max_wait_time, *runtime_args|
           result = Capybara.using_wait_time(timeout) do
             element_exists?(*find_args, *runtime_args)
           end
@@ -162,8 +161,7 @@ module SitePrism
     def create_nonexistence_waiter(element_name, *find_args)
       method_name = "wait_for_no_#{element_name}"
       create_helper_method(method_name, *find_args) do
-        define_method(method_name) do |timeout = nil, *runtime_args|
-          timeout = timeout.nil? ? Waiter.default_wait_time : timeout
+        define_method(method_name) do |timeout = Capybara.default_max_wait_time, *runtime_args|
           result = Capybara.using_wait_time(timeout) do
             element_does_not_exist?(*find_args, *runtime_args)
           end
