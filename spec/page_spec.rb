@@ -51,19 +51,23 @@ describe SitePrism::Page do
     expect(page_with_no_url.url).to be_nil
   end
 
-  describe 'loaded?' do
+  describe '#loaded?' do
     subject { PageWithUrl.new }
 
-    it 'when page is loaded' do
-      allow(subject).to receive(:displayed?).and_return true
-
-      expect(subject).to be_loaded
+    before do
+      allow(subject).to receive(:displayed?).and_return(displayed?)
     end
 
-    it 'when page is not loaded' do
-      allow(subject).to receive(:displayed?).and_return false
+    context 'when page is loaded' do
+      let(:displayed?) { true }
 
-      expect(subject).not_to be_loaded
+      it { is_expected.to be_loaded }
+    end
+
+    context 'when page is not loaded' do
+      let(:displayed?) { false }
+
+      it { is_expected.not_to be_loaded }
     end
   end
 
