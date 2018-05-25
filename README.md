@@ -746,7 +746,6 @@ present in the browser, false if they're not all there.
 Then /^the friends page contains all the expected elements$/ do
   expect(@friends_page).to be_all_there
 end
-
 ```
 
 You may wish to have elements declared in a page object class that are not always guaranteed to be present (success or error messages, etc.). If you'd still like to test such a page with `all_there?` you can declare `expected_elements` on your page object class that narrows the elements included in `all_there?` check to those that definitely should be present.
@@ -759,6 +758,20 @@ class TestPage < SitePrism::Page
 
   expected_elements :name_field, :address_field
 end
+```
+
+And if you aren't sure which elements are present and which are, Then ask SitePrism to tell you!
+
+```ruby
+class TestPage < SitePrism::Page
+  element :name_field, '#name'
+  element :address_field, '#address'
+  element :success_msg, 'span.alert-success'
+end
+
+# and... Only `address_field` is on the page
+
+@test_page.elements_present #=> [:address_field]
 ```
 
 ## Sections

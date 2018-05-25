@@ -30,6 +30,14 @@ Feature: Element Methods
     When I navigate to the home page
     Then not all expected elements are present
 
+  Scenario: Elements Present - Positive
+    When I navigate to the section experiments page
+    Then all mapped elements are present
+
+  Scenario: Elements Present - Negative
+    When I navigate to the home page
+    Then not all mapped elements are present
+
   Scenario: Get native property from element
     When I navigate to the home page
     Then I can obtain the native property of an element
