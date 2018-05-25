@@ -120,3 +120,11 @@ Then("I can see a section's full text") do
 
   expect(@test_site.home.container_with_element.text).to eq('This will be removed when you click submit above')
 end
+
+Then('I can see elements from the parent section') do
+  expect(@test_site.home.people).to have_headline
+end
+
+Then('I can see elements from the block') do
+  expect(@test_site.home.people).to have_headline_clone
+end
