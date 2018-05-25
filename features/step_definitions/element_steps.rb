@@ -58,6 +58,16 @@ Then('all elements marked as expected are present') do
   expect(@test_site.home_with_expected_elements).to be_all_there
 end
 
+Then('all mapped elements are present') do
+  expect(@test_site.section_experiments.elements_present)
+    .to eq(@test_site.section_experiments.class.mapped_items)
+end
+
+Then('not all mapped elements are present') do
+  expect(@test_site.home.elements_present)
+    .not_to eq(@test_site.home.class.mapped_items)
+end
+
 Then('the previously invisible element is visible') do
   expect(@test_site.home).to have_shy_element
 end
