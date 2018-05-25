@@ -25,3 +25,6 @@ Style/RegexpLiteral:
 BlockLength:
   Exclude:
     - './spec/*_spec.rb'
+
+Gemspec/RequiredRubyVersion:
+  Enabled: false
