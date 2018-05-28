@@ -8,7 +8,7 @@ module SitePrism
       build(element_name, *find_args) do
         define_method(element_name.to_s) do |*runtime_args, &element_block|
           self.class.raise_if_block(self, element_name.to_s, !element_block.nil?)
-          find_first(*find_args, *runtime_args)
+          find_first(*self.class.merge_args(find_args, runtime_args))
         end
       end
     end
@@ -17,7 +17,7 @@ module SitePrism
       build(collection_name, *find_args) do
         define_method(collection_name.to_s) do |*runtime_args, &element_block|
           self.class.raise_if_block(self, collection_name.to_s, !element_block.nil?)
-          find_all(*find_args, *runtime_args)
+          find_all(*self.class.merge_args(find_args, runtime_args))
         end
       end
     end
@@ -31,7 +31,7 @@ module SitePrism
       section_class, find_args = extract_section_options(args, &block)
       build(section_name, *find_args) do
         define_method section_name do |*runtime_args, &runtime_block|
-          section_class.new self, find_first(*find_args, *runtime_args), &runtime_block
+          section_class.new self, find_first(*self.class.merge_args(find_args, runtime_args)), &runtime_block
         end
       end
     end
@@ -41,7 +41,7 @@ module SitePrism
       build(section_collection_name, *find_args) do
         define_method(section_collection_name) do |*runtime_args, &element_block|
           self.class.raise_if_block(self, section_collection_name.to_s, !element_block.nil?)
-          find_all(*find_args, *runtime_args).map do |element|
+          find_all(*self.class.merge_args(find_args, runtime_args)).map do |element|
             section_class.new(self, element)
           end
         end
@@ -83,6 +83,16 @@ module SitePrism
 
       raise SitePrism::TimeOutWaitingForNonExistenceError, \
             "Timed out after #{timeout}s waiting for no #{obj.class}##{name}"
+    end
+
+    def merge_args(find_args, runtime_args, override_options = {})
+      find_args = find_args.dup
+      runtime_args = runtime_args.dup
+      options = {}
+      options.merge!(find_args.pop) if find_args.last.is_a? Hash
+      options.merge!(runtime_args.pop) if runtime_args.last.is_a? Hash
+      options.merge!(override_options)
+      [*find_args, *runtime_args, options]
     end
 
     private
@@ -127,7 +137,7 @@ module SitePrism
         define_method(method_name) do |*runtime_args|
           wait_time = SitePrism.use_implicit_waits ? Capybara.default_max_wait_time : 0
           Capybara.using_wait_time(wait_time) do
-            element_exists?(*find_args, *runtime_args)
+            element_exists?(*self.class.merge_args(find_args, runtime_args))
           end
         end
       end
@@ -139,7 +149,7 @@ module SitePrism
         define_method(method_name) do |*runtime_args|
           wait_time = SitePrism.use_implicit_waits ? Capybara.default_max_wait_time : 0
           Capybara.using_wait_time(wait_time) do
-            element_does_not_exist?(*find_args, *runtime_args)
+            element_does_not_exist?(*self.class.merge_args(find_args, runtime_args))
           end
         end
       end
@@ -150,7 +160,7 @@ module SitePrism
       create_helper_method(method_name, *find_args) do
         define_method(method_name) do |timeout = Capybara.default_max_wait_time, *runtime_args|
           result = Capybara.using_wait_time(timeout) do
-            element_exists?(*find_args, *runtime_args)
+            element_exists?(*self.class.merge_args(find_args, runtime_args))
           end
           self.class.raise_wait_for_if_failed(self, element_name.to_s, timeout, !result)
           result
@@ -163,7 +173,7 @@ module SitePrism
       create_helper_method(method_name, *find_args) do
         define_method(method_name) do |timeout = Capybara.default_max_wait_time, *runtime_args|
           result = Capybara.using_wait_time(timeout) do
-            element_does_not_exist?(*find_args, *runtime_args)
+            element_does_not_exist?(*self.class.merge_args(find_args, runtime_args))
           end
           self.class.raise_wait_for_no_if_failed(self, element_name.to_s, timeout, !result)
           result
@@ -175,10 +185,8 @@ module SitePrism
       method_name = "wait_until_#{element_name}_visible"
       create_helper_method(method_name, *find_args) do
         define_method(method_name) do |timeout = Capybara.default_max_wait_time, *runtime_args|
-          Timeout.timeout(timeout, SitePrism::TimeOutWaitingForElementVisibility) do
-            Capybara.using_wait_time 0 do
-              sleep 0.05 until element_exists?(*find_args, *runtime_args, visible: true)
-            end
+          unless element_exists?(*self.class.merge_args(find_args, runtime_args, visible: true, wait: timeout))
+            raise SitePrism::TimeOutWaitingForElementVisibility
           end
         end
       end
@@ -188,10 +196,8 @@ module SitePrism
       method_name = "wait_until_#{element_name}_invisible"
       create_helper_method(method_name, *find_args) do
         define_method(method_name) do |timeout = Capybara.default_max_wait_time, *runtime_args|
-          Timeout.timeout(timeout, SitePrism::TimeOutWaitingForElementInvisibility) do
-            Capybara.using_wait_time 0 do
-              sleep 0.05 while element_exists?(*find_args, *runtime_args, visible: true)
-            end
+          unless element_does_not_exist?(*self.class.merge_args(find_args, runtime_args, visible: true, wait: timeout))
+            raise SitePrism::TimeOutWaitingForElementInvisibility
           end
         end
       end

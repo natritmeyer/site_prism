@@ -116,7 +116,7 @@ Then('the page contains a deeply nested span') do
 end
 
 Then("I can see a section's full text") do
-  expect(@test_site.home.people.text).to eq('People person 1 person 2 person 3 person 4')
+  expect(@test_site.home.people.text).to eq('People person 1 person 2 person 3 person 4 object 1')
 
   expect(@test_site.home.container_with_element.text).to eq('This will be removed when you click submit above')
 end

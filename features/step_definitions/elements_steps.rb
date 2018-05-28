@@ -16,6 +16,12 @@ Then('I can see individual people in the people list') do
   expect(@test_site.home.people).to have_individuals(count: 4)
 end
 
+Then('I can see optioned individual people in the people list') do
+  expect(@test_site.home.people.optioned_individuals.size).to eq(4)
+
+  expect(@test_site.home.people).to have_optioned_individuals(count: 4)
+end
+
 Then('I can wait a variable time and pass specific parameters') do
   @test_site.home.wait_for_lots_of_links(0.1, count: 2)
   Capybara.using_wait_time(0.3) do
