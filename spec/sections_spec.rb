@@ -28,12 +28,19 @@ describe SitePrism::Page do
   end
 
   context 'when using sections with default search arguments and without search arguments' do
-    let(:search_arguments) { [:css, '.section'] }
+    let(:search_arguments) { [:css, '.section', {}] }
+
+    before do
+      allow(subject)
+        .to receive(:find_all)
+        .with(*search_arguments)
+        .and_return(%i[element1 element2])
+    end
 
     it 'should use default arguments' do
-      expect(subject).to receive(:find_all).with(*search_arguments).and_return(%i[element1 element2])
       expect(SitePrism::Section).to receive(:new).with(subject, :element1).ordered
       expect(SitePrism::Section).to receive(:new).with(subject, :element2).ordered
+
       subject.plural_sections_with_defaults
     end
   end
