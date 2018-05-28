@@ -3,6 +3,18 @@
 require 'spec_helper'
 
 describe SitePrism::Page do
+  class PageWithNoUrl < SitePrism::Page; end
+  class PageWithUrl < SitePrism::Page
+    set_url '/bob'
+  end
+  class PageWithUriTemplate < SitePrism::Page
+    set_url '/users{/username}{?query*}'
+  end
+
+  let(:page_with_no_url) { PageWithNoUrl.new }
+  let(:page_with_url) { PageWithUrl.new }
+  let(:page_with_uri_template) { PageWithUriTemplate.new }
+
   before do
     allow(SitePrism::Waiter).to receive(:default_wait_time).and_return(0)
   end
@@ -23,134 +35,118 @@ describe SitePrism::Page do
     expect(SitePrism::Page).to respond_to(:elements)
   end
 
-  it 'responds to load' do
-    expect(SitePrism::Page.new).to respond_to(:load)
-  end
-
   it 'responds to set_url' do
     expect(SitePrism::Page).to respond_to(:set_url)
   end
 
+  it 'responds to set_url_matcher' do
+    expect(SitePrism::Page).to respond_to(:set_url_matcher)
+  end
+
   it 'should be able to set a url against it' do
-    class PageToSetUrlAgainst < SitePrism::Page
-      set_url '/bob'
-    end
-    page = PageToSetUrlAgainst.new
-    expect(page.url).to eq('/bob')
+    expect(page_with_url.url).to eq('/bob')
   end
 
   it 'url should be nil by default' do
-    class PageDefaultUrl < SitePrism::Page; end
-    page = PageDefaultUrl.new
-    expect(PageDefaultUrl.url).to be_nil
-    expect(page.url).to be_nil
+    expect(page_with_no_url.url).to be_nil
   end
 
-  describe 'loaded?' do
-    it 'is true if displayed' do
-      page = SitePrism::Page.new
-      allow(page).to receive(:displayed?).and_return true
-      expect(page).to be_loaded
+  describe '#loaded?' do
+    subject { PageWithUrl.new }
+
+    before do
+      allow(subject).to receive(:displayed?).and_return(displayed?)
     end
 
-    it 'is false if not displayed' do
-      page = SitePrism::Page.new
-      allow(page).to receive(:displayed?).and_return false
-      expect(page).not_to be_loaded
+    context 'when page is loaded' do
+      let(:displayed?) { true }
+
+      it { is_expected.to be_loaded }
+    end
+
+    context 'when page is not loaded' do
+      let(:displayed?) { false }
+
+      it { is_expected.not_to be_loaded }
     end
   end
 
   describe '#load' do
     it "should not allow loading if the url hasn't been set" do
-      class MyPageWithNoUrl < SitePrism::Page; end
-      page_with_no_url = MyPageWithNoUrl.new
-
-      expect { page_with_no_url.load }.to raise_error(SitePrism::NoUrlForPage)
+      expect { page_with_no_url.load }
+        .to raise_error(SitePrism::NoUrlForPage)
     end
 
     it 'should allow loading if the url has been set' do
-      class MyPageWithUrl < SitePrism::Page
-        set_url '/bob'
-      end
-      page_with_url = MyPageWithUrl.new
       expect { page_with_url.load }.not_to raise_error
     end
 
     it 'should allow expansions if the url has them' do
-      class MyPageWithUriTemplate < SitePrism::Page
-        set_url '/users{/username}{?query*}'
-      end
-      page_with_url = MyPageWithUriTemplate.new
+      expect { page_with_uri_template.load(username: 'foobar') }.not_to raise_error
 
-      expect { page_with_url.load(username: 'foobar') }.not_to raise_error
-      expect(page_with_url.url(username: 'foobar', query: { 'recent_posts' => 'true' }))
+      expect(page_with_uri_template.url(username: 'foobar', query: { 'recent_posts' => 'true' }))
         .to eq('/users/foobar?recent_posts=true')
-      expect(page_with_url.url(username: 'foobar')).to eq('/users/foobar')
-      expect(page_with_url.url).to eq('/users')
+
+      expect(page_with_uri_template.url).to eq('/users')
     end
 
     it 'should allow to load html' do
-      class Page < SitePrism::Page; end
-      page = Page.new
-      expect { page.load('<html/>') }.not_to raise_error
+      expect { page_with_url.load('<html/>') }.not_to raise_error
     end
 
     context 'when passed a block' do
-      let(:page_klass_with_load_validations) do
-        Class.new(SitePrism::Page) do
-          set_url '/foo_page'
+      class PageWithLoadValidations < SitePrism::Page
+        set_url '/foo_page'
 
-          def must_be_true
-            true
-          end
+        def must_be_true
+          true
+        end
 
-          def also_true
-            true
-          end
+        def also_true
+          true
+        end
 
-          def foo?
-            true
-          end
+        def foo?
+          true
+        end
 
-          load_validation { [must_be_true, 'It is not true!'] }
-          load_validation { [also_true, 'It is not also true!'] }
+        load_validation { [must_be_true, 'It is not true!'] }
+        load_validation { [also_true, 'It is not also true!'] }
+      end
+
+      let(:page_with_load_validations) { PageWithLoadValidations.new }
+
+      it 'should allow to load html and yields itself' do
+        expect(page_with_no_url.load('<html>hi<html/>', &:text)).to eq('hi')
+      end
+
+      context 'With Passing Load Validations' do
+        it 'executes the block' do
+          expect(page_with_load_validations.load { :return_this }).to eq(:return_this)
+        end
+
+        it 'yields itself to the passed block' do
+          expect(page_with_load_validations).to receive(:foo?).and_call_original
+
+          page_with_load_validations.load(&:foo?)
         end
       end
 
-      it 'executes a block when load validations pass' do
-        page = page_klass_with_load_validations.new
-        expect { page.load { true } }.not_to raise_error
-      end
+      context 'With Failing Load Validations' do
+        it 'raises an error' do
+          allow(page_with_load_validations).to receive(:must_be_true).and_return(false)
 
-      it 'yields itself to the passed block' do
-        page = page_klass_with_load_validations.new
-        expect(page).to receive(:foo?)
-        page.load { |p| p.foo? && true }
-      end
-
-      it 'should allow to load html and yields itself' do
-        class Page < SitePrism::Page; end
-        page = Page.new
-        expect(page.load('<html>hi<html/>', &:text)).to eq('hi')
-      end
-
-      it 'raises an error when a block passed and load validations fail' do
-        page = page_klass_with_load_validations.new
-        expect(page).to receive(:must_be_true).and_return(false)
-        expect { page.load { puts 'foo' } }.to raise_error(SitePrism::NotLoadedError, /It is not true!/)
+          expect { page_with_load_validations.load { puts 'foo' } }
+            .to raise_error(SitePrism::NotLoadedError, /It is not true!/)
+        end
       end
     end
   end
 
-  it 'should respond to set_url_matcher' do
-    expect(SitePrism::Page).to respond_to :set_url_matcher
-  end
-
   it 'url matcher should be nil by default' do
-    class PageDefaultUrlMatcher < SitePrism::Page; end
-    page = PageDefaultUrlMatcher.new
-    expect(PageDefaultUrlMatcher.url_matcher).to be_nil
-    expect(page.url_matcher).to be_nil
+    expect(PageWithNoUrl.url_matcher).to be_nil
+
+    expect(page_with_no_url.url_matcher).to be_nil
   end
 
   it 'should be able to set a url matcher against it' do
