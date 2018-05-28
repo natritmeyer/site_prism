@@ -11,6 +11,19 @@ module SitePrism
 
     attr_reader :root_element, :parent
 
+    def self.set_default_search_arguments(*args)
+      @default_search_arguments = args
+    end
+
+    def self.default_search_arguments
+      @default_search_arguments ||
+        (
+          superclass.respond_to?(:default_search_arguments) &&
+          superclass.default_search_arguments
+        ) ||
+        nil
+    end
+
     def initialize(parent, root_element)
       @parent = parent
       @root_element = root_element

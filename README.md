@@ -817,11 +817,43 @@ SitePrism allows adding sections to sections) is to call the `section`
 method. It takes 3 arguments: the first is the name of the section as
 referred to on the page (sections that appear on multiple pages can be
 named differently). The second argument is the class of which an
-instance will be created to represent the page section, and the third
-argument is a css selector that identifies the root node of the section
+instance will be created to represent the page section, and the following
+arguments are [Capybara::Node::Finders](https://www.rubydoc.info/github/teamcapybara/capybara/master/Capybara/Node/Finders).
+These identify the root node of the section
 on this page (note that the css selector can be different for different
 pages as the whole point of sections is that they can appear in
 different places on different pages).
+
+If you define a section as a class and as an Anonymous section,
+you can have some handy constructs like the one below
+
+```ruby
+class People < SitePrism::Section
+  element :headline, 'h2'
+end
+
+class HomePage < SitePrism::Page
+  # section people_with_block will have headline and
+  # headline_clone elements in it
+  section :people_with_block, People do
+    element :headline_clone, 'h2'
+  end
+end
+```
+
+The 3rd argument (Locators), can be omitted if you are re-using the same locator for all
+references to the section Class. In order to do this, simply tell SitePrism that
+you want to use a default search argument.
+
+```ruby
+class People < SitePrism::Section
+  set_default_search_arguments '.people'
+end
+
+class Home < SitePrism::Page
+  section :people, People
+end
+```
 
 #### Accessing a page's section
 

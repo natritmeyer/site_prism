@@ -22,6 +22,11 @@ Feature: Page Sections
     When I navigate to the section experiments page
     Then I can see a section within a section using nested blocks
 
+  Scenario: section within a section using class & blocks
+    When I navigate to the home page
+    Then I can see elements from the parent section
+    And I can see elements from the block
+
   Scenario: section scoping
     When I navigate to the home page
     Then access to elements is constrained to those within the section

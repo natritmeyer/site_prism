@@ -30,7 +30,9 @@ class TestHomePage < SitePrism::Page
   element :nonexistent_element, 'input#nonexistent'
 
   # individual sections
-  section :people, People, '.people'
+  section :people, People do
+    element :headline_clone, 'h2'
+  end
   section :container_with_element, ContainerWithElement, '#container_with_element'
   section :nonexistent_section, NoElementWithinSection, 'input#nonexistent'
   section :removing_section, NoElementWithinSection, 'input#will_become_nonexistent'

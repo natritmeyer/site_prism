@@ -4,3 +4,4 @@ coverage
 .bundle
 .idea
 .env
+.overcommit.yml
