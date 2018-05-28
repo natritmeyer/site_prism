@@ -27,7 +27,7 @@ describe SitePrism::Page do
       subject { PageWithSections.new }
 
       before do
-        expect(subject).to receive(:find_first).and_return(:element)
+        allow(subject).to receive(:find_first).and_return(:element)
       end
 
       it 'should be an instance of provided section class' do
@@ -81,15 +81,13 @@ describe SitePrism::Page do
     end
 
     context 'second argument is not a Class and no block given' do
-      subject(:invalid_page) { Page.section(:incorrect_section, '.section') }
-      let(:error_message) do
+      subject { Page.section(:incorrect_section, '.section') }
+      let(:message) do
         'You should provide descendant of SitePrism::Section class or/and a block as the second argument.'
       end
 
       it 'raises an ArgumentError' do
-        expect { invalid_page }
-          .to raise_error(ArgumentError)
-          .with_message(error_message)
+        expect { subject }.to raise_error(ArgumentError).with_message(message)
       end
     end
 
@@ -109,7 +107,7 @@ describe SitePrism::Page do
       let(:page) { PageWithSectionWithDefaultSearchArguments.new }
 
       context 'when search arguments provided during the section definition' do
-        let(:search_arguments) { ['.other-section'] }
+        let(:search_arguments) { ['.other-section', {}] }
 
         it 'returns the search arguments for a section' do
           expect(page).to receive(:find_first).with(*search_arguments)
@@ -118,7 +116,7 @@ describe SitePrism::Page do
       end
 
       context 'with default search arguments but without search arguments' do
-        let(:search_arguments) { [:css, '.section'] }
+        let(:search_arguments) { [:css, '.section', {}] }
 
         it 'returns the default search arguments for a section' do
           expect(page).to receive(:find_first).with(*search_arguments)
@@ -127,7 +125,7 @@ describe SitePrism::Page do
       end
 
       context 'with default search arguments defined in the parent section but without search arguments' do
-        let(:search_arguments) { [:css, '.section'] }
+        let(:search_arguments) { [:css, '.section', {}] }
 
         it 'returns the default search arguments for the parent section' do
           expect(page).to receive(:find_first).with(*search_arguments)
