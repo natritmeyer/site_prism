@@ -14,7 +14,9 @@ module SitePrism
 
     def elements_to_check
       if self.class.expected_items
-        mapped_items.select { |el| self.class.expected_items.include?(el) }
+        mapped_items.select do |el|
+          self.class.expected_items.include?(el)
+        end
       else
         mapped_items
       end

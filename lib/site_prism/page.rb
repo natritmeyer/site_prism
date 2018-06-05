@@ -10,7 +10,10 @@ module SitePrism
     extend ElementContainer
 
     load_validation do
-      [displayed?, "Expected #{current_url} to match #{url_matcher} but it did not."]
+      [
+        displayed?,
+        "Expected #{current_url} to match #{url_matcher} but it did not."
+      ]
     end
 
     def page
