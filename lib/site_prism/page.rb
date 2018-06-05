@@ -7,7 +7,7 @@ module SitePrism
     include Capybara::DSL
     include ElementChecker
     include Loadable
-    extend ElementContainer
+    include ElementContainer
 
     load_validation do
       [displayed?, "Expected #{current_url} to match #{url_matcher} but it did not."]
