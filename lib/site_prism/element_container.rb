@@ -212,7 +212,7 @@ module SitePrism
 
       def create_no_selector(method_name)
         define_method(method_name) do
-          raise SitePrism::NoSelectorForElement.new, "#{name} => :#{method_name} needs a selector"
+          raise SitePrism::NoSelectorForElement.new, "#{self.class.name} => :#{method_name} needs a selector"
         end
       end
 
