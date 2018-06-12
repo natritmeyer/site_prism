@@ -134,7 +134,7 @@ module SitePrism
     end
 
     def matcher_template
-      @addressable_url_matcher ||= AddressableUrlMatcher.new(url_matcher)
+      @matcher_template ||= AddressableUrlMatcher.new(url_matcher)
     end
   end
 end

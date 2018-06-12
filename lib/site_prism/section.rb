@@ -52,9 +52,7 @@ module SitePrism
 
     def parent_page
       candidate_page = parent
-      until candidate_page.is_a?(SitePrism::Page)
-        candidate_page = candidate_page.parent
-      end
+      candidate_page = candidate_page.parent until candidate_page.is_a?(SitePrism::Page)
       candidate_page
     end
 
