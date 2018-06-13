@@ -6,7 +6,8 @@ module SitePrism
 
   class InvalidUrlMatcher < StandardError
     def message
-      'Could not automatically match your URL. Templated port numbers are unsupported.'
+      "Could not automatically match your URL. \
+Templated port numbers are unsupported."
     end
   end
 
