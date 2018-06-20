@@ -7,7 +7,7 @@ module SitePrism
     include Capybara::DSL
     include ElementChecker
     include Loadable
-    extend ElementContainer
+    include ElementContainer
 
     attr_reader :root_element, :parent
 

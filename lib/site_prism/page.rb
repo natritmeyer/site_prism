@@ -8,7 +8,7 @@ module SitePrism
     include Capybara::DSL
     include ElementChecker
     include Loadable
-    extend ElementContainer
+    include ElementContainer
 
     load_validation do
       [
