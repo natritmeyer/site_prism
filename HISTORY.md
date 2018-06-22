@@ -1,4 +1,19 @@
-<!-- `#249 last Update to this document` -->
+<!-- `#275 last Update to this document` -->
+`2.14`
+- Added positive and negative timing tests to several scenarios in `waiting.feature` (@luke-hill)
+- Rewrite `ElementContainer` by using `klass.extend`, drying up the amount of `self.class` calls (@ineverov) 
+- Remove `private` definitions that are in-lined (@jgs731)
+- Partially fixed up `LineLength` offenses around the entire suite (@ineverov)
+- Updated gemspec to allow latest `selenium-webdriver` gem in development. Enables `rubocop` up to V55 (@luke-hill)
+- Tidied up specs and made Code Coverage 100% compliant (@luke-hill)
+- Fixed issue where multiple search arguments weren't being set and ignored by Capybara (@twalpole)
+- Removed references to `Timeout.timeout` as this isn't threadsafe (@twalpole)
+- Enabled ability to set default search arguments inside a Section (@ineverov)
+  - If set then a section will set the `root_element` to be whatever is defined using `set_default_search_arguments`
+  - If unset / overridden. You are able to still define them in-line using the DSL in the regular manner
+- Introduced new sister method to `#expected_elements`. `#elements_present` will return an Array of every Element that is present on the Page/Section (@luke-hill)
+- Fixed waiting bug that caused `Waiter.default_wait_time` not to wait the correct duration when implicit waits were toggled (@luke-hill)
+
 `2.13`
 - Cleanup cucumber tests into more granular structure (@luke-hill)
 - Use `shared_examples` in RSpec tests to enhance coverage and check xpath selectors ((@luke-hill))
