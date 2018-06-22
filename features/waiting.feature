@@ -7,6 +7,7 @@ Feature: Waiting for Elements
     When I navigate to the home page
     And I wait for the element that takes a while to appear
     Then the slow element appears
+    And I am not made to wait for the full default duration
 
   Scenario: Wait for Element - Negative
     When I navigate to the home page
@@ -18,16 +19,18 @@ Feature: Waiting for Elements
     When I navigate to the home page
     And I wait for the element that takes a while to appear
     Then the slow element appears
+    And I am not made to wait for the full default duration
 
   Scenario: Wait for Element - Exceptions - Negative
     Given exceptions are configured to raise on wait_fors
     When I navigate to the home page
-    Then an exception is raised when I wait for an element that won't appear
+    Then an exception is raised when I wait for an element that won't appear in time
 
   Scenario: Wait for No Element - Positive
     When I navigate to the home page
     And I wait for the element that takes a while to disappear
     Then the removing element disappears
+    And I am not made to wait for the full default duration
 
   Scenario: Wait for No Element - Negative
     When I navigate to the home page
@@ -49,11 +52,13 @@ Feature: Waiting for Elements
     When I navigate to the home page
     And I wait until a particular element is visible
     Then the previously invisible element is visible
+    And I am not made to wait for the full default duration
 
   Scenario: Wait for Visibility of element - Overridden Timeout
     When I navigate to the home page
     And I wait for a specific amount of time until a particular element is visible
     Then the previously invisible element is visible
+    And I am not made to wait for the full overridden duration
 
   Scenario: Wait for Visibility of element - Negative Test
     When I navigate to the home page
@@ -64,7 +69,7 @@ Feature: Waiting for Elements
     And I wait for an element to become invisible
     Then the previously visible element is invisible
 
-  Scenario: Wait for Invisibility of element - Overriden Timeout
+  Scenario: Wait for Invisibility of element - Overridden Timeout
     When I navigate to the home page
     And I wait for a specific amount of time until a particular element is invisible
     Then the previously visible element is invisible
