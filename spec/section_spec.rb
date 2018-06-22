@@ -2,10 +2,11 @@
 
 require 'spec_helper'
 
-class Section < SitePrism::Section; end
-class Page < SitePrism::Page; end
-
 describe SitePrism::Page do
+
+  class Section < SitePrism::Section; end
+  class Page < SitePrism::Page; end
+
   describe '.section' do
     it 'should be callable' do
       expect(SitePrism::Page).to respond_to(:section)
@@ -27,7 +28,7 @@ describe SitePrism::Page do
       subject { PageWithSections.new }
 
       before do
-        allow(subject).to receive(:find_first).and_return(:element)
+        allow(subject).to receive(:_find).and_return(:element)
       end
 
       it 'should be an instance of provided section class' do
@@ -117,7 +118,7 @@ class or/and a block as the second argument."
         let(:search_arguments) { ['.other-section', {}] }
 
         it 'returns the search arguments for a section' do
-          expect(page).to receive(:find_first).with(*search_arguments)
+          expect(page).to receive(:_find).with(*search_arguments)
           page.section_with_locator
         end
       end
@@ -126,7 +127,7 @@ class or/and a block as the second argument."
         let(:search_arguments) { [:css, '.section', {}] }
 
         it 'returns the default search arguments for a section' do
-          expect(page).to receive(:find_first).with(*search_arguments)
+          expect(page).to receive(:_find).with(*search_arguments)
           page.section_using_defaults
         end
       end
@@ -136,7 +137,7 @@ parent section but without search arguments" do
         let(:search_arguments) { [:css, '.section', {}] }
 
         it 'returns the default search arguments for the parent section' do
-          expect(page).to receive(:find_first).with(*search_arguments)
+          expect(page).to receive(:_find).with(*search_arguments)
           page.section_using_defaults_from_parent
         end
       end
@@ -267,6 +268,10 @@ search arguments if defaults are not set" do
     end
   end
 
+  it 'responds to Capybara methods' do
+    expect(section_without_block).to respond_to(*Capybara::Session::DSL_METHODS)
+  end
+
   describe '#parent_page' do
     let(:section) { SitePrism::Section.new(page, '.locator') }
     let(:deeply_nested_section) do
@@ -290,14 +295,6 @@ search arguments if defaults are not set" do
       expect(deeply_nested_section.parent_page.class).to eq(Page)
 
       expect(deeply_nested_section.parent_page).to be_a SitePrism::Page
-    end
-
-    it 'responds to #visible? method' do
-      expect(section).to respond_to(:visible?)
-    end
-
-    it 'responds to Capybara methods' do
-      expect(section).to respond_to(*Capybara::Session::DSL_METHODS)
     end
   end
 

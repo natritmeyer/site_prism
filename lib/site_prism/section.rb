@@ -62,8 +62,12 @@ module SitePrism
 
     private
 
-    def find_first(*find_args)
-      root_element.find(*find_args)
+    def _find(*find_args)
+      page.find(*find_args)
+    end
+
+    def _all(*find_args)
+      page.all(*find_args)
     end
 
     def element_exists?(*find_args)

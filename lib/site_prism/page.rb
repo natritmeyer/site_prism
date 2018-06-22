@@ -103,11 +103,11 @@ module SitePrism
 
     private
 
-    def find_first(*find_args)
+    def _find(*find_args)
       page.find(*find_args)
     end
 
-    def find_all(*find_args)
+    def _all(*find_args)
       page.all(*find_args)
     end
 

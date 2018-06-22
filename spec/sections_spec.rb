@@ -33,7 +33,7 @@ and without search arguments" do
 
     before do
       allow(subject)
-        .to receive(:find_all)
+        .to receive(:_all)
         .with(*search_arguments)
         .and_return(%i[element1 element2])
     end

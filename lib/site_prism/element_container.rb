@@ -50,7 +50,7 @@ module SitePrism
         build(element_name, *find_args) do
           define_method(element_name.to_s) do |*runtime_args, &element_block|
             raise_if_block(self, element_name.to_s, !element_block.nil?)
-            find_first(*merge_args(find_args, runtime_args))
+            _find(*merge_args(find_args, runtime_args))
           end
         end
       end
@@ -59,7 +59,7 @@ module SitePrism
         build(collection_name, *find_args) do
           define_method(collection_name.to_s) do |*runtime_args, &element_block|
             raise_if_block(self, collection_name.to_s, !element_block.nil?)
-            find_all(*merge_args(find_args, runtime_args))
+            _all(*merge_args(find_args, runtime_args))
           end
         end
       end
@@ -73,7 +73,7 @@ module SitePrism
         section_class, find_args = extract_section_options(args, &block)
         build(section_name, *find_args) do
           define_method section_name do |*runtime_args, &runtime_block|
-            section_element = find_first(*merge_args(find_args, runtime_args))
+            section_element = _find(*merge_args(find_args, runtime_args))
             section_class.new(self, section_element, &runtime_block)
           end
         end
@@ -84,7 +84,7 @@ module SitePrism
         build(name, *find_args) do
           define_method(name) do |*runtime_args, &element_block|
             raise_if_block(self, name.to_s, !element_block.nil?)
-            find_all(*merge_args(find_args, runtime_args)).map do |element|
+            _all(*merge_args(find_args, runtime_args)).map do |element|
               section_class.new(self, element)
             end
           end
