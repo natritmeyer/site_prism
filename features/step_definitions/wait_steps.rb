@@ -123,7 +123,9 @@ Then('I get a timeout error when I wait for an element that never appears') do
 end
 
 When('I wait until a particular element is visible') do
+  start_time = Time.now
   @test_site.home.wait_until_some_slow_element_visible
+  @duration = Time.now - start_time
 end
 
 When('I wait for a specific amount of time until a particular element is visible') do
