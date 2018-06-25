@@ -33,11 +33,13 @@ end
 Then('I can see the welcome message') do
   expect(@test_site.home).to have_welcome_message
 
-  expect(@test_site.home.welcome_message.text).to eq('This is the home page, there is some stuff on it')
+  expect(@test_site.home.welcome_message.text)
+    .to eq('This is the home page, there is some stuff on it')
 end
 
 Then('I can see a message using a capybara text query') do
-  expect(@test_site.home).to have_welcome_messages(text: 'This is the home page, there is some stuff on it')
+  expect(@test_site.home)
+    .to(have_welcome_messages(text: 'This is the home page, there is some stuff on it'))
 end
 
 Then('I can see the the HREF of the link') do
@@ -47,7 +49,8 @@ Then('I can see the the HREF of the link') do
 end
 
 Then('I can see the CLASS of the link') do
-  expect(@test_site.home.link_to_search_page['class']).to eq('link link--undefined')
+  expect(@test_site.home.link_to_search_page['class'])
+    .to eq('link link--undefined')
 end
 
 Then('not all expected elements are present') do
@@ -88,12 +91,14 @@ When('I remove the parent section of the element') do
 end
 
 Then('I receive an error when a section with the element I am waiting for is removed') do
-  expect { @test_site.home.container_with_element.wait_until_embedded_element_invisible }
-    .to raise_error(Capybara::ElementNotFound)
+  expect do
+    @test_site.home.container_with_element.wait_until_embedded_element_invisible
+  end.to raise_error(Capybara::ElementNotFound)
 end
 
 Then('I can obtain the native property of an element') do
-  expect(@test_site.home.welcome_header.native).to be_a Selenium::WebDriver::Element
+  expect(@test_site.home.welcome_header.native)
+    .to be_a Selenium::WebDriver::Element
 end
 
 Then('I can obtain the native property of a section') do

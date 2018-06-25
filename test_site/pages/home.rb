@@ -9,12 +9,14 @@ class TestHomePage < SitePrism::Page
   element :welcome_message, 'body > span'
   element :go_button, '[value="Go!"]'
   element :link_to_search_page, :xpath, '//p[2]/a'
-  element :some_slow_element, :xpath, '//a[@class="slow"]' # This takes just over 2 seconds to appear
+  # This takes just over 2 seconds to appear
+  element :some_slow_element, :xpath, '//a[@class="slow"]'
   element :invisible_element, 'input.invisible'
   element :shy_element, 'input#will_become_visible'
   element :retiring_element, 'input#will_become_invisible'
   element :removing_element, 'input#will_become_nonexistent'
-  element :remove_container_with_element_btn, 'input#remove_container_with_element'
+  element :remove_container_with_element_btn,
+          'input#remove_container_with_element'
 
   # elements groups
   elements :lots_of_links, :xpath, '//td//a'
@@ -33,13 +35,19 @@ class TestHomePage < SitePrism::Page
   section :people, People do
     element :headline_clone, 'h2'
   end
-  section :container_with_element, ContainerWithElement, '#container_with_element'
+  section :container_with_element,
+          ContainerWithElement,
+          '#container_with_element'
   section :nonexistent_section, NoElementWithinSection, 'input#nonexistent'
-  section :removing_section, NoElementWithinSection, 'input#will_become_nonexistent'
+  section :removing_section,
+          NoElementWithinSection,
+          'input#will_become_nonexistent'
 
   # section groups
   sections :nonexistent_sections, NoElementWithinSection, 'input#nonexistent'
-  sections :removing_sections, NoElementWithinSection, '#link_container_will_become_nonexistent > a'
+  sections :removing_sections,
+           NoElementWithinSection,
+           '#link_container_will_become_nonexistent > a'
 
   # iframes
   iframe :my_iframe, MyIframe, '#the_iframe'
