@@ -3,7 +3,6 @@
 require 'spec_helper'
 
 describe SitePrism::Page do
-
   class Section < SitePrism::Section; end
   class Page < SitePrism::Page; end
 

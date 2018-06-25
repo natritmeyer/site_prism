@@ -46,33 +46,38 @@ module SitePrism
     module ClassMethods
       attr_reader :mapped_items, :expected_items
 
-      def element(element_name, *find_args)
-        build(element_name, *find_args) do
-          define_method(element_name.to_s) do |*runtime_args, &element_block|
-            raise_if_block(self, element_name.to_s, !element_block.nil?)
+      def element(name, *find_args)
+        build(name, *find_args) do
+          define_method(name) do |*runtime_args, &element_block|
+            raise_if_block(self, name, !element_block.nil?)
             _find(*merge_args(find_args, runtime_args))
           end
         end
       end
 
-      def elements(collection_name, *find_args)
-        build(collection_name, *find_args) do
-          define_method(collection_name.to_s) do |*runtime_args, &element_block|
-            raise_if_block(self, collection_name.to_s, !element_block.nil?)
+      def elements(name, *find_args)
+        build(name, *find_args) do
+          define_method(name) do |*runtime_args, &element_block|
+            raise_if_block(self, name, !element_block.nil?)
             _all(*merge_args(find_args, runtime_args))
           end
         end
       end
-      alias collection elements
+
+      def collection(name, *find_args)
+        warn 'Using collection is now deprecated and will be removed.'
+        warn 'Use elements DSL notation instead.'
+        elements(name, *find_args)
+      end
 
       def expected_elements(*elements)
         @expected_items = elements
       end
 
-      def section(section_name, *args, &block)
+      def section(name, *args, &block)
         section_class, find_args = extract_section_options(args, &block)
-        build(section_name, *find_args) do
-          define_method section_name do |*runtime_args, &runtime_block|
+        build(name, *find_args) do
+          define_method(name) do |*runtime_args, &runtime_block|
             section_element = _find(*merge_args(find_args, runtime_args))
             section_class.new(self, section_element, &runtime_block)
           end
@@ -83,7 +88,7 @@ module SitePrism
         section_class, find_args = extract_section_options(args, &block)
         build(name, *find_args) do
           define_method(name) do |*runtime_args, &element_block|
-            raise_if_block(self, name.to_s, !element_block.nil?)
+            raise_if_block(self, name, !element_block.nil?)
             _all(*merge_args(find_args, runtime_args)).map do |element|
               section_class.new(self, element)
             end
