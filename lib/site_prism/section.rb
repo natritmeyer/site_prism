@@ -51,11 +51,9 @@ module SitePrism
     end
 
     def parent_page
-      candidate_page = parent
-      until candidate_page.is_a?(SitePrism::Page)
-        candidate_page = candidate_page.parent
-      end
-      candidate_page
+      candidate = parent
+      candidate = candidate.parent until candidate.is_a?(SitePrism::Page)
+      candidate
     end
 
     def native
