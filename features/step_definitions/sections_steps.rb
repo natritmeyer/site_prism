@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 Then('I can see a collection of sections') do
-  @test_site.section_experiments.search_results.each_with_index do |search_result, i|
+  results = @test_site.section_experiments.search_results
+  results.each_with_index do |search_result, i|
     expect(search_result.title.text).to eq("title #{i}")
 
     expect(search_result.description.text).to eq("description #{i}")
@@ -11,7 +12,8 @@ Then('I can see a collection of sections') do
 end
 
 Then('I can see a collection of anonymous sections') do
-  @test_site.section_experiments.anonymous_sections.each_with_index do |section, index|
+  sections = @test_site.section_experiments.anonymous_sections
+  sections.each_with_index do |section, index|
     expect(section.title.text).to eq("Section #{index}")
 
     expect(section.downcase_title_text).to eq("section #{index}")

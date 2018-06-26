@@ -41,7 +41,9 @@ Then("an exception is raised when I wait for an element that won't appear in tim
 
   expect { @test_site.home.wait_for_some_slow_element(1) }
     .to raise_error(SitePrism::TimeOutWaitingForExistenceError)
-    .with_message('Timed out after 1s waiting for TestHomePage#some_slow_element')
+    .with_message(
+      'Timed out after 1s waiting for TestHomePage#some_slow_element'
+    )
 
   @duration = Time.now - start_time
 
@@ -51,7 +53,9 @@ end
 Then("an exception is raised when I wait for an element that won't disappear") do
   expect { @test_site.home.wait_for_no_removing_element(1) }
     .to raise_error(SitePrism::TimeOutWaitingForNonExistenceError)
-    .with_message('Timed out after 1s waiting for no TestHomePage#removing_element')
+    .with_message(
+      'Timed out after 1s waiting for no TestHomePage#removing_element'
+    )
 end
 
 Then("the element I am waiting for doesn't appear in time") do
@@ -71,15 +75,19 @@ When('I wait for the section element that takes a while to appear') do
 end
 
 When('I wait for the section element that takes a while to disappear') do
-  @test_site.section_experiments.removing_parent_section.wait_for_no_removing_section_element
+  @test_site.section_experiments
+            .removing_parent_section
+            .wait_for_no_removing_section_element
 end
 
 Then('the slow section appears') do
-  expect(@test_site.section_experiments.parent_section).to have_slow_section_element
+  expect(@test_site.section_experiments.parent_section)
+    .to have_slow_section_element
 end
 
 Then(/^the removing section disappears$/) do
-  expect(@test_site.section_experiments.removing_parent_section).not_to have_removing_section_element
+  expect(@test_site.section_experiments.removing_parent_section)
+    .not_to have_removing_section_element
 end
 
 Then(/^an exception is raised when I wait for a section that won't appear$/) do

@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 Then('I can see an expected bit of the html') do
-  expect(@test_site.home.html).to include('<span class="welcome">This is the home page')
+  expect(@test_site.home.html)
+    .to include('<span class="welcome">This is the home page')
 end
 
 Then('I can see an expected bit of text') do
-  expect(@test_site.home.text).to include('This is the home page, there is some stuff on it')
+  expect(@test_site.home.text)
+    .to include('This is the home page, there is some stuff on it')
 end
 
 Then('I can see the expected url') do
