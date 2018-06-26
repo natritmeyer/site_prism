@@ -27,7 +27,8 @@ describe SitePrism::Page do
     it { is_expected.to respond_to(:has_plural_sections?) }
   end
 
-  context 'when using sections with default search arguments and without search arguments' do
+  context "when using sections with default search arguments \
+and without search arguments" do
     let(:search_arguments) { [:css, '.section', {}] }
 
     before do
@@ -38,8 +39,10 @@ describe SitePrism::Page do
     end
 
     it 'should use default arguments' do
-      expect(SitePrism::Section).to receive(:new).with(subject, :element1).ordered
-      expect(SitePrism::Section).to receive(:new).with(subject, :element2).ordered
+      expect(SitePrism::Section)
+        .to receive(:new).with(subject, :element1).ordered
+      expect(SitePrism::Section)
+        .to receive(:new).with(subject, :element2).ordered
 
       subject.plural_sections_with_defaults
     end

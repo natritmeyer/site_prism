@@ -8,6 +8,10 @@ module SitePrism
 
     private
 
+    def max_wait_time
+      Capybara.default_max_wait_time
+    end
+
     def raise_if_block(obj, name, has_block)
       return unless has_block
 
@@ -38,6 +42,7 @@ module SitePrism
       [*find_args, *runtime_args, options]
     end
 
+    # rubocop:disable Metrics/ModuleLength
     module ClassMethods
       attr_reader :mapped_items, :expected_items
 
@@ -68,16 +73,17 @@ module SitePrism
         section_class, find_args = extract_section_options(args, &block)
         build(section_name, *find_args) do
           define_method section_name do |*runtime_args, &runtime_block|
-            section_class.new self, find_first(*merge_args(find_args, runtime_args)), &runtime_block
+            section_element = find_first(*merge_args(find_args, runtime_args))
+            section_class.new(self, section_element, &runtime_block)
           end
         end
       end
 
-      def sections(section_collection_name, *args, &block)
+      def sections(name, *args, &block)
         section_class, find_args = extract_section_options(args, &block)
-        build(section_collection_name, *find_args) do
-          define_method(section_collection_name) do |*runtime_args, &element_block|
-            raise_if_block(self, section_collection_name.to_s, !element_block.nil?)
+        build(name, *find_args) do
+          define_method(name) do |*runtime_args, &element_block|
+            raise_if_block(self, name.to_s, !element_block.nil?)
             find_all(*merge_args(find_args, runtime_args)).map do |element|
               section_class.new(self, element)
             end
@@ -142,7 +148,7 @@ module SitePrism
         method_name = "has_#{element_name}?"
         create_helper_method(method_name, *find_args) do
           define_method(method_name) do |*runtime_args|
-            wait_time = SitePrism.use_implicit_waits ? Capybara.default_max_wait_time : 0
+            wait_time = SitePrism.use_implicit_waits ? max_wait_time : 0
             Capybara.using_wait_time(wait_time) do
               element_exists?(*merge_args(find_args, runtime_args))
             end
@@ -154,7 +160,7 @@ module SitePrism
         method_name = "has_no_#{element_name}?"
         create_helper_method(method_name, *find_args) do
           define_method(method_name) do |*runtime_args|
-            wait_time = SitePrism.use_implicit_waits ? Capybara.default_max_wait_time : 0
+            wait_time = SitePrism.use_implicit_waits ? max_wait_time : 0
             Capybara.using_wait_time(wait_time) do
               element_does_not_exist?(*merge_args(find_args, runtime_args))
             end
@@ -165,7 +171,7 @@ module SitePrism
       def create_waiter(element_name, *find_args)
         method_name = "wait_for_#{element_name}"
         create_helper_method(method_name, *find_args) do
-          define_method(method_name) do |timeout = Capybara.default_max_wait_time, *runtime_args|
+          define_method(method_name) do |timeout = max_wait_time, *runtime_args|
             result = Capybara.using_wait_time(timeout) do
               element_exists?(*merge_args(find_args, runtime_args))
             end
@@ -178,12 +184,12 @@ module SitePrism
       def create_nonexistence_waiter(element_name, *find_args)
         method_name = "wait_for_no_#{element_name}"
         create_helper_method(method_name, *find_args) do
-          define_method(method_name) do |timeout = Capybara.default_max_wait_time, *runtime_args|
-            result = Capybara.using_wait_time(timeout) do
+          define_method(method_name) do |timeout = max_wait_time, *runtime_args|
+            res = Capybara.using_wait_time(timeout) do
               element_does_not_exist?(*merge_args(find_args, runtime_args))
             end
-            raise_wait_for_no_if_failed(self, element_name.to_s, timeout, !result)
-            result
+            raise_wait_for_no_if_failed(self, element_name.to_s, timeout, !res)
+            res
           end
         end
       end
@@ -191,8 +197,10 @@ module SitePrism
       def create_visibility_waiter(element_name, *find_args)
         method_name = "wait_until_#{element_name}_visible"
         create_helper_method(method_name, *find_args) do
-          define_method(method_name) do |timeout = Capybara.default_max_wait_time, *runtime_args|
-            unless element_exists?(*merge_args(find_args, runtime_args, visible: true, wait: timeout))
+          define_method(method_name) do |timeout = max_wait_time, *runtime_args|
+            visibility_args = { visible: true, wait: timeout }
+            args = merge_args(find_args, runtime_args, **visibility_args)
+            unless element_exists?(*args)
               raise SitePrism::TimeOutWaitingForElementVisibility
             end
           end
@@ -202,8 +210,10 @@ module SitePrism
       def create_invisibility_waiter(element_name, *find_args)
         method_name = "wait_until_#{element_name}_invisible"
         create_helper_method(method_name, *find_args) do
-          define_method(method_name) do |timeout = Capybara.default_max_wait_time, *runtime_args|
-            unless element_does_not_exist?(*merge_args(find_args, runtime_args, visible: true, wait: timeout))
+          define_method(method_name) do |timeout = max_wait_time, *runtime_args|
+            visibility_args = { visible: true, wait: timeout }
+            args = merge_args(find_args, runtime_args, **visibility_args)
+            unless element_does_not_exist?(*args)
               raise SitePrism::TimeOutWaitingForElementInvisibility
             end
           end
@@ -212,7 +222,8 @@ module SitePrism
 
       def create_no_selector(method_name)
         define_method(method_name) do
-          raise SitePrism::NoSelectorForElement.new, "#{self.class.name} => :#{method_name} needs a selector"
+          raise SitePrism::NoSelectorForElement.new,
+                "#{self.class.name} => :#{method_name} needs a selector"
         end
       end
 
@@ -255,8 +266,8 @@ module SitePrism
         klass = Class.new(klass || SitePrism::Section, &block) if block_given?
 
         unless klass
-          raise ArgumentError, "You should provide descendant of SitePrism::Section \
-class or/and a block as the second argument."
+          raise ArgumentError, "You should provide descendant of \
+SitePrism::Section class or/and a block as the second argument."
         end
         klass
       end
@@ -272,5 +283,6 @@ in section creation or set_default_search_arguments within section class")
         args if args && !args.empty?
       end
     end
+    # rubocop:enable Metrics/ModuleLength
   end
 end
