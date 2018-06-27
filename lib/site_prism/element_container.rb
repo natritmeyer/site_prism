@@ -200,7 +200,7 @@ module SitePrism
           define_method(method_name) do |timeout = max_wait_time, *runtime_args|
             visibility_args = { visible: true, wait: timeout }
             args = merge_args(find_args, runtime_args, **visibility_args)
-            next if element_exists?(*args)
+            return true if element_exists?(*args)
             raise SitePrism::TimeOutWaitingForElementVisibility
           end
         end
@@ -212,7 +212,7 @@ module SitePrism
           define_method(method_name) do |timeout = max_wait_time, *runtime_args|
             visibility_args = { visible: true, wait: timeout }
             args = merge_args(find_args, runtime_args, **visibility_args)
-            next if element_does_not_exist?(*args)
+            return true if element_does_not_exist?(*args)
             raise SitePrism::TimeOutWaitingForElementInvisibility
           end
         end
