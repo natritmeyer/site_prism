@@ -7,17 +7,8 @@ Documentation:
 AccessorMethodName:
   Enabled: false
 
-TrivialAccessors:
+Style/SafeNavigation:
   Enabled: false
-
-ModuleLength:
-  Enabled: false
-
-LineLength:
-  Max: 120
-
-MethodLength:
-  Max: 11
 
 Style/RegexpLiteral:
   Enabled: false
@@ -25,6 +16,10 @@ Style/RegexpLiteral:
 BlockLength:
   Exclude:
     - './spec/*_spec.rb'
+
+# Offense count: 18
+Metrics/LineLength:
+  Max: 107
 
 Gemspec/RequiredRubyVersion:
   Enabled: false

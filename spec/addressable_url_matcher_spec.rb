@@ -4,7 +4,9 @@ require 'spec_helper'
 
 describe SitePrism::AddressableUrlMatcher do
   describe '#matches?' do
-    let(:url) { 'https://joe:bleep@bazzle.com:8443/foos/22/bars/12?junk=janky#middle' }
+    let(:url) do
+      'https://joe:bleep@bazzle.com:8443/foos/22/bars/12?junk=janky#middle'
+    end
 
     it 'passes on templated scheme' do
       expect_matches('{scheme}://bazzle.com').to be true
@@ -57,7 +59,10 @@ describe SitePrism::AddressableUrlMatcher do
     it 'raises an error on templated port' do
       expect { matches? '//bazzle.com:{port}' }
         .to raise_error(SitePrism::InvalidUrlMatcher)
-        .with_message('Could not automatically match your URL. Templated port numbers are unsupported.')
+        .with_message(
+          "Could not automatically match your URL. \
+Templated port numbers are unsupported."
+        )
     end
 
     it 'passes on correct static port' do
@@ -105,7 +110,10 @@ describe SitePrism::AddressableUrlMatcher do
     end
 
     it 'matches everything at once' do
-      expect_matches('{scheme}://{user}:{password}@{host}:8443/foos{/foo_id}/bars{/id}{?params*}#middle').to be true
+      expect_matches(
+        "{scheme}://{user}:{password}@{host}:8443\
+/foos{/foo_id}/bars{/id}{?params*}#middle"
+      ).to be true
     end
 
     it 'passes on no path' do
@@ -137,19 +145,35 @@ describe SitePrism::AddressableUrlMatcher do
     end
 
     it 'matches with completely specified mappings' do
-      expect_matches('/foos/{foo_id}/bars/{bar_id}', foo_id: '22', bar_id: '12').to be true
+      expect_matches(
+        '/foos/{foo_id}/bars/{bar_id}',
+        foo_id: '22',
+        bar_id: '12'
+      ).to be true
     end
 
     it 'casts numbers to strings for comparison' do
-      expect_matches('/foos/{foo_id}/bars/{bar_id}', foo_id: 22, bar_id: 12).to be true
+      expect_matches(
+        '/foos/{foo_id}/bars/{bar_id}',
+        foo_id: 22,
+        bar_id: 12
+      ).to be true
     end
 
     it 'passes on correct regular expressions' do
-      expect_matches('/foos/{foo_id}/bars/{bar_id}', foo_id: /2\d/, bar_id: 12).to be true
+      expect_matches(
+        '/foos/{foo_id}/bars/{bar_id}',
+        foo_id: /2\d/,
+        bar_id: 12
+      ).to be true
     end
 
     it 'fails on incorrect regular expressions' do
-      expect_matches('/foos/{foo_id}/bars/{bar_id}', foo_id: /2\d\d/, bar_id: 12).to be false
+      expect_matches(
+        '/foos/{foo_id}/bars/{bar_id}',
+        foo_id: /2\d\d/,
+        bar_id: 12
+      ).to be false
     end
 
     def expect_matches(*args)
@@ -159,7 +183,9 @@ describe SitePrism::AddressableUrlMatcher do
     def matches?(*args)
       expected_mappings = args.last.is_a?(::Hash) ? args.pop : {}
       pattern = args.first || raise('Must specify a pattern for matches?')
-      SitePrism::AddressableUrlMatcher.new(pattern).matches?(url, expected_mappings)
+      SitePrism::AddressableUrlMatcher
+        .new(pattern)
+        .matches?(url, expected_mappings)
     end
   end
 end

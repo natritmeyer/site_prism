@@ -80,8 +80,8 @@ module SitePrism
       @url_matcher = page_url_matcher
     end
 
-    def self.url
-      @url
+    class << self
+      attr_reader :url
     end
 
     def self.url_matcher

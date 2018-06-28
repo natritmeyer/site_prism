@@ -31,11 +31,13 @@ describe SitePrism::Page do
       end
 
       it 'should be an instance of provided section class' do
-        expect(subject.section_with_a_block.class.ancestors).to include(SingleSection)
+        expect(subject.section_with_a_block.class.ancestors)
+          .to include(SingleSection)
       end
 
       it 'should have elements from the base section' do
-        expect(subject.section_with_a_block).to respond_to(:single_section_element)
+        expect(subject.section_with_a_block)
+          .to respond_to(:single_section_element)
       end
 
       it 'should have elements from the block' do
@@ -83,7 +85,8 @@ describe SitePrism::Page do
     context 'second argument is not a Class and no block given' do
       subject { Page.section(:incorrect_section, '.section') }
       let(:message) do
-        'You should provide descendant of SitePrism::Section class or/and a block as the second argument.'
+        "You should provide descendant of SitePrism::Section \
+class or/and a block as the second argument."
       end
 
       it 'raises an ArgumentError' do
@@ -97,12 +100,16 @@ describe SitePrism::Page do
           set_default_search_arguments :css, '.section'
         end
 
-        class SectionWithDefaultArgumentsForParent < SectionWithDefaultArguments; end
+        class SectionWithDefaultArgumentsForParent < SectionWithDefaultArguments
+        end
 
-        section  :section_using_defaults,             SectionWithDefaultArguments
-        section  :section_using_defaults_from_parent, SectionWithDefaultArgumentsForParent
-        section  :section_with_locator,               SectionWithDefaultArguments, '.other-section'
-        sections :sections,                           SectionWithDefaultArguments
+        section :section_using_defaults, SectionWithDefaultArguments
+        section :section_using_defaults_from_parent,
+                SectionWithDefaultArgumentsForParent
+        section :section_with_locator,
+                SectionWithDefaultArguments,
+                '.other-section'
+        sections :sections, SectionWithDefaultArguments
       end
       let(:page) { PageWithSectionWithDefaultSearchArguments.new }
 
@@ -124,7 +131,8 @@ describe SitePrism::Page do
         end
       end
 
-      context 'with default search arguments defined in the parent section but without search arguments' do
+      context "with default search arguments defined in the \
+parent section but without search arguments" do
         let(:search_arguments) { [:css, '.section', {}] }
 
         it 'returns the default search arguments for the parent section' do
@@ -133,7 +141,8 @@ describe SitePrism::Page do
         end
       end
 
-      context 'with niether default search arguments nor search arguments provided' do
+      context "with neither default search arguments \
+nor search arguments provided" do
         it 'should raise ArgumentError' do
           expect do
             class ErroredPage < SitePrism::Page
@@ -153,7 +162,9 @@ end
 describe SitePrism::Section do
   let(:section_without_block) { SitePrism::Section.new(Page.new, locator) }
   let(:locator) { instance_double('Capybara::Node::Element') }
-  let(:section_with_block) { SitePrism::Section.new(Page.new, locator) { 1 + 1 } }
+  let(:section_with_block) do
+    SitePrism::Section.new(Page.new, locator) { 1 + 1 }
+  end
 
   describe '#default_search_arguments' do
     class BaseSection < SitePrism::Section
@@ -176,12 +187,15 @@ describe SitePrism::Section do
       expect(BaseSection.default_search_arguments).to eql([:css, '.default'])
     end
 
-    it "should return only this section's default search arguments if they are set" do
+    it "should return only this section's \
+default search arguments if they are set" do
       expect(ChildSection.default_search_arguments).to eql([:xpath, '//html'])
     end
 
-    it "should return parent section's default search arguments if defaults are not set" do
-      expect(SecondChildSection.default_search_arguments).to eql([:css, '.default'])
+    it "should return parent section's default \
+search arguments if defaults are not set" do
+      expect(SecondChildSection.default_search_arguments)
+        .to eql([:css, '.default'])
     end
   end
 
@@ -246,7 +260,8 @@ describe SitePrism::Section do
 
   describe '#evaluate_script' do
     it 'delegates through Capybara' do
-      expect(Capybara.current_session).to receive(:evaluate_script).with('How High?')
+      expect(Capybara.current_session)
+        .to receive(:evaluate_script).with('How High?')
 
       section_without_block.evaluate_script('How High?')
     end
@@ -296,7 +311,11 @@ describe SitePrism::Section do
     context 'when root element is nil' do
       let(:root_element) { nil }
 
-      before { allow(Capybara).to receive(:current_session).and_return('current session') }
+      before do
+        allow(Capybara)
+          .to receive(:current_session)
+          .and_return('current session')
+      end
 
       it { is_expected.to eq('current session') }
     end
