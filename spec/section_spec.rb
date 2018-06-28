@@ -118,6 +118,7 @@ class or/and a block as the second argument."
 
         it 'returns the search arguments for a section' do
           expect(page).to receive(:_find).with(*search_arguments)
+
           page.section_with_locator
         end
       end
@@ -127,6 +128,7 @@ class or/and a block as the second argument."
 
         it 'returns the default search arguments for a section' do
           expect(page).to receive(:_find).with(*search_arguments)
+
           page.section_using_defaults
         end
       end
@@ -137,6 +139,7 @@ parent section but without search arguments" do
 
         it 'returns the default search arguments for the parent section' do
           expect(page).to receive(:_find).with(*search_arguments)
+
           page.section_using_defaults_from_parent
         end
       end
@@ -157,6 +160,8 @@ set_default_search_arguments within section class"
       end
     end
   end
+
+  it { is_expected.to respond_to(*Capybara::Session::DSL_METHODS) }
 end
 
 describe SitePrism::Section do
