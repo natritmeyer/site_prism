@@ -179,12 +179,27 @@ end
 
 Then(/^the slow element is not waited for$/) do
   start_time = Time.now
-  @test_site.home.some_slow_element
+
+  expect { @test_site.home.some_slow_element }.to raise_error(Capybara::ElementNotFound)
+
   expect(Time.now - start_time).to be < 0.5
 end
 
 Then(/^the slow element is waited for$/) do
   start_time = Time.now
   @test_site.home.some_slow_element
+
   expect(Time.now - start_time).to be > 1.5
+end
+
+Then(/^the slow elements are waited for$/) do
+  start_time = Time.now
+  @test_site.home.slow_elements(count: 1)
+  expect(Time.now - start_time).to be > 1.5
+end
+
+Then(/^the slow elements are not waited for$/) do
+  start_time = Time.now
+  expect { @test_site.home.slow_elements(count: 1) }.to raise_error(Capybara::ElementNotFound)
+  expect(Time.now - start_time).to be < 0.5
 end

@@ -87,7 +87,12 @@ Feature: Waiting for Elements
     And I remove the parent section of the element
     Then I receive an error when a section with the element I am waiting for is removed
 
-  Scenario: Elements Are Not Waited For
+  Scenario: Element Is Not Automatically Waited For
     When I navigate to the home page
     Then the slow element is not waited for
+    And implicit waits are not enabled
+
+  Scenario: Elements Collections Are Not Automatically Waited For
+    When I navigate to the home page
+    Then the slow elements are not waited for
     And implicit waits are not enabled

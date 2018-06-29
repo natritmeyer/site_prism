@@ -25,6 +25,7 @@ class TestHomePage < SitePrism::Page
   elements :welcome_headers, :xpath, '//h3'
   elements :welcome_messages, :xpath, '//span'
   elements :rows, 'td'
+  elements :slow_elements, :xpath, '//a[@class="slow"]' # note - actually only one
 
   # elements that should not exist
   element :squirrel, 'squirrel.nutz'
