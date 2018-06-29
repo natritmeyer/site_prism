@@ -400,7 +400,7 @@ from the be_displayed matcher" do
   end
 
   it 'should expose the page title' do
-    expect(SitePrism::Page.new).to respond_to :title
+    expect(SitePrism::Page.new).to respond_to(:title)
   end
 
   it 'should raise an exception if passing a block to an element' do

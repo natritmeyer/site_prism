@@ -114,7 +114,7 @@ class or/and a block as the second argument."
       let(:page) { PageWithSectionWithDefaultSearchArguments.new }
 
       context 'when search arguments provided during the section definition' do
-        let(:search_arguments) { ['.other-section', {}] }
+        let(:search_arguments) { ['.other-section'] }
 
         it 'returns the search arguments for a section' do
           expect(page).to receive(:_find).with(*search_arguments)
@@ -124,7 +124,7 @@ class or/and a block as the second argument."
       end
 
       context 'with default search arguments but without search arguments' do
-        let(:search_arguments) { [:css, '.section', {}] }
+        let(:search_arguments) { [:css, '.section'] }
 
         it 'returns the default search arguments for a section' do
           expect(page).to receive(:_find).with(*search_arguments)
@@ -135,7 +135,7 @@ class or/and a block as the second argument."
 
       context "with default search arguments defined in the \
 parent section but without search arguments" do
-        let(:search_arguments) { [:css, '.section', {}] }
+        let(:search_arguments) { [:css, '.section'] }
 
         it 'returns the default search arguments for the parent section' do
           expect(page).to receive(:_find).with(*search_arguments)
@@ -166,7 +166,7 @@ end
 
 describe SitePrism::Section do
   let(:section_without_block) { SitePrism::Section.new(Page.new, locator) }
-  let(:locator) { instance_double('Capybara::Node::Element') }
+  let!(:locator) { instance_double('Capybara::Node::Element') }
   let(:section_with_block) do
     SitePrism::Section.new(Page.new, locator) { 1 + 1 }
   end
@@ -214,19 +214,50 @@ search arguments if defaults are not set" do
   end
 
   describe '#new' do
-    context 'with a block' do
-      it 'passes the block to Capybara.within' do
+    class NewSection < SitePrism::Section; end
+
+    class NewPage < SitePrism::Page
+      section :new_section, NewSection, '.class-one', css: '.my-css', text: 'Hi'
+      element :new_element, '.class-two'
+    end
+
+    let(:page) { NewPage.new }
+
+    context 'with a block given' do
+      it 'passes the locator to Capybara.within' do
         expect(Capybara).to receive(:within).with(locator)
 
         section_with_block
       end
     end
 
-    context 'without a block' do
-      it 'does not pass a block to Capybara.within' do
+    context 'without a block given' do
+      it 'does not pass the locator to Capybara.within' do
         expect(Capybara).not_to receive(:within)
 
         section_without_block
+      end
+    end
+
+    context 'with Capybara query arguments' do
+      let(:query_args) { [css: '.my-css', text: 'Hi'] }
+      let(:locator_args) { '.class-one' }
+
+      it 'passes in an empty hash, which is then converted into a hash of query arguments' do
+        expect(page).to receive(:_find).with(*locator_args, *query_args)
+
+        page.new_section
+      end
+    end
+
+    context 'without Capybara query arguments' do
+      let(:query_args) { {} }
+      let(:locator_args) { '.class-two' }
+
+      it 'passes in an empty hash, which is then sanitized out' do
+        expect(page).to receive(:_find).with(*locator_args)
+
+        page.new_element
       end
     end
   end
@@ -302,7 +333,7 @@ search arguments if defaults are not set" do
     end
   end
 
-  describe 'page' do
+  describe '#page' do
     subject { SitePrism::Section.new('parent', root_element).page }
 
     let(:root_element) { 'root' }
