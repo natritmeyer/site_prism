@@ -171,9 +171,6 @@ when all load validations pass" do
       loadable.load_validation { [true, 'this cannot fail'] }
       loadable.load_validation { [false, 'fubar'] }
       inheriting_loadable.load_validation { [true, 'this also cannot fail'] }
-      inheriting_loadable.load_validation do
-        [true, 'this also also cannot fail']
-      end
 
       instance = inheriting_loadable.new
       instance.loaded?

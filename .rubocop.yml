@@ -17,7 +17,7 @@ BlockLength:
   Exclude:
     - './spec/*_spec.rb'
 
-# Offense count: 18
+# Offense count: 24
 Metrics/LineLength:
   Max: 107
 
