@@ -44,11 +44,15 @@ module SitePrism
       options.merge!(find_args.pop) if find_args.last.is_a? Hash
       options.merge!(runtime_args.pop) if runtime_args.last.is_a? Hash
       options.merge!(override_options)
-      options.merge!(wait: false) unless SitePrism.use_implicit_waits
+      options[:wait] = false unless deactivate_waiting?(options)
 
       return [*find_args, *runtime_args] if options.empty?
 
       [*find_args, *runtime_args, options]
+    end
+
+    def deactivate_waiting?(options)
+      SitePrism.use_implicit_waits || options.has_key?(:wait)
     end
 
     # rubocop:disable Metrics/ModuleLength
@@ -163,9 +167,8 @@ module SitePrism
         create_helper_method(method_name, *find_args) do
           define_method(method_name) do |*runtime_args|
             wait_time = SitePrism.use_implicit_waits ? max_wait_time : 0
-            Capybara.using_wait_time(wait_time) do
-              element_exists?(*merge_args(find_args, runtime_args))
-            end
+            visibility_args = { wait: wait_time }
+            element_exists?(*merge_args(find_args, runtime_args, **visibility_args))
           end
         end
       end
@@ -175,9 +178,8 @@ module SitePrism
         create_helper_method(method_name, *find_args) do
           define_method(method_name) do |*runtime_args|
             wait_time = SitePrism.use_implicit_waits ? max_wait_time : 0
-            Capybara.using_wait_time(wait_time) do
-              element_does_not_exist?(*merge_args(find_args, runtime_args))
-            end
+            visibility_args = { wait: wait_time }
+            element_does_not_exist?(*merge_args(find_args, runtime_args, **visibility_args))
           end
         end
       end
@@ -186,9 +188,8 @@ module SitePrism
         method_name = "wait_for_#{element_name}"
         create_helper_method(method_name, *find_args) do
           define_method(method_name) do |timeout = max_wait_time, *runtime_args|
-            result = Capybara.using_wait_time(timeout) do
-              element_exists?(*merge_args(find_args, runtime_args))
-            end
+            visibility_args = { wait: timeout }
+            result = element_exists?(*merge_args(find_args, runtime_args, **visibility_args))
             raise_wait_for_if_failed(self, element_name.to_s, timeout, !result)
             result
           end
