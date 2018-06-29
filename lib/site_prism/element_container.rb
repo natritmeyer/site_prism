@@ -32,6 +32,11 @@ module SitePrism
             "Timed out after #{timeout}s waiting for no #{obj.class}##{name}"
     end
 
+    # Sanitize method called before calling any SitePrism DSL method or
+    # meta-programmed method. This ensures that the Capybara query is correct.
+    #
+    # Accepts any combination of arguments sent at DSL definition or runtime
+    # and combines them in such a way that Capybara can operate with them.
     def merge_args(find_args, runtime_args, override_options = {})
       find_args = find_args.dup
       runtime_args = runtime_args.dup
@@ -39,6 +44,10 @@ module SitePrism
       options.merge!(find_args.pop) if find_args.last.is_a? Hash
       options.merge!(runtime_args.pop) if runtime_args.last.is_a? Hash
       options.merge!(override_options)
+      options.merge!(wait: false) unless SitePrism.use_implicit_waits
+
+      return [*find_args, *runtime_args] if options.empty?
+
       [*find_args, *runtime_args, options]
     end
 

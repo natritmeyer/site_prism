@@ -108,11 +108,7 @@ module SitePrism
     end
 
     def _all(*find_args)
-      if SitePrism.use_implicit_waits
-        page.all(*find_args)
-      else
-        page.all(*find_args, wait: false)
-      end
+      page.all(*find_args)
     end
 
     def element_exists?(*find_args)
