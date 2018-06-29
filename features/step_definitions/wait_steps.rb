@@ -85,7 +85,7 @@ Then('the slow section appears') do
     .to have_slow_section_element
 end
 
-Then(/^the removing section disappears$/) do
+Then('the removing section disappears') do
   expect(@test_site.section_experiments.removing_parent_section)
     .not_to have_removing_section_element
 end
@@ -107,11 +107,11 @@ Then("an exception is raised when I wait for a section that won't disappear") do
     .with_message(error_message)
 end
 
-When(/^I wait for the collection of sections that takes a while to disappear$/) do
+When('I wait for the collection of sections that takes a while to disappear') do
   @test_site.home.wait_for_no_removing_sections
 end
 
-Then(/^the removing collection of sections disappears$/) do
+Then('the removing collection of sections disappears') do
   expect(@test_site.home).not_to have_removing_sections
 end
 
@@ -169,71 +169,80 @@ Then('I am not made to wait for the full overridden duration') do
   expect(@duration).to be < @overridden_wait_time
 end
 
-Then(/^implicit waits are enabled$/) do
-  expect(SitePrism.use_implicit_waits).to eq true
+Then('implicit waits should be enabled') do
+  expect(SitePrism.use_implicit_waits).to be true
 end
 
-Then(/^implicit waits are not enabled$/) do
-  expect(SitePrism.use_implicit_waits).to eq false
+Then('implicit waits should not be enabled') do
+  expect(SitePrism.use_implicit_waits).to be false
 end
 
-Then(/^the slow element is not waited for$/) do
+Then('the slow element is not waited for') do
   start_time = Time.now
 
   expect { @test_site.home.some_slow_element }.to raise_error(Capybara::ElementNotFound)
 
-  expect(Time.now - start_time).to be < 0.5
+  expect(Time.now - start_time).to be < 0.2
 end
 
-Then(/^the slow element is waited for$/) do
+Then('the slow element is waited for') do
   start_time = Time.now
   @test_site.home.some_slow_element
 
-  expect(Time.now - start_time).to be > 1.5
+  expect(Time.now - start_time).to be > 2
 end
 
-Then(/^the slow elements are waited for$/) do
+Then('the slow elements are waited for') do
   start_time = Time.now
   @test_site.home.slow_elements(count: 1)
-  expect(Time.now - start_time).to be > 1.5
+
+  expect(Time.now - start_time).to be > 2
 end
 
-Then(/^the slow elements are not waited for$/) do
+Then('the slow elements are not waited for') do
   start_time = Time.now
+
   expect { @test_site.home.slow_elements(count: 1) }.to raise_error(Capybara::ElementNotFound)
-  expect(Time.now - start_time).to be < 0.5
+
+  expect(Time.now - start_time).to be < 0.2
 end
 
-
-Then(/^the slow section is waited for$/) do
+Then('the slow section is waited for') do
   start_time = Time.now
   @test_site.home.slow_section(count: 1)
-  expect(Time.now - start_time).to be > 1.5
+
+  expect(Time.now - start_time).to be > 2
 end
 
-Then(/^the slow section is not waited for$/) do
+Then('the slow section is not waited for') do
   start_time = Time.now
+
   expect { @test_site.home.slow_section(count: 1) }.to raise_error(Capybara::ElementNotFound)
-  expect(Time.now - start_time).to be < 0.5
+
+  expect(Time.now - start_time).to be < 0.2
 end
 
-Then(/^the slow sections are waited for$/) do
+Then('the slow sections are waited for') do
   start_time = Time.now
   @test_site.home.slow_sections(count: 2)
-  expect(Time.now - start_time).to be > 1.5
+
+  expect(Time.now - start_time).to be > 2
 end
 
-Then(/^the slow sections are not waited for$/) do
+Then('the slow sections are not waited for') do
   start_time = Time.now
+
   expect { @test_site.home.slow_sections(count: 2) }.to raise_error(Capybara::ElementNotFound)
-  expect(Time.now - start_time).to be < 0.5
+
+  expect(Time.now - start_time).to be < 0.2
 end
 
-Then(/^the slow element is waited for only as long as a user set Capybara.using_wait_time$/) do
+Then('the slow element is waited for only as long as a user set Capybara.using_wait_time') do
   start_time = Time.now
   Capybara.using_wait_time(1) do
     expect { @test_site.home.some_slow_element }.to raise_error(Capybara::ElementNotFound)
   end
-  expect(Time.now - start_time).to be < 2
-  expect(Time.now - start_time).to be > 0.5
+  @duration = Time.now - start_time
+
+  expect(@duration).to be_between(1, 1.1)
 end

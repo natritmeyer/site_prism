@@ -90,19 +90,19 @@ Feature: Waiting for Elements
   Scenario: Element Is Not Automatically Waited For
     When I navigate to the home page
     Then the slow element is not waited for
-    And implicit waits are not enabled
+    And implicit waits should not be enabled
 
   Scenario: Elements Collections Are Not Automatically Waited For
     When I navigate to the home page
     Then the slow elements are not waited for
-    And implicit waits are not enabled
+    And implicit waits should not be enabled
 
   Scenario: Section Is Not Automatically Waited For
     When I navigate to the home page
     Then the slow section is not waited for
-    And implicit waits are not enabled
+    And implicit waits should not be enabled
 
   Scenario: Sections Collections Are Not Automatically Waited For
     When I navigate to the home page
     Then the slow sections are not waited for
-    And implicit waits are not enabled
+    And implicit waits should not be enabled
