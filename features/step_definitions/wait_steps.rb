@@ -168,3 +168,23 @@ end
 Then('I am not made to wait for the full overridden duration') do
   expect(@duration).to be < @overridden_wait_time
 end
+
+Then(/^implicit waits are enabled$/) do
+  expect(SitePrism.use_implicit_waits).to eq true
+end
+
+Then(/^implicit waits are not enabled$/) do
+  expect(SitePrism.use_implicit_waits).to eq false
+end
+
+Then(/^the slow element is not waited for$/) do
+  start_time = Time.now
+  @test_site.home.some_slow_element
+  expect(Time.now - start_time).to be < 0.5
+end
+
+Then(/^the slow element is waited for$/) do
+  start_time = Time.now
+  @test_site.home.some_slow_element
+  expect(Time.now - start_time).to be > 1.5
+end

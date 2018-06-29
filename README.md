@@ -521,7 +521,7 @@ Another method added by calling `element` is the
 `wait_until_<element_name>_visible` method. Calling this method will
 cause the test to wait for Capybara's default wait time for the element
 to become visible (*not* the same as existence!). You can customise the
-wait time be supplying a number of seconds to wait. Using the above
+wait time by supplying a number of seconds to wait. Using the above
 example:
 
 ```ruby
@@ -651,7 +651,7 @@ it wil return `false`. For example, with the following page:
 
 ```ruby
 class Friends < SitePrism::Page
-  elements(:names, 'ul#names li a')
+  elements :names, 'ul#names li a'
 end
 ```
 
