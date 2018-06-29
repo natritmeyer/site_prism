@@ -5,6 +5,7 @@ require 'spec_helper'
 describe SitePrism::Page do
   class Section < SitePrism::Section; end
   class Page < SitePrism::Page; end
+  let(:dont_wait) { { wait: false } }
 
   describe '.section' do
     it 'should be callable' do
@@ -117,7 +118,7 @@ class or/and a block as the second argument."
         let(:search_arguments) { ['.other-section'] }
 
         it 'returns the search arguments for a section' do
-          expect(page).to receive(:_find).with(*search_arguments)
+          expect(page).to receive(:_find).with(*search_arguments, **dont_wait)
 
           page.section_with_locator
         end
@@ -127,7 +128,7 @@ class or/and a block as the second argument."
         let(:search_arguments) { [:css, '.section'] }
 
         it 'returns the default search arguments for a section' do
-          expect(page).to receive(:_find).with(*search_arguments)
+          expect(page).to receive(:_find).with(*search_arguments, **dont_wait)
 
           page.section_using_defaults
         end
@@ -138,7 +139,7 @@ parent section but without search arguments" do
         let(:search_arguments) { [:css, '.section'] }
 
         it 'returns the default search arguments for the parent section' do
-          expect(page).to receive(:_find).with(*search_arguments)
+          expect(page).to receive(:_find).with(*search_arguments, **dont_wait)
 
           page.section_using_defaults_from_parent
         end
@@ -170,6 +171,7 @@ describe SitePrism::Section do
   let(:section_with_block) do
     SitePrism::Section.new(Page.new, locator) { 1 + 1 }
   end
+  let(:dont_wait) { { wait: false } }
 
   describe '#default_search_arguments' do
     class BaseSection < SitePrism::Section
@@ -240,11 +242,11 @@ search arguments if defaults are not set" do
     end
 
     context 'with Capybara query arguments' do
-      let(:query_args) { [css: '.my-css', text: 'Hi'] }
+      let(:query_args) { { css: '.my-css', text: 'Hi' } }
       let(:locator_args) { '.class-one' }
 
       it 'passes in an empty hash, which is then converted into a hash of query arguments' do
-        expect(page).to receive(:_find).with(*locator_args, *query_args)
+        expect(page).to receive(:_find).with(*locator_args, **query_args, **dont_wait)
 
         page.new_section
       end
@@ -255,7 +257,7 @@ search arguments if defaults are not set" do
       let(:locator_args) { '.class-two' }
 
       it 'passes in an empty hash, which is then sanitized out' do
-        expect(page).to receive(:_find).with(*locator_args)
+        expect(page).to receive(:_find).with(*locator_args, **dont_wait)
 
         page.new_element
       end
