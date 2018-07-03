@@ -179,7 +179,9 @@ module SitePrism
           define_method(method_name) do |*runtime_args|
             wait_time = SitePrism.use_implicit_waits ? max_wait_time : 0
             visibility_args = { wait: wait_time }
-            element_does_not_exist?(*merge_args(find_args, runtime_args, **visibility_args))
+            element_does_not_exist?(
+              *merge_args(find_args, runtime_args, **visibility_args)
+            )
           end
         end
       end

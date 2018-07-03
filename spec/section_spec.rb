@@ -245,7 +245,7 @@ search arguments if defaults are not set" do
       let(:query_args) { { css: '.my-css', text: 'Hi' } }
       let(:locator_args) { '.class-one' }
 
-      it 'passes in an empty hash, which is then converted into a hash of query arguments' do
+      it 'passes in a hash of query arguments' do
         expect(page).to receive(:_find).with(*locator_args, **query_args, **dont_wait)
 
         page.new_section

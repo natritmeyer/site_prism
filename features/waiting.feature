@@ -24,7 +24,7 @@ Feature: Waiting for Elements
   Scenario: Wait for Element - Exceptions - Negative
     Given exceptions are configured to raise on wait_fors
     When I navigate to the home page
-    Then an exception is raised when I wait for an element that won't appear in time
+    Then an exception is raised when I wait for an element that won't appear
 
   Scenario: Wait for No Element - Positive
     When I navigate to the home page
