@@ -1,7 +1,5 @@
 AllCops:
   TargetRubyVersion: 2.2
-  Exclude:
-    - './spec/*_spec.rb'
 
 Documentation:
   Enabled: false
@@ -15,9 +13,18 @@ Style/SafeNavigation:
 Style/RegexpLiteral:
   Enabled: false
 
+BlockLength:
+  Exclude:
+    - './spec/*_spec.rb'
+    - 'site_prism.gemspec'
+
 ## Offense count: 13
 Metrics/LineLength:
   Max: 99
 
 Gemspec/RequiredRubyVersion:
   Enabled: false
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+  Enabled: true
