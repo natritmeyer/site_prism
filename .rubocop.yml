@@ -16,6 +16,7 @@ Style/RegexpLiteral:
 BlockLength:
   Exclude:
     - './spec/*_spec.rb'
+    - 'site_prism.gemspec'
 
 # Offense count: 18
 Metrics/LineLength:
@@ -23,3 +24,7 @@ Metrics/LineLength:
 
 Gemspec/RequiredRubyVersion:
   Enabled: false
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+  Enabled: true
