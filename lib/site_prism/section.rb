@@ -62,16 +62,20 @@ module SitePrism
 
     private
 
-    def find_first(*find_args)
-      root_element.find(*find_args)
+    def _find(*find_args)
+      page.find(*find_args)
+    end
+
+    def _all(*find_args)
+      page.all(*find_args)
     end
 
     def element_exists?(*find_args)
-      root_element.has_selector?(*find_args) unless root_element.nil?
+      page && page.has_selector?(*find_args)
     end
 
     def element_does_not_exist?(*find_args)
-      root_element.has_no_selector?(*find_args) unless root_element.nil?
+      page && page.has_no_selector?(*find_args)
     end
   end
 end

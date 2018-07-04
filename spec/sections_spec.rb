@@ -29,12 +29,12 @@ describe SitePrism::Page do
 
   context "when using sections with default search arguments \
 and without search arguments" do
-    let(:search_arguments) { [:css, '.section', {}] }
+    let(:search_arguments) { [:css, '.section'] }
 
     before do
       allow(subject)
-        .to receive(:find_all)
-        .with(*search_arguments)
+        .to receive(:_all)
+        .with(*search_arguments, wait: false)
         .and_return(%i[element1 element2])
     end
 

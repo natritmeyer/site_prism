@@ -38,8 +38,9 @@ Then('I can see the welcome message') do
 end
 
 Then('I can see a message using a capybara text query') do
-  expect(@test_site.home)
-    .to(have_welcome_messages(text: 'This is the home page, there is some stuff on it'))
+  sample_text = 'This is the home page, there is some stuff on it'
+
+  expect(@test_site.home).to have_welcome_messages(text: sample_text)
 end
 
 Then('I can see the the HREF of the link') do

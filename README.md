@@ -17,7 +17,7 @@ We have a brief set of setup docs [HERE](https://github.com/natritmeyer/site_pri
 
 ## Supported Rubies / Browsers
 
-SitePrism is built and tested to work on Ruby 2.1 - 2.5. There is also some limited support for Ruby 2.0.0.
+SitePrism is built and tested to work on Ruby 2.2 - 2.5. There is also some limited support for the Ruby 2.1 series.
 
 SitePrism should run on all major browsers. The gem's integration tests are ran on the latest versions of Chrome and Firefox.
 

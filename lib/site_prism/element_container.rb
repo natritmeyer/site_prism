@@ -32,6 +32,11 @@ module SitePrism
             "Timed out after #{timeout}s waiting for no #{obj.class}##{name}"
     end
 
+    # Sanitize method called before calling any SitePrism DSL method or
+    # meta-programmed method. This ensures that the Capybara query is correct.
+    #
+    # Accepts any combination of arguments sent at DSL definition or runtime
+    # and combines them in such a way that Capybara can operate with them.
     def merge_args(find_args, runtime_args, override_options = {})
       find_args = find_args.dup
       runtime_args = runtime_args.dup
@@ -39,41 +44,54 @@ module SitePrism
       options.merge!(find_args.pop) if find_args.last.is_a? Hash
       options.merge!(runtime_args.pop) if runtime_args.last.is_a? Hash
       options.merge!(override_options)
+      options[:wait] = false unless wait_required?(options)
+
+      return [*find_args, *runtime_args] if options.empty?
+
       [*find_args, *runtime_args, options]
+    end
+
+    def wait_required?(options)
+      SitePrism.use_implicit_waits || options.key?(:wait)
     end
 
     # rubocop:disable Metrics/ModuleLength
     module ClassMethods
       attr_reader :mapped_items, :expected_items
 
-      def element(element_name, *find_args)
-        build(element_name, *find_args) do
-          define_method(element_name.to_s) do |*runtime_args, &element_block|
-            raise_if_block(self, element_name.to_s, !element_block.nil?)
-            find_first(*merge_args(find_args, runtime_args))
+      def element(name, *find_args)
+        build(name, *find_args) do
+          define_method(name) do |*runtime_args, &element_block|
+            raise_if_block(self, name, !element_block.nil?)
+            _find(*merge_args(find_args, runtime_args))
           end
         end
       end
 
-      def elements(collection_name, *find_args)
-        build(collection_name, *find_args) do
-          define_method(collection_name.to_s) do |*runtime_args, &element_block|
-            raise_if_block(self, collection_name.to_s, !element_block.nil?)
-            find_all(*merge_args(find_args, runtime_args))
+      def elements(name, *find_args)
+        build(name, *find_args) do
+          define_method(name) do |*runtime_args, &element_block|
+            raise_if_block(self, name, !element_block.nil?)
+            _all(*merge_args(find_args, runtime_args))
           end
         end
       end
-      alias collection elements
+
+      def collection(name, *find_args)
+        warn 'Using collection is now deprecated and will be removed.'
+        warn 'Use elements DSL notation instead.'
+        elements(name, *find_args)
+      end
 
       def expected_elements(*elements)
         @expected_items = elements
       end
 
-      def section(section_name, *args, &block)
+      def section(name, *args, &block)
         section_class, find_args = extract_section_options(args, &block)
-        build(section_name, *find_args) do
-          define_method section_name do |*runtime_args, &runtime_block|
-            section_element = find_first(*merge_args(find_args, runtime_args))
+        build(name, *find_args) do
+          define_method(name) do |*runtime_args, &runtime_block|
+            section_element = _find(*merge_args(find_args, runtime_args))
             section_class.new(self, section_element, &runtime_block)
           end
         end
@@ -83,8 +101,8 @@ module SitePrism
         section_class, find_args = extract_section_options(args, &block)
         build(name, *find_args) do
           define_method(name) do |*runtime_args, &element_block|
-            raise_if_block(self, name.to_s, !element_block.nil?)
-            find_all(*merge_args(find_args, runtime_args)).map do |element|
+            raise_if_block(self, name, !element_block.nil?)
+            _all(*merge_args(find_args, runtime_args)).map do |element|
               section_class.new(self, element)
             end
           end
@@ -149,9 +167,8 @@ module SitePrism
         create_helper_method(method_name, *find_args) do
           define_method(method_name) do |*runtime_args|
             wait_time = SitePrism.use_implicit_waits ? max_wait_time : 0
-            Capybara.using_wait_time(wait_time) do
-              element_exists?(*merge_args(find_args, runtime_args))
-            end
+            visibility_args = { wait: wait_time }
+            element_exists?(*merge_args(find_args, runtime_args, **visibility_args))
           end
         end
       end
@@ -161,9 +178,10 @@ module SitePrism
         create_helper_method(method_name, *find_args) do
           define_method(method_name) do |*runtime_args|
             wait_time = SitePrism.use_implicit_waits ? max_wait_time : 0
-            Capybara.using_wait_time(wait_time) do
-              element_does_not_exist?(*merge_args(find_args, runtime_args))
-            end
+            visibility_args = { wait: wait_time }
+            element_does_not_exist?(
+              *merge_args(find_args, runtime_args, **visibility_args)
+            )
           end
         end
       end
@@ -172,9 +190,8 @@ module SitePrism
         method_name = "wait_for_#{element_name}"
         create_helper_method(method_name, *find_args) do
           define_method(method_name) do |timeout = max_wait_time, *runtime_args|
-            result = Capybara.using_wait_time(timeout) do
-              element_exists?(*merge_args(find_args, runtime_args))
-            end
+            visibility_args = { wait: timeout }
+            result = element_exists?(*merge_args(find_args, runtime_args, **visibility_args))
             raise_wait_for_if_failed(self, element_name.to_s, timeout, !result)
             result
           end
@@ -185,9 +202,8 @@ module SitePrism
         method_name = "wait_for_no_#{element_name}"
         create_helper_method(method_name, *find_args) do
           define_method(method_name) do |timeout = max_wait_time, *runtime_args|
-            res = Capybara.using_wait_time(timeout) do
-              element_does_not_exist?(*merge_args(find_args, runtime_args))
-            end
+            visibility_args = { wait: timeout }
+            res = element_does_not_exist?(*merge_args(find_args, runtime_args, **visibility_args))
             raise_wait_for_no_if_failed(self, element_name.to_s, timeout, !res)
             res
           end

@@ -18,9 +18,9 @@ BlockLength:
     - './spec/*_spec.rb'
     - 'site_prism.gemspec'
 
-# Offense count: 18
+## Offense count: 13
 Metrics/LineLength:
-  Max: 107
+  Max: 99
 
 Gemspec/RequiredRubyVersion:
   Enabled: false
