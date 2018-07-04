@@ -189,14 +189,14 @@ Then('the slow element is waited for') do
   start_time = Time.now
   @test_site.home.some_slow_element
 
-  expect(Time.now - start_time).to be > 2
+  expect(Time.now - start_time).to be_between(1.85, 2.15)
 end
 
 Then('the slow elements are waited for') do
   start_time = Time.now
   @test_site.home.slow_elements(count: 1)
 
-  expect(Time.now - start_time).to be > 2
+  expect(Time.now - start_time).to be_between(1.85, 2.15)
 end
 
 Then('the slow elements are not waited for') do
@@ -211,7 +211,7 @@ Then('the slow section is waited for') do
   start_time = Time.now
   @test_site.home.slow_section(count: 1)
 
-  expect(Time.now - start_time).to be > 2
+  expect(Time.now - start_time).to be_between(1.85, 2.15)
 end
 
 Then('the slow section is not waited for') do
@@ -226,7 +226,7 @@ Then('the slow sections are waited for') do
   start_time = Time.now
   @test_site.home.slow_sections(count: 2)
 
-  expect(Time.now - start_time).to be > 2
+  expect(Time.now - start_time).to be_between(1.85, 2.15)
 end
 
 Then('the slow sections are not waited for') do
