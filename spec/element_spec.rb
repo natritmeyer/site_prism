@@ -3,8 +3,8 @@
 require 'spec_helper'
 
 describe SitePrism::Page do
-  shared_examples 'SitePrism Page' do
-    it 'responds to #element' do
+  shared_examples 'element' do
+    it 'should respond to .element' do
       expect(SitePrism::Page).to respond_to(:element)
     end
 
@@ -38,6 +38,7 @@ describe SitePrism::Page do
         allow(page).to receive(:present?).with(:bob).and_return(true)
         allow(page).to receive(:present?).with(:dave).and_return(false)
         allow(page).to receive(:present?).with(:success_msg).and_return(true)
+        allow(page).to receive(:present?).with(:iframe)
       end
 
       it 'only lists the SitePrism objects that are present on the page' do
@@ -65,7 +66,7 @@ describe SitePrism::Page do
     let(:page) { PageCSS.new }
     let(:klass) { PageCSS }
 
-    it_behaves_like 'SitePrism Page'
+    it_behaves_like 'element'
   end
 
   context 'with xpath elements' do
@@ -81,6 +82,6 @@ describe SitePrism::Page do
     let(:page) { PageXPath.new }
     let(:klass) { PageXPath }
 
-    it_behaves_like 'SitePrism Page'
+    it_behaves_like 'element'
   end
 end
