@@ -53,3 +53,11 @@ Then('I can see elements in an iframe with capybara query options') do
     expect(f).to have_some_text(text: 'Some text in an iframe')
   end
 end
+
+Then('I cannot interact with an iFrame outside of a block') do
+  error_message = 'You can only use iFrames in a block context. See docs for more details.'
+
+  expect { @test_site.home.my_iframe }
+    .to raise_error(SitePrism::BlockMissingError)
+    .with_message(error_message)
+end

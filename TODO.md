@@ -3,9 +3,7 @@
 -  `SitePrism::Page#wait_until_displayed` - Re-call existing method and re-raise
 -  Update of Ruby Version to supported version
 -  Rubocop LineLength reduction (Continue this, will be hard work, probably several PR's)
--  Rubocop MethodLength reduction (Should be a small-er PR)
 -  Create iFrame specs (Even though private methods)
--  Allow scoping iFrames to then be passed into element native object
 - Generic spec walkthrough - (have done section/sections/element/elements/top half of page)
 - Advanced spec clean. Make sure each spec file represents the right items
 - Setup a secondary gemfile to track against older items (As and when we upgrade Ruby/Gem deps)
