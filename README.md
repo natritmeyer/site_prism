@@ -521,7 +521,7 @@ Another method added by calling `element` is the
 `wait_until_<element_name>_visible` method. Calling this method will
 cause the test to wait for Capybara's default wait time for the element
 to become visible (*not* the same as existence!). You can customise the
-wait time be supplying a number of seconds to wait. Using the above
+wait time by supplying a number of seconds to wait. Using the above
 example:
 
 ```ruby
@@ -651,7 +651,7 @@ it wil return `false`. For example, with the following page:
 
 ```ruby
 class Friends < SitePrism::Page
-  elements(:names, 'ul#names li a')
+  elements :names, 'ul#names li a'
 end
 ```
 
@@ -1731,6 +1731,18 @@ with this:
 # With implicit waits enabled, use of wait_until methods is no longer required. This method will
 # wait for the element to be found on the page until the Capybara default timeout is reached.
 @search_page.search_results
+```
+
+Note that even with implicit waits on you can temporarily modify wait times in SitePrism to help work-around special circumstances.  
+
+```rb
+# Option 1: using wait_for
+@search_page.wait_for_search_results(30) # will wait up to 30seconds
+
+# Option 2: using Capybara directly 
+Capybara.using_wait_time(30) do
+  @search_page.subsection.search_results
+end
 ```
 
 ## Raising Errors on wait_for

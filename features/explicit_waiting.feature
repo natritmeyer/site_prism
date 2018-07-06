@@ -1,6 +1,6 @@
 Feature: Waiting for Elements
 
-  I want to be able to implicitly wait for an element
+  I want to be able to explicitly wait for an element
   In order to interact with the element once it is ready
 
   Scenario: Wait for Element - Positive
@@ -80,9 +80,29 @@ Feature: Waiting for Elements
 
   Scenario: Wait for Invisibility of element - Non-Existent Element
     When I navigate to the home page
-    Then I do not wait for an nonexistent element when checking for invisibility
+    Then I do not wait for a nonexistent element when checking for invisibility
 
   Scenario: Wait for Invisibility of element - Non-Existent Section
     When I navigate to the home page
     And I remove the parent section of the element
     Then I receive an error when a section with the element I am waiting for is removed
+
+  Scenario: Element Is Not Automatically Waited For
+    When I navigate to the home page
+    Then the slow element is not waited for
+    And implicit waits should not be enabled
+
+  Scenario: Elements Collections Are Not Automatically Waited For
+    When I navigate to the home page
+    Then the slow elements are not waited for
+    And implicit waits should not be enabled
+
+  Scenario: Section Is Not Automatically Waited For
+    When I navigate to the home page
+    Then the slow section is not waited for
+    And implicit waits should not be enabled
+
+  Scenario: Sections Collections Are Not Automatically Waited For
+    When I navigate to the home page
+    Then the slow sections are not waited for
+    And implicit waits should not be enabled

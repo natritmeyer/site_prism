@@ -80,7 +80,7 @@ Then('the previously visible element is invisible') do
   expect(@test_site.home.retiring_element).not_to be_visible
 end
 
-Then('I do not wait for an nonexistent element when checking for invisibility') do
+Then('I do not wait for a nonexistent element when checking for invisibility') do
   start = Time.new
   @test_site.home.wait_until_nonexistent_element_invisible(10)
 

@@ -9,7 +9,7 @@ class TestHomePage < SitePrism::Page
   element :welcome_message, 'body > span'
   element :go_button, '[value="Go!"]'
   element :link_to_search_page, :xpath, '//p[2]/a'
-  # This takes just over 2 seconds to appear
+  # Below element takes just over 2 seconds to appear
   element :some_slow_element, :xpath, '//a[@class="slow"]'
   element :invisible_element, 'input.invisible'
   element :shy_element, 'input#will_become_visible'
@@ -25,6 +25,8 @@ class TestHomePage < SitePrism::Page
   elements :welcome_headers, :xpath, '//h3'
   elements :welcome_messages, :xpath, '//span'
   elements :rows, 'td'
+  # note - actually only one of the below
+  elements :slow_elements, :xpath, '//a[@class="slow"]'
 
   # elements that should not exist
   element :squirrel, 'squirrel.nutz'
@@ -42,12 +44,16 @@ class TestHomePage < SitePrism::Page
   section :removing_section,
           NoElementWithinSection,
           'input#will_become_nonexistent'
+  # `slow_section` takes ~2s to appear
+  section :slow_section, NoElementWithinSection, 'div.first.slow-section'
 
   # section groups
   sections :nonexistent_sections, NoElementWithinSection, 'input#nonexistent'
   sections :removing_sections,
            NoElementWithinSection,
            '#link_container_will_become_nonexistent > a'
+  # `slow_sections` takes ~2s to appear
+  sections :slow_sections, NoElementWithinSection, 'div.slow-section'
 
   # iframes
   iframe :my_iframe, MyIframe, '#the_iframe'
