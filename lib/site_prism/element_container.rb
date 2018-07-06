@@ -115,6 +115,8 @@ module SitePrism
         add_to_mapped_items(iframe_name)
         add_iframe_helper_methods(iframe_name, *element_find_args)
         define_method(iframe_name) do |&block|
+          raise BlockMissingError unless block_given?
+
           within_frame(*scope_find_args) do
             block.call iframe_page_class.new
           end
