@@ -24,6 +24,13 @@ Then('I can locate the iframe by xpath') do
   expect(@test_site.home).to have_xpath_iframe
 end
 
+Then('I can locate the iframe within section') do
+  @test_site.home.wait_for_section_for_iframe
+  @test_site.home.section_for_iframe.wait_for_iframe_within_section
+
+  expect(@test_site.home.section_for_iframe).to have_iframe_within_section
+end
+
 Then('I can see elements in an iframe') do
   @test_site.home.my_iframe do |f|
     expect(f.some_text.text).to eq('Some text in an iframe')
@@ -44,6 +51,12 @@ end
 
 Then('I can see elements in an xpath iframe') do
   @test_site.home.xpath_iframe do |f|
+    expect(f.some_text.text).to eq('Some text in an iframe')
+  end
+end
+
+Then('I can see elements in the iframe within section') do
+  @test_site.home.section_for_iframe.iframe_within_section do |f|
     expect(f.some_text.text).to eq('Some text in an iframe')
   end
 end

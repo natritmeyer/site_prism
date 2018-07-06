@@ -21,6 +21,10 @@ Feature: IFrame interaction
     Then I can locate the iframe by xpath
     And I can see elements in an xpath iframe
 
+  Scenario: locate an iframe within section
+    Then I can locate the iframe within section
+    And I can see elements in the iframe within section
+
   Scenario: interact with elements in an iframe
     Then I can see elements in an iframe
     And I can see elements in an iframe with capybara query options

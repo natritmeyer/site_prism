@@ -8,6 +8,7 @@ module SitePrism
     include ElementChecker
     include Loadable
     include ElementContainer
+    extend Forwardable
 
     attr_reader :root_element, :parent
 
@@ -42,12 +43,13 @@ module SitePrism
       page.visible?
     end
 
-    def execute_script(input)
-      Capybara.current_session.execute_script(input)
-    end
+    def_delegators :capybara_session,
+                   :execute_script,
+                   :evaluate_script,
+                   :within_frame
 
-    def evaluate_script(input)
-      Capybara.current_session.evaluate_script(input)
+    def capybara_session
+      Capybara.current_session
     end
 
     def parent_page

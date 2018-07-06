@@ -60,4 +60,8 @@ class TestHomePage < SitePrism::Page
   iframe :index_iframe, MyIframe, 0
   iframe :named_iframe, MyIframe, '[name="the_iframe"]'
   iframe :xpath_iframe, MyIframe, :xpath, '//iframe[@name="the_iframe"]'
+
+  section :section_for_iframe, '#section_for_iframe' do
+    iframe :iframe_within_section, MyIframe, 0
+  end
 end
