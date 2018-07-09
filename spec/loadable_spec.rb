@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'site_prism/loadable'
 
 describe SitePrism::Loadable do
   let(:loadable) do
@@ -10,9 +9,21 @@ describe SitePrism::Loadable do
     end
   end
 
-  describe 'class methods' do
-    describe '#load_validations' do
-      it 'returns the load_validations from the current class' do
+  describe '.load_validations' do
+    context 'with no inherited classes' do
+      it 'returns load_validations from the current class' do
+        validation1 = -> { true }
+        validation2 = -> { true }
+
+        loadable.load_validation(&validation1)
+        loadable.load_validation(&validation2)
+
+        expect(subclass.load_validations).to eql([validation1, validation2])
+      end
+    end
+
+    context 'with inherited classes' do
+      it 'returns load_validations from the current and inherited classes' do
         subclass = Class.new(loadable)
         validation1 = -> { true }
         validation2 = -> { true }
@@ -29,21 +40,16 @@ describe SitePrism::Loadable do
         )
       end
     end
+  end
 
-    describe '#load_validation' do
-      it 'adds validations to the load_validations list' do
-        expect do
-          loadable.load_validation { true }
-        end.to change { loadable.load_validations.size }.by(1)
-      end
+  describe '.load_validation' do
+    it 'adds validations to the load_validations list' do
+      expect { loadable.load_validation { true } }
+        .to change { loadable.load_validations.size }.by(1)
     end
   end
 
   describe '#when_loaded' do
-    it 'raises an ArgumentError if no block is given' do
-      expect { loadable.new.when_loaded }.to raise_error(ArgumentError)
-    end
-
     it "executes and yields itself to the provided block \
 when all load validations pass" do
       loadable.load_validation { true }
@@ -54,28 +60,36 @@ when all load validations pass" do
       instance.when_loaded(&:foo)
     end
 
-    it 'raises an exception if any load validation fails' do
-      james_bond = spy
-
-      loadable.load_validation { true }
-      loadable.load_validation { false }
-
-      expect do
-        loadable.new.when_loaded { james_bond.drink_martini }
-      end.to raise_error(SitePrism::NotLoadedError, /no reason given/)
-
-      expect(james_bond).not_to have_received(:drink_martini)
+    it 'raises an ArgumentError if no block is given' do
+      expect { loadable.new.when_loaded }
+        .to raise_error(ArgumentError)
+        .with_message('A block was expected, but none received.')
     end
 
-    it 'raises an exception with a specific error message when a load validation fails' do
-      loadable.load_validation { [false, 'all your base are belong to us'] }
+    context 'Failing Validations' do
+      it 'raises a NotLoadedError with a default message' do
+        james_bond = spy
 
-      expect do
-        loadable.new.when_loaded { :foo }
-      end.to raise_error(
-        SitePrism::NotLoadedError,
-        'Failed to load because: all your base are belong to us'
-      )
+        loadable.load_validation { true }
+        loadable.load_validation { false }
+
+        expect do
+          loadable.new.when_loaded { james_bond.drink_martini }
+        end.to raise_error(SitePrism::NotLoadedError, /no reason given/)
+
+        expect(james_bond).not_to have_received(:drink_martini)
+      end
+
+      it 'raises a NotLoadedError with a user-defined message' do
+        loadable.load_validation { [false, 'all your base are belong to us'] }
+
+        expect do
+          loadable.new.when_loaded { :foo }
+        end.to raise_error(
+          SitePrism::NotLoadedError,
+          'Failed to load because: all your base are belong to us'
+        )
+      end
     end
 
     it 'raises an error immediately on the first validation failure' do
@@ -85,9 +99,8 @@ when all load validations pass" do
       loadable.load_validation { validation_spy1.valid? }
       loadable.load_validation { validation_spy2.valid? }
 
-      expect do
-        loadable.new.when_loaded { puts 'foo' }
-      end.to raise_error(SitePrism::NotLoadedError)
+      expect { loadable.new.when_loaded { puts 'foo' } }
+        .to raise_error(SitePrism::NotLoadedError)
 
       expect(validation_spy1).to have_received(:valid?).once
       expect(validation_spy2).not_to have_received(:valid?)
@@ -118,9 +131,7 @@ when all load validations pass" do
 
       expect(instance.loaded).to be nil
 
-      instance.when_loaded do |i|
-        expect(i.loaded).to be true
-      end
+      instance.when_loaded { |i| expect(i.loaded).to be true }
 
       expect(instance.loaded).to be nil
     end
@@ -149,7 +160,7 @@ when all load validations pass" do
       expect(inheriting_loadable.new).to be_loaded
     end
 
-    it 'returns false if any load validation fails' do
+    it 'returns false if a defined load validation fails' do
       loadable.load_validation { true }
       loadable.load_validation { true }
       inheriting_loadable.load_validation { true }
@@ -158,7 +169,7 @@ when all load validations pass" do
       expect(inheriting_loadable.new).not_to be_loaded
     end
 
-    it 'returns false if any load validation fails' do
+    it 'returns false if an inherited load validation fails' do
       loadable.load_validation { true }
       loadable.load_validation { false }
       inheriting_loadable.load_validation { true }
@@ -167,7 +178,7 @@ when all load validations pass" do
       expect(inheriting_loadable.new).not_to be_loaded
     end
 
-    it 'sets load_error if a failing load_validation supplies one' do
+    it 'sets the load_error if a failing load_validation supplies one' do
       loadable.load_validation { [true, 'this cannot fail'] }
       loadable.load_validation { [false, 'fubar'] }
       inheriting_loadable.load_validation { [true, 'this also cannot fail'] }
@@ -175,7 +186,7 @@ when all load validations pass" do
       instance = inheriting_loadable.new
       instance.loaded?
 
-      expect(instance.load_error).to eql('fubar')
+      expect(instance.load_error).to eq('fubar')
     end
   end
 end

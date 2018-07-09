@@ -25,6 +25,10 @@ module SitePrism
       #
       # @param block [&block] A block which returns true if the page
       # loaded successfully, or false if it did not.
+      # This block can contain up to 2 elements in an array
+      # The first is the physical validation test to be truthily evaluated
+      # If this does not pass, then the 2nd item (If defined), is output
+      # as an error message to the NotLoadedError Error that will be thrown
       def load_validation(&block)
         _load_validations << block
       end
