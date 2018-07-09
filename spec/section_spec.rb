@@ -8,7 +8,7 @@ describe SitePrism::Page do
   let(:dont_wait) { { wait: false } }
 
   describe '.section' do
-    it 'should be callable' do
+    it 'should be settable' do
       expect(SitePrism::Page).to respond_to(:section)
     end
 

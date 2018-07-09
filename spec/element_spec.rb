@@ -4,8 +4,10 @@ require 'spec_helper'
 
 describe SitePrism::Page do
   shared_examples 'element' do
-    it 'should respond to .element' do
-      expect(SitePrism::Page).to respond_to(:element)
+    describe '.element' do
+      it 'should be settable' do
+        expect(SitePrism::Page).to respond_to(:element)
+      end
     end
 
     it { is_expected.to respond_to(:bob) }

@@ -17,8 +17,21 @@ describe SitePrism::Page do
   end
 
   describe '.sections' do
-    it 'should be callable' do
+    it 'should be settable' do
       expect(SitePrism::Page).to respond_to(:sections)
+    end
+  end
+
+  shared_examples 'elements' do
+    it { is_expected.to respond_to(:plural_sections) }
+    it { is_expected.to respond_to(:has_plural_sections?) }
+    it { is_expected.to respond_to(:has_no_plural_sections?) }
+    it { is_expected.to respond_to(:wait_for_plural_sections) }
+    it { is_expected.to respond_to(:wait_for_no_plural_sections) }
+    it { is_expected.to respond_to(:all_there?) }
+
+    it 'should return an enumerable result' do
+      expect(subject.plural_sections).to be_a Capybara::Result
     end
   end
 

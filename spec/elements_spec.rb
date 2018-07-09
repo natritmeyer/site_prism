@@ -14,6 +14,12 @@ describe SitePrism::Page do
     it 'should return an enumerable result' do
       expect(subject.bobs).to be_a Capybara::Result
     end
+
+    describe '.elements' do
+      it 'should be settable' do
+        expect(SitePrism::Page).to respond_to(:elements)
+      end
+    end
   end
 
   context 'with css elements' do
