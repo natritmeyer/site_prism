@@ -1,4 +1,12 @@
-<!-- `#275 last Update to this document` -->
+<!-- #281 - Jul 9th - Last update to this document -->
+`2.15`
+- Add better error message when iFrame's are called without a block (@luke-hill & @mdesantis)
+- Fix implicit waiting not working for some DSL defined methods (@luke-hill & @tgaff)
+- Added a huge portion of new feature tests to validate timings RE implicit/explicit waits (@tgaff)
+- Enabled support for Capybara `< 3.1`. Making sure suite is backwards compatible (@luke-hill)
+- Added more gem metadata into the `.gemspec` file to be read by RubyGems (@luke-hill)
+- Fixed up majority of remaining Rubocop offenses around the suite (@ineverov)
+
 `2.14`
 - Added positive and negative timing tests to several scenarios in `waiting.feature` (@luke-hill)
 - Rewrite `ElementContainer` by using `klass.extend`, drying up the amount of `self.class` calls (@ineverov) 
@@ -16,7 +24,7 @@
 
 `2.13`
 - Cleanup cucumber tests into more granular structure (@luke-hill)
-- Use `shared_examples` in RSpec tests to enhance coverage and check xpath selectors ((@luke-hill))
+- Use `shared_examples` in RSpec tests to enhance coverage and check xpath selectors (@luke-hill))
 - Introduced configuration to raise an Exception after `wait_for` meta-programmed methods fail to find pass (@ricmatsui)
 - Altered output of RSpec to show test names, and unlock testing on Selenium up to v3.10 (@luke-hill)
 - Upgraded Cucumber to `3.0.1` (Allowing new syntax testing) (@luke-hill)
