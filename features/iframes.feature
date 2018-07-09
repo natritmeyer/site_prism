@@ -24,3 +24,6 @@ Feature: IFrame interaction
   Scenario: interact with elements in an iframe
     Then I can see elements in an iframe
     And I can see elements in an iframe with capybara query options
+
+  Scenario: interact with an iframe - Negative
+    Then I cannot interact with an iFrame outside of a block

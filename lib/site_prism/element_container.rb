@@ -109,14 +109,16 @@ module SitePrism
         end
       end
 
-      def iframe(iframe_name, iframe_page_class, *args)
+      def iframe(name, klass, *args)
         element_find_args = deduce_iframe_element_find_args(args)
         scope_find_args = deduce_iframe_scope_find_args(args)
-        add_to_mapped_items(iframe_name)
-        add_iframe_helper_methods(iframe_name, *element_find_args)
-        define_method(iframe_name) do |&block|
+        add_to_mapped_items(name)
+        add_iframe_helper_methods(name, *element_find_args)
+        define_method(name) do |&block|
+          raise BlockMissingError unless block
+
           within_frame(*scope_find_args) do
-            block.call iframe_page_class.new
+            block.call(klass.new)
           end
         end
       end

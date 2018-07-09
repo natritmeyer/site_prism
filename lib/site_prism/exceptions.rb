@@ -30,5 +30,11 @@ Templated port numbers are unsupported."
     end
   end
 
+  class BlockMissingError < StandardError
+    def message
+      'You can only use iFrames in a block context. See docs for more details.'
+    end
+  end
+
   NotLoadedError = Class.new(StandardError)
 end
