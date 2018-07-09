@@ -181,11 +181,14 @@ Templated port numbers are unsupported."
     end
 
     def matches?(*args)
-      expected_mappings = args.last.is_a?(::Hash) ? args.pop : {}
+      if args.last.is_a?(::Hash)
+        mappings = args.pop
+      else
+        mappings = {}
+      end
+
       pattern = args.first || raise('Must specify a pattern for matches?')
-      SitePrism::AddressableUrlMatcher
-        .new(pattern)
-        .matches?(url, expected_mappings)
+      SitePrism::AddressableUrlMatcher.new(pattern).matches?(url, mappings)
     end
   end
 end
