@@ -18,6 +18,8 @@ describe SitePrism::Page do
     describe '.elements' do
       it 'should be settable' do
         expect(SitePrism::Page).to respond_to(:elements)
+
+        expect(SitePrism::Section).to respond_to(:elements)
       end
     end
   end

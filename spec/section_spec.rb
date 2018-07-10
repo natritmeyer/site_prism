@@ -10,154 +10,156 @@ describe SitePrism::Page do
   describe '.section' do
     it 'should be settable' do
       expect(SitePrism::Page).to respond_to(:section)
+
+      expect(SitePrism::Section).to respond_to(:section)
+    end
+  end
+
+  describe '.section with class and block' do
+    class SingleSection < SitePrism::Section
+      element :single_section_element, '.foo'
     end
 
-    describe '.section with class and block' do
-      class SingleSection < SitePrism::Section
-        element :single_section_element, '.foo'
-      end
+    class PageWithSections < SitePrism::Page
+      section :single_section, SingleSection, '.bob'
 
-      class PageWithSections < SitePrism::Page
-        section :single_section, SingleSection, '.bob'
-
-        section :section_with_a_block, SingleSection, '.bob' do
-          element :block_element, '.btn'
-        end
-      end
-
-      subject { PageWithSections.new }
-
-      before do
-        allow(subject).to receive(:_find).and_return(:element)
-      end
-
-      it 'should be an instance of provided section class' do
-        expect(subject.section_with_a_block.class.ancestors)
-          .to include(SingleSection)
-      end
-
-      it 'should have elements from the base section' do
-        expect(subject.section_with_a_block)
-          .to respond_to(:single_section_element)
-      end
-
-      it 'should have elements from the block' do
-        expect(subject.section_with_a_block).to respond_to(:block_element)
+      section :section_with_a_block, SingleSection, '.bob' do
+        element :block_element, '.btn'
       end
     end
 
-    context 'second argument is a Class' do
-      class PageWithSection < SitePrism::Page
-        section :section, Section, '.section'
-      end
+    subject { PageWithSections.new }
 
-      subject { PageWithSection.new }
-
-      it { is_expected.to respond_to(:section) }
-      it { is_expected.to respond_to(:has_section?) }
+    before do
+      allow(subject).to receive(:_find).and_return(:element)
     end
 
-    context 'second argument is not a Class and a block given' do
-      class PageWithAnonymousSection < SitePrism::Page
-        section :anonymous_section, '.section' do
-          element :title, 'h1'
-        end
-      end
-
-      subject { PageWithAnonymousSection.new }
-
-      it { is_expected.to respond_to(:anonymous_section) }
-      it { is_expected.to respond_to(:has_anonymous_section?) }
+    it 'should be an instance of provided section class' do
+      expect(subject.section_with_a_block.class.ancestors)
+        .to include(SingleSection)
     end
 
-    context 'second argument is a Class and a block given' do
-      class PageWithAnonymousSection < SitePrism::Page
-        section :anonymous_section, Section, '.section' do
-          element :title, 'h1'
-        end
-      end
-
-      subject { PageWithAnonymousSection.new }
-
-      it { is_expected.to respond_to(:anonymous_section) }
-      it { is_expected.to respond_to(:has_anonymous_section?) }
+    it 'should have elements from the base section' do
+      expect(subject.section_with_a_block)
+        .to respond_to(:single_section_element)
     end
 
-    context 'second argument is not a Class and no block given' do
-      subject { Page.section(:incorrect_section, '.section') }
-      let(:message) do
-        "You should provide descendant of SitePrism::Section \
+    it 'should have elements from the block' do
+      expect(subject.section_with_a_block).to respond_to(:block_element)
+    end
+  end
+
+  context 'second argument is a Class' do
+    class PageWithSection < SitePrism::Page
+      section :section, Section, '.section'
+    end
+
+    subject { PageWithSection.new }
+
+    it { is_expected.to respond_to(:section) }
+    it { is_expected.to respond_to(:has_section?) }
+  end
+
+  context 'second argument is not a Class and a block given' do
+    class PageWithAnonymousSection < SitePrism::Page
+      section :anonymous_section, '.section' do
+        element :title, 'h1'
+      end
+    end
+
+    subject { PageWithAnonymousSection.new }
+
+    it { is_expected.to respond_to(:anonymous_section) }
+    it { is_expected.to respond_to(:has_anonymous_section?) }
+  end
+
+  context 'second argument is a Class and a block given' do
+    class PageWithAnonymousSection < SitePrism::Page
+      section :anonymous_section, Section, '.section' do
+        element :title, 'h1'
+      end
+    end
+
+    subject { PageWithAnonymousSection.new }
+
+    it { is_expected.to respond_to(:anonymous_section) }
+    it { is_expected.to respond_to(:has_anonymous_section?) }
+  end
+
+  context 'second argument is not a Class and no block given' do
+    subject { Page.section(:incorrect_section, '.section') }
+    let(:message) do
+      "You should provide descendant of SitePrism::Section \
 class or/and a block as the second argument."
+    end
+
+    it 'raises an ArgumentError' do
+      expect { subject }.to raise_error(ArgumentError).with_message(message)
+    end
+  end
+
+  context 'default search arguments' do
+    class PageWithSectionWithDefaultSearchArguments < SitePrism::Page
+      class SectionWithDefaultArguments < SitePrism::Section
+        set_default_search_arguments :css, '.section'
       end
 
-      it 'raises an ArgumentError' do
-        expect { subject }.to raise_error(ArgumentError).with_message(message)
+      class SectionWithDefaultArgumentsForParent < SectionWithDefaultArguments
+      end
+
+      section :section_using_defaults, SectionWithDefaultArguments
+      section :section_using_defaults_from_parent,
+              SectionWithDefaultArgumentsForParent
+      section :section_with_locator,
+              SectionWithDefaultArguments,
+              '.other-section'
+      sections :sections, SectionWithDefaultArguments
+    end
+    let(:page) { PageWithSectionWithDefaultSearchArguments.new }
+
+    context 'when search arguments provided during the section definition' do
+      let(:search_arguments) { ['.other-section'] }
+
+      it 'returns the search arguments for a section' do
+        expect(page).to receive(:_find).with(*search_arguments, **dont_wait)
+
+        page.section_with_locator
       end
     end
 
-    context 'default search arguments' do
-      class PageWithSectionWithDefaultSearchArguments < SitePrism::Page
-        class SectionWithDefaultArguments < SitePrism::Section
-          set_default_search_arguments :css, '.section'
-        end
+    context 'with default search arguments but without search arguments' do
+      let(:search_arguments) { [:css, '.section'] }
 
-        class SectionWithDefaultArgumentsForParent < SectionWithDefaultArguments
-        end
+      it 'returns the default search arguments for a section' do
+        expect(page).to receive(:_find).with(*search_arguments, **dont_wait)
 
-        section :section_using_defaults, SectionWithDefaultArguments
-        section :section_using_defaults_from_parent,
-                SectionWithDefaultArgumentsForParent
-        section :section_with_locator,
-                SectionWithDefaultArguments,
-                '.other-section'
-        sections :sections, SectionWithDefaultArguments
+        page.section_using_defaults
       end
-      let(:page) { PageWithSectionWithDefaultSearchArguments.new }
+    end
 
-      context 'when search arguments provided during the section definition' do
-        let(:search_arguments) { ['.other-section'] }
-
-        it 'returns the search arguments for a section' do
-          expect(page).to receive(:_find).with(*search_arguments, **dont_wait)
-
-          page.section_with_locator
-        end
-      end
-
-      context 'with default search arguments but without search arguments' do
-        let(:search_arguments) { [:css, '.section'] }
-
-        it 'returns the default search arguments for a section' do
-          expect(page).to receive(:_find).with(*search_arguments, **dont_wait)
-
-          page.section_using_defaults
-        end
-      end
-
-      context "with default search arguments defined in the \
+    context "with default search arguments defined in the \
 parent section but without search arguments" do
-        let(:search_arguments) { [:css, '.section'] }
+      let(:search_arguments) { [:css, '.section'] }
 
-        it 'returns the default search arguments for the parent section' do
-          expect(page).to receive(:_find).with(*search_arguments, **dont_wait)
+      it 'returns the default search arguments for the parent section' do
+        expect(page).to receive(:_find).with(*search_arguments, **dont_wait)
 
-          page.section_using_defaults_from_parent
-        end
+        page.section_using_defaults_from_parent
       end
+    end
 
-      context "with neither default search arguments \
+    context "with neither default search arguments \
 nor search arguments provided" do
-        it 'should raise ArgumentError' do
-          expect do
-            class ErroredPage < SitePrism::Page
-              section :section, Section
-            end
-          end.to raise_error(
-            ArgumentError,
-            "You should provide search arguments in section creation or \
+      it 'should raise ArgumentError' do
+        expect do
+          class ErroredPage < SitePrism::Page
+            section :section, Section
+          end
+        end.to raise_error(
+          ArgumentError,
+          "You should provide search arguments in section creation or \
 set_default_search_arguments within section class"
-          )
-        end
+        )
       end
     end
   end
@@ -204,15 +206,6 @@ search arguments if defaults are not set" do
       expect(SecondChildSection.default_search_arguments)
         .to eql([:css, '.default'])
     end
-  end
-
-  describe 'Object' do
-    subject { SitePrism::Section }
-
-    it { is_expected.to respond_to(:element) }
-    it { is_expected.to respond_to(:elements) }
-    it { is_expected.to respond_to(:section) }
-    it { is_expected.to respond_to(:sections) }
   end
 
   describe '#new' do

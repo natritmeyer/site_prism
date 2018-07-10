@@ -7,6 +7,8 @@ describe SitePrism::Page do
     describe '.element' do
       it 'should be settable' do
         expect(SitePrism::Page).to respond_to(:element)
+
+        expect(SitePrism::Section).to respond_to(:element)
       end
     end
 
