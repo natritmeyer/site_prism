@@ -194,7 +194,6 @@ Templated port numbers are unsupported."
 
       let(:page) { PageWithStringFullUrlMatcher.new }
 
-
       it 'matches with all elements matching' do
         swap_current_url(
           'https://joe:bump@bla.org:443/foo?bar=baz&bar=boof#frag'

@@ -13,6 +13,9 @@ Style/SafeNavigation:
 Style/RegexpLiteral:
   Enabled: false
 
+Style/ConditionalAssignment:
+  Enabled: false
+
 BlockLength:
   Exclude:
     - './spec/*_spec.rb'

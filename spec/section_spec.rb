@@ -169,7 +169,7 @@ set_default_search_arguments within section class"
         end
 
         it 'raises an ArgumentError' do
-          expect { invalid_page}
+          expect { invalid_page }
             .to raise_error(ArgumentError)
             .with_message(error_message)
         end
