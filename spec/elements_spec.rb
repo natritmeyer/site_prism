@@ -14,28 +14,36 @@ describe SitePrism::Page do
     it 'should return an enumerable result' do
       expect(subject.bobs).to be_a Capybara::Result
     end
+
+    describe '.elements' do
+      it 'should be settable' do
+        expect(SitePrism::Page).to respond_to(:elements)
+
+        expect(SitePrism::Section).to respond_to(:elements)
+      end
+    end
   end
 
   context 'with css elements' do
-    class PageCSS < SitePrism::Page
+    class PageCSS3 < SitePrism::Page
       elements :bobs, 'a.b c.d'
     end
 
     subject { page }
-    let(:page) { PageCSS.new }
-    let(:klass) { PageCSS }
+    let(:page) { PageCSS3.new }
+    let(:klass) { PageCSS3 }
 
     it_behaves_like 'elements'
   end
 
   context 'with xpath elements' do
-    class PageXPath < SitePrism::Page
+    class PageXPath3 < SitePrism::Page
       elements :bobs, '//a[@class="b"]//c[@class="d"]'
     end
 
     subject { page }
-    let(:page) { PageXPath.new }
-    let(:klass) { PageXPath }
+    let(:page) { PageXPath3.new }
+    let(:klass) { PageXPath3 }
 
     it_behaves_like 'elements'
   end

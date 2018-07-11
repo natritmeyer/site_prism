@@ -4,8 +4,12 @@ require 'spec_helper'
 
 describe SitePrism::Page do
   shared_examples 'element' do
-    it 'should respond to .element' do
-      expect(SitePrism::Page).to respond_to(:element)
+    describe '.element' do
+      it 'should be settable' do
+        expect(SitePrism::Page).to respond_to(:element)
+
+        expect(SitePrism::Section).to respond_to(:element)
+      end
     end
 
     it { is_expected.to respond_to(:bob) }
@@ -38,10 +42,12 @@ describe SitePrism::Page do
         allow(page).to receive(:present?).with(:bob).and_return(true)
         allow(page).to receive(:present?).with(:dave).and_return(false)
         allow(page).to receive(:present?).with(:success_msg).and_return(true)
-        allow(page).to receive(:present?).with(:iframe)
+        allow(page).to receive(:present?).with(:iframe).and_return(false)
       end
 
       it 'only lists the SitePrism objects that are present on the page' do
+        p subject
+
         expect(subject.elements_present).to eq(%i[bob success_msg])
       end
     end

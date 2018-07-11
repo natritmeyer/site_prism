@@ -18,13 +18,13 @@ describe 'iFrame' do
   context 'with css elements' do
     class IFrame < SitePrism::Page; end
 
-    class PageCSS < SitePrism::Page
+    class PageCSS2 < SitePrism::Page
       iframe :iframe, IFrame, 'a.b c.d'
     end
 
     subject { page }
-    let(:page) { PageCSS.new }
-    let(:klass) { PageCSS }
+    let(:page) { PageCSS2.new }
+    let(:klass) { PageCSS2 }
 
     it_behaves_like 'iFrame'
   end
@@ -32,13 +32,13 @@ describe 'iFrame' do
   context 'with xpath elements' do
     class IFrame < SitePrism::Page; end
 
-    class PageXPath < SitePrism::Page
+    class PageXPath2 < SitePrism::Page
       iframe :iframe, IFrame, '//w[@class="x"]//y[@class="z"]'
     end
 
     subject { page }
-    let(:page) { PageXPath.new }
-    let(:klass) { PageXPath }
+    let(:page) { PageXPath2.new }
+    let(:klass) { PageXPath2 }
 
     it_behaves_like 'iFrame'
   end

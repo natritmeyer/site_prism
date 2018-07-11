@@ -18,24 +18,24 @@ describe SitePrism::Loadable do
         loadable.load_validation(&validation1)
         loadable.load_validation(&validation2)
 
-        expect(subclass.load_validations).to eql([validation1, validation2])
+        expect(loadable.load_validations).to eq([validation1, validation2])
       end
     end
 
     context 'with inherited classes' do
       it 'returns load_validations from the current and inherited classes' do
-        subclass = Class.new(loadable)
+        subklass = Class.new(loadable)
         validation1 = -> { true }
         validation2 = -> { true }
         validation3 = -> { true }
         validation4 = -> { true }
 
-        subclass.load_validation(&validation1)
+        subklass.load_validation(&validation1)
         loadable.load_validation(&validation2)
-        subclass.load_validation(&validation3)
+        subklass.load_validation(&validation3)
         loadable.load_validation(&validation4)
 
-        expect(subclass.load_validations).to eql(
+        expect(subklass.load_validations).to eq(
           [validation2, validation4, validation1, validation3]
         )
       end
