@@ -342,6 +342,12 @@ from the be_displayed matcher" do
   end
 
   describe '#url_matches' do
+    class PageWithParameterizedUrlMatcher < SitePrism::Page
+      set_url_matcher '{scheme}:///foos{/id}'
+    end
+
+    let(:page) { PageWithParameterizedUrlMatcher.new }
+
     it 'returns mappings from the current_url' do
       swap_current_url('http://localhost:3000/foos/15')
 
