@@ -5,11 +5,6 @@ require 'base64'
 
 module SitePrism
   class AddressableUrlMatcher
-    COMPONENT_NAMES = %i[scheme user password host
-                         port path query fragment ].freeze
-
-    COMPONENT_PREFIXES = { query: '?', fragment: '#' }.freeze
-
     attr_reader :pattern
 
     def initialize(pattern)
@@ -22,7 +17,7 @@ module SitePrism
     def mappings(url)
       uri = Addressable::URI.parse(url)
       result = {}
-      COMPONENT_NAMES.each do |component|
+      component_names.each do |component|
         component_result = component_matches(component, uri)
         return nil unless component_result
 
@@ -62,7 +57,7 @@ module SitePrism
     end
 
     def extract_component_templates
-      COMPONENT_NAMES.each_with_object({}) do |component, component_templates|
+      component_names.each_with_object({}) do |component, component_templates|
         component_url = to_substituted_uri.public_send(component).to_s
 
         next unless component_url && !component_url.empty?
@@ -88,7 +83,7 @@ module SitePrism
       return mappings if mappings
       # to support Addressable's expansion of queries
       # ensure it's parsing the fragment as appropriate (e.g. {?params*})
-      prefix = COMPONENT_PREFIXES[component]
+      prefix = component_prefixes[component]
       return nil unless prefix
       component_template.extract(prefix + component_url)
     end
@@ -129,10 +124,9 @@ module SitePrism
       pattern.scan(/{[^}]+}/)
     end
 
-    # If a slug begins with non-alpha characters,
-    # it may denote the start of a new component (e.g. query or fragment).
-    # We emit this prefix as part of the substituted slug
-    # so that Addressable's URI parser can see it as such.
+    # If a slug begins with non-alpha characters, it may denote the start of
+    # a new component (e.g. query or fragment). We emit thie prefix as part of
+    # the substituted slug so that Addressable's URI parser can see it as such.
     def slug_prefix(slug)
       prefix = slug.match(/\A{([^A-Za-z]+)/)
       prefix && prefix[1] || ''
@@ -143,6 +137,17 @@ module SitePrism
     def substitution_value(index)
       sha = Digest::SHA1.digest(index.to_s)
       Base64.urlsafe_encode64(sha).gsub(/[^A-Za-z]/, '')[0..5]
+    end
+
+    def component_names
+      %i[scheme user password host port path query fragment]
+    end
+
+    def component_prefixes
+      {
+        query: '?',
+        fragment: '#'
+      }
     end
   end
 end
