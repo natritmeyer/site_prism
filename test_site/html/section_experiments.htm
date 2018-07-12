@@ -3,21 +3,15 @@
     <title>Section Experiments</title>
     <script type="text/javascript">
     function load() {
-      //create the link
-      slow_link = document.createElement("a");
-      //create a text node
-      some_text = document.createTextNode("slow link");
-      //set the link's href
-      slow_link.setAttribute('href', 'slowly.htm');
-      //set the link's class
-      slow_link.setAttribute('class', 'slow');
-      //add the text to the link
-      slow_link.appendChild(some_text);
       //get the element that we're going to add the link to
       dumping_ground = document.getElementById('dumping-ground');
-      //wait for a second and then add the links
-      var t1 = setTimeout("dumping_ground.appendChild(slow_link);", 2000);
-      var t2 = setTimeout("document.getElementById('removing-element').remove();", 2000);
+      //create the link with text/class properties
+      slow_link = document.createElement("a");
+      slow_link.innerText = "slow link";
+      slow_link.setAttribute('class', 'slow');
+      //wait for half a second and then add the links
+      setTimeout("dumping_ground.appendChild(slow_link);", 500);
+      setTimeout("document.getElementById('removing-element').remove();", 500);
     }
     window.onload = load;
     </script>
