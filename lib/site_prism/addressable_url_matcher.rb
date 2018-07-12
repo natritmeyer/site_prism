@@ -57,7 +57,7 @@ module SitePrism
     end
 
     def extract_component_templates
-      component_names.each_with_object({}) do |component, component_templates|
+      component_names.each_with_object({}) do |component, templates|
         component_url = to_substituted_uri.public_send(component).to_s
 
         next unless component_url && !component_url.empty?
@@ -66,15 +66,13 @@ module SitePrism
           component_url = component_url.sub(substituted_value, template_value)
         end
 
-        component_templates[component] =
-          Addressable::Template.new(component_url.to_s)
+        templates[component] = Addressable::Template.new(component_url)
       end
     end
 
-    # Returns empty hash if the template omits the component,
-    # a set of substitutions if the
-    # provided URI component matches the template component,
-    # or nil if the match fails.
+    # Returns empty hash if the template omits the component or a set of
+    # substitutions if the provided URI component matches the template
+    # component or nil if the match fails.
     def component_matches(component, uri)
       component_template = component_templates[component]
       return {} unless component_template
@@ -144,10 +142,7 @@ module SitePrism
     end
 
     def component_prefixes
-      {
-        query: '?',
-        fragment: '#'
-      }
+      { query: '?', fragment: '#' }
     end
   end
 end
