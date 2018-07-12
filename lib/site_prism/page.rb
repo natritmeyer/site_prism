@@ -10,11 +10,11 @@ module SitePrism
     include Loadable
     include ElementContainer
 
-    load_validation do
-      [
-        displayed?,
-        "Expected #{current_url} to match #{url_matcher} but it did not."
-      ]
+    # When instantiating the page. A single default validation will be added
+    # When calling #load, all of the validations set will be ran
+    # in order, with the default "displayed?" validation being ran first
+    def initialize
+      add_displayed_validation
     end
 
     def page
@@ -139,6 +139,15 @@ module SitePrism
 
     def matcher_template
       @matcher_template ||= AddressableUrlMatcher.new(url_matcher)
+    end
+
+    def add_displayed_validation
+      self.class.load_validation do
+        [
+          displayed?,
+          "Expected #{current_url} to match #{url_matcher} but it did not."
+        ]
+      end
     end
   end
   # rubocop:enable Metrics/ClassLength
