@@ -16,6 +16,7 @@ env:
 
 gemfile:
   - Gemfile
+  - capybara_2.gemfile
 
 addons:
   chrome: stable
