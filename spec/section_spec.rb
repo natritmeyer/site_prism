@@ -300,7 +300,7 @@ describe SitePrism::Section do
   end
 
   describe '#execute_script' do
-    it 'delegates through Capybara' do
+    it 'delegates through Capybara.current_session' do
       expect(Capybara.current_session)
         .to receive(:execute_script)
         .with('JUMP!')
@@ -310,18 +310,17 @@ describe SitePrism::Section do
   end
 
   describe '#evaluate_script' do
-    it 'delegates through Capybara' do
+    it 'delegates through Capybara.current_session' do
       expect(Capybara.current_session)
         .to receive(:evaluate_script)
         .with('How High?')
         .and_return('To the sky!')
 
-      expect(section_without_block.evaluate_script('How High?'))
-        .to eql('To the sky!')
+      section_without_block.evaluate_script('How High?') == 'To the sky!'
     end
   end
 
-  describe '#within_frame' do
+  describe 'operating with an iFrame' do
     class IframePage < SitePrism::Page
       element :a, '.some_element'
     end
@@ -330,9 +329,9 @@ describe SitePrism::Section do
       iframe :frame, IframePage, '.iframe'
     end
 
-    let(:section) { SectionWithIframe.new('', '') }
+    let(:section) { SectionWithIframe.new(Page.new, locator) }
 
-    it 'delegates through Capybara' do
+    it 'uses #within_frame delegated through Capybara.current_session' do
       expect(Capybara.current_session)
         .to receive(:within_frame)
         .with(:css, '.iframe')
@@ -341,7 +340,7 @@ describe SitePrism::Section do
       expect_any_instance_of(IframePage)
         .to receive(:_find)
         .with('.some_element', wait: false)
-        .and_return('element')
+        .and_return(locator)
 
       section.frame(&:a)
     end

@@ -14,6 +14,7 @@ describe SitePrism::Page do
     set_url_matcher(/bob/)
   end
 
+  let!(:locator) { instance_double('Capybara::Node::Element') }
   let(:blank_page) { BlankPage.new }
   let(:page_with_url) { PageWithUrl.new }
   let(:page_with_uri_template) { PageWithUriTemplate.new }
@@ -389,30 +390,27 @@ from the be_displayed matcher" do
   end
 
   describe '#execute_script' do
-    let(:page) { PageWithRegexpUrlMatcher.new }
-    it 'delegates through Capybara' do
+    it 'delegates through Capybara.current_session' do
       expect(Capybara.current_session)
         .to receive(:execute_script)
         .with('JUMP!')
 
-      page.execute_script('JUMP!')
+      blank_page.execute_script('JUMP!')
     end
   end
 
   describe '#evaluate_script' do
-    let(:page) { PageWithRegexpUrlMatcher.new }
-    it 'delegates through Capybara' do
+    it 'delegates through Capybara.current_session' do
       expect(Capybara.current_session)
         .to receive(:evaluate_script)
         .with('How High?')
         .and_return('To the sky!')
 
-      expect(page.evaluate_script('How High?'))
-        .to eql('To the sky!')
+      blank_page.evaluate_script('How High?') == 'To the sky!'
     end
   end
 
-  describe '#within_frame' do
+  describe 'operating with an iFrame' do
     class IframePage < SitePrism::Page
       element :a, '.some_element'
     end
@@ -423,7 +421,7 @@ from the be_displayed matcher" do
 
     let(:page) { PageWithIframe.new }
 
-    it 'delegates through Capybara' do
+    it 'uses #within_frame delegated through Capybara.current_session' do
       expect(Capybara.current_session)
         .to receive(:within_frame)
         .with(:css, '.iframe')
@@ -432,7 +430,7 @@ from the be_displayed matcher" do
       expect_any_instance_of(IframePage)
         .to receive(:_find)
         .with('.some_element', wait: false)
-        .and_return('element')
+        .and_return(locator)
 
       page.frame(&:a)
     end
