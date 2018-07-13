@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Before('~@implicit_waits') do
+Before('not @implicit_waits') do
   SitePrism.configure do |config|
     config.use_implicit_waits = false
   end

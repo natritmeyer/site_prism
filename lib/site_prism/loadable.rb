@@ -66,8 +66,7 @@ module SitePrism
       # Within the block, cache loaded? to optimize performance.
       self.loaded = loaded?
 
-      message = "Failed to load because: #{load_error || 'no reason given'}"
-      raise ::SitePrism::NotLoadedError, message unless loaded
+      raise SitePrism::NotLoadedError, load_error unless loaded
 
       yield self
     ensure
