@@ -13,7 +13,7 @@ Make sure to add your project/company to https://github.com/natritmeyer/site_pri
 
 We love it when people want to get involved with our Open Source Project.
 
-We have a brief set of setup docs [HERE](https://github.com/natritmeyer/site_prism/development_setup.md)
+We have a brief set of setup docs [HERE](https://github.com/natritmeyer/site_prism/blob/master/development_setup.md)
 
 ## Supported Rubies / Browsers
 
@@ -35,7 +35,7 @@ class Home < SitePrism::Page
   set_url_matcher /google.com\/?/
 
   element :search_field, 'input[name="q"]'
-  element :search_button, "button[name='btnK']"
+  element :search_button, 'button[name="btnK"]'
   elements :footer_links, '#footer a'
   section :menu, MenuSection, '#gbx3'
 end
@@ -47,7 +47,7 @@ class SearchResults < SitePrism::Page
   sections :search_results, SearchResultSection, '#results li'
 
   def search_result_links
-    search_results.map {|sr| sr.title['href']}
+    search_results.map { |result| result.title['href'] }
   end
 end
 
@@ -79,7 +79,7 @@ Then(/^the home page should contain the menu and the search form$/) do
 end
 
 When(/^I search for Sausages$/) do
-  @home.search_field.set "Sausages"
+  @home.search_field.set 'Sausages'
   @home.search_button.click
 end
 
@@ -195,7 +195,7 @@ a simple example:
 
 ```ruby
 class UserProfile < SitePrism::Page
-  set_url "/users{/username}"
+  set_url '/users{/username}'
 end
 ```
 
@@ -203,7 +203,7 @@ end
 
 ```ruby
 class Search < SitePrism::Page
-  set_url "/search{?query*}"
+  set_url '/search{?query*}'
 end
 ```
 
@@ -225,7 +225,7 @@ The `#load` method takes parameters and will apply them to the URL. Using the ex
 
 ```ruby
 class UserProfile < SitePrism::Page
-  set_url "/users{/username}"
+  set_url '/users{/username}'
 end
 
 @user_profile = UserProfile.new
@@ -237,7 +237,7 @@ end
 
 ```ruby
 class Search < SitePrism::Page
-  set_url "/search{?query*}"
+  set_url '/search{?query*}'
 end
 
 @search = Search.new
@@ -259,7 +259,7 @@ currently viewed page.  For example, with the following URL template:
 
 ```ruby
 class Account < SitePrism::Page
-  set_url "/accounts/{id}{?query*}"
+  set_url '/accounts/{id}{?query*}'
 end
 ```
 
