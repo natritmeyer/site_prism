@@ -406,7 +406,7 @@ from the be_displayed matcher" do
         .with('How High?')
         .and_return('To the sky!')
 
-      blank_page.evaluate_script('How High?') == 'To the sky!'
+      expect(blank_page.evaluate_script('How High?')).to eq('To the sky!')
     end
   end
 
