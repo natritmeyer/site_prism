@@ -10,9 +10,10 @@ module SitePrism
     include Loadable
     include ElementContainer
 
-    # When instantiating the page. A single default validation will be added
-    # When calling #load, all of the validations set will be ran
-    # in order, with the default "displayed?" validation being ran first
+    # When instantiating the page. A default validation will be added to all
+    # validations you define and add to the Page Class.
+    # When calling #load, all of the validations that are set will be ran
+    # in order, with the default "displayed?" validation being ran _LAST_
     def initialize
       add_displayed_validation
     end
