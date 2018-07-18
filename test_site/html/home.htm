@@ -21,11 +21,11 @@
       //get the element that we're going to add the link to
       dumping_ground = document.getElementById('dumping_ground');
       //wait for a second and then add the links
-      var t1 = setTimeout("dumping_ground.appendChild(slow_link);", 2000);
-      var t2 = setTimeout("document.getElementById('will_become_visible').style.display='block';", 2000);
-      var t3 = setTimeout("document.getElementById('will_become_invisible').style.display='none';", 2000);
-      var t4 = setTimeout("document.getElementById('will_become_nonexistent').remove();", 2000);
-      var t5 = setTimeout("document.getElementById('link_container_will_become_nonexistent').remove();", 2000);
+      var t1 = setTimeout("dumping_ground.appendChild(slow_link);", 1900);
+      var t2 = setTimeout("document.getElementById('will_become_visible').style.display='block';", 1900);
+      var t3 = setTimeout("document.getElementById('will_become_invisible').style.display='none';", 1900);
+      var t4 = setTimeout("document.getElementById('will_become_nonexistent').remove();", 1900);
+      var t5 = setTimeout("document.getElementById('link_container_will_become_nonexistent').remove();", 1900);
 
       var slow_section = document.createElement("div");
       slow_section.className = 'slow-section first';
