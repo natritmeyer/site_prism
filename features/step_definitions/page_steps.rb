@@ -25,3 +25,19 @@ end
 Then('the page has no title') do
   expect(@test_site.no_title.title).to eq('')
 end
+
+When('I execute some javascript on the page to set a value') do
+  @test_site
+    .section_experiments
+    .execute_script("document.getElementById('first_search_result')\
+.children[0].innerHTML = 'wibble'")
+end
+
+Then('I can evaluate some javascript on the page to get the value') do
+  expect(
+    @test_site
+      .section_experiments
+      .evaluate_script("document.getElementById('first_search_result')\
+.children[0].innerHTML")
+  ).to eq('wibble')
+end

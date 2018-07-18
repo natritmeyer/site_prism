@@ -314,8 +314,36 @@ describe SitePrism::Section do
       expect(Capybara.current_session)
         .to receive(:evaluate_script)
         .with('How High?')
+        .and_return('To the sky!')
 
-      section_without_block.evaluate_script('How High?')
+      expect(section_without_block.evaluate_script('How High?'))
+        .to eql('To the sky!')
+    end
+  end
+
+  describe '#within_frame' do
+    class IframePage < SitePrism::Page
+      element :a, '.some_element'
+    end
+
+    class SectionWithIframe < SitePrism::Section
+      iframe :frame, IframePage, '.iframe'
+    end
+
+    let(:section) { SectionWithIframe.new('', '') }
+
+    it 'delegates through Capybara' do
+      expect(Capybara.current_session)
+        .to receive(:within_frame)
+        .with(:css, '.iframe')
+        .and_yield
+
+      expect_any_instance_of(IframePage)
+        .to receive(:_find)
+        .with('.some_element', wait: false)
+        .and_return('element')
+
+      section.frame(&:a)
     end
   end
 

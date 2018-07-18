@@ -388,6 +388,56 @@ from the be_displayed matcher" do
     end
   end
 
+  describe '#execute_script' do
+    let(:page) { PageWithRegexpUrlMatcher.new }
+    it 'delegates through Capybara' do
+      expect(Capybara.current_session)
+        .to receive(:execute_script)
+        .with('JUMP!')
+
+      page.execute_script('JUMP!')
+    end
+  end
+
+  describe '#evaluate_script' do
+    let(:page) { PageWithRegexpUrlMatcher.new }
+    it 'delegates through Capybara' do
+      expect(Capybara.current_session)
+        .to receive(:evaluate_script)
+        .with('How High?')
+        .and_return('To the sky!')
+
+      expect(page.evaluate_script('How High?'))
+        .to eql('To the sky!')
+    end
+  end
+
+  describe '#within_frame' do
+    class IframePage < SitePrism::Page
+      element :a, '.some_element'
+    end
+
+    class PageWithIframe < SitePrism::Page
+      iframe :frame, IframePage, '.iframe'
+    end
+
+    let(:page) { PageWithIframe.new }
+
+    it 'delegates through Capybara' do
+      expect(Capybara.current_session)
+        .to receive(:within_frame)
+        .with(:css, '.iframe')
+        .and_yield
+
+      expect_any_instance_of(IframePage)
+        .to receive(:_find)
+        .with('.some_element', wait: false)
+        .and_return('element')
+
+      page.frame(&:a)
+    end
+  end
+
   it 'should expose the page title' do
     expect(blank_page).to respond_to(:title)
   end
