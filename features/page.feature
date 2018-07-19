@@ -23,3 +23,8 @@ Feature: Page Properties
   Scenario: Page title - Undefined
     When I navigate to a page with no title
     Then the page has no title
+
+  Scenario: Check we can call JS methods against a page
+    When I navigate to the section experiments page
+    And I execute some javascript on the page to set a value
+    Then I can evaluate some javascript on the page to get the value
