@@ -73,22 +73,19 @@ when all load validations pass" do
         loadable.load_validation { true }
         loadable.load_validation { false }
 
-        expect do
-          loadable.new.when_loaded { james_bond.drink_martini }
-        end.to raise_error(SitePrism::NotLoadedError, /no reason given/)
+        expect { loadable.new.when_loaded { james_bond.drink_martini } }
+          .to raise_error(SitePrism::NotLoadedError)
+          .with_message('Failed to load - No reason specified.')
 
         expect(james_bond).not_to have_received(:drink_martini)
       end
 
       it 'raises a NotLoadedError with a user-defined message' do
-        loadable.load_validation { [false, 'all your base are belong to us'] }
+        loadable.load_validation { [false, 'VALIDATION FAILED'] }
 
-        expect do
-          loadable.new.when_loaded { :foo }
-        end.to raise_error(
-          SitePrism::NotLoadedError,
-          'Failed to load because: all your base are belong to us'
-        )
+        expect { loadable.new.when_loaded { :foo } }
+          .to raise_error(SitePrism::NotLoadedError)
+          .with_message('Failed to load. Reason: VALIDATION FAILED')
       end
     end
 

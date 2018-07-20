@@ -133,7 +133,7 @@ describe SitePrism::Page do
 
           expect { page_with_load_validations.load { puts 'foo' } }
             .to raise_error(SitePrism::NotLoadedError)
-            .with_message('Failed to load because: It is not true!')
+            .with_message('Failed to load. Reason: It is not true!')
         end
       end
     end
@@ -165,10 +165,7 @@ is called before the matcher has been set" do
     end
 
     let(:page) { PageWithBogusFullUrlMatcher.new }
-    let(:error_message) do
-      "Could not automatically match your URL. \
-Templated port numbers are unsupported."
-    end
+    let(:error_message) { 'Your URL and/or matcher could not be interpreted.' }
 
     describe '#url_matches' do
       it 'raises InvalidUrlMatcher' do
@@ -443,28 +440,19 @@ from the be_displayed matcher" do
   it 'should raise an exception if passing a block to an element' do
     expect { TestHomePage.new.invisible_element { :any_old_block } }
       .to raise_error(SitePrism::UnsupportedBlock)
-      .with_message(
-        "TestHomePage#invisible_element does not accept blocks, \
-did you mean to define a (i)frame?"
-      )
+      .with_message('TestHomePage#invisible_element does not accept blocks.')
   end
 
   it 'should raise an exception if passing a block to elements' do
     expect { TestHomePage.new.lots_of_links { :any_old_block } }
       .to raise_error(SitePrism::UnsupportedBlock)
-      .with_message(
-        "TestHomePage#lots_of_links does not accept blocks, \
-did you mean to define a (i)frame?"
-      )
+      .with_message('TestHomePage#lots_of_links does not accept blocks.')
   end
 
   it 'should raise an exception if passing a block to sections' do
     expect { TestHomePage.new.nonexistent_sections { :any_old_block } }
       .to raise_error(SitePrism::UnsupportedBlock)
-      .with_message(
-        "TestHomePage#nonexistent_sections does not accept blocks, \
-did you mean to define a (i)frame?"
-      )
+      .with_message('TestHomePage#nonexistent_sections does not accept blocks.')
   end
 
   def swap_current_url(url)

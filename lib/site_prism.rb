@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'site_prism/exceptions'
+require 'site_prism/error'
 require 'addressable/template'
 
 module SitePrism

@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'iFrame' do
   shared_examples 'iFrame' do
     let(:error_message) do
-      'You can only use iFrames in a block context. See docs for more details.'
+      'You can only use iFrames in a block context - Please pass in a block.'
     end
 
     it 'cannot be called out of block context' do

@@ -59,10 +59,7 @@ describe SitePrism::AddressableUrlMatcher do
     it 'raises an error on templated port' do
       expect { matches? '//bazzle.com:{port}' }
         .to raise_error(SitePrism::InvalidUrlMatcher)
-        .with_message(
-          "Could not automatically match your URL. \
-Templated port numbers are unsupported."
-        )
+        .with_message('Your URL and/or matcher could not be interpreted.')
     end
 
     it 'passes on correct static port' do

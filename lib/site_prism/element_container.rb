@@ -12,8 +12,9 @@ module SitePrism
       Capybara.default_max_wait_time
     end
 
-    def raise_if_block(obj, name, has_block)
+    def raise_if_block(obj, name, has_block, type)
       return unless has_block
+      warn "Type passed in: #{type}"
 
       raise SitePrism::UnsupportedBlock, "#{obj.class}##{name}"
     end
@@ -62,7 +63,7 @@ module SitePrism
       def element(name, *find_args)
         build(name, *find_args) do
           define_method(name) do |*runtime_args, &element_block|
-            raise_if_block(self, name, !element_block.nil?)
+            raise_if_block(self, name, !element_block.nil?, :element)
             _find(*merge_args(find_args, runtime_args))
           end
         end
@@ -71,7 +72,7 @@ module SitePrism
       def elements(name, *find_args)
         build(name, *find_args) do
           define_method(name) do |*runtime_args, &element_block|
-            raise_if_block(self, name, !element_block.nil?)
+            raise_if_block(self, name, !element_block.nil?, :elements)
             _all(*merge_args(find_args, runtime_args))
           end
         end
@@ -101,7 +102,7 @@ module SitePrism
         section_class, find_args = extract_section_options(args, &block)
         build(name, *find_args) do
           define_method(name) do |*runtime_args, &element_block|
-            raise_if_block(self, name, !element_block.nil?)
+            raise_if_block(self, name, !element_block.nil?, :sections)
             _all(*merge_args(find_args, runtime_args)).map do |element|
               section_class.new(self, element)
             end
@@ -238,8 +239,7 @@ module SitePrism
 
       def create_no_selector(method_name)
         define_method(method_name) do
-          raise SitePrism::NoSelectorForElement.new,
-                "#{self.class.name} => :#{method_name} needs a selector"
+          raise SitePrism::NoSelectorForElement, "#{self.class}##{method_name}"
         end
       end
 
