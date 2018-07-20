@@ -3,7 +3,6 @@
 require 'site_prism/loadable'
 
 module SitePrism
-  # rubocop:disable Metrics/ClassLength
   class Page
     include Capybara::DSL
     include ElementChecker
@@ -139,5 +138,4 @@ module SitePrism
       @matcher_template ||= AddressableUrlMatcher.new(url_matcher)
     end
   end
-  # rubocop:enable Metrics/ClassLength
 end

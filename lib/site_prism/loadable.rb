@@ -41,14 +41,7 @@ module SitePrism
 
       def default_validations
         if siteprism_page?
-          [
-            Proc.new do
-              [
-                displayed?,
-                "Expected #{current_url} to match #{url_matcher} but it did not."
-              ]
-            end
-          ]
+          [displayed_validation]
         else
           []
         end
@@ -56,6 +49,15 @@ module SitePrism
 
       def siteprism_page?
         self == SitePrism::Page
+      end
+
+      def displayed_validation
+        proc do
+          [
+            displayed?,
+            "Expected #{current_url} to match #{url_matcher} but it did not."
+          ]
+        end
       end
     end
 
