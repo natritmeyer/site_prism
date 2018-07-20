@@ -40,6 +40,36 @@ describe SitePrism::Loadable do
         )
       end
     end
+
+    context 'With default validations disabled' do
+      before do
+        SitePrism.default_load_validations = false
+      end
+
+      after do
+        # Reset the Default Constructor so its behaviour can be modified
+        SitePrism::Page.remove_instance_variable(:@_load_validations)
+        SitePrism.default_load_validations = true
+      end
+
+      context 'A standard Page' do
+        it 'has no default load validations' do
+          klass = Class.new(SitePrism::Page)
+
+          expect(klass.load_validations.length).to eq(0)
+        end
+      end
+    end
+
+    context 'With default validations enabled' do
+      context 'A standard Page' do
+        it 'has 1 default load validation' do
+          klass = Class.new(SitePrism::Page)
+
+          expect(klass.load_validations.length).to eq(1)
+        end
+      end
+    end
   end
 
   describe '.load_validation' do
