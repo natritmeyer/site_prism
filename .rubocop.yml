@@ -21,9 +21,9 @@ BlockLength:
     - './spec/*_spec.rb'
     - 'site_prism.gemspec'
 
-## Offense count: 13
+# Offense count: 7
 Metrics/LineLength:
-  Max: 99
+  Max: 90
 
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: comma
