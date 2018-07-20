@@ -94,37 +94,7 @@
 - Added ability to use block syntax inside spec / test sections (@tgaff)
 - Implement new Loadable behavior for pages and sections - thanks to @tmertens
 
-`v2.8`
-- Catching up with Capybara's `#default_max_wait_time` (@tpbowden, @mnohai-mdsol & @tmertens)
-- Simplified check for URI scheme (@benlovell)
-
-`v2.7`
-- Spring clean of the code - thanks to Jonathan Chrisp (@jonathanchrisp)
-- Fixes around Capybara's `#title` method - thanks to @tgaff
-- Changes around url matching - thanks to @jmileham
-- Added check for block being passed to page - thanks to @sponte
-
-`v2.6`
-- Added rspec 3 compatibility - thanks to Bradley Schaefer (@soulcutter)
-- Added anonymous sections - thanks to Constantine Zaytsev (@bassneck)
-
-`v2.5`
-- Added ability to select iFrame by index - thanks to Mike Kelly (@mikekelly)
-- `site_prism` gem now does lazy loading - thanks to @mrsutter
-- Added config block and improved `capybara` integration - thanks to @tmertens (and to @LukasMac for testing it)
-- Changed `#set_url` to convert its input to a string - thanks to Jared Fraser (@modsognir)
-
-`v2.4`
-- Upped Version Dependency of capybara to `2.1`
-- `SitePrism::Page#title` now returns `""` instead of `nil` when there is no title
-- Added `#has_no_<element>?` - thanks to John Wakeling (@johnwake)
-- `site_prism` now uses `Capybara::Node::Finders#find` instead of `#first` to locate individual elements
-
-`v2.3`
-- Dynamic URLs - thanks to David Haslem (@therabidbanana)
-
-## [X.X] - 2013-04-XX
-
+## [X.X] - 2015-05-XX
 ### Removed
 N/A
 
@@ -136,6 +106,164 @@ N/A
 
 ### Fixed
 N/A
+
+## [2.9] - 2016-03-29
+### Removed
+N/A
+
+### Added
+N/A
+
+### Changed
+N/A
+
+### Fixed
+N/A
+
+## [2.8] - 2015-10-30
+### Removed
+- `reek` as we have `rubocop`
+([natritmeyer])
+
+### Added
+- Add ruby 2.2 to rubies used in Travis
+([natritmeyer])
+
+### Changed
+- Use the latest version of Capybara's waiting time method
+  - `#default_max_wait_time` from Capybara 2.5 onwards
+  - `#default_wait_time` for 2.4 and below
+([tpbowden]) & ([mnohai-mdsol]) & ([tmertens])
+
+- Simplified `#secure?` method
+([benlovell])
+
+### Fixed
+- Fix up rubocop issues from suite updates
+([tgaff])
+
+- README doc fixes
+([khaidpham])
+
+## [2.7] - 2015-04-23
+### Added
+- Allow `#load` to be passed an HTML block to facilitate cleaner view tests
+([rugginoso])
+
+- Spring clean of the code, integrated suite with `rubocop`
+([jonathanchrisp])
+
+- Test on ruby 2.1 as an additional part of sign-off procedure in Travis
+([natritmeyer])
+
+- SitePrism can now leverage URL component parts during the matching process
+  - Substituting all parts of url_matcher into the relevant types (port/fragment e.t.c.)
+  - Only pass the matching test after each component part matches the `url_matcher` set
+([jmileham])
+  
+- Added check for block being passed to page (Will raise error accordingly)
+([sponte])
+
+### Changed
+- Altered legacy RSpec syntax in favour of `expect` in tests
+([petergoldstein]) 
+
+- Extend `#displayed?` to work when a `url_matcher` is templated
+([jmileham])
+
+### Fixed
+- README doc fixes
+([vanburg]) & ([csgavino])
+
+- Amended issues that occurred on RSpec 3 by making the suite agnostic to the version used
+([tgaff]) & ([natritmeyer])
+
+- Internal test suite altered to avoid conflicting with Capybara's `#title` method
+([tgaff])
+
+## [2.6] - 2014-02-11
+### Added
+- Added anonymous sections (That need no explicit Class declaration)
+([bassneck])
+
+### Changed
+- Upped Version Dependency of rspec to `< 4.0`, and altered it to be a development dependency
+([soulcutter]) & ([KarthikDot]) & ([natritmeyer])
+
+### Fixed
+- README / License data inconsistencies
+([dnesteryuk]) & ([natritmeyer])
+
+- Using runtime options but not specifying a wait time would throw a Type mismatch error
+  - This will now default to `Capybara.default_max_wait_time` if implicit waiting is enabled
+  - This won't wait if implicit waiting is disabled
+([tgaff])
+
+## [2.5] - 2013-10-28
+### Added
+- Allowed iFrames to be selected by index
+([mikekelly])
+
+- Integrated a Rack App into the suite to allow for enhanced spec testing
+([natritmeyer])
+
+- `site_prism` gem now does lazy loading
+([mrsutter])
+
+- `SitePrism::Waiter.wait_until_true` class method now re-evaluates blocks until they pass as true
+([tmertens])
+
+- Improved `capybara` integration to allow runtime arguments to be passed into methods
+([tmertens])
+
+- Added configuration for the entire Suite to use implicit waits (Default configured off)
+([tmertens])
+
+### Changed
+- README tweaks relevant to the new version of the gem
+([abotalov]) & ([natritmeyer]) & ([tommyh])
+
+### Fixed
+- README inconsistencies fixed
+([antonio]) & ([LukasMac]) & ([Mustang949])
+
+- Allow `#displayed?` test used in load validations to use newly made `Waiter` class to avoid false failures
+([tmertens])
+
+- Changed `#set_url` to convert its input to a string - fixing method inconsistencies
+([modsognir])
+
+## [2.4] - 2013-05-18
+### Added
+- Added `#has_no_<thing>?`, to test for non-presence
+([johnwake])
+
+### Changed
+- `site_prism` now uses `Capybara::Node::Finders#find` instead of `#first` to locate an element / section
+([natritmeyer])
+
+- Upped Version Dependency of capybara to `~> 2.1`
+([natritmeyer])
+
+- `SitePrism::Page#title` now returns `""` instead of `nil` when there is no title
+([natritmeyer])
+
+- Altered suite configuration to ignore hidden elements in internal feature testing
+([natritmeyer])
+
+### Fixed
+- Improved the waiting logic for visible / invisible waiters to avoid false failures
+([j16r])
+
+## [2.3] - 2013-04-05
+### Added
+- Initial Dynamic URL support 
+  - Adds new dependency to suite `addressable`
+  - Allows templating of URL parameters to be passed in as KVP's
+([therabidbanana])
+
+- Added Yard Rake task to dynamically generate documentation on gem
+([natritmeyer])
 
 ## [2.2] - 2013-03-12
 
@@ -158,7 +286,6 @@ N/A
 ([dnesteryuk])
 
 ## [2.1] - 2013-02-06
-
 ### Added
 - Added xpath support
 ([3coins])
@@ -172,7 +299,7 @@ N/A
 ([natritmeyer])
 
 ### Changed
-- Upped Version Dependency of `capybara` to `2.0`
+- Upped Version Dependency of `capybara` to `~> 2.0`
 ([natritmeyer])
 
 - `site_prism` gem now depends on Ruby 1.9; 1.8 is deprecated (`capybara` no longer supports 1.8)
@@ -292,8 +419,16 @@ N/A
 <!-- Releases -->
 [Unreleased]: https://github.com/natritmeyer/site_prism/compare/v2.15.1...master
 
-<!-- all up to 2.2 correctly formatted and datestamped -->
-<!-- all releases up to 2.2 correctly checked for content / people -->
+<!-- all up to 2.8 correctly formatted and datestamped -->
+<!-- all releases up to 2.8 correctly checked for content / people -->
+[2.9.1]:      https://github.com/natritmeyer/site_prism/compare/v2.9...v2.9.1
+[2.9]:        https://github.com/natritmeyer/site_prism/compare/v2.8...v2.9
+[2.8]:        https://github.com/natritmeyer/site_prism/compare/v2.7...v2.8
+[2.7]:        https://github.com/natritmeyer/site_prism/compare/v2.6...v2.7
+[2.6]:        https://github.com/natritmeyer/site_prism/compare/v2.5...v2.6
+[2.5]:        https://github.com/natritmeyer/site_prism/compare/v2.4...v2.5
+[2.4]:        https://github.com/natritmeyer/site_prism/compare/v2.3...v2.4
+[2.3]:        https://github.com/natritmeyer/site_prism/compare/v2.2...v2.3
 [2.2]:        https://github.com/natritmeyer/site_prism/compare/v2.1...v2.2
 [2.1]:        https://github.com/natritmeyer/site_prism/compare/v2.0...v2.1
 [2.0]:        https://github.com/natritmeyer/site_prism/compare/v1.4...v2.0
@@ -322,6 +457,33 @@ N/A
 [3coins]:         https://github.com/3coins
 [dnesteryuk]:     https://github.com/dnesteryuk
 [abotalov]:       https://github.com/abotalov
+[therabidbanana]: https://github.com/therabidbanana
+[johnwake]:       https://github.com/johnwake
+[j16r]:           https://github.com/j16r
+[mikekelly]:      https://github.com/mikekelly
+[antonio]:        https://github.com/antonio
+[LukasMac]:       https://github.com/LukasMac
+[tmertens]:       https://github.com/tmertens
+[modsognir]:      https://github.com/modsognir
+[Mustang949]:     https://github.com/tmertens
+[mrsutter]:       https://github.com/mrsutter
+[tommyh]:         https://github.com/tommyh
+[bassneck]:       https://github.com/bassneck
+[soulcutter]:     https://github.com/soulcutter
+[KarthikDot]:     https://github.com/KarthikDot
+[tgaff]:          https://github.com/tgaff
+[petergoldstein]: https://github.com/petergoldstein
+[rugginoso]:      https://github.com/rugginoso
+[vanburg]:        https://github.com/vanburg
+[jonathanchrisp]: https://github.com/jonathanchrisp
+[jmileham]:       https://github.com/jmileham
+[sponte]:         https://github.com/sponte
+[csgavino]:       https://github.com/csgavino
+[tpbowden]:       https://github.com/tpbowden
+[mnohai-mdsol]:   https://github.com/mnohai-mdsol
+[khaidpham]:      https://github.com/khaidpham
+[benlovell]:      https://github.com/benlovell
+
 
 
 [luke-hill]:      https://github.com/luke-hill
