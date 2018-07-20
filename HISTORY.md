@@ -157,36 +157,88 @@
 `v1.1`
 - Added `page.secure?` method
 
-`v1.0`
-- Added `README.md`
-- First public release
 
-`v0.9.9`
+## [1.0] - 2012-03-XX
+
+- First public release!
+
+### Removed
+N/A
+
+### Added
+- Added `README.md`
+
+### Changed
+N/A
+
+### Fixed
+N/A
+
+## [0.9.9] - 2012-03-XX
+
+### Fixed
 - Fixed bug where `wait_for_` didn't work in sections
 
-`v0.9.8`
+## [0.9.8] - 2012-03-XX
+
+### Added
 - Added ability to call `execute_javascript` and `evaluate_javascript` inside a `section`
 
-`v0.9.7`
+## [0.9.7] - 2012-03-07
+
+### Added
 - Added ability to have pending elements, ie: elements declared without locators
 
-`v0.9.6`
+## [0.9.6] - 2012-03-06
+
+### Added
 - Added parameterised `wait_for_`
 
-`v0.9.5`
-- Refactoring `all_there?`
+## [0.9.5] - 2012-03-05
 
-`v0.9.4`
-- Added `all_there?` method - Returns `true` if all mapped elements and sections are present, `false` otherwise
+### Changed
+- Refactored `all_there?`
 
-`v0.9.3`
+## [0.9.4] - 2012-03-01
+
+### Added
+- Added `all_there?` method
+  - Returns `true` if all mapped elements and sections are present, `false` otherwise
+
+## [0.9.3] - 2012-02-11
+
+### Added
 - Added `wait_for_` functionality to pages and sections
 
-`v0.9.2`
+## [0.9.2] - 2012-01-11
+
+### Added
 - Added ability to access a section's `root_element`
 
-`v0.9.1`
+## [0.9.1] - 2012-01-11
+
+### Added
 - Added `visible?` to section
 
-`v0.9`
+## [0.9] - 2011-12-22
+
 - First release!
+
+<!-- Releases -->
+[Unreleased]: https://github.com/natritmeyer/site_prism/compare/v2.15.1...master
+
+<!-- all up to 0.9.4 correctly formatted and datestamped -->
+[1.0]:        https://github.com/natritmeyer/site_prism/compare/v1.0...v1.1
+[0.9.9]:      https://github.com/natritmeyer/site_prism/compare/v0.9.9...v1.0
+[0.9.8]:      https://github.com/natritmeyer/site_prism/compare/v0.9.8...v0.9.9
+[0.9.7]:      https://github.com/natritmeyer/site_prism/compare/v0.9.7...v0.9.8
+[0.9.6]:      https://github.com/natritmeyer/site_prism/compare/v0.9.6...v0.9.7
+[0.9.5]:      https://github.com/natritmeyer/site_prism/compare/v0.9.5...v0.9.6
+[0.9.4]:      https://github.com/natritmeyer/site_prism/compare/v0.9.4...v0.9.5
+[0.9.3]:      https://github.com/natritmeyer/site_prism/compare/v0.9.3...v0.9.4
+[0.9.2]:      https://github.com/natritmeyer/site_prism/compare/v0.9.2...v0.9.3
+[0.9.1]:      https://github.com/natritmeyer/site_prism/compare/v0.9.1...v0.9.2
+[0.9]:        https://github.com/natritmeyer/site_prism/compare/v0.9...v0.9.1
+
+<!-- Contributors in alphabetical order -->
+[luke-hill]:        https://github.com/luke-hill
