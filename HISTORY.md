@@ -139,134 +139,161 @@ N/A
 
 ## [2.2] - 2013-03-12
 
-### Removed
-N/A
-
 ### Added
-- Added `#parent` and `#parent_page` to `SitePrism::Section` - thanks to Dmitriy Nesteryuk (@nestd)
-- Various bug fixes - thanks to Dmitriy Nesteryuk (@nestd)
-- General code cleanup (including Travis integration) - thanks to Andrey Botalov (@abotalov)
-- Required ruby version now 1.9.3+
+- Added `#parent` and `#parent_page` to `SitePrism::Section` that will find a Sections Parent, and their Parent Page respectively
+([dnesteryuk])
+
+- Ruby 1.9 Code cleanup (Hash / gemspec)
+([abotalov])
+
+- Travis integration on repository
+([abotalov])
 
 ### Changed
-N/A
+- Required ruby version now 1.9.3+
+([abotalov])
 
 ### Fixed
-N/A
+- Various visibility and waiting bug fixes
+([dnesteryuk])
 
 ## [2.1] - 2013-02-06
 
 ### Added
-- Added xpath support - thanks to Piyush Jain (@3coins)
+- Added xpath support
+([3coins])
+
+- Added `reek` to the suite to try clean up some code-smells
+([natritmeyer])
 
 ## [2.0] - 2013-01-15
-
-- Upped Version Dependency of `capybara` to `2.0`
-- `site_prism` gem now depends on Ruby 1.9; 1.8 is deprecated (`capybara` no longer supports 1.8)
-
-## [1.4] - 2012-11-20
+### Added
+- Added rake-tasks to suite for `rspec` and `cucumber` tests
+([natritmeyer])
 
 ### Changed
+- Upped Version Dependency of `capybara` to `2.0`
+([natritmeyer])
 
-- Changed all occurrences of 'locator' to 'selector' in the code
+- `site_prism` gem now depends on Ruby 1.9; 1.8 is deprecated (`capybara` no longer supports 1.8)
+([natritmeyer])
+
+## [1.4] - 2012-11-20
+### Changed
+- Changed all references of 'locator' to 'selector' in the code / documentation
+([natritmeyer])
 
 - Upped Version Dependencies
   - `capybara ~> 1.1`
   - `rspec ~> 2.0`
+  ([natritmeyer])
   
-- Internal API Change:
+- Internal API Changes:
   - `#element_names` is now `#mapped_items` in `SitePrism::Page` and `SitePrism::Section`
-  
+  - We now use a `build` method to decide what methods are created for each element/section and in what order
+  ([natritmeyer])
+
 - External API Change (Probably breaking change):
   - `NoLocatorForElement` is now `NoSelectorForElement`
+  ([natritmeyer])
+
+### Fixed
+- README typo sweep done. Errors fixed
+([nathanbain])
 
 ## [1.3] - 2012-07-29
-
 ### Added
 - Added `wait_until_<element_name>_visible` / `wait_until_<element_name>_invisible` for elements and sections
+([natritmeyer])
+
+- Added `simplecov` to the suite to give some internal usage statistics
+([natritmeyer])
 
 ## [1.2] - 2012-07-02
-
 ### Added
 - Added ability to interact with iFrames
+([natritmeyer])
 
 ## [1.1.1] - 2012-06-17
 
 ### Fixed
 - Added ruby 1.8.* support that was broken in [1.1]
+([remi])
 
 ## [1.1] - 2012-06-14
-
 ### Added
 - Added `page.secure?` method
+([natritmeyer])
 
 ## [1.0] - 2012-04-19
-
 - First public release!
 
 ### Added
 - Added `README.md`
+([natritmeyer])
+
+### Fixed
+- Fixed issue where cucumber tests wouldn't run due to hardcoded test path
+([andyw8])
 
 ## [0.9.9] - 2012-03-24
+### Added
+- Base History document
+([natritmeyer])
 
 ### Fixed
 - Fixed bug where `wait_for_` didn't work in sections
+([natritmeyer])
 
 ## [0.9.8] - 2012-03-16
-
 ### Added
 - Added ability to call `execute_javascript` and `evaluate_javascript` inside a `section`
+([natritmeyer])
 
 ## [0.9.7] - 2012-03-11
-
 ### Added
 - Added ability to have pending elements, ie: elements declared without locators
+([natritmeyer])
 
 ## [0.9.6] - 2012-03-06
-
 ### Changed
 - Refactored parameterised `wait_for_` to accept an overriden wait time
+([natritmeyer])
 
 ## [0.9.5] - 2012-03-05
-
 ### Changed
 - Refactored `all_there?` to run faster
 ([natritmeyer])
 
 ## [0.9.4] - 2012-03-01
-
 ### Added
 - Added `all_there?` method
   - Returns `true` if all mapped elements and sections are present, `false` otherwise
 ([natritmeyer])
 
 ## [0.9.3] - 2012-02-11
-
 ### Added
 - Added `wait_for_` functionality to pages and sections
 ([natritmeyer])
 
 ## [0.9.2] - 2012-01-11
-
 ### Added
 - Added ability to access a section's `root_element`
 ([natritmeyer])
 
 ## [0.9.1] - 2012-01-11
-
 ### Added
 - Added `visible?` to section
 ([natritmeyer])
 
 ## [0.9] - 2011-12-22
-
 - First release!
 
 <!-- Releases -->
 [Unreleased]: https://github.com/natritmeyer/site_prism/compare/v2.15.1...master
 
 <!-- all up to 2.2 correctly formatted and datestamped -->
-<!-- all releases up to 0.9.3 correctly checked for content / people -->
+<!-- all releases up to 2.2 correctly checked for content / people -->
 [2.2]:        https://github.com/natritmeyer/site_prism/compare/v2.1...v2.2
 [2.1]:        https://github.com/natritmeyer/site_prism/compare/v2.0...v2.1
 [2.0]:        https://github.com/natritmeyer/site_prism/compare/v1.4...v2.0
@@ -287,6 +314,14 @@ N/A
 [0.9.1]:      https://github.com/natritmeyer/site_prism/compare/v0.9...v0.9.1
 [0.9]:        https://github.com/natritmeyer/site_prism/releases/tag/v0.9
 
-<!-- Contributors in alphabetical order -->
-[natritmeyer]:      https://github.com/natritmeyer
-[luke-hill]:        https://github.com/luke-hill
+<!-- Contributors in chronological order -->
+[natritmeyer]:    https://github.com/natritmeyer
+[andyw8]:         https://github.com/andyw8
+[remi]:           https://github.com/remi
+[nathanbain]:     https://github.com/nathanbain
+[3coins]:         https://github.com/3coins
+[dnesteryuk]:     https://github.com/dnesteryuk
+[abotalov]:       https://github.com/abotalov
+
+
+[luke-hill]:      https://github.com/luke-hill
