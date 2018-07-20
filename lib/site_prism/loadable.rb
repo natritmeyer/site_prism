@@ -36,7 +36,26 @@ module SitePrism
       private
 
       def _load_validations
-        @_load_validations ||= []
+        @_load_validations ||= default_validations
+      end
+
+      def default_validations
+        if siteprism_page?
+          [
+            Proc.new do
+              [
+                displayed?,
+                "Expected #{current_url} to match #{url_matcher} but it did not."
+              ]
+            end
+          ]
+        else
+          []
+        end
+      end
+
+      def siteprism_page?
+        self == SitePrism::Page
       end
     end
 
