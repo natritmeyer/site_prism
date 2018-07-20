@@ -80,10 +80,11 @@ module SitePrism
   InvalidUrlMatcher                    = InvalidUrlMatcherError
   NoSelectorForElement                 = InvalidElementError
   TimeoutException                     = TimeoutError
-  TimeOutWaitingForExistenceError      = Class.new(StandardError) # To avoid message leaking
-  TimeOutWaitingForNonExistenceError   = Class.new(StandardError) # To avoid message leaking
-  TimeOutWaitingForElementVisibility   = Class.new(StandardError) # To avoid message leaking
-  TimeOutWaitingForElementInvisibility = Class.new(StandardError) # To avoid message leaking
+  # Below four have different inheritance for now to avoid message leaking
+  TimeOutWaitingForExistenceError      = Class.new(StandardError)
+  TimeOutWaitingForNonExistenceError   = Class.new(StandardError)
+  TimeOutWaitingForElementVisibility   = Class.new(StandardError)
+  TimeOutWaitingForElementInvisibility = Class.new(StandardError)
   UnsupportedBlock                     = UnsupportedBlockError
   BlockMissingError                    = MissingBlockError
   NotLoadedError                       = FailedLoadValidationError

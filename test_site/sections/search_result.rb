@@ -6,7 +6,8 @@ class SearchResult < SitePrism::Section
 
   def cell_value=(value)
     execute_script(
-      "document.getElementById('first_search_result').children[0].innerHTML = '#{value}'"
+      "document.getElementById('first_search_result').children[0].innerHTML =
+        '#{value}'"
     )
   end
 

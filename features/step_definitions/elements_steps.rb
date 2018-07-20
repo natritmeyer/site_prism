@@ -31,8 +31,8 @@ Then('I can wait a variable time and pass specific parameters') do
   end
 end
 
-Then('I can wait a variable time for elements to disappear and pass specific parameters') do
+Then("waiting a short time for elements to disappear doesn't raise an error") do
   expect do
     @test_site.home.wait_for_no_removing_links(0.1, text: 'wibble')
-  end.not_to raise_error(SitePrism::TimeoutException)
+  end.not_to raise_error
 end
