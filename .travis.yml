@@ -5,7 +5,6 @@ sudo: required
 dist: trusty
 
 rvm:
-  - 2.2.9
   - 2.3
   - 2.4
   - 2.5
@@ -39,7 +38,6 @@ before_script:
         ;;
     esac
   - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
 
 script:
   - bundle exec rake
