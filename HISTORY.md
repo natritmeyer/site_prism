@@ -1,4 +1,15 @@
-<!-- #281 - Jul 9th - Last update to this document -->
+<!-- #291 - Jul 20th - Last update to this document -->
+`2.15.1`
+- Initial backwards compatible work for rewriting the Error protocols that will be used in site_prism v3.0 (@luke-hill)
+- Altered travis config to test for lowest gem configuration permissible in site_prism (@luke-hill)
+- Enabled support for Capybara `< 3.3` (@luke-hill)
+- Fix scoping issue that would cause iFrames / JS executors defined inside Sections to be un-callable (@ineverov) 
+- Improve runtime of cucumber tests by around 30% overall by tweaking some internal JS code (@luke-hill)
+- Amended setup instructions links and doc links that were incorrect (@luke-hill)
+- Removed all constants aside from `VERSION` (@luke-hill)
+- Add ability to test multiple gemfiles in travis (@luke-hill)
+- Fixed up some unit tests to cover pages defined with differing selectors (@luke-hill)
+
 `2.15`
 - Add better error message when iFrame's are called without a block (@luke-hill & @mdesantis)
 - Fix implicit waiting not working for some DSL defined methods (@luke-hill & @tgaff)
