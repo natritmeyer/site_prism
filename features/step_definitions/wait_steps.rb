@@ -47,7 +47,7 @@ Then("an exception is raised when I wait for an element that won't appear") do
 
   @duration = Time.now - start_time
 
-  expect(@duration).to be_between(1, 1.1)
+  expect(@duration).to be_between(1, 1.15)
 end
 
 Then("an exception is raised when I wait for an element that won't disappear") do
@@ -61,13 +61,13 @@ end
 Then("the element I am waiting for doesn't appear in time") do
   expect(@test_site.home).not_to have_some_slow_element
 
-  expect(@duration).to be_between(1, 1.1)
+  expect(@duration).to be_between(1, 1.15)
 end
 
 Then("the element I am waiting for doesn't disappear in time") do
   expect(@test_site.home).to have_removing_element
 
-  expect(@duration).to be_between(1, 1.1)
+  expect(@duration).to be_between(1, 1.15)
 end
 
 When('I wait for the section element that takes a while to appear') do
@@ -132,7 +132,7 @@ Then('I get a timeout error when I wait for an element that never appears') do
     .to raise_error(SitePrism::TimeOutWaitingForElementVisibility)
   @duration = Time.now - start_time
 
-  expect(@duration).to be_between(1, 1.1)
+  expect(@duration).to be_between(1, 1.15)
 end
 
 When('I wait until a particular element is visible') do
@@ -244,5 +244,5 @@ Then('the slow element is waited for only as long as a user set Capybara.using_w
   end
   @duration = Time.now - start_time
 
-  expect(@duration).to be_between(1, 1.1)
+  expect(@duration).to be_between(1, 1.15)
 end
