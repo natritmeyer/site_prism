@@ -45,80 +45,214 @@
 - Refactored Waiter Class (cleaner `.wait_until_true`, deprecated `.default_wait_time`) (@luke-hill)
 - Added new development docs to aid new and existing contributors (@luke-hill)
 
-`2.12`
-- Performed a suite-wide cleanup of Gherkin. Made everything a lot more organised (@luke-hill)
-- Expose the `#native` method on Section Objects (@luke-hill)
-- Fix issue where within a section, we lose our scoping due to leveraging the full `Capybara::DSL` - So we need to re-scope our `page` object to be our new `root_element` (@ilyasgaraev)
-- Unlock testing on Selenium up to v3.8 (@luke-hill)
-- Fix suite incidentally masking several issues due to incorrect cucumber setup (@luke-hill)
-- Allow iFrames to be specified using several new types of selector (ID / Class / XPath / Index) (@ricmatsui)
-- Generic SitePrism cleanup (Improved Test Coverage, Updated Dependencies, Cleared out some TODO tasks) (@luke-hill)
-- Update Travis Environment to now test on Chrome and Firefox (@RustyNail & @luke-hill)
-- Increase testing coverage of framework to include Ruby 2.4 (@luke-hill)
+## [2.15.1] - 2015-07-20
+### Removed
+N/A
 
-`2.11`
-- Refactor Addressable library so its slightly less confusing to debug - still in progress! (@luke-hill)
-- Update Travis to test on a variety of rubies: `2.0 -> 2.3`, and using the latest geckodriver (@luke-hill)
-- Improved Documentation around rubies (@luke-hill)
-- Compressed `Rakefile` into smaller shell tasks for Increased Verbosity on Failures and execution time (@luke-hill)
-- Allow `all_there?` to be extended in the DSL with `expected_elements`. Allowing pages with the correct number of sections/elements to be easily tested (@TheMetalCode)
-- Fix bug where SitePrism failed load-validation's when being passed Block Parameters without URL's (@kei2100)
-- Use the `.gemspec` file for all versioning needs and remove any references to gems in the Gemfile (@luke-hill & @tgaff)
-- Re-enable Rubocop compliance from PR signoff (Including fixing up some offences) (@RustyNail)
+### Added
+N/A
 
-`2.10`
-- Established Roadmap of items to be fixed in coming months (@luke-hill)
-- Fixed a bug on documentation around `section` example (@iwollmann & @luke-hill)
-- Reworked specs / developmental code to read better and perform slightly better (@luke-hill)
-- Added base contributing / issue templates (@luke-hill)
-- Allow `#all_there?` to use in-line configured implicit wait (Still defaulted to not use waits) (@RustyNail)
-- Disable Rubocop compliance from PR signoff whilst suite is still being reworked (To be switched back on for `2.11` gem cut) (@luke-hill)
-- Upped Version Dependencies (@luke-hill)
+### Changed
+N/A
+
+### Fixed
+N/A
+
+## [2.15] - 2015-07-09
+### Removed
+N/A
+
+### Added
+N/A
+
+### Changed
+N/A
+
+### Fixed
+N/A
+
+## [2.14] - 2015-06-22
+### Removed
+N/A
+
+### Added
+N/A
+
+### Changed
+N/A
+
+### Fixed
+N/A
+
+## [2.13] - 2015-05-21
+### Removed
+N/A
+
+### Added
+N/A
+
+### Changed
+N/A
+
+### Fixed
+N/A
+
+## [2.12] - 2015-04-20
+### Added
+- Added Ruby 2.4 testing to Travis
+([luke-hill])
+
+- Update Travis Environment to now test on Chrome and Firefox
+([RustyNail]) & ([luke-hill])
+
+### Changed
+- Updated development dependencies to be a little more up to date
+([luke-hill])
+
+- Allow iFrames to be specified using any selector (ID / Class / XPath / Index)
+([ricmatsui])
+
+- Upped Development Dependency of Selenium (3.4 - 3.8)
+([luke-hill])
+
+- Expose the `#native` method on Section Objects
+([luke-hill])
+
+### Fixed
+- README / rubocop / Test / TODO fixes
+([luke-hill])
+
+- Fix suite incidentally masking several issues due to incorrect cucumber setup
+([luke-hill])
+
+- Fix issue where within a section, we lose our scoping
+  - This is due to leveraging `Capybara::DSL`. We need to rescope `#page` to `#root_element`
+([ilyasgaraev])
+
+- Performed a suite-wide cleanup of Gherkin. Made everything a lot more organised
+([luke-hill])
+
+## [2.11] - 2015-03-07
+### Added
+- Re-enable Rubocop compliance from PR signoff (Including fixing up some offences)
+([RustyNail])
+
+- Allow `#all_there?` to be extended in the DSL with `#expected_elements`
+  - This Allows pages to stipulate that some elements may not be there
+  - This facilitates testing pages with error messages much easier
+([TheMetalCode])
+
+### Changed
+- Use the `.gemspec` file for all gem versions and remove any references to gems in `Gemfile`
+([luke-hill]) & ([tgaff])
+
+- Compressed `Rakefile` into smaller tasks for Increased Verbosity on Failures
+([luke-hill])
+
+- Update Travis to test on a variety of rubies: `2.0 -> 2.3`, using the latest geckodriver
+([luke-hill])
+
+- Refactored SitePrism's Addressable library so its slightly less confusing to debug
+([luke-hill])
+
+### Fixed
+- Fix bug where SitePrism failed load-validation's when passed Block Parameters with no URL
+([kei2100])
+
+- README / rubocop fixes
+([luke-hill])
+
+## [2.10] - 2018-02-23
+### Removed
+- Disable Rubocop compliance from PR signoff whilst suite is still being reworked
+  - Fixes coming soon to future releases
+  - Will be switched on once the suite is stabilised
+([luke-hill])
+
+### Added
+- Added base contributing / issue templates
+([luke-hill])
+
+- Established Roadmap of items to be fixed in coming months
+([luke-hill])
+
+- Reworked specs / developmental code to read better
+  - Established a base "correct syntax"
+  - Improved performance slightly in block code
+([luke-hill])
+
+### Changed
+- Upped Version Dependencies
   - `capybara ~> 2.3`
   - `rspec ~> 3.2`
   - Required Ruby Version is now 2.0+
-- Fix Travis not pulling in geckodriver dependency (And also bump Ubuntu container) (@RustyNail)
-- Additional rubocop tweaks to bring suite back under rubocop control (@luke-hill)
-- Cap `cucumber` and `selenium-webdriver` dev dependencies (Whilst suite is being reworked as an interim measure) (@luke-hill)
-- Rework all text files into Markdown structure, improve formatting (@luke-hill)
+([luke-hill])
 
-`v2.9.1`
-- Improved Codecoverage pass-rate from `85%` to `99%` (1 outstanding item) (@luke-hill)
-- Codebase cleanup of non-used config files (@luke-hill)
-- Bumped Travis Ruby version from `2.2` to `2.3`
-- Rubocop tweaks in line with updated Community style updates
-- Fixed clash with rspec (@tobithiel)
+- Capped Development dependencies for `cucumber (2.4)` and `selenium-webdriver (3.4)` 
+  - Establish a baseline for what is expected with these dependencies
+  - Suite is still being reworked (So unsure of what results to expect)
+([luke-hill])
 
-`v2.9`
-- Fix a Section Element calling `#text` incorrectly returning the full page text - thanks to @ddzz
-- Added ability to use block syntax inside spec / test sections (@tgaff)
-- Implement new Loadable behavior for pages and sections - thanks to @tmertens
-
-## [X.X] - 2015-05-XX
-### Removed
-N/A
-
-### Added
-N/A
-
-### Changed
-N/A
+- Reworked all text files into Markdown structure to allow formatting
+([luke-hill])
 
 ### Fixed
-N/A
+- Travis Fixes
+  - Not pulling in geckodriver dependency
+  - Ubuntu container being EOL is now remedied (Using trusty)
+([RustyNail])
+
+- Allow `#all_there?` to use in-line configured implicit wait (Still defaulted to false)
+([RustyNail])
+
+- README / rubocop fixes
+([luke-hill]) & ([iwollmann])
+
+## [2.9.1] - 2018-02-20
+### Removed
+- Travis tests for EOL Rubies (`2.0` / `2.1` / `2.2`)
+([natritmeyer])
+
+- Codebase cleanup of non-used config files
+([luke-hill])
+
+### Changed
+- Bumped Travis Ruby version from `2.2` to `2.3`
+([natritmeyer])
+
+- Upped Version Dependency of `addressable` to `~> 2.4`
+([luke-hill])
+
+### Fixed
+- README / rubocop fixes
+([whoojemaflip]) & ([natritmeyer]) & ([luke-hill])
+
+- Fixed namespace clashes with sections and rspec
+([tobithiel])
+
+- Improved Codecoverage pass-rate from `85%` to `99%` (1 outstanding item)
+([luke-hill])
 
 ## [2.9] - 2016-03-29
 ### Removed
-N/A
+- Travis tests for Ruby `1.9.x` versions, Travis only tests on 2.0+
+([natritmeyer])
 
 ### Added
-N/A
+- Implement new `Loadable` behaviour for pages and sections
+  - This will allow you to add procs that get executed when you call `#load`
+  - Also checks that the page is displayed before continuing
+([tmertens])
 
-### Changed
-N/A
+- Added ability to use block syntax inside a `section` (Previously only iFrames could)
+([tgaff])
 
 ### Fixed
-N/A
+- README / rubocop fixes
+([nitinsurfs]) & ([cantonic]) & ([bhaibel]) & ([natritmeyer])
+
+- Fix a Section Element calling `#text` incorrectly returning the full page text
+([ddzz])
 
 ## [2.8] - 2015-10-30
 ### Removed
@@ -266,7 +400,6 @@ N/A
 ([natritmeyer])
 
 ## [2.2] - 2013-03-12
-
 ### Added
 - Added `#parent` and `#parent_page` to `SitePrism::Section` that will find a Sections Parent, and their Parent Page respectively
 ([dnesteryuk])
@@ -419,8 +552,15 @@ N/A
 <!-- Releases -->
 [Unreleased]: https://github.com/natritmeyer/site_prism/compare/v2.15.1...master
 
-<!-- all up to 2.8 correctly formatted and datestamped -->
-<!-- all releases up to 2.8 correctly checked for content / people -->
+<!-- all up to 2.12 correctly formatted and datestamped -->
+<!-- all releases up to 2.12 correctly checked for content / people -->
+[2.15.1]:      https://github.com/natritmeyer/site_prism/compare/v2.15...v2.15.1
+[2.15]:      https://github.com/natritmeyer/site_prism/compare/v2.14...v2.15
+[2.14]:      https://github.com/natritmeyer/site_prism/compare/v2.13...v2.14
+[2.13]:      https://github.com/natritmeyer/site_prism/compare/v2.12...v2.13
+[2.12]:      https://github.com/natritmeyer/site_prism/compare/v2.11...v2.12
+[2.11]:      https://github.com/natritmeyer/site_prism/compare/v2.10...v2.11
+[2.10]:      https://github.com/natritmeyer/site_prism/compare/v2.9.1...v2.10
 [2.9.1]:      https://github.com/natritmeyer/site_prism/compare/v2.9...v2.9.1
 [2.9]:        https://github.com/natritmeyer/site_prism/compare/v2.8...v2.9
 [2.8]:        https://github.com/natritmeyer/site_prism/compare/v2.7...v2.8
@@ -483,7 +623,16 @@ N/A
 [mnohai-mdsol]:   https://github.com/mnohai-mdsol
 [khaidpham]:      https://github.com/khaidpham
 [benlovell]:      https://github.com/benlovell
-
-
-
+[nitinsurfs]:     https://github.com/nitinsurfs
+[cantonic]:       https://github.com/cantonic
+[bhaibel]:        https://github.com/bhaibel
+[ddzz]:           https://github.com/ddzz
+[whoojemaflip]:   https://github.com/whoojemaflip
+[tobithiel]:      https://github.com/tobithiel
 [luke-hill]:      https://github.com/luke-hill
+[RustyNail]:      https://github.com/RustyNail
+[iwollmann]:      https://github.com/iwollmann
+[TheMetalCode]:   https://github.com/TheMetalCode
+[kei2100]:        https://github.com/kei2100
+[ricmatsui]:      https://github.com/ricmatsui
+[ilyasgaraev]:    https://github.com/ilyasgaraev
