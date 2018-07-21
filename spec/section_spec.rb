@@ -110,7 +110,7 @@ class or/and a block as the second argument."
     end
   end
 
-  describe 'default search arguments' do
+  describe '.set_default search arguments' do
     class PageWithSectionWithDefaultSearchArguments < SitePrism::Page
       class SectionWithDefaultArguments < SitePrism::Section
         set_default_search_arguments :css, '.section'
@@ -317,32 +317,6 @@ describe SitePrism::Section do
         .and_return('To the sky!')
 
       section_without_block.evaluate_script('How High?') == 'To the sky!'
-    end
-  end
-
-  describe 'operating with an iFrame' do
-    class IframePage < SitePrism::Page
-      element :a, '.some_element'
-    end
-
-    class SectionWithIframe < SitePrism::Section
-      iframe :frame, IframePage, '.iframe'
-    end
-
-    let(:section) { SectionWithIframe.new(Page.new, locator) }
-
-    it 'uses #within_frame delegated through Capybara.current_session' do
-      expect(Capybara.current_session)
-        .to receive(:within_frame)
-        .with(:css, '.iframe')
-        .and_yield
-
-      expect_any_instance_of(IframePage)
-        .to receive(:_find)
-        .with('.some_element', wait: false)
-        .and_return(locator)
-
-      section.frame(&:a)
     end
   end
 

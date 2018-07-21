@@ -61,14 +61,6 @@ module SitePrism
       end
     end
 
-    def regexp_backed_matches
-      url_matcher.match(page.current_url)
-    end
-
-    def template_backed_matches
-      matcher_template.mappings(page.current_url)
-    end
-
     def self.set_url(page_url)
       @url = page_url.to_s
     end
@@ -114,6 +106,14 @@ module SitePrism
 
     def element_does_not_exist?(*find_args)
       page.has_no_selector?(*find_args)
+    end
+
+    def regexp_backed_matches
+      url_matcher.match(page.current_url)
+    end
+
+    def template_backed_matches
+      matcher_template.mappings(page.current_url)
     end
 
     def url_matches?(expected_mappings = {})

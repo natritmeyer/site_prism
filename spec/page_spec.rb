@@ -40,23 +40,59 @@ describe SitePrism::Page do
     expect(blank_page.url).to be_nil
   end
 
-  describe '#loaded?' do
-    subject { PageWithUrl.new }
+  it 'url matcher should be nil by default' do
+    expect(BlankPage.url_matcher).to be_nil
 
-    before do
-      allow(subject).to receive(:displayed?).and_return(displayed?)
+    expect(blank_page.url_matcher).to be_nil
+  end
+
+  it 'should be able to set a url matcher against it' do
+    expect(page_with_url_matcher.url_matcher).to eq(/bob/)
+  end
+
+  it 'should allow calls to displayed? if the url matcher has been set' do
+    expect { page_with_url_matcher.displayed? }.not_to raise_error
+  end
+
+  it "should raise an exception if displayed? \
+is called before the matcher has been set" do
+    expect { blank_page.displayed? }
+      .to raise_error(SitePrism::NoUrlMatcherForPage)
+  end
+
+  it 'should expose the page title' do
+    expect(blank_page).to respond_to(:title)
+  end
+
+  it 'should raise an exception if passing a block to an element' do
+    expect { TestHomePage.new.invisible_element { :any_old_block } }
+      .to raise_error(SitePrism::UnsupportedBlock)
+      .with_message('TestHomePage#invisible_element does not accept blocks.')
+  end
+
+  it 'should raise an exception if passing a block to elements' do
+    expect { TestHomePage.new.lots_of_links { :any_old_block } }
+      .to raise_error(SitePrism::UnsupportedBlock)
+      .with_message('TestHomePage#lots_of_links does not accept blocks.')
+  end
+
+  it 'should raise an exception if passing a block to sections' do
+    expect { TestHomePage.new.nonexistent_sections { :any_old_block } }
+      .to raise_error(SitePrism::UnsupportedBlock)
+      .with_message('TestHomePage#nonexistent_sections does not accept blocks.')
+  end
+
+  describe '#page' do
+    subject { page_with_url.page }
+
+    context 'with #load called previously' do
+      before { page_with_url.instance_variable_set(:@page, :some_value) }
+
+      it { is_expected.to eq(:some_value) }
     end
 
-    context 'when page is loaded' do
-      let(:displayed?) { true }
-
-      it { is_expected.to be_loaded }
-    end
-
-    context 'when page is not loaded' do
-      let(:displayed?) { false }
-
-      it { is_expected.not_to be_loaded }
+    context 'with #load not called previously' do
+      it { is_expected.to eq(Capybara.current_session) }
     end
   end
 
@@ -135,51 +171,6 @@ describe SitePrism::Page do
             .to raise_error(SitePrism::NotLoadedError)
             .with_message('Failed to load. Reason: It is not true!')
         end
-      end
-    end
-  end
-
-  it 'url matcher should be nil by default' do
-    expect(BlankPage.url_matcher).to be_nil
-
-    expect(blank_page.url_matcher).to be_nil
-  end
-
-  it 'should be able to set a url matcher against it' do
-    expect(page_with_url_matcher.url_matcher).to eq(/bob/)
-  end
-
-  it 'should allow calls to displayed? if the url matcher has been set' do
-    expect { page_with_url_matcher.displayed? }.not_to raise_error
-  end
-
-  it "should raise an exception if displayed? \
-is called before the matcher has been set" do
-    expect { blank_page.displayed? }
-      .to raise_error(SitePrism::NoUrlMatcherForPage)
-  end
-
-  context 'with a bogus URL matcher' do
-    class PageWithBogusFullUrlMatcher < SitePrism::Page
-      set_url_matcher this: "isn't a URL matcher"
-    end
-
-    let(:page) { PageWithBogusFullUrlMatcher.new }
-    let(:error_message) { 'Your URL and/or matcher could not be interpreted.' }
-
-    describe '#url_matches' do
-      it 'raises InvalidUrlMatcher' do
-        expect { page.url_matches }
-          .to raise_error(SitePrism::InvalidUrlMatcher)
-          .with_message(error_message)
-      end
-    end
-
-    describe '#displayed?' do
-      it 'raises InvalidUrlMatcher' do
-        expect { page.displayed? }
-          .to raise_error(SitePrism::InvalidUrlMatcher)
-          .with_message(error_message)
       end
     end
   end
@@ -336,36 +327,51 @@ from the be_displayed matcher" do
         expect(page).to be_displayed(id: 28)
       end
     end
-  end
 
-  describe '#url_matches' do
-    class PageWithParameterizedUrlMatcher < SitePrism::Page
-      set_url_matcher '{scheme}:///foos{/id}'
-    end
+    context 'with a bogus URL matcher' do
+      class PageWithBogusFullUrlMatcher < SitePrism::Page
+        set_url_matcher this: "isn't a URL matcher"
+      end
 
-    let(:page) { PageWithParameterizedUrlMatcher.new }
+      let(:page) { PageWithBogusFullUrlMatcher.new }
+      let(:error_message) { 'Your URL and/or matcher could not be interpreted.' }
 
-    it 'returns mappings from the current_url' do
-      swap_current_url('http://localhost:3000/foos/15')
-
-      expect(page.url_matches).to eq('scheme' => 'http', 'id' => '15')
-    end
-
-    it "returns nil if current_url doesn't match the url_matcher" do
-      swap_current_url('http://localhost:3000/bars/15')
-
-      expect(page.url_matches).to be_nil
+      it 'raises InvalidUrlMatcher' do
+        expect { page.displayed? }
+          .to raise_error(SitePrism::InvalidUrlMatcher)
+          .with_message(error_message)
+      end
     end
   end
 
   describe '#url_matches' do
-    class PageWithRegexpUrlMatcher < SitePrism::Page
-      set_url_matcher(/foos\/(\d+)/)
-    end
+    context 'with a templated matcher' do
+      class PageWithParameterizedUrlMatcher < SitePrism::Page
+        set_url_matcher '{scheme}:///foos{/id}'
+      end
 
-    let(:page) { PageWithRegexpUrlMatcher.new }
+      let(:page) { PageWithParameterizedUrlMatcher.new }
+
+      it 'returns mappings from the current_url' do
+        swap_current_url('http://localhost:3000/foos/15')
+
+        expect(page.url_matches).to eq('scheme' => 'http', 'id' => '15')
+      end
+
+      it "returns nil if current_url doesn't match the url_matcher" do
+        swap_current_url('http://localhost:3000/bars/15')
+
+        expect(page.url_matches).to be_nil
+      end
+    end
 
     context 'with a regexp matcher' do
+      class PageWithRegexpUrlMatcher < SitePrism::Page
+        set_url_matcher(/foos\/(\d+)/)
+      end
+
+      let(:page) { PageWithRegexpUrlMatcher.new }
+
       it 'returns regexp MatchData' do
         swap_current_url('http://localhost:3000/foos/15')
 
@@ -382,6 +388,21 @@ from the be_displayed matcher" do
         swap_current_url('http://localhost:3000/bars/15')
 
         expect(page.url_matches).to eq nil
+      end
+    end
+
+    context 'with a bogus URL matcher' do
+      class PageWithBogusFullUrlMatcher < SitePrism::Page
+        set_url_matcher this: "isn't a URL matcher"
+      end
+
+      let(:page) { PageWithBogusFullUrlMatcher.new }
+      let(:error_message) { 'Your URL and/or matcher could not be interpreted.' }
+
+      it 'raises InvalidUrlMatcher' do
+        expect { page.url_matches }
+          .to raise_error(SitePrism::InvalidUrlMatcher)
+          .with_message(error_message)
       end
     end
   end
@@ -405,54 +426,6 @@ from the be_displayed matcher" do
 
       expect(blank_page.evaluate_script('How High?')).to eq('To the sky!')
     end
-  end
-
-  describe 'operating with an iFrame' do
-    class IframePage < SitePrism::Page
-      element :a, '.some_element'
-    end
-
-    class PageWithIframe < SitePrism::Page
-      iframe :frame, IframePage, '.iframe'
-    end
-
-    let(:page) { PageWithIframe.new }
-
-    it 'uses #within_frame delegated through Capybara.current_session' do
-      expect(Capybara.current_session)
-        .to receive(:within_frame)
-        .with(:css, '.iframe')
-        .and_yield
-
-      expect_any_instance_of(IframePage)
-        .to receive(:_find)
-        .with('.some_element', wait: false)
-        .and_return(locator)
-
-      page.frame(&:a)
-    end
-  end
-
-  it 'should expose the page title' do
-    expect(blank_page).to respond_to(:title)
-  end
-
-  it 'should raise an exception if passing a block to an element' do
-    expect { TestHomePage.new.invisible_element { :any_old_block } }
-      .to raise_error(SitePrism::UnsupportedBlock)
-      .with_message('TestHomePage#invisible_element does not accept blocks.')
-  end
-
-  it 'should raise an exception if passing a block to elements' do
-    expect { TestHomePage.new.lots_of_links { :any_old_block } }
-      .to raise_error(SitePrism::UnsupportedBlock)
-      .with_message('TestHomePage#lots_of_links does not accept blocks.')
-  end
-
-  it 'should raise an exception if passing a block to sections' do
-    expect { TestHomePage.new.nonexistent_sections { :any_old_block } }
-      .to raise_error(SitePrism::UnsupportedBlock)
-      .with_message('TestHomePage#nonexistent_sections does not accept blocks.')
   end
 
   def swap_current_url(url)
