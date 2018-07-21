@@ -71,7 +71,7 @@ Then("the element I am waiting for doesn't disappear in time") do
 end
 
 When('I wait for the section element that takes a while to appear') do
-  @test_site.section_experiments.parent_section.wait_for_slow_section_element
+  @test_site.section_experiments.parent_section.wait_for_slow_element
 end
 
 When('I wait for the section element that takes a while to disappear') do
@@ -82,7 +82,7 @@ end
 
 Then('the slow section appears') do
   expect(@test_site.section_experiments.parent_section)
-    .to have_slow_section_element
+    .to have_slow_element
 end
 
 Then('the removing section disappears') do
@@ -93,9 +93,9 @@ end
 Then("an exception is raised when I wait for a section that won't appear") do
   section = @test_site.section_experiments.parent_section
 
-  expect { section.wait_for_slow_section_element(0.25) }
+  expect { section.wait_for_slow_element(0.25) }
     .to raise_error(SitePrism::TimeOutWaitingForExistenceError)
-    .with_message('Timed out after 0.25s waiting for Parent#slow_section_element')
+    .with_message('Timed out after 0.25s waiting for Parent#slow_element')
 end
 
 Then("an exception is raised when I wait for a section that won't disappear") do
@@ -116,11 +116,11 @@ Then('the removing collection of sections disappears') do
 end
 
 When('I wait a variable time for elements to appear') do
-  @test_site.home.wait_for_lots_of_links(2.1)
+  @test_site.home.wait_for_lots_of_links(1.6)
 end
 
 When('I wait a variable time for elements to disappear') do
-  @test_site.home.wait_for_no_removing_links(2.1)
+  @test_site.home.wait_for_no_removing_links(1.6)
 end
 
 Then('I get a timeout error when I wait for an element that never appears') do
@@ -154,7 +154,7 @@ When('I wait a specific amount of time for a particular element to vanish') do
   @test_site.home.wait_until_retiring_element_invisible(5)
 end
 
-Then('I get a timeout error when I wait for an element that never disappears') do
+Then('I get a timeout error when I wait for an element that never vanishes') do
   expect { @test_site.home.wait_until_welcome_header_invisible(1) }
     .to raise_error(SitePrism::TimeOutWaitingForElementInvisibility)
 end

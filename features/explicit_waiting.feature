@@ -76,7 +76,7 @@ Feature: Waiting for Elements
 
   Scenario: Wait for Invisibility of element - Negative Test
     When I navigate to the home page
-    Then I get a timeout error when I wait for an element that never disappears
+    Then I get a timeout error when I wait for an element that never vanishes
 
   Scenario: Wait for Invisibility of element - Non-Existent Element
     When I navigate to the home page
