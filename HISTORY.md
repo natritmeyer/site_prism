@@ -1,105 +1,143 @@
 <!-- #291 - Jul 20th - Last update to this document -->
-`2.15.1`
-- Initial backwards compatible work for rewriting the Error protocols that will be used in site_prism v3.0 (@luke-hill)
-- Altered travis config to test for lowest gem configuration permissible in site_prism (@luke-hill)
-- Enabled support for Capybara `< 3.3` (@luke-hill)
-- Fix scoping issue that would cause iFrames / JS executors defined inside Sections to be un-callable (@ineverov) 
-- Improve runtime of cucumber tests by around 30% overall by tweaking some internal JS code (@luke-hill)
-- Amended setup instructions links and doc links that were incorrect (@luke-hill)
-- Removed all constants aside from `VERSION` (@luke-hill)
-- Add ability to test multiple gemfiles in travis (@luke-hill)
-- Fixed up some unit tests to cover pages defined with differing selectors (@luke-hill)
-
-`2.15`
-- Add better error message when iFrame's are called without a block (@luke-hill & @mdesantis)
-- Fix implicit waiting not working for some DSL defined methods (@luke-hill & @tgaff)
-- Added a huge portion of new feature tests to validate timings RE implicit/explicit waits (@tgaff)
-- Enabled support for Capybara `< 3.1`. Making sure suite is backwards compatible (@luke-hill)
-- Added more gem metadata into the `.gemspec` file to be read by RubyGems (@luke-hill)
-- Fixed up majority of remaining Rubocop offenses around the suite (@ineverov)
-
-`2.14`
-- Added positive and negative timing tests to several scenarios in `waiting.feature` (@luke-hill)
-- Rewrite `ElementContainer` by using `klass.extend`, drying up the amount of `self.class` calls (@ineverov) 
-- Remove `private` definitions that are in-lined (@jgs731)
-- Partially fixed up `LineLength` offenses around the entire suite (@ineverov)
-- Updated gemspec to allow latest `selenium-webdriver` gem in development. Enables `rubocop` up to V55 (@luke-hill)
-- Tidied up specs and made Code Coverage 100% compliant (@luke-hill)
-- Fixed issue where multiple search arguments weren't being set and ignored by Capybara (@twalpole)
-- Removed references to `Timeout.timeout` as this isn't threadsafe (@twalpole)
-- Enabled ability to set default search arguments inside a Section (@ineverov)
-  - If set then a section will set the `root_element` to be whatever is defined using `set_default_search_arguments`
-  - If unset / overridden. You are able to still define them in-line using the DSL in the regular manner
-- Introduced new sister method to `#expected_elements`. `#elements_present` will return an Array of every Element that is present on the Page/Section (@luke-hill)
-- Fixed waiting bug that caused `Waiter.default_wait_time` not to wait the correct duration when implicit waits were toggled (@luke-hill)
-
-`2.13`
-- Cleanup cucumber tests into more granular structure (@luke-hill)
-- Use `shared_examples` in RSpec tests to enhance coverage and check xpath selectors (@luke-hill))
-- Introduced configuration to raise an Exception after `wait_for` meta-programmed methods fail to find pass (@ricmatsui)
-- Altered output of RSpec to show test names, and unlock testing on Selenium up to v3.10 (@luke-hill)
-- Upgraded Cucumber to `3.0.1` (Allowing new syntax testing) (@luke-hill)
-- Added Feature to wait for non-existence of element/section (@ricmatsui)
-- Updated Travis to test on Ruby `2.5`. Removed testing for Ruby `2.0` (@luke-hill)
-- Updated Suite Ruby Requirements (**Minimum Ruby is now `2.1`**) (@luke-hill)
-- Refactored Waiter Class (cleaner `.wait_until_true`, deprecated `.default_wait_time`) (@luke-hill)
-- Added new development docs to aid new and existing contributors (@luke-hill)
-
 ## [2.15.1] - 2015-07-20
-### Removed
-N/A
-
 ### Added
-N/A
+- Initial backwards compatible work for rewriting the Error protocols for site_prism 3.0
+  - All Error Classes inherit from one common Error Class
+  - All names have suffix `Error`
+([luke-hill])
 
 ### Changed
-N/A
+- Add ability to test multiple gemfiles in travis
+([luke-hill])
+
+- Removed all constants aside from `VERSION`
+([luke-hill])
+
+- Improve runtime of cucumber tests by around 30% overall by tweaking some internal JS code
+([luke-hill])
+
+- Upped Capybara Version Dependency `capybara >= 2.15, < 3.3`
+([luke-hill])
+
+- Altered travis config to test for lowest gem configuration permissible in site_prism
+([luke-hill])
 
 ### Fixed
-N/A
+- Fixed up some unit tests to cover pages defined with differing selectors
+([luke-hill])
+
+- README fixes
+([luke-hill])
+
+- Fix scoping issue that prevented iFrames / JS methods defined inside a `section` working
+([ineverov])
 
 ## [2.15] - 2015-07-09
-### Removed
-N/A
-
 ### Added
-N/A
+- Added more gem metadata into the `.gemspec` file to be read by RubyGems (Changelog e.t.c.)
+([luke-hill])
 
-### Changed
-N/A
+- Enabled support for Capybara 3. Making sure suite is backwards compatible
+([luke-hill])
+
+- Added a huge portion of new feature tests to validate timings RE implicit/explicit waits
+([tgaff])
 
 ### Fixed
-N/A
+- rubocop fixes
+([ineverov])
+
+- Fix implicit waiting not working for some DSL defined methods
+([luke-hill]) & ([tgaff])
+
+- Add better error message when iFrame's are called without a block (Than a stacktrace)
+([luke-hill]) & ([mdesantis])
 
 ## [2.14] - 2015-06-22
-### Removed
-N/A
-
 ### Added
-N/A
+- Introduced new sister method to `#expected_elements` - `#elements_present`
+  - This will return an Array of every Element that is present on the Page/Section
+([luke-hill])
+
+- Enabled ability to set default search arguments inside a Section
+  - If set then a section will set `@root_element` to be defined from `.set_default_search_arguments`
+  - If unset / overridden. You are able to still define them in-line using the DSL
+([ineverov])
+
+- Testing for Ruby 2.5 on Travis
+([luke-hill])
 
 ### Changed
-N/A
+- Tidied up specs and made Code Coverage 100% compliant
+([luke-hill])
+
+- Upped Development Version Dependencies
+  - `selenium-webdriver ~> 3.4`
+  - `rubocop ~> 52.0`
+([luke-hill])
+
+- Rewrite `ElementContainer` by using `klass.extend`, removing several `self.class` calls
+([ineverov]) 
+
+- Added positive and negative timing tests to several scenarios in `waiting.feature`
+([luke-hill])
 
 ### Fixed
-N/A
+- Fixed waiting bug that caused `Waiter.default_wait_time` not to wait the correct duration
+  - Bug only seemed to be present when implicit waits were toggled on
+([luke-hill])
+
+- Removed references to `Timeout.timeout` as this isn't threadsafe
+([twalpole])
+
+- Fixed issue where multiple runtime arguments weren't set at run-time (ignored by Capybara)
+([twalpole])
+
+- rubocop fixes
+([ineverov]) & ([jgs731])
 
 ## [2.13] - 2015-05-21
 ### Removed
-N/A
+Removed testing for Ruby `2.0` on Travis
+([luke-hill])
 
 ### Added
-N/A
+- Added new development docs to aid new and existing contributors
+([luke-hill])
+
+- Added Feature to wait for non-existence of element/section
+([ricmatsui])
+
+- Introduced configuration to raise an Exception after running `wait_for` methods
+  - These aren't in sync with others, and this configuration option will be removed in time!
+([ricmatsui])
 
 ### Changed
-N/A
+- Refactored Waiter Class
+  - cleaner `.wait_until_true`
+  - deprecated `.default_wait_time`
+([luke-hill])
+
+- Updated Suite Ruby Requirements (**Minimum Ruby is now `2.1`**)
+([luke-hill])
+
+- Internal testing tweaks
+  - Updated cucumber dependency to `3.0.1` (Allowing new syntax testing)
+  - Cleaned up cucumber tests into more granular structure
+  - Altered output of RSpec to show test names
+  - Unlock testing on Selenium up to `3.10`
+([luke-hill])
+
+- Use `shared_examples` in RSpec tests to enhance coverage and check xpath selectors
+([luke-hill])
 
 ### Fixed
-N/A
+- README fixes
+([robd])
 
 ## [2.12] - 2015-04-20
 ### Added
-- Added Ruby 2.4 testing to Travis
+- Added Ruby `2.4` testing to Travis
 ([luke-hill])
 
 - Update Travis Environment to now test on Chrome and Firefox
@@ -550,17 +588,16 @@ N/A
 - First release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/natritmeyer/site_prism/compare/v2.15.1...master
-
 <!-- all up to 2.12 correctly formatted and datestamped -->
 <!-- all releases up to 2.12 correctly checked for content / people -->
-[2.15.1]:      https://github.com/natritmeyer/site_prism/compare/v2.15...v2.15.1
-[2.15]:      https://github.com/natritmeyer/site_prism/compare/v2.14...v2.15
-[2.14]:      https://github.com/natritmeyer/site_prism/compare/v2.13...v2.14
-[2.13]:      https://github.com/natritmeyer/site_prism/compare/v2.12...v2.13
-[2.12]:      https://github.com/natritmeyer/site_prism/compare/v2.11...v2.12
-[2.11]:      https://github.com/natritmeyer/site_prism/compare/v2.10...v2.11
-[2.10]:      https://github.com/natritmeyer/site_prism/compare/v2.9.1...v2.10
+[Unreleased]: https://github.com/natritmeyer/site_prism/compare/v2.15.1...master
+[2.15.1]:     https://github.com/natritmeyer/site_prism/compare/v2.15...v2.15.1
+[2.15]:       https://github.com/natritmeyer/site_prism/compare/v2.14...v2.15
+[2.14]:       https://github.com/natritmeyer/site_prism/compare/v2.13...v2.14
+[2.13]:       https://github.com/natritmeyer/site_prism/compare/v2.12...v2.13
+[2.12]:       https://github.com/natritmeyer/site_prism/compare/v2.11...v2.12
+[2.11]:       https://github.com/natritmeyer/site_prism/compare/v2.10...v2.11
+[2.10]:       https://github.com/natritmeyer/site_prism/compare/v2.9.1...v2.10
 [2.9.1]:      https://github.com/natritmeyer/site_prism/compare/v2.9...v2.9.1
 [2.9]:        https://github.com/natritmeyer/site_prism/compare/v2.8...v2.9
 [2.8]:        https://github.com/natritmeyer/site_prism/compare/v2.7...v2.8
@@ -636,3 +673,9 @@ N/A
 [kei2100]:        https://github.com/kei2100
 [ricmatsui]:      https://github.com/ricmatsui
 [ilyasgaraev]:    https://github.com/ilyasgaraev
+[ricmatsui]:      https://github.com/ricmatsui
+[robd]:           https://github.com/robd
+[ineverov]:       https://github.com/ineverov
+[twalpole]:       https://github.com/twalpole
+[jgs731]:         https://github.com/jgs731
+[mdesantis]:      https://github.com/mdesantis
