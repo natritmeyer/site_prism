@@ -3,19 +3,16 @@
 require 'site_prism/loadable'
 
 module SitePrism
-  # rubocop:disable Metrics/ClassLength
   class Page
     include Capybara::DSL
     include ElementChecker
     include Loadable
     include ElementContainer
 
-    load_validation do
-      [
-        displayed?,
-        "Expected #{current_url} to match #{url_matcher} but it did not."
-      ]
-    end
+    # When instantiating the page. A default validation will be added to all
+    # validations you define and add to the Page Class.
+    # When calling #load, all of the validations that are set will be ran
+    # in order, with the default "displayed?" validation being ran _FIRST_
 
     def page
       @page || Capybara.current_session
@@ -141,5 +138,4 @@ module SitePrism
       @matcher_template ||= AddressableUrlMatcher.new(url_matcher)
     end
   end
-  # rubocop:enable Metrics/ClassLength
 end
