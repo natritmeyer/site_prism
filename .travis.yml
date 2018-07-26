@@ -5,7 +5,6 @@ sudo: required
 dist: trusty
 
 rvm:
-  - 2.2.9
   - 2.3
   - 2.4
   - 2.5

@@ -25,9 +25,6 @@ BlockLength:
 Metrics/LineLength:
   Max: 99
 
-Gemspec/RequiredRubyVersion:
-  Enabled: false
-
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: comma
   Enabled: true
