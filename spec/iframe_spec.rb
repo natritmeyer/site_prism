@@ -3,6 +3,9 @@
 require 'spec_helper'
 
 describe 'iFrame' do
+  class Page < SitePrism::Page; end
+  let!(:locator) { instance_double('Capybara::Node::Element') }
+
   shared_examples 'iFrame' do
     let(:error_message) do
       'You can only use iFrames in a block context - Please pass in a block.'
@@ -41,5 +44,57 @@ describe 'iFrame' do
     let(:klass) { PageXPath2 }
 
     it_behaves_like 'iFrame'
+  end
+
+  describe 'A Page with an iFrame contained within' do
+    class IframePage < SitePrism::Page
+      element :a, '.some_element'
+    end
+
+    class PageWithIframe < SitePrism::Page
+      iframe :frame, IframePage, '.iframe'
+    end
+
+    let(:page) { PageWithIframe.new }
+
+    it 'uses #within_frame delegated through Capybara.current_session' do
+      expect(Capybara.current_session)
+        .to receive(:within_frame)
+        .with(:css, '.iframe')
+        .and_yield
+
+      expect_any_instance_of(IframePage)
+        .to receive(:_find)
+        .with('.some_element', wait: false)
+        .and_return(locator)
+
+      page.frame(&:a)
+    end
+  end
+
+  describe 'A Section with an iFrame contained within' do
+    class IframePage < SitePrism::Page
+      element :a, '.some_element'
+    end
+
+    class SectionWithIframe < SitePrism::Section
+      iframe :frame, IframePage, '.iframe'
+    end
+
+    let(:section) { SectionWithIframe.new(Page.new, locator) }
+
+    it 'uses #within_frame delegated through Capybara.current_session' do
+      expect(Capybara.current_session)
+        .to receive(:within_frame)
+        .with(:css, '.iframe')
+        .and_yield
+
+      expect_any_instance_of(IframePage)
+        .to receive(:_find)
+        .with('.some_element', wait: false)
+        .and_return(locator)
+
+      section.frame(&:a)
+    end
   end
 end

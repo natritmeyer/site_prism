@@ -165,8 +165,19 @@ when all load validations pass" do
   end
 
   describe '#loaded?' do
+    class PageWithUrl < SitePrism::Page
+      set_url '/bob'
+    end
+
     # We want to test with multiple inheritance
     let(:inheriting_loadable) { Class.new(loadable) }
+    let(:displayed?) { true }
+
+    subject { PageWithUrl.new }
+
+    before do
+      allow(subject).to receive(:displayed?).and_return(displayed?)
+    end
 
     it 'returns true if loaded value is cached' do
       validation_spy1 = spy(valid?: true)
@@ -214,6 +225,16 @@ when all load validations pass" do
       instance.loaded?
 
       expect(instance.load_error).to eq('fubar')
+    end
+
+    context 'when page is loaded' do
+      it { is_expected.to be_loaded }
+    end
+
+    context 'when page is not loaded' do
+      let(:displayed?) { false }
+
+      it { is_expected.not_to be_loaded }
     end
   end
 end
