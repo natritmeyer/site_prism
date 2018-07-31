@@ -40,11 +40,15 @@ module SitePrism
       end
 
       def default_validations
-        if siteprism_page?
+        if enabled?
           [displayed_validation]
         else
           []
         end
+      end
+
+      def enabled?
+        siteprism_page? && SitePrism.default_load_validations
       end
 
       def siteprism_page?

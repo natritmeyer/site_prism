@@ -1701,13 +1701,16 @@ end
 
 SitePrism can be configured to change its behaviour.
 
+For each of the following configuration options, either add it in the `spec_helper.rb` file
+if you are running SitePrism as a Unit Test framework, or in your `env.rb` if you are running
+a Cucumber based framework
+
 ### Using Capybara Implicit Waits
 
 By default, SitePrism element and section methods do not utilize
 Capybara's implicit wait methodology and will return immediately if
-the element or section requested is not found on the page.  Add the
-following code to your spec_helper file to enable Capybara's implicit
-wait methodology to pass through:
+the element or section requested is not found on the page. Add the
+following code to enable Capybara's implicit wait methodology.
 
 ```ruby
 SitePrism.configure do |config|
@@ -1721,15 +1724,16 @@ This enables you to replace this:
 # wait_until methods always wait for the element to be present on the page:
 @search_page.wait_for_search_results
 
-# Element and section methods do not:
+# Element and section methods do not (But will do if you configure the above)
 @search_page.search_results
 ```
 
 with this:
 
 ```ruby
-# With implicit waits enabled, use of wait_until methods is no longer required. This method will
-# wait for the element to be found on the page until the Capybara default timeout is reached.
+# With implicit waits enabled, use of wait_until methods is no longer required.
+# This method will wait for the element to be found on the page or
+# until the `Capybara.default_max_wait_time` timeout is reached.
 @search_page.search_results
 ```
 
@@ -1752,10 +1756,9 @@ an error if an element does not appear or disappear within the timeout period an
 simply return `false` and allow the test to continue. This is different from
 the other methods such as `wait_until_*_visible` which do raise errors.
 
-Add the following code your spec_helper file to enable errors to be
-raised immediately when a `wait_for_*` method does not find the element it is
-waiting for and when a `wait_for_no_*` method continues to find an element it is
-waiting to not exist:
+Add the following code to enable errors to be raised immediately when a
+`wait_for_*` method does not find the element it is waiting for and when a
+`wait_for_no_*` method continues to find an element it is waiting to not exist.
 
 ```ruby
 SitePrism.configure do |config|
@@ -1779,6 +1782,27 @@ with this:
 @search_page.wait_for_search_results
 # or automatically raise if search results are still found
 @search_page.wait_for_no_search_results
+```
+
+## Configuring default load_validations
+
+By default, SitePrism will add a single default load validation to all pages.
+This single load validation verifies the page URL is correct, and will run whenever you
+call `#loaded?` on an instantiated page. It uses the DSL defined `set_url` or `set_url_matcher`
+as a source of truth to compare the value of `page.current_url` when you call `#loaded?`
+
+However there may be times you are unsure what your page URL will even look like, or you
+might not want this validation to run first, or even at all. In these situations it is
+sometimes desirable to remove this default validation.
+
+Adding the below code and SitePrism will remove this validation from being
+set up for all your pages (And ran accordingly). Note that by default this validation
+is set to run on **all** pages.
+
+```ruby
+SitePrism.configure do |config|
+  config.default_load_validations = false
+end
 ```
 
 ## Using SitePrism with VCR
