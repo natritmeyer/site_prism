@@ -8,8 +8,16 @@ module SitePrism
 
     private
 
-    def max_wait_time
+    def wait_time
       Capybara.default_max_wait_time
+    end
+
+    def checker_wait_time
+      if SitePrism.use_implicit_waits
+        wait_time
+      else
+        0
+      end
     end
 
     def raise_if_block(obj, name, has_block, type)
@@ -169,9 +177,9 @@ module SitePrism
         method_name = "has_#{element_name}?"
         create_helper_method(method_name, *find_args) do
           define_method(method_name) do |*runtime_args|
-            wait_time = SitePrism.use_implicit_waits ? max_wait_time : 0
-            visibility_args = { wait: wait_time }
-            element_exists?(*merge_args(find_args, runtime_args, **visibility_args))
+            visibility_args = { wait: checker_wait_time }
+            args = merge_args(find_args, runtime_args, visibility_args)
+            element_exists?(*args)
           end
         end
       end
@@ -180,11 +188,9 @@ module SitePrism
         method_name = "has_no_#{element_name}?"
         create_helper_method(method_name, *find_args) do
           define_method(method_name) do |*runtime_args|
-            wait_time = SitePrism.use_implicit_waits ? max_wait_time : 0
-            visibility_args = { wait: wait_time }
-            element_does_not_exist?(
-              *merge_args(find_args, runtime_args, **visibility_args)
-            )
+            visibility_args = { wait: checker_wait_time }
+            args = merge_args(find_args, runtime_args, visibility_args)
+            element_does_not_exist?(*args)
           end
         end
       end
@@ -192,10 +198,11 @@ module SitePrism
       def create_waiter(element_name, *find_args)
         method_name = "wait_for_#{element_name}"
         create_helper_method(method_name, *find_args) do
-          define_method(method_name) do |timeout = max_wait_time, *runtime_args|
+          define_method(method_name) do |timeout = wait_time, *runtime_args|
             visibility_args = { wait: timeout }
-            result = element_exists?(*merge_args(find_args, runtime_args, **visibility_args))
-            raise_wait_for_if_failed(self, element_name.to_s, timeout, !result)
+            args = merge_args(find_args, runtime_args, visibility_args)
+            result = element_exists?(*args)
+            raise_wait_for_if_failed(self, element_name, timeout, !result)
             result
           end
         end
@@ -204,11 +211,12 @@ module SitePrism
       def create_nonexistence_waiter(element_name, *find_args)
         method_name = "wait_for_no_#{element_name}"
         create_helper_method(method_name, *find_args) do
-          define_method(method_name) do |timeout = max_wait_time, *runtime_args|
+          define_method(method_name) do |timeout = wait_time, *runtime_args|
             visibility_args = { wait: timeout }
-            res = element_does_not_exist?(*merge_args(find_args, runtime_args, **visibility_args))
-            raise_wait_for_no_if_failed(self, element_name.to_s, timeout, !res)
-            res
+            args = merge_args(find_args, runtime_args, visibility_args)
+            result = element_does_not_exist?(*args)
+            raise_wait_for_no_if_failed(self, element_name, timeout, !result)
+            result
           end
         end
       end
@@ -216,9 +224,9 @@ module SitePrism
       def create_visibility_waiter(element_name, *find_args)
         method_name = "wait_until_#{element_name}_visible"
         create_helper_method(method_name, *find_args) do
-          define_method(method_name) do |timeout = max_wait_time, *runtime_args|
+          define_method(method_name) do |timeout = wait_time, *runtime_args|
             visibility_args = { visible: true, wait: timeout }
-            args = merge_args(find_args, runtime_args, **visibility_args)
+            args = merge_args(find_args, runtime_args, visibility_args)
             return true if element_exists?(*args)
             raise SitePrism::TimeOutWaitingForElementVisibility
           end
@@ -228,9 +236,9 @@ module SitePrism
       def create_invisibility_waiter(element_name, *find_args)
         method_name = "wait_until_#{element_name}_invisible"
         create_helper_method(method_name, *find_args) do
-          define_method(method_name) do |timeout = max_wait_time, *runtime_args|
+          define_method(method_name) do |timeout = wait_time, *runtime_args|
             visibility_args = { visible: true, wait: timeout }
-            args = merge_args(find_args, runtime_args, **visibility_args)
+            args = merge_args(find_args, runtime_args, visibility_args)
             return true if element_does_not_exist?(*args)
             raise SitePrism::TimeOutWaitingForElementInvisibility
           end

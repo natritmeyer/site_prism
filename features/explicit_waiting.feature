@@ -71,21 +71,21 @@ Feature: Waiting for Elements
 
   Scenario: Wait for Invisibility of element - Overridden Timeout
     When I navigate to the home page
-    And I wait for a specific amount of time until a particular element is invisible
+    And I wait a specific amount of time for a particular element to vanish
     Then the previously visible element is invisible
 
   Scenario: Wait for Invisibility of element - Negative Test
     When I navigate to the home page
-    Then I get a timeout error when I wait for an element that never disappears
+    Then I get a timeout error when I wait for an element that never vanishes
 
   Scenario: Wait for Invisibility of element - Non-Existent Element
     When I navigate to the home page
-    Then I do not wait for a nonexistent element when checking for invisibility
+    Then I am not made to wait to check a nonexistent element for invisibility
 
   Scenario: Wait for Invisibility of element - Non-Existent Section
     When I navigate to the home page
     And I remove the parent section of the element
-    Then I receive an error when a section with the element I am waiting for is removed
+    Then an error is thrown when waiting for an element in a section that disappears
 
   Scenario: Element Is Not Automatically Waited For
     When I navigate to the home page

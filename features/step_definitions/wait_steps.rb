@@ -71,7 +71,7 @@ Then("the element I am waiting for doesn't disappear in time") do
 end
 
 When('I wait for the section element that takes a while to appear') do
-  @test_site.section_experiments.parent_section.wait_for_slow_section_element
+  @test_site.section_experiments.parent_section.wait_for_slow_element
 end
 
 When('I wait for the section element that takes a while to disappear') do
@@ -82,7 +82,7 @@ end
 
 Then('the slow section appears') do
   expect(@test_site.section_experiments.parent_section)
-    .to have_slow_section_element
+    .to have_slow_element
 end
 
 Then('the removing section disappears') do
@@ -93,9 +93,9 @@ end
 Then("an exception is raised when I wait for a section that won't appear") do
   section = @test_site.section_experiments.parent_section
 
-  expect { section.wait_for_slow_section_element(0.25) }
+  expect { section.wait_for_slow_element(0.25) }
     .to raise_error(SitePrism::TimeOutWaitingForExistenceError)
-    .with_message('Timed out after 0.25s waiting for Parent#slow_section_element')
+    .with_message('Timed out after 0.25s waiting for Parent#slow_element')
 end
 
 Then("an exception is raised when I wait for a section that won't disappear") do
@@ -116,13 +116,11 @@ Then('the removing collection of sections disappears') do
 end
 
 When('I wait a variable time for elements to appear') do
-  @test_site.home.wait_for_lots_of_links
-  @test_site.home.wait_for_lots_of_links(0.1)
+  @test_site.home.wait_for_lots_of_links(1.6)
 end
 
 When('I wait a variable time for elements to disappear') do
-  @test_site.home.wait_for_no_removing_links
-  @test_site.home.wait_for_no_removing_links(0.1)
+  @test_site.home.wait_for_no_removing_links(1.6)
 end
 
 Then('I get a timeout error when I wait for an element that never appears') do
@@ -152,11 +150,11 @@ When('I wait for an element to become invisible') do
   @test_site.home.wait_until_retiring_element_invisible
 end
 
-When('I wait for a specific amount of time until a particular element is invisible') do
+When('I wait a specific amount of time for a particular element to vanish') do
   @test_site.home.wait_until_retiring_element_invisible(5)
 end
 
-Then('I get a timeout error when I wait for an element that never disappears') do
+Then('I get a timeout error when I wait for an element that never vanishes') do
   expect { @test_site.home.wait_until_welcome_header_invisible(1) }
     .to raise_error(SitePrism::TimeOutWaitingForElementInvisibility)
 end
@@ -180,7 +178,8 @@ end
 Then('the slow element is not waited for') do
   start_time = Time.now
 
-  expect { @test_site.home.some_slow_element }.to raise_error(Capybara::ElementNotFound)
+  expect { @test_site.home.some_slow_element }
+    .to raise_error(Capybara::ElementNotFound)
 
   expect(Time.now - start_time).to be < 0.2
 end
@@ -199,10 +198,27 @@ Then('the slow elements are waited for') do
   expect(Time.now - start_time).to be_between(1.85, 2.15)
 end
 
+Then('the boolean test for a slow element is waited for') do
+  start_time = Time.now
+
+  expect(@test_site.home.has_some_slow_element?).to be true
+
+  expect(Time.now - start_time).to be_between(1.85, 2.15)
+end
+
+Then('the boolean test for slow elements are waited for') do
+  start_time = Time.now
+
+  expect(@test_site.home.has_slow_elements?).to be true
+
+  expect(Time.now - start_time).to be_between(1.85, 2.15)
+end
+
 Then('the slow elements are not waited for') do
   start_time = Time.now
 
-  expect { @test_site.home.slow_elements(count: 1) }.to raise_error(Capybara::ElementNotFound)
+  expect { @test_site.home.slow_elements(count: 1) }
+    .to raise_error(Capybara::ElementNotFound)
 
   expect(Time.now - start_time).to be < 0.2
 end
@@ -214,12 +230,29 @@ Then('the slow section is waited for') do
   expect(Time.now - start_time).to be_between(1.85, 2.15)
 end
 
+Then('the boolean test for a slow section is waited for') do
+  start_time = Time.now
+
+  expect(@test_site.home.has_slow_section?(count: 1)).to be true
+
+  expect(Time.now - start_time).to be_between(1.85, 2.15)
+end
+
 Then('the slow section is not waited for') do
   start_time = Time.now
 
-  expect { @test_site.home.slow_section(count: 1) }.to raise_error(Capybara::ElementNotFound)
+  expect { @test_site.home.slow_section(count: 1) }
+    .to raise_error(Capybara::ElementNotFound)
 
   expect(Time.now - start_time).to be < 0.2
+end
+
+Then('the boolean test for slow sections are waited for') do
+  start_time = Time.now
+
+  expect(@test_site.home.has_slow_sections?(count: 2)).to be true
+
+  expect(Time.now - start_time).to be_between(1.85, 2.15)
 end
 
 Then('the slow sections are waited for') do
@@ -232,15 +265,17 @@ end
 Then('the slow sections are not waited for') do
   start_time = Time.now
 
-  expect { @test_site.home.slow_sections(count: 2) }.to raise_error(Capybara::ElementNotFound)
+  expect { @test_site.home.slow_sections(count: 2) }
+    .to raise_error(Capybara::ElementNotFound)
 
   expect(Time.now - start_time).to be < 0.2
 end
 
-Then('the slow element is waited for only as long as a user set Capybara.using_wait_time') do
+Then('a slow element is waited for if a user sets Capybara.using_wait_time') do
   start_time = Time.now
   Capybara.using_wait_time(1) do
-    expect { @test_site.home.some_slow_element }.to raise_error(Capybara::ElementNotFound)
+    expect { @test_site.home.some_slow_element }
+      .to raise_error(Capybara::ElementNotFound)
   end
   @duration = Time.now - start_time
 

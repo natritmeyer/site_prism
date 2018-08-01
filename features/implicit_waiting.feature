@@ -24,7 +24,23 @@ Feature: Waiting for Elements Implicitly
     Then the slow sections are waited for
     And implicit waits should be enabled
 
+  Scenario: Boolean test for Element is Automatically Waited For
+    When I navigate to the home page
+    Then the boolean test for a slow element is waited for
+
+  Scenario: Boolean test for Elements is Automatically Waited For
+    When I navigate to the home page
+    Then the boolean test for slow elements are waited for
+
+  Scenario: Boolean test for Section is Automatically Waited For
+    When I navigate to the home page
+    Then the boolean test for a slow section is waited for
+
+  Scenario: Boolean test for Sections is Automatically Waited For
+    When I navigate to the home page
+    Then the boolean test for slow sections are waited for
+
   Scenario: Wait time can be overridden at run-time
     When I navigate to the home page
-    Then the slow element is waited for only as long as a user set Capybara.using_wait_time
+    Then a slow element is waited for if a user sets Capybara.using_wait_time
     And implicit waits should be enabled
