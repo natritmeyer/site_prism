@@ -19,7 +19,7 @@ We have a brief set of setup docs [HERE](https://github.com/natritmeyer/site_pri
 
 SitePrism is built and tested to work on Ruby 2.3 - 2.5. There is also some limited support for the Ruby 2.2 series.
 
-SitePrism should run on all major browsers. The gem's integration tests are ran on the latest versions of Chrome and Firefox.
+SitePrism should run on all major browsers. The gem's integration tests are ran on Chrome and Firefox.
 
 If you find your browser doesn't integrate nicely with SitePrism, please open an [issue request](https://github.com/natritmeyer/site_prism/issues/new)
 
@@ -142,7 +142,7 @@ to then use instances of those classes in your tests.
 If a class represents a page then each element of the page is
 represented by a method that, when called, returns a reference to that
 element that can then be acted upon (clicked, set text value), or
-queried (is it enabled? visible?).
+queried (is it enabled? / visible?).
 
 SitePrism is based around this concept, but goes further as you'll see
 below by also allowing modelling of repeated sections that appear on
@@ -184,14 +184,14 @@ class Home < SitePrism::Page
 end
 ```
 
-Note that setting a URL is optional - you only need to set a url if you want to be able to navigate
-directly to that page. It makes sense to set the URL for a page model of a home
-page or a login page, but probably not a search results page.
+Note that setting a URL is optional - you only need to set a url if you want to be able to
+navigate directly to that page. It makes sense to set the URL for a page model of a
+home page or a login page, but probably not a search results page.
 
 #### Parametrized URLs
 
-SitePrism uses the Addressable gem and therefore allows for parameterized URLs. Here is
-a simple example:
+SitePrism uses the `addressable` gem and therefore allows for parameterization of URLs.
+Here is a simple example:
 
 ```ruby
 class UserProfile < SitePrism::Page
@@ -255,7 +255,7 @@ See https://github.com/sporkmonger/addressable for more details on parameterized
 Automated tests often need to verify that a particular page is
 displayed. SitePrism can automatically parse your URL template
 and verify that whatever components your template specifies match the
-currently viewed page.  For example, with the following URL template:
+currently viewed page. For example, with the following URL template:
 
 ```ruby
 class Account < SitePrism::Page
@@ -289,9 +289,8 @@ account number 22, you could assert the following:
 expect(@account_page).to be_displayed(id: 22)
 ```
 
-You can even use regular expressions.  If, as a contrived example, you wanted to
-ensure that the browser was displaying an account with an id ending with 2, you could
-say:
+You can even use regular expressions. If for example, you wanted to ensure that the
+browser was displaying an account with an id ending with 2, you could do:
 
 ```ruby
 expect(@account_page).to be_displayed(id: /2\z/)
@@ -314,7 +313,7 @@ expect(@account_page.url_matches['query']['token']).to eq('ca2786616a4285bc')
 #### Falling back to basic regexp matchers
 
 If SitePrism's built-in URL matching is not sufficient for your needs
- you can override and use SitePrism's previous support for regular expression-based
+you can override and use SitePrism's previous support for regular expression-based
 URL matchers by it by calling `set_url_matcher`:
 
 ```ruby
@@ -325,8 +324,7 @@ end
 
 #### Testing for Page display
 
-SitePrism's `#displayed?` predicate method allows for semantic code in
-your test:
+SitePrism's `#displayed?` predicate method allows for semantic code in your tests:
 
 ```ruby
 Then /^the account page is displayed$/ do
@@ -345,7 +343,6 @@ class Account < SitePrism::Page
 end
 
 @account = Account.new
-#...
 @account.current_url #=> "http://www.example.com/account/123"
 expect(@account.current_url).to include('example.com/account/')
 ```
@@ -359,7 +356,6 @@ class Account < SitePrism::Page
 end
 
 @account = Account.new
-#...
 @account.title #=> "Welcome to Your Account"
 ```
 
@@ -375,7 +371,6 @@ class Account < SitePrism::Page
 end
 
 @account = Account.new
-#...
 @account.secure? #=> true/false
 expect(@account).to be_secure
 ```
@@ -577,13 +572,9 @@ end
 @home.has_search_field?
 @home.has_no_search_field?
 @home.wait_for_search_field
-@home.wait_for_search_field(10)
 @home.wait_for_no_search_field
-@home.wait_for_no_search_field(10)
 @home.wait_until_search_field_visible
-@home.wait_until_search_field_visible(10)
 @home.wait_until_search_field_invisible
-@home.wait_until_search_field_invisible(10)
 
 ```
 
@@ -686,7 +677,7 @@ end
 
 ```
 
-... you can also wait for the existence of a list of names like this:
+You can also wait for the existence of a list of names like this:
 
 ```ruby
 @friends_page.wait_for_names
@@ -731,12 +722,11 @@ the default Capybara wait time:
 
 ### Checking that all mapped elements are present on the page
 
-Throughout my time in test automation I keep getting asked to provide the
-ability to check that all elements that should be on the page are on the
-page. Why people would want to test this, I don't know. But if that's
-what you want to do, SitePrism provides the `#all_there?` method that
-will return true if all mapped elements (and sections... see below) are
-present in the browser, false if they're not all there.
+Throughout my time in test automation I keep getting asked to provide the ability to
+check that all elements that should be on the page are on the page. Why people
+would want to test this, I don't know. But if that's what you want to do, SitePrism
+provides the `#all_there?` method that will return `true` if all mapped items
+are present in the browser and `false` if they're not all there.
 
 ```ruby
 @friends_page.all_there? #=> true/false
@@ -754,19 +744,19 @@ You may wish to have elements declared in a page object class that are not alway
 class TestPage < SitePrism::Page
   element :name_field, '#name'
   element :address_field, '#address'
-  element :success_msg, 'span.alert-success'
+  element :success_message, 'span.alert-success'
 
   expected_elements :name_field, :address_field
 end
 ```
 
-And if you aren't sure which elements are present and which are, Then ask SitePrism to tell you!
+And if you aren't sure which elements will be present, Then ask SitePrism to tell you!
 
 ```ruby
 class TestPage < SitePrism::Page
   element :name_field, '#name'
   element :address_field, '#address'
-  element :success_msg, 'span.alert-success'
+  element :success_message, 'span.alert-success'
 end
 
 # and... Only `address_field` is on the page
@@ -787,7 +777,6 @@ provides `section` and `sections`. The first returns an instance of a
 page section, the second returns an array of section instances, one for
 each capybara element found by the supplied css selector. What follows
 is an explanation of `section`.
-
 
 #### Defining a Section
 
@@ -812,20 +801,17 @@ class Home < SitePrism::Page
 end
 ```
 
-The way to add a section to a page (or another section -
-SitePrism allows adding sections to sections) is to call the `section`
-method. It takes 3 arguments: the first is the name of the section as
-referred to on the page (sections that appear on multiple pages can be
-named differently). The second argument is the class of which an
-instance will be created to represent the page section, and the following
-arguments are [Capybara::Node::Finders](https://www.rubydoc.info/github/teamcapybara/capybara/master/Capybara/Node/Finders).
-These identify the root node of the section
-on this page (note that the css selector can be different for different
-pages as the whole point of sections is that they can appear in
-different places on different pages).
+The way to add a section to a page (or another section - which is possible) is to
+call the `section` method. It takes 3 arguments: the first is the name of the section as
+referred to on the page (sections that appear on multiple pages can be named differently).
+The second argument is the class of which an instance will be created to represent
+the page section, and the following arguments are [Capybara::Node::Finders](https://www.rubydoc.info/github/teamcapybara/capybara/master/Capybara/Node/Finders).
+These identify the root node of the section on this page (note that the css selector
+can be different for different pages as the whole point of sections is that they can
+appear in different places / ways on different pages).
 
-If you define a section as a class and as an Anonymous section,
-you can have some handy constructs like the one below
+You can define a section as a class and/or an Anonymous section. This will then allow you
+to have some handy constructs like the one below
 
 ```ruby
 class People < SitePrism::Section
@@ -995,7 +981,7 @@ class MyPage < SitePrism::Page
 end
 ```
 
-...then calling `#parent` will return the following:
+Then calling `#parent` will return the following:
 
 ```ruby
 @my_page = MyPage.new
@@ -1049,7 +1035,7 @@ class Home < SitePrism::Page
 end
 ```
 
-... you can check whether the section is present on the page or not:
+You can check whether the section is present on the page or not:
 
 ```ruby
 @home = Home.new
@@ -1461,7 +1447,7 @@ class BasePage < SitePrism::Page
 
   load_validation do
     wait_for_loading_message(1)
-    [ has_no_loading_message?(wait: 10), 'loading message was still displayed' ]
+    [has_no_loading_message?(wait: 10), 'loading message was still displayed']
   end
 end
 
@@ -1529,7 +1515,7 @@ The method calls below will succeed, provided the elements appear on the page wi
 # OR
 @results_page.search_results(count: 25)
 # OR
-@results_page.wait_for_search_results(nil, :count => 25)
+@results_page.wait_for_search_results(nil, count: 25)
 # Note that wait_for_<element_name> expects a timeout value to be passed as the first parameter or nil to use the default timeout value.
 ```
 
@@ -1599,7 +1585,7 @@ is embedded into. Like a section, it is possible to test for the
 existence of the iframe, wait for it to exist as well as interact with
 the page it contains.
 
-### Creating an iframe
+### Creating an iFrame
 
 An iframe is declared in the same way as a Page:
 
@@ -1739,7 +1725,7 @@ with this:
 
 Note that even with implicit waits on you can temporarily modify wait times in SitePrism to help work-around special circumstances.  
 
-```rb
+```ruby
 # Option 1: using wait_for
 @search_page.wait_for_search_results(30) # will wait up to 30seconds
 
@@ -1776,7 +1762,7 @@ raise unless @search_page.wait_for_no_search_results
 
 with this:
 
-```
+```ruby
 # With raise on wait_fors enabled, this will automatically raise
 # if no search results are found
 @search_page.wait_for_search_results
@@ -1886,6 +1872,5 @@ end
 # etc...
 ```
 
-The only thing that needs instantiating is the App class - from then on
-pages don't need to be initialized, they are now returned by methods on
-@app. Maintenance win!
+The only thing that needs instantiating is the App class - from then on pages don't
+need to be initialized, they are now returned by methods on @app. Maintenance win!
