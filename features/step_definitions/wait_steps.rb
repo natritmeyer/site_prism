@@ -100,7 +100,8 @@ end
 
 Then("an exception is raised when I wait for a section that won't disappear") do
   section = @test_site.section_experiments.removing_parent
-  error_message = 'Timed out after 0.25s waiting for no RemovingParent#removing_element'
+  error_message =
+    'Timed out after 0.25s waiting for no RemovingParent#removing_element'
 
   expect { section.wait_for_no_removing_element(0.25) }
     .to raise_error(SitePrism::TimeOutWaitingForNonExistenceError)
@@ -139,7 +140,7 @@ When('I wait until a particular element is visible') do
   @duration = Time.now - start_time
 end
 
-When('I wait for a specific amount of time until a particular element is visible') do
+When('I wait for a specific amount of time until an element is visible') do
   @overridden_wait_time = 3.5
   start_time = Time.now
   @test_site.home.wait_until_shy_element_visible(@overridden_wait_time)

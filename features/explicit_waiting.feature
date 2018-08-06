@@ -56,7 +56,7 @@ Feature: Waiting for Elements
 
   Scenario: Wait for Visibility of element - Overridden Timeout
     When I navigate to the home page
-    And I wait for a specific amount of time until a particular element is visible
+    And I wait for a specific amount of time until an element is visible
     Then the previously invisible element is visible
     And I am not made to wait for the full overridden duration
 
@@ -85,7 +85,7 @@ Feature: Waiting for Elements
   Scenario: Wait for Invisibility of element - Non-Existent Section
     When I navigate to the home page
     And I remove the parent section of the element
-    Then an error is thrown when waiting for an element in a section that disappears
+    Then an error is thrown when waiting for an element in a vanishing section
 
   Scenario: Element Is Not Automatically Waited For
     When I navigate to the home page

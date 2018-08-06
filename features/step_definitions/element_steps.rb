@@ -91,7 +91,7 @@ When('I remove the parent section of the element') do
   @test_site.home.remove_container_with_element_btn.click
 end
 
-Then('an error is thrown when waiting for an element in a section that disappears') do
+Then('an error is thrown when waiting for an element in a vanishing section') do
   expect do
     @test_site.home.container_with_element.wait_until_embedded_element_invisible
   end.to raise_error(Capybara::ElementNotFound)
