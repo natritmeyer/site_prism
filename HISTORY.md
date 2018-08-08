@@ -1,4 +1,17 @@
 <!-- #291 - Jul 20th - Last update to this document -->
+## [Unreleased]
+### Removed
+- N/A
+
+### Added
+- N/A
+
+### Changed
+- N/A
+
+### Fixed
+- N/A
+
 ## [2.15.1] - 2015-07-20
 ### Added
 - Initial backwards compatible work for rewriting the Error protocols for site_prism 3.0
@@ -54,6 +67,10 @@
 ([luke-hill]) & ([mdesantis])
 
 ## [2.14] - 2015-06-22
+### Removed
+Previously deprecated `Waiter.default_wait_time` (As this just called the Capybara method)
+([luke-hill])
+
 ### Added
 - Introduced new sister method to `#expected_elements` - `#elements_present`
   - This will return an Array of every Element that is present on the Page/Section
