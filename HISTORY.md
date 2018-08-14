@@ -12,7 +12,7 @@
 ### Fixed
 - N/A
 
-## [2.15.1] - 2015-07-20
+## [2.15.1] - 2018-07-20
 ### Added
 - Initial backwards compatible work for rewriting the Error protocols for site_prism 3.0
   - All Error Classes inherit from one common Error Class
@@ -45,7 +45,7 @@
 - Fix scoping issue that prevented iFrames / JS methods defined inside a `section` working
 ([ineverov])
 
-## [2.15] - 2015-07-09
+## [2.15] - 2018-07-09
 ### Added
 - Added more gem metadata into the `.gemspec` file to be read by RubyGems (Changelog e.t.c.)
 ([luke-hill])
@@ -66,7 +66,7 @@
 - Add better error message when iFrame's are called without a block (Than a stacktrace)
 ([luke-hill]) & ([mdesantis])
 
-## [2.14] - 2015-06-22
+## [2.14] - 2018-06-22
 ### Removed
 Previously deprecated `Waiter.default_wait_time` (As this just called the Capybara method)
 ([luke-hill])
@@ -113,7 +113,7 @@ Previously deprecated `Waiter.default_wait_time` (As this just called the Capyba
 - rubocop fixes
 ([ineverov]) & ([jgs731])
 
-## [2.13] - 2015-05-21
+## [2.13] - 2018-05-21
 ### Removed
 Removed testing for Ruby `2.0` on Travis
 ([luke-hill])
@@ -152,7 +152,7 @@ Removed testing for Ruby `2.0` on Travis
 - README fixes
 ([robd])
 
-## [2.12] - 2015-04-20
+## [2.12] - 2018-04-20
 ### Added
 - Added Ruby `2.4` testing to Travis
 ([luke-hill])
@@ -187,7 +187,7 @@ Removed testing for Ruby `2.0` on Travis
 - Performed a suite-wide cleanup of Gherkin. Made everything a lot more organised
 ([luke-hill])
 
-## [2.11] - 2015-03-07
+## [2.11] - 2018-03-07
 ### Added
 - Re-enable Rubocop compliance from PR signoff (Including fixing up some offences)
 ([RustyNail])
