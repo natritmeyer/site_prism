@@ -22,17 +22,7 @@ Then('I can see optioned individual people in the people list') do
   expect(@test_site.home.people).to have_optioned_individuals(count: 4)
 end
 
-Then('I can wait a variable time and pass specific parameters') do
-  @test_site.home.wait_for_lots_of_links(0.1, count: 2)
-  Capybara.using_wait_time(0.3) do
-    # intentionally wait and pass nil to force this to cycle
-    expect(@test_site.home.wait_for_lots_of_links(nil, count: 198_108_14))
-      .to be_falsey
-  end
-end
-
-Then("waiting a short time for elements to disappear doesn't raise an error") do
-  expect do
-    @test_site.home.wait_for_no_removing_links(0.1, text: 'wibble')
-  end.not_to raise_error
+Then('I can wait a variable time and pass query parameters') do
+  expect { @test_site.home.wait_for_lots_of_links(1.6, minimum: 1) }
+    .not_to raise_error
 end

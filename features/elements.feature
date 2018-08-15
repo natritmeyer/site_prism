@@ -16,10 +16,8 @@ Feature: Interaction with groups of elements
   Scenario: Page with no elements
     Then the page does not have a group of elements
 
-  Scenario: Waiting on a set of elements to appear
-    When I wait a variable time for elements to appear
-    Then I can wait a variable time and pass specific parameters
+  Scenario: Waiting on a set of elements to appear - Positive
+    Then I can wait a variable time and pass query parameters
 
-  Scenario: Waiting on a set of elements to disappear
-    When I wait a variable time for elements to disappear
-    Then waiting a short time for elements to disappear doesn't raise an error
+  Scenario: Waiting on a set of elements to disappear - Positive
+    Then I don't crash whilst waiting a variable time for elements that disappear

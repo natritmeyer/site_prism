@@ -6,7 +6,6 @@ describe SitePrism do
   after(:all) do
     SitePrism.configure do |config|
       config.use_implicit_waits = false
-      config.raise_on_wait_fors = false
       config.default_load_validations = true
     end
   end
@@ -19,16 +18,6 @@ describe SitePrism do
     SitePrism.configure { |config| config.use_implicit_waits = true }
 
     expect(SitePrism.use_implicit_waits).to be true
-  end
-
-  it 'should have `raise_on_wait_fors` disabled by default' do
-    expect(SitePrism.raise_on_wait_fors).to be false
-  end
-
-  it 'can be configured to enable `raise_on_wait_fors`' do
-    SitePrism.configure { |config| config.raise_on_wait_fors = true }
-
-    expect(SitePrism.raise_on_wait_fors).to be true
   end
 
   it 'should have `default_load_validations` enabled by default' do

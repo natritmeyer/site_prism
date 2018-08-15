@@ -27,16 +27,12 @@ module SitePrism
       raise SitePrism::UnsupportedBlock, "#{obj.class}##{name}"
     end
 
-    def raise_wait_for_if_failed(obj, name, timeout, failed)
-      return unless SitePrism.raise_on_wait_fors && failed
-
+    def raise_wait_for(obj, name, timeout)
       raise SitePrism::TimeOutWaitingForExistenceError, \
             "Timed out after #{timeout}s waiting for #{obj.class}##{name}"
     end
 
-    def raise_wait_for_no_if_failed(obj, name, timeout, failed)
-      return unless SitePrism.raise_on_wait_fors && failed
-
+    def raise_wait_for_no(obj, name, timeout)
       raise SitePrism::TimeOutWaitingForNonExistenceError, \
             "Timed out after #{timeout}s waiting for no #{obj.class}##{name}"
     end
@@ -202,8 +198,8 @@ module SitePrism
             visibility_args = { wait: timeout }
             args = merge_args(find_args, runtime_args, visibility_args)
             result = element_exists?(*args)
-            raise_wait_for_if_failed(self, element_name, timeout, !result)
-            result
+            return result if result
+            raise_wait_for(self, element_name, timeout)
           end
         end
       end
@@ -215,8 +211,8 @@ module SitePrism
             visibility_args = { wait: timeout }
             args = merge_args(find_args, runtime_args, visibility_args)
             result = element_does_not_exist?(*args)
-            raise_wait_for_no_if_failed(self, element_name, timeout, !result)
-            result
+            return result if result
+            raise_wait_for_no(self, element_name, timeout)
           end
         end
       end

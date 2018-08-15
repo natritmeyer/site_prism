@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-Given('exceptions are configured to raise on wait_fors') do
-  SitePrism.raise_on_wait_fors = true
-end
-
 When('I wait for the element that takes a while to appear') do
   start_time = Time.now
   @test_site.home.wait_for_some_slow_element
@@ -22,18 +18,6 @@ end
 
 Then('the removing element disappears') do
   expect(@test_site.home).not_to have_removing_element
-end
-
-When('I wait for a short amount of time for an element to appear') do
-  start_time = Time.now
-  @test_site.home.wait_for_some_slow_element(1)
-  @duration = Time.now - start_time
-end
-
-When('I wait for a short amount of time for an element to disappear') do
-  start_time = Time.now
-  @test_site.home.wait_for_no_removing_element(1)
-  @duration = Time.now - start_time
 end
 
 Then("an exception is raised when I wait for an element that won't appear") do
@@ -56,18 +40,6 @@ Then("an exception is raised when I wait for an element that won't disappear") d
     .with_message(
       'Timed out after 1s waiting for no TestHomePage#removing_element'
     )
-end
-
-Then("the element I am waiting for doesn't appear in time") do
-  expect(@test_site.home).not_to have_some_slow_element
-
-  expect(@duration).to be_between(1, 1.15)
-end
-
-Then("the element I am waiting for doesn't disappear in time") do
-  expect(@test_site.home).to have_removing_element
-
-  expect(@duration).to be_between(1, 1.15)
 end
 
 When('I wait for the section element that takes a while to appear') do
@@ -115,12 +87,8 @@ Then('the removing collection of sections disappears') do
   expect(@test_site.home).not_to have_removing_sections
 end
 
-When('I wait a variable time for elements to appear') do
-  @test_site.home.wait_for_lots_of_links(1.6)
-end
-
-When('I wait a variable time for elements to disappear') do
-  @test_site.home.wait_for_no_removing_links(1.6)
+Then("I don't crash whilst waiting a variable time for elements that disappear") do
+  expect { @test_site.home.wait_for_no_removing_links(2.6) }.not_to raise_error
 end
 
 Then('I get a timeout error when I wait for an element that never appears') do
