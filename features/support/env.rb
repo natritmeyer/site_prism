@@ -29,7 +29,6 @@ require 'pages/home'
 require 'pages/home_with_expected_elements'
 require 'pages/dynamic_page'
 require 'pages/no_title'
-require 'pages/page_with_people'
 require 'pages/redirect'
 require 'pages/section_experiments'
 

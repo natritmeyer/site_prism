@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TestHomePage < SitePrism::Page
+class Home < SitePrism::Page
   set_url '/home.htm'
   set_url_matcher(/home\.htm$/)
 
@@ -19,7 +19,6 @@ class TestHomePage < SitePrism::Page
           'input#remove_container_with_element'
 
   # elements groups
-  elements :lots_of_links, :xpath, '//td//a'
   elements :removing_links, '#link_container_will_become_nonexistent > a'
   elements :nonexistent_elements, 'input#nonexistent'
   elements :welcome_headers, :xpath, '//h3'

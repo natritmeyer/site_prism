@@ -9,9 +9,9 @@
       slow_link = document.createElement("a");
       slow_link.innerText = "slow link";
       slow_link.setAttribute('class', 'slow');
-      //wait for half a second and then add the links
-      setTimeout("dumping_ground.appendChild(slow_link);", 500);
-      setTimeout("document.getElementById('removing-element').remove();", 500);
+      //wait for a short while then add the links
+      setTimeout("dumping_ground.appendChild(slow_link);", 250);
+      setTimeout("document.getElementById('removing-element').remove();", 250);
     }
     window.onload = load;
     </script>
@@ -51,24 +51,24 @@
       </div>
     </div>
 	
-	<div class='level-1'>
-		<div class='level-2'>
-			<div class='level-3'>
-				<div class='level-4'>
-					<div class='level-5'>
-						<span class='deep-span'>Deep span</span>
-					</div>
-					<div class='level-5'/>
-				</div>
-				<div class='level-4'>
-					<div class='level-5'>
-						<span class='deep-span'>Deep span</span>
-					</div>
-					<div class='level-5'/>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class='level-1'>
+      <div class='level-2'>
+        <div class='level-3'>
+          <div class='level-4'>
+            <div class='level-5'>
+              <span class='deep-span'>Deep span</span>
+            </div>
+            <div class='level-5'/>
+          </div>
+          <div class='level-4'>
+            <div class='level-5'>
+              <span class='deep-span'>Deep span</span>
+            </div>
+            <div class='level-5'/>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class='anonymous-section'>
       <h1>Anonymous Section</h1>

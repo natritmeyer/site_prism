@@ -71,9 +71,9 @@ is called before the matcher has been set" do
   end
 
   it 'should raise an exception if passing a block to elements' do
-    expect { TestHomePage.new.lots_of_links { :any_old_block } }
+    expect { TestHomePage.new.removing_links { :any_old_block } }
       .to raise_error(SitePrism::UnsupportedBlock)
-      .with_message('TestHomePage#lots_of_links does not accept blocks.')
+      .with_message('TestHomePage#removing_links does not accept blocks.')
   end
 
   it 'should raise an exception if passing a block to sections' do

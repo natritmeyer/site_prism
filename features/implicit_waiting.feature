@@ -9,7 +9,7 @@ Feature: Waiting for Elements Implicitly
     Then the slow element is waited for
     And implicit waits should be enabled
 
-  Scenario: Elements Collections Are Automatically Waited For
+  Scenario: Element Collections Are Automatically Waited For
     When I navigate to the home page
     Then the slow elements are waited for
     And implicit waits should be enabled

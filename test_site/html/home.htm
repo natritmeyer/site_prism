@@ -20,12 +20,12 @@
       slow_link.appendChild(some_text);
       //get the element that we're going to add the link to
       dumping_ground = document.getElementById('dumping_ground');
-      //wait for a second and then add the links
-      var t1 = setTimeout("dumping_ground.appendChild(slow_link);", 1900);
-      var t2 = setTimeout("document.getElementById('will_become_visible').style.display='block';", 1900);
-      var t3 = setTimeout("document.getElementById('will_become_invisible').style.display='none';", 1900);
-      var t4 = setTimeout("document.getElementById('will_become_nonexistent').remove();", 1900);
-      var t5 = setTimeout("document.getElementById('link_container_will_become_nonexistent').remove();", 1900);
+      //wait for ~2s and then add the links
+      var t1 = setTimeout("dumping_ground.appendChild(slow_link);", 1750);
+      var t2 = setTimeout("document.getElementById('will_become_visible').style.display='block';", 1750);
+      var t3 = setTimeout("document.getElementById('will_become_invisible').style.display='none';", 1750);
+      var t4 = setTimeout("document.getElementById('will_become_nonexistent').remove();", 1750);
+      var t5 = setTimeout("document.getElementById('link_container_will_become_nonexistent').remove();", 1750);
 
       var slow_section = document.createElement("div");
       slow_section.className = 'slow-section first';
@@ -35,7 +35,7 @@
         [slow_section, slow_section2].forEach(function(item) {
           dumping_ground.appendChild(item);
         });
-      }, 2000)
+      }, 1750)
     }
     window.onload = load;
     </script>
@@ -43,47 +43,47 @@
   <body>
     <h1>Welcome</h1>
     <h3>Sub-Heading 1</h3><h3>Sub-Heading 2</h3><h3>Sub-Heading 3</h3>
-    <span class='welcome'>This is the home page, there is some stuff on it</span>
+    <span class="welcome">This is the home page, there is some stuff on it</span>
     <p>
-      <a href='no_title.htm'>
-        <input type='button' value='Go!'/>
+      <a href="no_title.htm">
+        <input type="button" value="Go!"/>
       </a>
     </p>
     <p>
-      <a href='search.htm' class="link link--undefined">Search Page</a>
+      <a href="search.htm" class="link link--undefined">Search Page</a>
     </p>
     <table>
       <tr>
-        <td class="link_a"><a href='a.htm'>a</a></td>
-        <td class="link_b"><a href='b.htm'>b</a></td>
-        <td class="link_c"><a href='c.htm'>c</a></td>
+        <td class="link_a">a</td>
+        <td class="link_b">b</td>
+        <td class="link_c">c</td>
       </tr>
     </table>
 
-    <article class='people'>
+    <article class="people">
       <h2>People</h2>
-      <span class='person'>person 1</span>
-      <span class='person'>person 2</span>
-      <span class='person'>person 3</span>
-      <span class='person'>person 4</span>
-      <span class='object'>object 1</span>
+      <span class="person">person 1</span>
+      <span class="person">person 2</span>
+      <span class="person">person 3</span>
+      <span class="person">person 4</span>
+      <span class="object">object 1</span>
     </article>
 
-    <input type='submit' id='remove_container_with_element' onClick='removeElement(document.getElementById("container_with_element"))'/>
+    <input type="submit" id="remove_container_with_element" onClick='removeElement(document.getElementById("container_with_element"))'/>
 
-    <div id='container_with_element'>
-      <div class='embedded_element'>
+    <div id="container_with_element">
+      <div class="embedded_element">
         This will be removed when you click submit above
       </div>
     </div>
 
-    <div id='link_container_will_become_nonexistent'>
-      <a href='a.html'>a</a>
-      <a href='b.html'>b</a>
-      <a href='c.html'>c</a>
+    <div id="link_container_will_become_nonexistent">
+      <a href="a.html">a</a>
+      <a href="b.html">b</a>
+      <a href="c.html">c</a>
     </div>
 
-    <p id='dumping_ground'></p>
+    <p id="dumping_ground"></p>
 
     <input type='submit' id='will_become_nonexistent' value='Will become non-existent'/>
     <input type='submit' id='will_become_visible' value='Will become visible' style='display: none;'/>
@@ -91,7 +91,7 @@
     <input type='submit' class='invisible' value='Invisible' style='display: none;'/>
 
     <div id="section_for_iframe">
-      <iframe id='the_iframe' name='the_iframe' src='my_iframe.htm'></iframe>
+      <iframe id="the_iframe" name="the_iframe" src="my_iframe.htm"></iframe>
     </div>
   </body>
 </html>

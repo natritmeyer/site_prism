@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TestNoTitle < SitePrism::Page
+class NoTitle < SitePrism::Page
   set_url '/no_title.htm'
   set_url_matcher(/no_title\.htm$/)
 

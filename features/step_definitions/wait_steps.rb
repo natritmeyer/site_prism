@@ -41,9 +41,7 @@ Then("an exception is raised when I wait for an element that won't appear") do
 
   expect { @test_site.home.wait_for_some_slow_element(1) }
     .to raise_error(SitePrism::TimeOutWaitingForExistenceError)
-    .with_message(
-      'Timed out after 1s waiting for TestHomePage#some_slow_element'
-    )
+    .with_message('Timed out after 1s waiting for Home#some_slow_element')
 
   @duration = Time.now - start_time
 
@@ -53,9 +51,7 @@ end
 Then("an exception is raised when I wait for an element that won't disappear") do
   expect { @test_site.home.wait_for_no_removing_element(1) }
     .to raise_error(SitePrism::TimeOutWaitingForNonExistenceError)
-    .with_message(
-      'Timed out after 1s waiting for no TestHomePage#removing_element'
-    )
+    .with_message('Timed out after 1s waiting for no Home#removing_element')
 end
 
 Then("the element I am waiting for doesn't appear in time") do
@@ -93,17 +89,17 @@ end
 Then("an exception is raised when I wait for a section that won't appear") do
   section = @test_site.section_experiments.parent_section
 
-  expect { section.wait_for_slow_element(0.25) }
+  expect { section.wait_for_slow_element(0.1) }
     .to raise_error(SitePrism::TimeOutWaitingForExistenceError)
-    .with_message('Timed out after 0.25s waiting for Parent#slow_element')
+    .with_message('Timed out after 0.1s waiting for Parent#slow_element')
 end
 
 Then("an exception is raised when I wait for a section that won't disappear") do
   section = @test_site.section_experiments.removing_parent
   error_message =
-    'Timed out after 0.25s waiting for no RemovingParent#removing_element'
+    'Timed out after 0.1s waiting for no RemovingParent#removing_element'
 
-  expect { section.wait_for_no_removing_element(0.25) }
+  expect { section.wait_for_no_removing_element(0.1) }
     .to raise_error(SitePrism::TimeOutWaitingForNonExistenceError)
     .with_message(error_message)
 end
@@ -117,7 +113,7 @@ Then('the removing collection of sections disappears') do
 end
 
 When('I wait a variable time for elements to appear') do
-  @test_site.home.wait_for_lots_of_links(1.6)
+  @test_site.home.wait_for_some_slow_element(1.6)
 end
 
 When('I wait a variable time for elements to disappear') do
@@ -189,14 +185,14 @@ Then('the slow element is waited for') do
   start_time = Time.now
   @test_site.home.some_slow_element
 
-  expect(Time.now - start_time).to be_between(1.85, 2.15)
+  expect(Time.now - start_time).to be_between(1.65, 1.85)
 end
 
 Then('the slow elements are waited for') do
   start_time = Time.now
   @test_site.home.slow_elements(count: 1)
 
-  expect(Time.now - start_time).to be_between(1.85, 2.15)
+  expect(Time.now - start_time).to be_between(1.65, 1.85)
 end
 
 Then('the boolean test for a slow element is waited for') do
@@ -204,7 +200,7 @@ Then('the boolean test for a slow element is waited for') do
 
   expect(@test_site.home.has_some_slow_element?).to be true
 
-  expect(Time.now - start_time).to be_between(1.85, 2.15)
+  expect(Time.now - start_time).to be_between(1.65, 1.85)
 end
 
 Then('the boolean test for slow elements are waited for') do
@@ -212,7 +208,7 @@ Then('the boolean test for slow elements are waited for') do
 
   expect(@test_site.home.has_slow_elements?).to be true
 
-  expect(Time.now - start_time).to be_between(1.85, 2.15)
+  expect(Time.now - start_time).to be_between(1.65, 1.85)
 end
 
 Then('the slow elements are not waited for') do
@@ -228,7 +224,7 @@ Then('the slow section is waited for') do
   start_time = Time.now
   @test_site.home.slow_section(count: 1)
 
-  expect(Time.now - start_time).to be_between(1.85, 2.15)
+  expect(Time.now - start_time).to be_between(1.65, 1.85)
 end
 
 Then('the boolean test for a slow section is waited for') do
@@ -236,7 +232,7 @@ Then('the boolean test for a slow section is waited for') do
 
   expect(@test_site.home.has_slow_section?(count: 1)).to be true
 
-  expect(Time.now - start_time).to be_between(1.85, 2.15)
+  expect(Time.now - start_time).to be_between(1.65, 1.85)
 end
 
 Then('the slow section is not waited for') do
@@ -253,14 +249,14 @@ Then('the boolean test for slow sections are waited for') do
 
   expect(@test_site.home.has_slow_sections?(count: 2)).to be true
 
-  expect(Time.now - start_time).to be_between(1.85, 2.15)
+  expect(Time.now - start_time).to be_between(1.65, 1.85)
 end
 
 Then('the slow sections are waited for') do
   start_time = Time.now
   @test_site.home.slow_sections(count: 2)
 
-  expect(Time.now - start_time).to be_between(1.85, 2.15)
+  expect(Time.now - start_time).to be_between(1.65, 1.85)
 end
 
 Then('the slow sections are not waited for') do
