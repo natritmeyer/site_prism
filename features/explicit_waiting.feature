@@ -46,7 +46,7 @@ Feature: Waiting for Elements
   Scenario: Wait for No Element - Exceptions - Negative
     Given exceptions are configured to raise on wait_fors
     When I navigate to the home page
-    Then an exception is raised when I wait for an element that won't disappear
+    Then an exception is raised when I wait for an element that won't vanish
 
   Scenario: Wait for Visibility of element - Default Timeout
     When I navigate to the home page

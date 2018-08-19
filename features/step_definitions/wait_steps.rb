@@ -48,7 +48,7 @@ Then("an exception is raised when I wait for an element that won't appear") do
   expect(@duration).to be_between(1, 1.15)
 end
 
-Then("an exception is raised when I wait for an element that won't disappear") do
+Then("an exception is raised when I wait for an element that won't vanish") do
   expect { @test_site.home.wait_for_no_removing_element(1) }
     .to raise_error(SitePrism::TimeOutWaitingForNonExistenceError)
     .with_message('Timed out after 1s waiting for no Home#removing_element')
