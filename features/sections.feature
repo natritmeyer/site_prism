@@ -7,6 +7,7 @@ Feature: Interaction with groups of elements
     When I navigate to the section experiments page
     Then I can see a collection of sections
 
+  @migrated
   Scenario: waiting on a collection of sections to disappear
     When I navigate to the home page
     And I wait for the collection of sections that takes a while to disappear

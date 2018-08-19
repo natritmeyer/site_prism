@@ -23,6 +23,6 @@ Then('I can see optioned individual people in the people list') do
 end
 
 Then('I can wait a variable time and pass query parameters') do
-  expect { @test_site.home.wait_for_lots_of_links(1.6, minimum: 1) }
+  expect { @test_site.home.lots_of_links(wait: 1.6, minimum: 1) }
     .not_to raise_error
 end

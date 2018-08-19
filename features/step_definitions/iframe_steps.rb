@@ -17,7 +17,7 @@ Then('I can locate the iframe by xpath') do
 end
 
 Then('I can locate the iframe within section') do
-  @test_site.home.wait_for_section_for_iframe
+  @test_site.home.wait_until_section_for_iframe_visible
 
   expect(@test_site.home.section_for_iframe).to have_iframe_within_section
 end

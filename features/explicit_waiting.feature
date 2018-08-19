@@ -3,22 +3,26 @@ Feature: Waiting for Elements
   I want to be able to explicitly wait for an element
   In order to interact with the element once it is ready
 
+  @implicit_waits @migrated
   Scenario: Wait for Element - Positive
     When I navigate to the home page
     And I wait for the element that takes a while to appear
     Then the slow element appears
     And I am not made to wait for the full default duration
 
+  @implicit_waits @migrated
   Scenario: Wait for Element - Exceptions - Negative
     When I navigate to the home page
     Then an exception is raised when I wait for an element that won't appear
 
+  @migrated
   Scenario: Wait for No Element - Positive
     When I navigate to the home page
     And I wait for the element that takes a while to disappear
     Then the removing element disappears
     And I am not made to wait for the full default duration
 
+  @migrated
   Scenario: Wait for No Element - Exceptions - Negative
     When I navigate to the home page
     Then an exception is raised when I wait for an element that won't disappear

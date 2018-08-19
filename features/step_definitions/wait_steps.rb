@@ -2,13 +2,13 @@
 
 When('I wait for the element that takes a while to appear') do
   start_time = Time.now
-  @test_site.home.wait_for_some_slow_element
+  @test_site.home.some_slow_element
   @duration = Time.now - start_time
 end
 
 When('I wait for the element that takes a while to disappear') do
   start_time = Time.now
-  @test_site.home.wait_for_no_removing_element
+  @test_site.home.wait_until_removing_element_invisible
   @duration = Time.now - start_time
 end
 
@@ -23,11 +23,8 @@ end
 Then("an exception is raised when I wait for an element that won't appear") do
   start_time = Time.now
 
-  expect { @test_site.home.wait_for_some_slow_element(1) }
-    .to raise_error(SitePrism::TimeOutWaitingForExistenceError)
-    .with_message(
-      'Timed out after 1s waiting for TestHomePage#some_slow_element'
-    )
+  expect { @test_site.home.some_slow_element(wait: 1) }
+    .to raise_error(Capybara::ElementNotFound)
 
   @duration = Time.now - start_time
 
@@ -35,21 +32,17 @@ Then("an exception is raised when I wait for an element that won't appear") do
 end
 
 Then("an exception is raised when I wait for an element that won't disappear") do
-  expect { @test_site.home.wait_for_no_removing_element(1) }
-    .to raise_error(SitePrism::TimeOutWaitingForNonExistenceError)
-    .with_message(
-      'Timed out after 1s waiting for no TestHomePage#removing_element'
-    )
+  expect { @test_site.home.wait_until_removing_element_invisible(1) }
+    .to raise_error(SitePrism::TimeOutWaitingForElementInvisibility)
 end
 
 When('I wait for the section element that takes a while to appear') do
-  @test_site.section_experiments.parent_section.wait_for_slow_element
+  @test_site.section_experiments.parent_section.slow_element(wait: 1)
 end
 
 When('I wait for the section element that takes a while to disappear') do
-  @test_site.section_experiments
-            .removing_parent
-            .wait_for_no_removing_element
+  section = @test_site.section_experiments.removing_parent
+  section.wait_until_removing_element_invisible
 end
 
 Then('the slow section appears') do
@@ -65,22 +58,19 @@ end
 Then("an exception is raised when I wait for a section that won't appear") do
   section = @test_site.section_experiments.parent_section
 
-  expect { section.wait_for_slow_element(0.25) }
-    .to raise_error(SitePrism::TimeOutWaitingForExistenceError)
-    .with_message('Timed out after 0.25s waiting for Parent#slow_element')
+  expect { section.slow_element(wait: 0.25) }
+    .to raise_error(Capybara::ElementNotFound)
 end
 
 Then("an exception is raised when I wait for a section that won't disappear") do
   section = @test_site.section_experiments.removing_parent
-  error_message = 'Timed out after 0.25s waiting for no RemovingParent#removing_element'
 
-  expect { section.wait_for_no_removing_element(0.25) }
-    .to raise_error(SitePrism::TimeOutWaitingForNonExistenceError)
-    .with_message(error_message)
+  expect { section.wait_until_removing_element_invisible(0.15) }
+    .to raise_error(SitePrism::TimeOutWaitingForElementInvisibility)
 end
 
 When('I wait for the collection of sections that takes a while to disappear') do
-  @test_site.home.wait_for_no_removing_sections
+  @test_site.home.wait_until_removing_sections_invisible
 end
 
 Then('the removing collection of sections disappears') do
@@ -88,7 +78,7 @@ Then('the removing collection of sections disappears') do
 end
 
 Then("I don't crash whilst waiting a variable time for elements that disappear") do
-  expect { @test_site.home.wait_for_no_removing_links(2.6) }.not_to raise_error
+  expect { @test_site.home.removing_links(wait: 2.6) }.not_to raise_error
 end
 
 Then('I get a timeout error when I wait for an element that never appears') do

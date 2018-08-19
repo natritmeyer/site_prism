@@ -52,30 +52,36 @@ Feature: Page Sections
     And I execute some javascript to set a value
     Then I can evaluate some javascript to get the value
 
+  @migrated
   Scenario: Wait for section
     When I navigate to the section experiments page
     And I wait for the section element that takes a while to appear
     Then the slow section appears
 
+  @migrated
   Scenario: Wait for section to disappear
     When I navigate to the section experiments page
     And I wait for the section element that takes a while to disappear
     Then the removing section disappears
 
+  @migrated
   Scenario: Wait for section - Exceptions - Positive
     When I navigate to the section experiments page
     And I wait for the section element that takes a while to appear
     Then the slow section appears
 
+  @migrated
   Scenario: Wait for section - Exceptions - Negative
     When I navigate to the section experiments page
     Then an exception is raised when I wait for a section that won't appear
 
+  @migrated
   Scenario: Wait for section to disappear - Exceptions - Positive
     When I navigate to the section experiments page
     And I wait for the section element that takes a while to disappear
     Then the removing section disappears
 
+  @migrated
   Scenario: Wait for section to disappear - Exceptions - Negative
     When I navigate to the section experiments page
     Then an exception is raised when I wait for a section that won't disappear
