@@ -21,5 +21,5 @@ module SitePrism
   end
 
   @default_load_validations = true
-  @use_implicit_waits = false
+  @use_implicit_waits = true
 end

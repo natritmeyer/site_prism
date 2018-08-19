@@ -7,8 +7,8 @@ describe SitePrism::Page do
     it { is_expected.to respond_to(:bobs) }
     it { is_expected.to respond_to(:has_bobs?) }
     it { is_expected.to respond_to(:has_no_bobs?) }
-    it { is_expected.to respond_to(:wait_for_bobs) }
-    it { is_expected.to respond_to(:wait_for_no_bobs) }
+    it { is_expected.to respond_to(:wait_until_bobs_visible) }
+    it { is_expected.to respond_to(:wait_until_bobs_invisible) }
     it { is_expected.to respond_to(:all_there?) }
 
     it 'should return an enumerable result' do

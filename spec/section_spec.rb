@@ -5,7 +5,6 @@ require 'spec_helper'
 describe SitePrism::Page do
   class Section < SitePrism::Section; end
   class Page < SitePrism::Page; end
-  let(:dont_wait) { { wait: false } }
 
   describe '.section' do
     it 'should be settable' do
@@ -58,42 +57,42 @@ describe SitePrism::Page do
       it { is_expected.to respond_to(:section) }
       it { is_expected.to respond_to(:has_section?) }
       it { is_expected.to respond_to(:has_no_section?) }
-      it { is_expected.to respond_to(:wait_for_section) }
-      it { is_expected.to respond_to(:wait_for_no_section) }
+      it { is_expected.to respond_to(:wait_until_section_visible) }
+      it { is_expected.to respond_to(:wait_until_section_invisible) }
       it { is_expected.to respond_to(:all_there?) }
     end
 
     context 'second argument is not a Class and a block given' do
-      class PageWithAnonymousSection < SitePrism::Page
+      class PageWithAnonymousSectionOne < SitePrism::Page
         section :anonymous_section, '.section' do
           element :title, 'h1'
         end
       end
 
-      subject { PageWithAnonymousSection.new }
+      subject { PageWithAnonymousSectionOne.new }
 
       it { is_expected.to respond_to(:anonymous_section) }
       it { is_expected.to respond_to(:has_anonymous_section?) }
       it { is_expected.to respond_to(:has_no_anonymous_section?) }
-      it { is_expected.to respond_to(:wait_for_anonymous_section) }
-      it { is_expected.to respond_to(:wait_for_no_anonymous_section) }
+      it { is_expected.to respond_to(:wait_until_anonymous_section_visible) }
+      it { is_expected.to respond_to(:wait_until_anonymous_section_invisible) }
       it { is_expected.to respond_to(:all_there?) }
     end
 
     context 'second argument is a Class and a block given' do
-      class PageWithAnonymousSection < SitePrism::Page
+      class PageWithAnonymousSectionTwo < SitePrism::Page
         section :anonymous_section, Section, '.section' do
           element :title, 'h1'
         end
       end
 
-      subject { PageWithAnonymousSection.new }
+      subject { PageWithAnonymousSectionTwo.new }
 
       it { is_expected.to respond_to(:anonymous_section) }
       it { is_expected.to respond_to(:has_anonymous_section?) }
       it { is_expected.to respond_to(:has_no_anonymous_section?) }
-      it { is_expected.to respond_to(:wait_for_anonymous_section) }
-      it { is_expected.to respond_to(:wait_for_no_anonymous_section) }
+      it { is_expected.to respond_to(:wait_until_anonymous_section_visible) }
+      it { is_expected.to respond_to(:wait_until_anonymous_section_invisible) }
       it { is_expected.to respond_to(:all_there?) }
     end
 
@@ -134,7 +133,7 @@ class or/and a block as the second argument."
       let(:search_arguments) { ['.other-section'] }
 
       it 'returns the search arguments for a section' do
-        expect(page).to receive(:_find).with(*search_arguments, **dont_wait)
+        expect(page).to receive(:_find).with(*search_arguments)
 
         page.section_with_locator
       end
@@ -143,7 +142,7 @@ class or/and a block as the second argument."
     context 'search arguments are not provided during the DSL definition' do
       context 'default search arguments are set on both parent and section' do
         it 'returns the default search arguments set on the section' do
-          expect(page).to receive(:_find).with(*search_arguments, **dont_wait)
+          expect(page).to receive(:_find).with(*search_arguments)
 
           page.section_using_defaults
         end
@@ -151,7 +150,7 @@ class or/and a block as the second argument."
 
       context 'default search arguments are only set on the parent section' do
         it 'returns the default search arguments set on the parent section' do
-          expect(page).to receive(:_find).with(*search_arguments, **dont_wait)
+          expect(page).to receive(:_find).with(*search_arguments)
 
           page.section_using_defaults_from_parent
         end
@@ -186,7 +185,6 @@ describe SitePrism::Section do
   let(:section_with_block) do
     SitePrism::Section.new(Page.new, locator) { 1 + 1 }
   end
-  let(:dont_wait) { { wait: false } }
 
   describe '.default_search_arguments' do
     class BaseSection < SitePrism::Section
@@ -257,7 +255,7 @@ describe SitePrism::Section do
       it 'passes in a hash of query arguments' do
         expect(page)
           .to receive(:_find)
-          .with(*locator_args, **query_args, **dont_wait)
+          .with(*locator_args, **query_args)
 
         page.new_section
       end
@@ -268,7 +266,7 @@ describe SitePrism::Section do
       let(:locator_args) { '.class-two' }
 
       it 'passes in an empty hash, which is then sanitized out' do
-        expect(page).to receive(:_find).with(*locator_args, **dont_wait)
+        expect(page).to receive(:_find).with(*locator_args)
 
         page.new_element
       end
