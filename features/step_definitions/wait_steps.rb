@@ -268,7 +268,7 @@ Then('the slow sections are not waited for') do
   expect(Time.now - start_time).to be < 0.2
 end
 
-Then('a slow element is waited for if a user sets Capybara.using_wait_time') do
+Then('I can override the waiting time using Capybara.using_wait_time') do
   start_time = Time.now
   Capybara.using_wait_time(1) do
     expect { @test_site.home.some_slow_element }
