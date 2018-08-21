@@ -75,24 +75,24 @@ when all load validations pass" do
     end
 
     context 'Failing Validations' do
-      it 'raises a NotLoadedError with a default message' do
+      it 'raises a FailedLoadValidationError with a default message' do
         james_bond = spy
 
         loadable.load_validation { true }
         loadable.load_validation { false }
 
         expect { loadable.new.when_loaded { james_bond.drink_martini } }
-          .to raise_error(SitePrism::NotLoadedError)
+          .to raise_error(SitePrism::FailedLoadValidationError)
           .with_message('Failed to load - No reason specified.')
 
         expect(james_bond).not_to have_received(:drink_martini)
       end
 
-      it 'raises a NotLoadedError with a user-defined message' do
+      it 'raises a FailedLoadValidationError with a user-defined message' do
         loadable.load_validation { [false, 'VALIDATION FAILED'] }
 
         expect { loadable.new.when_loaded { :foo } }
-          .to raise_error(SitePrism::NotLoadedError)
+          .to raise_error(SitePrism::FailedLoadValidationError)
           .with_message('Failed to load. Reason: VALIDATION FAILED')
       end
     end
@@ -105,7 +105,7 @@ when all load validations pass" do
       loadable.load_validation { validation_spy2.valid? }
 
       expect { loadable.new.when_loaded { puts 'foo' } }
-        .to raise_error(SitePrism::NotLoadedError)
+        .to raise_error(SitePrism::FailedLoadValidationError)
 
       expect(validation_spy1).to have_received(:valid?).once
       expect(validation_spy2).not_to have_received(:valid?)

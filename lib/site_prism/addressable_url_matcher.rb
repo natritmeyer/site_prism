@@ -96,7 +96,7 @@ module SitePrism
       begin
         Addressable::URI.parse(url)
       rescue Addressable::URI::InvalidURIError
-        raise SitePrism::InvalidUrlMatcher
+        raise SitePrism::InvalidUrlMatcherError
       end
     end
 

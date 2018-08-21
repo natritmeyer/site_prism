@@ -24,7 +24,7 @@ Then("an exception is raised when I wait for an element that won't appear") do
   start_time = Time.now
 
   expect { @test_site.home.wait_for_some_slow_element(1) }
-    .to raise_error(SitePrism::TimeOutWaitingForExistenceError)
+    .to raise_error(SitePrism::ExistenceTimeoutError)
     .with_message(
       'Timed out after 1s waiting for TestHomePage#some_slow_element'
     )
@@ -36,7 +36,7 @@ end
 
 Then("an exception is raised when I wait for an element that won't disappear") do
   expect { @test_site.home.wait_for_no_removing_element(1) }
-    .to raise_error(SitePrism::TimeOutWaitingForNonExistenceError)
+    .to raise_error(SitePrism::NonExistenceTimeoutError)
     .with_message(
       'Timed out after 1s waiting for no TestHomePage#removing_element'
     )
@@ -66,7 +66,7 @@ Then("an exception is raised when I wait for a section that won't appear") do
   section = @test_site.section_experiments.parent_section
 
   expect { section.wait_for_slow_element(0.25) }
-    .to raise_error(SitePrism::TimeOutWaitingForExistenceError)
+    .to raise_error(SitePrism::ExistenceTimeoutError)
     .with_message('Timed out after 0.25s waiting for Parent#slow_element')
 end
 
@@ -75,13 +75,14 @@ Then("an exception is raised when I wait for a section that won't disappear") do
   error_message = 'Timed out after 0.25s waiting for no RemovingParent#removing_element'
 
   expect { section.wait_for_no_removing_element(0.25) }
-    .to raise_error(SitePrism::TimeOutWaitingForNonExistenceError)
+    .to raise_error(SitePrism::NonExistenceTimeoutError)
     .with_message(error_message)
 end
 
 When('I wait for the collection of sections that takes a while to disappear') do
   @test_site.home.wait_for_no_removing_sections
 end
+
 
 Then('the removing collection of sections disappears') do
   expect(@test_site.home).not_to have_removing_sections
@@ -95,7 +96,7 @@ Then('I get a timeout error when I wait for an element that never appears') do
   start_time = Time.now
 
   expect { @test_site.home.wait_until_invisible_element_visible(1) }
-    .to raise_error(SitePrism::TimeOutWaitingForElementVisibility)
+    .to raise_error(SitePrism::ElementVisibilityTimeoutError)
   @duration = Time.now - start_time
 
   expect(@duration).to be_between(1, 1.15)
@@ -124,7 +125,7 @@ end
 
 Then('I get a timeout error when I wait for an element that never vanishes') do
   expect { @test_site.home.wait_until_welcome_header_invisible(1) }
-    .to raise_error(SitePrism::TimeOutWaitingForElementInvisibility)
+    .to raise_error(SitePrism::ElementInvisibilityTimeoutError)
 end
 
 Then('I am not made to wait for the full default duration') do

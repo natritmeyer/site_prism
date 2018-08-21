@@ -24,16 +24,16 @@ module SitePrism
       return unless has_block
       warn "Type passed in: #{type}"
 
-      raise SitePrism::UnsupportedBlock, "#{obj.class}##{name}"
+      raise SitePrism::UnsupportedBlockError, "#{obj.class}##{name}"
     end
 
     def raise_wait_for(obj, name, timeout)
-      raise SitePrism::TimeOutWaitingForExistenceError, \
+      raise SitePrism::ExistenceTimeoutError, \
             "Timed out after #{timeout}s waiting for #{obj.class}##{name}"
     end
 
     def raise_wait_for_no(obj, name, timeout)
-      raise SitePrism::TimeOutWaitingForNonExistenceError, \
+      raise SitePrism::NonExistenceTimeoutError, \
             "Timed out after #{timeout}s waiting for no #{obj.class}##{name}"
     end
 
@@ -120,7 +120,7 @@ module SitePrism
         add_to_mapped_items(name)
         add_iframe_helper_methods(name, *element_find_args)
         define_method(name) do |&block|
-          raise BlockMissingError unless block
+          raise MissingBlockError unless block
 
           within_frame(*scope_find_args) do
             block.call(klass.new)
@@ -224,7 +224,7 @@ module SitePrism
             visibility_args = { visible: true, wait: timeout }
             args = merge_args(find_args, runtime_args, visibility_args)
             return true if element_exists?(*args)
-            raise SitePrism::TimeOutWaitingForElementVisibility
+            raise SitePrism::ElementVisibilityTimeoutError
           end
         end
       end
@@ -236,14 +236,14 @@ module SitePrism
             visibility_args = { visible: true, wait: timeout }
             args = merge_args(find_args, runtime_args, visibility_args)
             return true if element_does_not_exist?(*args)
-            raise SitePrism::TimeOutWaitingForElementInvisibility
+            raise SitePrism::ElementInvisibilityTimeoutError
           end
         end
       end
 
       def create_no_selector(method_name)
         define_method(method_name) do
-          raise SitePrism::NoSelectorForElement, "#{self.class}##{method_name}"
+          raise SitePrism::InvalidElementError, "#{self.class}##{method_name}"
         end
       end
 
