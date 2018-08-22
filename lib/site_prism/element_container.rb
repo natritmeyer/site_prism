@@ -24,20 +24,16 @@ module SitePrism
       return unless has_block
       warn "Type passed in: #{type}"
 
-      raise SitePrism::UnsupportedBlock, "#{obj.class}##{name}"
+      raise SitePrism::UnsupportedBlockError, "#{obj.class}##{name}"
     end
 
-    def raise_wait_for_if_failed(obj, name, timeout, failed)
-      return unless SitePrism.raise_on_wait_fors && failed
-
-      raise SitePrism::TimeOutWaitingForExistenceError, \
+    def raise_wait_for(obj, name, timeout)
+      raise SitePrism::ExistenceTimeoutError, \
             "Timed out after #{timeout}s waiting for #{obj.class}##{name}"
     end
 
-    def raise_wait_for_no_if_failed(obj, name, timeout, failed)
-      return unless SitePrism.raise_on_wait_fors && failed
-
-      raise SitePrism::TimeOutWaitingForNonExistenceError, \
+    def raise_wait_for_no(obj, name, timeout)
+      raise SitePrism::NonExistenceTimeoutError, \
             "Timed out after #{timeout}s waiting for no #{obj.class}##{name}"
     end
 
@@ -86,12 +82,6 @@ module SitePrism
         end
       end
 
-      def collection(name, *find_args)
-        warn 'Using collection is now deprecated and will be removed.'
-        warn 'Use elements DSL notation instead.'
-        elements(name, *find_args)
-      end
-
       def expected_elements(*elements)
         @expected_items = elements
       end
@@ -124,7 +114,7 @@ module SitePrism
         add_to_mapped_items(name)
         add_iframe_helper_methods(name, *element_find_args)
         define_method(name) do |&block|
-          raise BlockMissingError unless block
+          raise MissingBlockError unless block
 
           within_frame(*scope_find_args) do
             block.call(klass.new)
@@ -202,8 +192,8 @@ module SitePrism
             visibility_args = { wait: timeout }
             args = merge_args(find_args, runtime_args, visibility_args)
             result = element_exists?(*args)
-            raise_wait_for_if_failed(self, element_name, timeout, !result)
-            result
+            return result if result
+            raise_wait_for(self, element_name, timeout)
           end
         end
       end
@@ -215,8 +205,8 @@ module SitePrism
             visibility_args = { wait: timeout }
             args = merge_args(find_args, runtime_args, visibility_args)
             result = element_does_not_exist?(*args)
-            raise_wait_for_no_if_failed(self, element_name, timeout, !result)
-            result
+            return result if result
+            raise_wait_for_no(self, element_name, timeout)
           end
         end
       end
@@ -228,7 +218,7 @@ module SitePrism
             visibility_args = { visible: true, wait: timeout }
             args = merge_args(find_args, runtime_args, visibility_args)
             return true if element_exists?(*args)
-            raise SitePrism::TimeOutWaitingForElementVisibility
+            raise SitePrism::ElementVisibilityTimeoutError
           end
         end
       end
@@ -240,14 +230,14 @@ module SitePrism
             visibility_args = { visible: true, wait: timeout }
             args = merge_args(find_args, runtime_args, visibility_args)
             return true if element_does_not_exist?(*args)
-            raise SitePrism::TimeOutWaitingForElementInvisibility
+            raise SitePrism::ElementInvisibilityTimeoutError
           end
         end
       end
 
       def create_no_selector(method_name)
         define_method(method_name) do
-          raise SitePrism::NoSelectorForElement, "#{self.class}##{method_name}"
+          raise SitePrism::InvalidElementError, "#{self.class}##{method_name}"
         end
       end
 

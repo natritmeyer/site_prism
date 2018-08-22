@@ -63,6 +63,6 @@ Then('I cannot interact with an iFrame outside of a block') do
     'You can only use iFrames in a block context - Please pass in a block.'
 
   expect { @test_site.home.id_iframe }
-    .to raise_error(SitePrism::BlockMissingError)
+    .to raise_error(SitePrism::MissingBlockError)
     .with_message(error_message)
 end

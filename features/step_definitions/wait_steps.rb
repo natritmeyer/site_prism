@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-Given('exceptions are configured to raise on wait_fors') do
-  SitePrism.raise_on_wait_fors = true
-end
-
 When('I wait for the element that takes a while to appear') do
   start_time = Time.now
   @test_site.home.wait_for_some_slow_element
@@ -24,23 +20,11 @@ Then('the removing element disappears') do
   expect(@test_site.home).not_to have_removing_element
 end
 
-When('I wait for a short amount of time for an element to appear') do
-  start_time = Time.now
-  @test_site.home.wait_for_some_slow_element(1)
-  @duration = Time.now - start_time
-end
-
-When('I wait for a short amount of time for an element to disappear') do
-  start_time = Time.now
-  @test_site.home.wait_for_no_removing_element(1)
-  @duration = Time.now - start_time
-end
-
 Then("an exception is raised when I wait for an element that won't appear") do
   start_time = Time.now
 
   expect { @test_site.home.wait_for_some_slow_element(1) }
-    .to raise_error(SitePrism::TimeOutWaitingForExistenceError)
+    .to raise_error(SitePrism::ExistenceTimeoutError)
     .with_message('Timed out after 1s waiting for Home#some_slow_element')
 
   @duration = Time.now - start_time
@@ -50,20 +34,8 @@ end
 
 Then("an exception is raised when I wait for an element that won't vanish") do
   expect { @test_site.home.wait_for_no_removing_element(1) }
-    .to raise_error(SitePrism::TimeOutWaitingForNonExistenceError)
+    .to raise_error(SitePrism::NonExistenceTimeoutError)
     .with_message('Timed out after 1s waiting for no Home#removing_element')
-end
-
-Then("the element I am waiting for doesn't appear in time") do
-  expect(@test_site.home).not_to have_some_slow_element
-
-  expect(@duration).to be_between(1, 1.15)
-end
-
-Then("the element I am waiting for doesn't disappear in time") do
-  expect(@test_site.home).to have_removing_element
-
-  expect(@duration).to be_between(1, 1.15)
 end
 
 When('I wait for the section element that takes a while to appear') do
@@ -90,7 +62,7 @@ Then("an exception is raised when I wait for a section that won't appear") do
   section = @test_site.section_experiments.parent_section
 
   expect { section.wait_for_slow_element(0.1) }
-    .to raise_error(SitePrism::TimeOutWaitingForExistenceError)
+    .to raise_error(SitePrism::ExistenceTimeoutError)
     .with_message('Timed out after 0.1s waiting for Parent#slow_element')
 end
 
@@ -100,7 +72,7 @@ Then("an exception is raised when I wait for a section that won't disappear") do
     'Timed out after 0.1s waiting for no RemovingParent#removing_element'
 
   expect { section.wait_for_no_removing_element(0.1) }
-    .to raise_error(SitePrism::TimeOutWaitingForNonExistenceError)
+    .to raise_error(SitePrism::NonExistenceTimeoutError)
     .with_message(error_message)
 end
 
@@ -112,19 +84,17 @@ Then('the removing collection of sections disappears') do
   expect(@test_site.home).not_to have_removing_sections
 end
 
-When('I wait a variable time for elements to appear') do
-  @test_site.home.wait_for_some_slow_element(1.6)
-end
+Then('I can wait a variable time for elements to disappear') do
+  expect { @test_site.home.wait_for_no_removing_links(2.6) }.not_to raise_error
 
-When('I wait a variable time for elements to disappear') do
-  @test_site.home.wait_for_no_removing_links(1.6)
+  expect(@test_site.home).to have_no_removing_links
 end
 
 Then('I get a timeout error when I wait for an element that never appears') do
   start_time = Time.now
 
   expect { @test_site.home.wait_until_invisible_element_visible(1) }
-    .to raise_error(SitePrism::TimeOutWaitingForElementVisibility)
+    .to raise_error(SitePrism::ElementVisibilityTimeoutError)
   @duration = Time.now - start_time
 
   expect(@duration).to be_between(1, 1.15)
@@ -153,7 +123,7 @@ end
 
 Then('I get a timeout error when I wait for an element that never vanishes') do
   expect { @test_site.home.wait_until_welcome_header_invisible(1) }
-    .to raise_error(SitePrism::TimeOutWaitingForElementInvisibility)
+    .to raise_error(SitePrism::ElementInvisibilityTimeoutError)
 end
 
 Then('I am not made to wait for the full default duration') do

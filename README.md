@@ -1343,8 +1343,8 @@ Load validations enable common validations to be abstracted and performed on a P
 when it has finished loading and is ready for interaction in your tests.
 
 For example, suppose you have a page which displays a 'Loading...' message while the body of
-the page is loaded in the background.  Load validations can be used to ensure tests wait for the correct url
-to be displayed and the loading message removed before trying to interact with with the page.
+the page is loaded in the background. Load validations can be used to ensure tests wait for the
+correct url to be displayed and the loading message removed before trying to interact with with the page.
 
 Other use cases include Sections which are displayed conditionally and may take time to become ready to
 interact with, such as animated lightboxes.
@@ -1359,8 +1359,8 @@ Load validations can be used in three constructs:
 
 #### Page#load
 
-When a block is passed to the `Page#load` method, the url will be loaded normally and then the block will be
-executed within the context of `when_loaded`.  See `when_loaded` documentation below for further details.
+When a block is passed to the `Page#load` method, the url will be loaded normally and then the block will
+be executed within the context of `when_loaded`. See `when_loaded` documentation below for further details.
 
 Example:
 
@@ -1407,7 +1407,8 @@ end
 
 ### Defining Load Validations
 
-A load validation is a block which returns a boolean value when evaluated against an instance of the Loadable.
+A load validation is a block which returns a boolean value when evaluated against an instance of the Page
+or Section where defined.
 
 ```ruby
 class SomePage < SitePrism::Page
@@ -1416,8 +1417,8 @@ class SomePage < SitePrism::Page
 end
 ```
 
-The block may instead return a two-element array which includes the boolean result as the first element and an
-error message as the second element. It is highly recommended to supply an error message, as they are
+The block may be defined as a two-element array which includes the boolean check as the first element and
+an error message as the second element. It is highly recommended to supply an error message, as they are
 extremely useful in debugging validation errors.
 
 The error message will be ignored unless the boolean value is falsey.
@@ -1430,13 +1431,13 @@ end
 ```
 
 Load validations may be defined on `SitePrism::Page` and `SitePrism::Section` classes (herein referred
-to as `Loadables`) and are evaluated against an instance of the class when executed.
+to as `Loadables`) and are evaluated against an instance of the class when created.
 
 ### Load Validation Inheritance and Execution Order
 
-Any number of load validations may be defined on a Loadable class and will be inherited by its subclasses.
+Any number of load validations may be defined on a Loadable and they are inherited by its subclasses.
 
-Load validations are executed in the order that they are defined.  Inherited load validations are executed
+Load validations are executed in the order that they are defined. Inherited load validations are executed
 from the top of the inheritance chain (e.g. `SitePrism::Page` or `SitePrism::Section`) to the bottom.
 
 For example:
@@ -1446,7 +1447,6 @@ class BasePage < SitePrism::Page
   element :loading_message, '.loader'
 
   load_validation do
-    wait_for_loading_message(1)
     [has_no_loading_message?(wait: 10), 'loading message was still displayed']
   end
 end
@@ -1465,14 +1465,13 @@ end
 In the above example, when `loaded?` is called on an instance of `FooPage`, the validations will be performed in the
 following order:
 
-1. The `SitePrism::Page` default load validation will check `displayed?`
-2. The `BasePage` load validation will wait for the loading message to disappear.
-3. The `FooPage` load validation will wait for the `form` element to be present.
-4. The `FooPage` load validation will wait for the `some_other_element` element to be present.
+1. The `BasePage` load validation will wait for the loading message to disappear.
+2. The `FooPage` load validation will wait for the `form` element to be present.
+3. The `FooPage` load validation will wait for the `some_other_element` element to be present.
 
-NOTE: `SitePrism::Page` includes a default load validation on `page.displayed?` which is applied
-to all pages.  It is therefore not necessary to define a load validation for this condition on
-inheriting page objects.
+**NB:** `SitePrism::Page` **used to** include a default load validation on `page.displayed?` however for
+v3 this has been removed. It is therefore necessary to re-define this if you want to retain
+the behaviour from site_prism v2.
 
 ## Using Capybara Query Options
 
@@ -1732,62 +1731,6 @@ Note that even with implicit waits on you can temporarily modify wait times in S
 # Option 2: using Capybara directly 
 Capybara.using_wait_time(30) do
   @search_page.subsection.search_results
-end
-```
-
-## Raising Errors on wait_for
-
-By default, when using `wait_for_*` and `wait_for_no_*` methods, SitePrism will not raise
-an error if an element does not appear or disappear within the timeout period and will
-simply return `false` and allow the test to continue. This is different from
-the other methods such as `wait_until_*_visible` which do raise errors.
-
-Add the following code to enable errors to be raised immediately when a
-`wait_for_*` method does not find the element it is waiting for and when a
-`wait_for_no_*` method continues to find an element it is waiting to not exist.
-
-```ruby
-SitePrism.configure do |config|
-  config.raise_on_wait_fors = true
-end
-```
-
-This enables you to replace this:
-
-```ruby
-raise unless @search_page.wait_for_search_results
-# or...
-raise unless @search_page.wait_for_no_search_results
-```
-
-with this:
-
-```ruby
-# With raise on wait_fors enabled, this will automatically raise
-# if no search results are found
-@search_page.wait_for_search_results
-# or automatically raise if search results are still found
-@search_page.wait_for_no_search_results
-```
-
-## Configuring default load_validations
-
-By default, SitePrism will add a single default load validation to all pages.
-This single load validation verifies the page URL is correct, and will run whenever you
-call `#loaded?` on an instantiated page. It uses the DSL defined `set_url` or `set_url_matcher`
-as a source of truth to compare the value of `page.current_url` when you call `#loaded?`
-
-However there may be times you are unsure what your page URL will even look like, or you
-might not want this validation to run first, or even at all. In these situations it is
-sometimes desirable to remove this default validation.
-
-Adding the below code and SitePrism will remove this validation from being
-set up for all your pages (And ran accordingly). Note that by default this validation
-is set to run on **all** pages.
-
-```ruby
-SitePrism.configure do |config|
-  config.default_load_validations = false
 end
 ```
 

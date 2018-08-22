@@ -57,7 +57,7 @@ describe SitePrism::Page do
   it "should raise an exception if displayed? \
 is called before the matcher has been set" do
     expect { blank_page.displayed? }
-      .to raise_error(SitePrism::NoUrlMatcherForPage)
+      .to raise_error(SitePrism::NoUrlMatcherForPageError)
   end
 
   it 'should expose the page title' do
@@ -66,19 +66,19 @@ is called before the matcher has been set" do
 
   it 'should raise an exception if passing a block to an element' do
     expect { Home.new.invisible_element { :any_old_block } }
-      .to raise_error(SitePrism::UnsupportedBlock)
+      .to raise_error(SitePrism::UnsupportedBlockError)
       .with_message('Home#invisible_element does not accept blocks.')
   end
 
   it 'should raise an exception if passing a block to elements' do
     expect { Home.new.removing_links { :any_old_block } }
-      .to raise_error(SitePrism::UnsupportedBlock)
+      .to raise_error(SitePrism::UnsupportedBlockError)
       .with_message('Home#removing_links does not accept blocks.')
   end
 
   it 'should raise an exception if passing a block to sections' do
     expect { Home.new.nonexistent_sections { :any_old_block } }
-      .to raise_error(SitePrism::UnsupportedBlock)
+      .to raise_error(SitePrism::UnsupportedBlockError)
       .with_message('Home#nonexistent_sections does not accept blocks.')
   end
 
@@ -99,7 +99,7 @@ is called before the matcher has been set" do
   describe '#load' do
     it "should not allow loading if the url hasn't been set" do
       expect { blank_page.load }
-        .to raise_error(SitePrism::NoUrlForPage)
+        .to raise_error(SitePrism::NoUrlForPageError)
     end
 
     it 'should allow loading if the url has been set' do
@@ -168,7 +168,7 @@ is called before the matcher has been set" do
             .to receive(:must_be_true).and_return(false)
 
           expect { page_with_load_validations.load { puts 'foo' } }
-            .to raise_error(SitePrism::NotLoadedError)
+            .to raise_error(SitePrism::FailedLoadValidationError)
             .with_message('Failed to load. Reason: It is not true!')
         end
       end
@@ -338,9 +338,9 @@ from the be_displayed matcher" do
         'Your URL and/or matcher could not be interpreted.'
       end
 
-      it 'raises InvalidUrlMatcher' do
+      it 'raises InvalidUrlMatcherError' do
         expect { page.displayed? }
-          .to raise_error(SitePrism::InvalidUrlMatcher)
+          .to raise_error(SitePrism::InvalidUrlMatcherError)
           .with_message(error_message)
       end
     end
@@ -403,9 +403,9 @@ from the be_displayed matcher" do
         'Your URL and/or matcher could not be interpreted.'
       end
 
-      it 'raises InvalidUrlMatcher' do
+      it 'raises InvalidUrlMatcherError' do
         expect { page.url_matches }
-          .to raise_error(SitePrism::InvalidUrlMatcher)
+          .to raise_error(SitePrism::InvalidUrlMatcherError)
           .with_message(error_message)
       end
     end
