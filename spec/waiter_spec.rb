@@ -8,7 +8,7 @@ describe SitePrism::Waiter do
       allow(Capybara).to receive(:default_max_wait_time).and_return(0.1)
 
       expect { described_class.wait_until_true { false } }
-        .to raise_error(SitePrism::TimeoutException)
+        .to raise_error(SitePrism::TimeoutError)
         .with_message(/0.1/)
     end
 
@@ -21,7 +21,7 @@ describe SitePrism::Waiter do
       start_time = Time.now
 
       expect { described_class.wait_until_true(timeout) { false } }
-        .to raise_error(SitePrism::TimeoutException)
+        .to raise_error(SitePrism::TimeoutError)
         .with_message(/0.2/)
 
       duration = Time.now - start_time

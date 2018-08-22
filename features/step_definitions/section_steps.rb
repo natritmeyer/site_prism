@@ -45,9 +45,8 @@ Then('the page does not have a section') do
   expect(@test_site.home).to have_no_nonexistent_section
 end
 
-Then('I can see a list of people') do
-  expect(@test_site.page_with_people.people_list.headline)
-    .to have_content('People')
+Then('I can see a welcome header') do
+  expect(@test_site.home.welcome_header).to have_content('Welcome')
 end
 
 Then('I can see a section within a section using nested blocks') do

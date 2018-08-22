@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TestSectionExperiments < SitePrism::Page
+class SectionExperiments < SitePrism::Page
   set_url '/section_experiments.htm'
 
   section :parent_section, Parent, '.parent-div'

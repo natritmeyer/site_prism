@@ -4,77 +4,75 @@
     <script type="text/javascript">
     function load() {
       //get the element that we're going to add the link to
-      dumping_ground = document.getElementById('dumping-ground');
+      dumping_ground = document.getElementById("dumping-ground");
       //create the link with text/class properties
       slow_link = document.createElement("a");
       slow_link.innerText = "slow link";
-      slow_link.setAttribute('class', 'slow');
-      //wait for half a second and then add the links
-      setTimeout("dumping_ground.appendChild(slow_link);", 500);
-      setTimeout("document.getElementById('removing-element').remove();", 500);
+      slow_link.setAttribute("class", "slow");
+      //wait for a short while then add the links
+      setTimeout("dumping_ground.appendChild(slow_link);", 250);
+      setTimeout("document.getElementById('removing-element').remove();", 250);
     }
     window.onload = load;
     </script>
   </head>
   <body>
-    <div class='parent-div' id='dumping-ground'>
+    <div class="parent-div" id="dumping-ground">
       <span>parent</span>
-      <div class='child-div'>
-        <span class='nice-label'>something</span>
+      <div class="child-div">
+        <span class="nice-label">something</span>
       </div>
     </div>
 
-    <div class='removing-parent-div'>
-      <span class='removing-element' id='removing-element'>something</span>
+    <div class="removing-parent-div">
+      <span class="removing-element" id="removing-element">something</span>
     </div>
 
-    <div class='search-results'>
-      <div class='search-result' id ="first_search_result">
-        <span class='title'>title 0</span>
+    <div class="search-results">
+      <div class="search-result" id="first_search_result">
+        <span class="title">title 0</span>
         <a href="whatever">link 0</a>
-        <span class='description'>description 0</span>
+        <span class="description">description 0</span>
       </div>
-      <div class='search-result'>
-        <span class='title'>title 1</span>
+      <div class="search-result">
+        <span class="title">title 1</span>
         <a href="whatever">link 1</a>
-        <span class='description'>description 1</span>
+        <span class="description">description 1</span>
       </div>
-      <div class='search-result'>
-        <span class='title'>title 2</span>
+      <div class="search-result">
+        <span class="title">title 2</span>
         <a href="whatever">link 2</a>
-        <span class='description'>description 2</span>
+        <span class="description">description 2</span>
       </div>
-      <div class='search-result'>
-        <span class='title'>title 3</span>
+      <div class="search-result">
+        <span class="title">title 3</span>
         <a href="whatever">link 3</a>
-        <span class='description'>description 3</span>
+        <span class="description">description 3</span>
       </div>
     </div>
 	
-	<div class='level-1'>
-		<div class='level-2'>
-			<div class='level-3'>
-				<div class='level-4'>
-					<div class='level-5'>
-						<span class='deep-span'>Deep span</span>
-					</div>
-					<div class='level-5'/>
-				</div>
-				<div class='level-4'>
-					<div class='level-5'>
-						<span class='deep-span'>Deep span</span>
-					</div>
-					<div class='level-5'/>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="level-1">
+      <div class="level-2">
+        <div class="level-3">
+          <div class="level-4">
+            <div class="level-5">
+              <span class="deep-span">Deep span</span>
+            </div>
+          </div>
+          <div class="level-4">
+            <div class="level-5">
+              <span class="deep-span">Deep span</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <div class='anonymous-section'>
+    <div class="anonymous-section">
       <h1>Anonymous Section</h1>
     </div>
 
-    <ul class='anonymous-sections'>
+    <ul class="anonymous-sections">
       <li><h1>Section 0</h1></li>
       <li><h1>Section 1</h1></li>
     </ul>

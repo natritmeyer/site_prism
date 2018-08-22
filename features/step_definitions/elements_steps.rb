@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Then('I can get the text values for the group of links') do
-  expect(@test_site.home.lots_of_links.map(&:text)).to eq(%w[a b c])
+  expect(@test_site.home.removing_links.map(&:text)).to eq(%w[a b c])
 end
 
 Then('the page does not have a group of elements') do
@@ -23,6 +23,5 @@ Then('I can see optioned individual people in the people list') do
 end
 
 Then('I can wait a variable time and pass query parameters') do
-  expect { @test_site.home.lots_of_links(wait: 1.6, minimum: 1) }
-    .not_to raise_error
+  expect { @test_site.home.rows(wait: 1.6, minimum: 1) }.not_to raise_error
 end

@@ -20,4 +20,4 @@ Feature: Interaction with groups of elements
     Then I can wait a variable time and pass query parameters
 
   Scenario: Waiting on a set of elements to disappear - Positive
-    Then I don't crash whilst waiting a variable time for elements that disappear
+    Then I can wait a variable time for elements to disappear

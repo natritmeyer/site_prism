@@ -28,7 +28,7 @@ module SitePrism
       # This block can contain up to 2 elements in an array
       # The first is the physical validation test to be truthily evaluated
       # If this does not pass, then the 2nd item (If defined), is output
-      # as an error message to the NotLoadedError Error that will be thrown
+      # as an error message to the FailedLoadValidationError that is thrown
       def load_validation(&block)
         _load_validations << block
       end
@@ -36,32 +36,7 @@ module SitePrism
       private
 
       def _load_validations
-        @_load_validations ||= default_validations
-      end
-
-      def default_validations
-        if enabled?
-          [displayed_validation]
-        else
-          []
-        end
-      end
-
-      def enabled?
-        siteprism_page? && SitePrism.default_load_validations
-      end
-
-      def siteprism_page?
-        self == SitePrism::Page
-      end
-
-      def displayed_validation
-        proc do
-          [
-            displayed?,
-            "Expected #{current_url} to match #{url_matcher} but it did not."
-          ]
-        end
+        @_load_validations ||= []
       end
     end
 
@@ -91,7 +66,7 @@ module SitePrism
       # Within the block, cache loaded? to optimize performance.
       self.loaded = loaded?
 
-      raise SitePrism::NotLoadedError, load_error unless loaded
+      raise SitePrism::FailedLoadValidationError, load_error unless loaded
 
       yield self
     ensure

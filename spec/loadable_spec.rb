@@ -9,6 +9,8 @@ describe SitePrism::Loadable do
     end
   end
 
+  class MyLoadablePage < SitePrism::Page; end
+
   describe '.load_validations' do
     context 'with no inherited classes' do
       it 'returns load_validations from the current class' do
@@ -41,33 +43,9 @@ describe SitePrism::Loadable do
       end
     end
 
-    context 'With default validations disabled' do
-      before do
-        SitePrism.default_load_validations = false
-      end
-
-      after do
-        # Reset the Default Constructor so its behaviour can be modified
-        SitePrism::Page.remove_instance_variable(:@_load_validations)
-        SitePrism.default_load_validations = true
-      end
-
-      context 'A standard Page' do
-        it 'has no default load validations' do
-          klass = Class.new(SitePrism::Page)
-
-          expect(klass.load_validations.length).to eq(0)
-        end
-      end
-    end
-
-    context 'With default validations enabled' do
-      context 'A standard Page' do
-        it 'has 1 default load validation' do
-          klass = Class.new(SitePrism::Page)
-
-          expect(klass.load_validations.length).to eq(1)
-        end
+    context 'a standard page' do
+      it 'has no default load validations' do
+        expect(MyLoadablePage.load_validations.length).to eq(0)
       end
     end
   end
@@ -97,24 +75,24 @@ when all load validations pass" do
     end
 
     context 'Failing Validations' do
-      it 'raises a NotLoadedError with a default message' do
+      it 'raises a FailedLoadValidationError with a default message' do
         james_bond = spy
 
         loadable.load_validation { true }
         loadable.load_validation { false }
 
         expect { loadable.new.when_loaded { james_bond.drink_martini } }
-          .to raise_error(SitePrism::NotLoadedError)
+          .to raise_error(SitePrism::FailedLoadValidationError)
           .with_message('Failed to load - No reason specified.')
 
         expect(james_bond).not_to have_received(:drink_martini)
       end
 
-      it 'raises a NotLoadedError with a user-defined message' do
+      it 'raises a FailedLoadValidationError with a user-defined message' do
         loadable.load_validation { [false, 'VALIDATION FAILED'] }
 
         expect { loadable.new.when_loaded { :foo } }
-          .to raise_error(SitePrism::NotLoadedError)
+          .to raise_error(SitePrism::FailedLoadValidationError)
           .with_message('Failed to load. Reason: VALIDATION FAILED')
       end
     end
@@ -127,7 +105,7 @@ when all load validations pass" do
       loadable.load_validation { validation_spy2.valid? }
 
       expect { loadable.new.when_loaded { puts 'foo' } }
-        .to raise_error(SitePrism::NotLoadedError)
+        .to raise_error(SitePrism::FailedLoadValidationError)
 
       expect(validation_spy1).to have_received(:valid?).once
       expect(validation_spy2).not_to have_received(:valid?)
@@ -171,13 +149,8 @@ when all load validations pass" do
 
     # We want to test with multiple inheritance
     let(:inheriting_loadable) { Class.new(loadable) }
-    let(:displayed?) { true }
 
     subject { PageWithUrl.new }
-
-    before do
-      allow(subject).to receive(:displayed?).and_return(displayed?)
-    end
 
     it 'returns true if loaded value is cached' do
       validation_spy1 = spy(valid?: true)
@@ -186,6 +159,7 @@ when all load validations pass" do
       instance.loaded = true
 
       expect(instance).to be_loaded
+
       expect(validation_spy1).not_to have_received(:valid?)
     end
 
@@ -227,14 +201,8 @@ when all load validations pass" do
       expect(instance.load_error).to eq('fubar')
     end
 
-    context 'when page is loaded' do
-      it { is_expected.to be_loaded }
-    end
-
-    context 'when page is not loaded' do
-      let(:displayed?) { false }
-
-      it { is_expected.not_to be_loaded }
+    it 'passes by default as there are 0 load validations' do
+      is_expected.to be_loaded
     end
   end
 end

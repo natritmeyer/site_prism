@@ -6,8 +6,7 @@ Feature: Page Sections
   Scenario: Designate a section of a page
     When I navigate to the home page
     Then I can see elements in the section
-    When I navigate to the people page
-    Then I can see a list of people
+    And I can see a welcome header
 
   Scenario: access elements in the section by passing a block
     When I navigate to the home page
