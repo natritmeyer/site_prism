@@ -1,7 +1,6 @@
 .DS_Store
 Gemfile.lock
-coverage
+coverage/*
 .bundle
 .idea
 .env
-.overcommit.yml

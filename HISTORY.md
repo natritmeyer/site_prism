@@ -1,5 +1,51 @@
 <!-- #291 - Jul 20th - Last update to this document -->
-## [2.15.1] - 2015-07-20
+## [Unreleased]
+### Removed
+- N/A
+
+### Added
+- N/A
+
+### Changed
+- N/A
+
+### Fixed
+- N/A
+
+## [2.16] - 2018-08-22
+### Added
+- A configuration switch to toggle the default Page Load Validation behaviours (By default set to on)
+([luke-hill])
+
+### Changed
+- Refactored the way in which the procedural `Loadable` block is set for `SitePrism::Page`
+([luke-hill])
+
+- Upped Version Dependencies
+  - `capybara` must be at least `2.15`
+  - `selenium-webdriver ~> 3.5`
+  - Required Ruby Version is now 2.2+
+([luke-hill])
+
+- Altered HISTORY.md into more hyperlinked and declarative format
+([luke-hill]) & ([JaniJegoroff])
+
+- Tidied up the Sample HTML files so they had less un-required information
+([luke-hill])
+
+- Refactored the way the `wait` key is assigned for all meta-programmed methods
+  - Now assigned in a consistent way across all methods
+  - Method set-up for further refactors due in v3 (Standardisation of API)
+([luke-hill])
+
+### Fixed
+- Spec locations (All are now in correct files)
+([luke-hill])
+
+- README / rubocop fixes
+([luke-hill])
+
+## [2.15.1] - 2018-07-20
 ### Added
 - Initial backwards compatible work for rewriting the Error protocols for site_prism 3.0
   - All Error Classes inherit from one common Error Class
@@ -32,7 +78,7 @@
 - Fix scoping issue that prevented iFrames / JS methods defined inside a `section` working
 ([ineverov])
 
-## [2.15] - 2015-07-09
+## [2.15] - 2018-07-09
 ### Added
 - Added more gem metadata into the `.gemspec` file to be read by RubyGems (Changelog e.t.c.)
 ([luke-hill])
@@ -53,7 +99,11 @@
 - Add better error message when iFrame's are called without a block (Than a stacktrace)
 ([luke-hill]) & ([mdesantis])
 
-## [2.14] - 2015-06-22
+## [2.14] - 2018-06-22
+### Removed
+Previously deprecated `Waiter.default_wait_time` (As this just called the Capybara method)
+([luke-hill])
+
 ### Added
 - Introduced new sister method to `#expected_elements` - `#elements_present`
   - This will return an Array of every Element that is present on the Page/Section
@@ -96,7 +146,7 @@
 - rubocop fixes
 ([ineverov]) & ([jgs731])
 
-## [2.13] - 2015-05-21
+## [2.13] - 2018-05-21
 ### Removed
 Removed testing for Ruby `2.0` on Travis
 ([luke-hill])
@@ -135,7 +185,7 @@ Removed testing for Ruby `2.0` on Travis
 - README fixes
 ([robd])
 
-## [2.12] - 2015-04-20
+## [2.12] - 2018-04-20
 ### Added
 - Added Ruby `2.4` testing to Travis
 ([luke-hill])
@@ -170,7 +220,7 @@ Removed testing for Ruby `2.0` on Travis
 - Performed a suite-wide cleanup of Gherkin. Made everything a lot more organised
 ([luke-hill])
 
-## [2.11] - 2015-03-07
+## [2.11] - 2018-03-07
 ### Added
 - Re-enable Rubocop compliance from PR signoff (Including fixing up some offences)
 ([RustyNail])
@@ -588,9 +638,8 @@ Removed testing for Ruby `2.0` on Travis
 - First release!
 
 <!-- Releases -->
-<!-- all up to 2.12 correctly formatted and datestamped -->
-<!-- all releases up to 2.12 correctly checked for content / people -->
 [Unreleased]: https://github.com/natritmeyer/site_prism/compare/v2.15.1...master
+[2.16]:       https://github.com/natritmeyer/site_prism/compare/v2.15.1...v2.16
 [2.15.1]:     https://github.com/natritmeyer/site_prism/compare/v2.15...v2.15.1
 [2.15]:       https://github.com/natritmeyer/site_prism/compare/v2.14...v2.15
 [2.14]:       https://github.com/natritmeyer/site_prism/compare/v2.13...v2.14
@@ -679,3 +728,4 @@ Removed testing for Ruby `2.0` on Travis
 [twalpole]:       https://github.com/twalpole
 [jgs731]:         https://github.com/jgs731
 [mdesantis]:      https://github.com/mdesantis
+[JaniJegoroff]:   https://github.com/JaniJegoroff

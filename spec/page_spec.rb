@@ -65,21 +65,21 @@ is called before the matcher has been set" do
   end
 
   it 'should raise an exception if passing a block to an element' do
-    expect { TestHomePage.new.invisible_element { :any_old_block } }
+    expect { Home.new.invisible_element { :any_old_block } }
       .to raise_error(SitePrism::UnsupportedBlockError)
-      .with_message('TestHomePage#invisible_element does not accept blocks.')
+      .with_message('Home#invisible_element does not accept blocks.')
   end
 
   it 'should raise an exception if passing a block to elements' do
-    expect { TestHomePage.new.lots_of_links { :any_old_block } }
+    expect { Home.new.removing_links { :any_old_block } }
       .to raise_error(SitePrism::UnsupportedBlockError)
-      .with_message('TestHomePage#lots_of_links does not accept blocks.')
+      .with_message('Home#removing_links does not accept blocks.')
   end
 
   it 'should raise an exception if passing a block to sections' do
-    expect { TestHomePage.new.nonexistent_sections { :any_old_block } }
+    expect { Home.new.nonexistent_sections { :any_old_block } }
       .to raise_error(SitePrism::UnsupportedBlockError)
-      .with_message('TestHomePage#nonexistent_sections does not accept blocks.')
+      .with_message('Home#nonexistent_sections does not accept blocks.')
   end
 
   describe '#page' do
@@ -334,7 +334,9 @@ from the be_displayed matcher" do
       end
 
       let(:page) { PageWithBogusFullUrlMatcher.new }
-      let(:error_message) { 'Your URL and/or matcher could not be interpreted.' }
+      let(:error_message) do
+        'Your URL and/or matcher could not be interpreted.'
+      end
 
       it 'raises InvalidUrlMatcherError' do
         expect { page.displayed? }
@@ -397,7 +399,9 @@ from the be_displayed matcher" do
       end
 
       let(:page) { PageWithBogusFullUrlMatcher.new }
-      let(:error_message) { 'Your URL and/or matcher could not be interpreted.' }
+      let(:error_message) do
+        'Your URL and/or matcher could not be interpreted.'
+      end
 
       it 'raises InvalidUrlMatcherError' do
         expect { page.url_matches }
