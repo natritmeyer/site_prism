@@ -12,6 +12,39 @@
 ### Fixed
 - N/A
 
+## [2.16] - 2018-08-22
+### Added
+- A configuration switch to toggle the default Page Load Validation behaviours (By default set to on)
+([luke-hill])
+
+### Changed
+- Refactored the way in which the procedural `Loadable` block is set for `SitePrism::Page`
+([luke-hill])
+
+- Upped Version Dependencies
+  - `capybara` must be at least `2.15`
+  - `selenium-webdriver ~> 3.5`
+  - Required Ruby Version is now 2.2+
+([luke-hill])
+
+- Altered HISTORY.md into more hyperlinked and declarative format
+([luke-hill]) & ([JaniJegoroff])
+
+- Tidied up the Sample HTML files so they had less un-required information
+([luke-hill])
+
+- Refactored the way the `wait` key is assigned for all meta-programmed methods
+  - Now assigned in a consistent way across all methods
+  - Method set-up for further refactors due in v3 (Standardisation of API)
+([luke-hill])
+
+### Fixed
+- Spec locations (All are now in correct files)
+([luke-hill])
+
+- README / rubocop fixes
+([luke-hill])
+
 ## [2.15.1] - 2018-07-20
 ### Added
 - Initial backwards compatible work for rewriting the Error protocols for site_prism 3.0
@@ -606,6 +639,7 @@ Removed testing for Ruby `2.0` on Travis
 
 <!-- Releases -->
 [Unreleased]: https://github.com/natritmeyer/site_prism/compare/v2.15.1...master
+[2.16]:       https://github.com/natritmeyer/site_prism/compare/v2.15.1...v2.16
 [2.15.1]:     https://github.com/natritmeyer/site_prism/compare/v2.15...v2.15.1
 [2.15]:       https://github.com/natritmeyer/site_prism/compare/v2.14...v2.15
 [2.14]:       https://github.com/natritmeyer/site_prism/compare/v2.13...v2.14
@@ -694,3 +728,4 @@ Removed testing for Ruby `2.0` on Travis
 [twalpole]:       https://github.com/twalpole
 [jgs731]:         https://github.com/jgs731
 [mdesantis]:      https://github.com/mdesantis
+[JaniJegoroff]:   https://github.com/JaniJegoroff
