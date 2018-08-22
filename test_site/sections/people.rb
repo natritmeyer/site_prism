@@ -8,7 +8,4 @@ class People < SitePrism::Section
 
   elements :individuals, '.person'
   elements :optioned_individuals, 'span', class: 'person'
-
-  # should not be found here
-  element :welcome_message_on_the_parent, 'span.welcome'
 end

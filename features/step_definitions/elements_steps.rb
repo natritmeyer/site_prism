@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Then('I can get the text values for the group of links') do
-  expect(@test_site.home.lots_of_links.map(&:text)).to eq(%w[a b c])
+  expect(@test_site.home.removing_links.map(&:text)).to eq(%w[a b c])
 end
 
 Then('the page does not have a group of elements') do
@@ -23,11 +23,10 @@ Then('I can see optioned individual people in the people list') do
 end
 
 Then('I can wait a variable time and pass specific parameters') do
-  @test_site.home.wait_for_lots_of_links(0.1, count: 2)
+  @test_site.home.wait_for_rows(0.1, count: 2)
   Capybara.using_wait_time(0.3) do
     # intentionally wait and pass nil to force this to cycle
-    expect(@test_site.home.wait_for_lots_of_links(nil, count: 198_108_14))
-      .to be_falsey
+    expect(@test_site.home.wait_for_rows(nil, count: 198_108_14)).to be_falsey
   end
 end
 

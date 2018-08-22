@@ -605,8 +605,6 @@ Removed testing for Ruby `2.0` on Travis
 - First release!
 
 <!-- Releases -->
-<!-- all up to 2.12 correctly formatted and datestamped -->
-<!-- all releases up to 2.12 correctly checked for content / people -->
 [Unreleased]: https://github.com/natritmeyer/site_prism/compare/v2.15.1...master
 [2.15.1]:     https://github.com/natritmeyer/site_prism/compare/v2.15...v2.15.1
 [2.15]:       https://github.com/natritmeyer/site_prism/compare/v2.14...v2.15
