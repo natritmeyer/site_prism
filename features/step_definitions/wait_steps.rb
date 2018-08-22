@@ -78,7 +78,8 @@ Then('the removing collection of sections disappears') do
 end
 
 Then('I can wait a variable time for elements to disappear') do
-  expect { @test_site.home.removing_links(wait: 2.6) }.not_to raise_error
+  expect { @test_site.home.removing_links(wait: 1.9, count: 0) }
+    .not_to raise_error
 
   expect(@test_site.home).to have_no_removing_links
 end
