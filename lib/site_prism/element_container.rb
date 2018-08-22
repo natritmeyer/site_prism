@@ -82,12 +82,6 @@ module SitePrism
         end
       end
 
-      def collection(name, *find_args)
-        warn 'Using collection is now deprecated and will be removed.'
-        warn 'Use elements DSL notation instead.'
-        elements(name, *find_args)
-      end
-
       def expected_elements(*elements)
         @expected_items = elements
       end

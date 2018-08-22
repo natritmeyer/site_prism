@@ -25,9 +25,3 @@ end
 Then('I can wait a variable time and pass query parameters') do
   expect { @test_site.home.wait_for_rows(1.6, minimum: 1) }.not_to raise_error
 end
-
-Then("waiting a short time for elements to disappear doesn't raise an error") do
-  expect do
-    @test_site.home.wait_for_no_removing_links(0.1, text: 'wibble')
-  end.not_to raise_error
-end

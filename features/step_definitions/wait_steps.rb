@@ -80,21 +80,14 @@ When('I wait for the collection of sections that takes a while to disappear') do
   @test_site.home.wait_for_no_removing_sections
 end
 
-
 Then('the removing collection of sections disappears') do
   expect(@test_site.home).not_to have_removing_sections
 end
 
-Then("I don't crash whilst waiting a variable time for elements that disappear") do
+Then('I can wait a variable time for elements to disappear') do
   expect { @test_site.home.wait_for_no_removing_links(2.6) }.not_to raise_error
-end
 
-When('I wait a variable time for elements to appear') do
-  @test_site.home.wait_for_some_slow_element(1.6)
-end
-
-When('I wait a variable time for elements to disappear') do
-  @test_site.home.wait_for_no_removing_links(1.6)
+  expect(@test_site.home).to have_no_removing_links
 end
 
 Then('I get a timeout error when I wait for an element that never appears') do
