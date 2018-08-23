@@ -31,7 +31,7 @@ Feature: Element Methods
     Then not all expected elements are present
 
   Scenario: Elements Present - Positive
-    When I navigate to the section experiments page
+    When I navigate to the letter A page
     Then all mapped elements are present
 
   Scenario: Elements Present - Negative

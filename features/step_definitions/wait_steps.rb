@@ -56,16 +56,14 @@ Then('the removing section disappears') do
 end
 
 Then("an exception is raised when I wait for a section that won't appear") do
-  section = @test_site.section_experiments.parent_section
-
-  expect { section.slow_element(wait: 0.1) }
+  expect { @test_site.section_experiments.slow_section(wait: 0.1) }
     .to raise_error(Capybara::ElementNotFound)
 end
 
 Then("an exception is raised when I wait for a section that won't disappear") do
-  section = @test_site.section_experiments.removing_parent
+  page = @test_site.section_experiments
 
-  expect { section.wait_until_removing_element_invisible(0.15) }
+  expect { page.wait_until_anonymous_section_invisible(0.15) }
     .to raise_error(SitePrism::ElementInvisibilityTimeoutError)
 end
 

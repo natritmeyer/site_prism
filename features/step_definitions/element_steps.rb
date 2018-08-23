@@ -63,8 +63,8 @@ Then('all elements marked as expected are present') do
 end
 
 Then('all mapped elements are present') do
-  expect(@test_site.section_experiments.elements_present)
-    .to eq(@test_site.section_experiments.class.mapped_items)
+  expect(@test_site.dynamic_page.elements_present)
+    .to eq(@test_site.dynamic_page.class.mapped_items)
 end
 
 Then('not all mapped elements are present') do

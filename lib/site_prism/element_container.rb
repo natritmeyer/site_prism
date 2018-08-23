@@ -27,16 +27,6 @@ module SitePrism
       raise SitePrism::UnsupportedBlockError, "#{obj.class}##{name}"
     end
 
-    def raise_wait_for(obj, name, timeout)
-      raise SitePrism::ExistenceTimeoutError, \
-            "Timed out after #{timeout}s waiting for #{obj.class}##{name}"
-    end
-
-    def raise_wait_for_no(obj, name, timeout)
-      raise SitePrism::NonExistenceTimeoutError, \
-            "Timed out after #{timeout}s waiting for no #{obj.class}##{name}"
-    end
-
     # Sanitize method called before calling any SitePrism DSL method or
     # meta-programmed method. This ensures that the Capybara query is correct.
     #
