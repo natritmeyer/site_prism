@@ -82,7 +82,7 @@ end
 
 Then('I am not made to wait to check a nonexistent element for invisibility') do
   start = Time.new
-  @test_site.home.wait_until_nonexistent_element_invisible(10)
+  @test_site.home.wait_until_nonexistent_element_invisible(wait: 10)
 
   expect(Time.new - start).to be < 1
 end

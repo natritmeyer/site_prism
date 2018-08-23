@@ -82,6 +82,8 @@ is called before the matcher has been set" do
       .with_message('Home#nonexistent_sections does not accept blocks.')
   end
 
+  it { is_expected.to respond_to(*Capybara::Session::DSL_METHODS) }
+
   describe '#page' do
     subject { page_with_url.page }
 

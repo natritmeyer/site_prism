@@ -65,7 +65,7 @@ describe 'iFrame' do
 
       expect_any_instance_of(IframePage)
         .to receive(:_find)
-        .with('.some_element')
+        .with('.some_element', wait: 0)
         .and_return(locator)
 
       page.frame(&:a)
@@ -91,7 +91,7 @@ describe 'iFrame' do
 
       expect_any_instance_of(IframePage)
         .to receive(:_find)
-        .with('.some_element')
+        .with('.some_element', wait: 0)
         .and_return(locator)
 
       section.frame(&:a)

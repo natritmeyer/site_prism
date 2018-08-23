@@ -85,7 +85,7 @@ end
 Then('I get a timeout error when I wait for an element that never appears') do
   start_time = Time.now
 
-  expect { @test_site.home.wait_until_invisible_element_visible(1) }
+  expect { @test_site.home.wait_until_invisible_element_visible(wait: 1) }
     .to raise_error(SitePrism::ElementVisibilityTimeoutError)
   @duration = Time.now - start_time
 
@@ -101,7 +101,7 @@ end
 When('I wait for a specific amount of time until an element is visible') do
   @overridden_wait_time = 3.5
   start_time = Time.now
-  @test_site.home.wait_until_shy_element_visible(@overridden_wait_time)
+  @test_site.home.wait_until_shy_element_visible(wait: @overridden_wait_time)
   @duration = Time.now - start_time
 end
 
@@ -110,11 +110,11 @@ When('I wait for an element to become invisible') do
 end
 
 When('I wait a specific amount of time for a particular element to vanish') do
-  @test_site.home.wait_until_retiring_element_invisible(5)
+  @test_site.home.wait_until_retiring_element_invisible(wait: 5)
 end
 
 Then('I get a timeout error when I wait for an element that never vanishes') do
-  expect { @test_site.home.wait_until_welcome_header_invisible(1) }
+  expect { @test_site.home.wait_until_welcome_header_invisible(wait: 1) }
     .to raise_error(SitePrism::ElementInvisibilityTimeoutError)
 end
 
