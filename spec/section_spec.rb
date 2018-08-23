@@ -2,9 +2,20 @@
 
 require 'spec_helper'
 
-describe SitePrism::Page do
+describe SitePrism::Section do
   class Section < SitePrism::Section; end
   class Page < SitePrism::Page; end
+
+  let(:dont_wait) { { wait: 0 } }
+  let(:section_without_block) { SitePrism::Section.new(Page.new, locator) }
+  let!(:locator) { instance_double('Capybara::Node::Element') }
+  let(:section_with_block) do
+    SitePrism::Section.new(Page.new, locator) { 1 + 1 }
+  end
+
+  it 'responds to Capybara methods' do
+    expect(section_without_block).to respond_to(*Capybara::Session::DSL_METHODS)
+  end
 
   describe '.section' do
     it 'should be settable' do
@@ -176,16 +187,6 @@ set_default_search_arguments within section class"
     end
   end
 
-  it { is_expected.to respond_to(*Capybara::Session::DSL_METHODS) }
-end
-
-describe SitePrism::Section do
-  let(:section_without_block) { SitePrism::Section.new(Page.new, locator) }
-  let!(:locator) { instance_double('Capybara::Node::Element') }
-  let(:section_with_block) do
-    SitePrism::Section.new(Page.new, locator) { 1 + 1 }
-  end
-
   describe '.default_search_arguments' do
     class BaseSection < SitePrism::Section
       set_default_search_arguments :css, 'a.b'
@@ -316,10 +317,6 @@ describe SitePrism::Section do
 
       section_without_block.evaluate_script('How High?') == 'To the sky!'
     end
-  end
-
-  it 'responds to Capybara methods' do
-    expect(section_without_block).to respond_to(*Capybara::Session::DSL_METHODS)
   end
 
   describe '#parent_page' do
