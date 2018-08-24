@@ -30,6 +30,7 @@ module SitePrism
     def raise_wait_for_if_failed(obj, name, timeout, failed)
       return unless SitePrism.raise_on_wait_fors && failed
 
+      deprecate('Listening for TimeOutWaitingForExistenceError')
       raise SitePrism::TimeOutWaitingForExistenceError, \
             "Timed out after #{timeout}s waiting for #{obj.class}##{name}"
     end
@@ -37,6 +38,7 @@ module SitePrism
     def raise_wait_for_no_if_failed(obj, name, timeout, failed)
       return unless SitePrism.raise_on_wait_fors && failed
 
+      deprecate('Listening for TimeOutWaitingForNonExistenceError')
       raise SitePrism::TimeOutWaitingForNonExistenceError, \
             "Timed out after #{timeout}s waiting for no #{obj.class}##{name}"
     end
@@ -84,12 +86,6 @@ module SitePrism
             _all(*merge_args(find_args, runtime_args))
           end
         end
-      end
-
-      def collection(name, *find_args)
-        warn 'Using collection is now deprecated and will be removed.'
-        warn 'Use elements DSL notation instead.'
-        elements(name, *find_args)
       end
 
       def expected_elements(*elements)
@@ -199,6 +195,7 @@ module SitePrism
         method_name = "wait_for_#{element_name}"
         create_helper_method(method_name, *find_args) do
           define_method(method_name) do |timeout = wait_time, *runtime_args|
+            deprecate('wait_for methods', 'wait key assignment at runtime')
             visibility_args = { wait: timeout }
             args = merge_args(find_args, runtime_args, visibility_args)
             result = element_exists?(*args)
@@ -212,6 +209,7 @@ module SitePrism
         method_name = "wait_for_no_#{element_name}"
         create_helper_method(method_name, *find_args) do
           define_method(method_name) do |timeout = wait_time, *runtime_args|
+            deprecate('wait_for_no methods', 'wait key assignment at runtime')
             visibility_args = { wait: timeout }
             args = merge_args(find_args, runtime_args, visibility_args)
             result = element_does_not_exist?(*args)
@@ -305,6 +303,11 @@ in section creation or set_default_search_arguments within section class")
 
       def extract_search_arguments(args)
         args if args && !args.empty?
+      end
+
+      def deprecate(previous, new = nil)
+        warn "Usage of #{previous} is now deprecated and should be not used."
+        warn "Use #{new} instead." if new
       end
     end
     # rubocop:enable Metrics/ModuleLength
