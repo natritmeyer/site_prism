@@ -12,12 +12,35 @@ module SitePrism
   autoload :AddressableUrlMatcher, 'site_prism/addressable_url_matcher'
 
   class << self
-    attr_accessor :use_implicit_waits,
-                  :raise_on_wait_fors,
-                  :default_load_validations
+    attr_accessor :use_implicit_waits
 
     def configure
       yield self
+    end
+
+    def raise_on_wait_fors
+      show_removed_config_warning_messages
+      @raise_on_wait_fors
+    end
+
+    def raise_on_wait_fors=(value)
+      show_removed_config_warning_messages
+      @raise_on_wait_fors = value
+    end
+
+    def default_load_validations
+      show_removed_config_warning_messages
+      @default_load_validations
+    end
+
+    def default_load_validations=(value)
+      show_removed_config_warning_messages
+      @default_load_validations = value
+    end
+
+    def show_removed_config_warning_messages
+      warn 'This config option is being removed in SitePrism v3. See UPGRADING.md on the repo for more details.'
+      warn 'Going forwards the configuration / configurability will more closely mimic Capybara.'
     end
   end
 
