@@ -12,4 +12,4 @@ task :rubocop do
   system('bundle exec rubocop') || raise('Cops failed')
 end
 
-task default: %i[specs cukes rubocop]
+task default: %i[specs cukes]
