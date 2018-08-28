@@ -19,5 +19,5 @@ module SitePrism
     end
   end
 
-  @use_implicit_waits = false
+  @use_implicit_waits = true
 end

@@ -21,6 +21,7 @@ Feature: IFrame interaction
     Then I can locate the iframe by xpath
     And I can see elements in an xpath iframe
 
+  @migrated
   Scenario: locate an iframe within section
     Then I can locate the iframe within section
     And I can see elements in the iframe within section

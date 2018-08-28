@@ -27,16 +27,6 @@ module SitePrism
       raise SitePrism::UnsupportedBlockError, "#{obj.class}##{name}"
     end
 
-    def raise_wait_for(obj, name, timeout)
-      raise SitePrism::ExistenceTimeoutError, \
-            "Timed out after #{timeout}s waiting for #{obj.class}##{name}"
-    end
-
-    def raise_wait_for_no(obj, name, timeout)
-      raise SitePrism::NonExistenceTimeoutError, \
-            "Timed out after #{timeout}s waiting for no #{obj.class}##{name}"
-    end
-
     # Sanitize method called before calling any SitePrism DSL method or
     # meta-programmed method. This ensures that the Capybara query is correct.
     #
@@ -142,8 +132,6 @@ module SitePrism
       def add_helper_methods(name, *find_args)
         create_existence_checker(name, *find_args)
         create_nonexistence_checker(name, *find_args)
-        create_waiter(name, *find_args)
-        create_nonexistence_waiter(name, *find_args)
         create_visibility_waiter(name, *find_args)
         create_invisibility_waiter(name, *find_args)
       end
@@ -151,8 +139,6 @@ module SitePrism
       def add_iframe_helper_methods(name, *find_args)
         create_existence_checker(name, *find_args)
         create_nonexistence_checker(name, *find_args)
-        create_waiter(name, *find_args)
-        create_nonexistence_waiter(name, *find_args)
       end
 
       def create_helper_method(proposed_method_name, *find_args)
@@ -181,32 +167,6 @@ module SitePrism
             visibility_args = { wait: checker_wait_time }
             args = merge_args(find_args, runtime_args, visibility_args)
             element_does_not_exist?(*args)
-          end
-        end
-      end
-
-      def create_waiter(element_name, *find_args)
-        method_name = "wait_for_#{element_name}"
-        create_helper_method(method_name, *find_args) do
-          define_method(method_name) do |timeout = wait_time, *runtime_args|
-            visibility_args = { wait: timeout }
-            args = merge_args(find_args, runtime_args, visibility_args)
-            result = element_exists?(*args)
-            return result if result
-            raise_wait_for(self, element_name, timeout)
-          end
-        end
-      end
-
-      def create_nonexistence_waiter(element_name, *find_args)
-        method_name = "wait_for_no_#{element_name}"
-        create_helper_method(method_name, *find_args) do
-          define_method(method_name) do |timeout = wait_time, *runtime_args|
-            visibility_args = { wait: timeout }
-            args = merge_args(find_args, runtime_args, visibility_args)
-            result = element_does_not_exist?(*args)
-            return result if result
-            raise_wait_for_no(self, element_name, timeout)
           end
         end
       end

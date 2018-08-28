@@ -7,6 +7,10 @@ class SectionExperiments < SitePrism::Page
   section :removing_parent, RemovingParent, '.removing-parent-div'
   sections :search_results, SearchResult, '.search-results .search-result'
 
+  section :slow_section, '.slow' do
+    # This is a duplicate of `parent_section.slow_element`
+  end
+
   section :anonymous_section, '.anonymous-section' do
     element :title, 'h1'
   end
