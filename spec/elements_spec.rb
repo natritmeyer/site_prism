@@ -4,15 +4,8 @@ require 'spec_helper'
 
 describe SitePrism::Page do
   shared_examples 'elements' do
-    it { is_expected.to respond_to(:bobs) }
-    it { is_expected.to respond_to(:has_bobs?) }
-    it { is_expected.to respond_to(:has_no_bobs?) }
-    it { is_expected.to respond_to(:wait_until_bobs_visible) }
-    it { is_expected.to respond_to(:wait_until_bobs_invisible) }
-    it { is_expected.to respond_to(:all_there?) }
-
     it 'should return an enumerable result' do
-      expect(subject.bobs).to be_a Capybara::Result
+      expect(page.bobs).to be_a Capybara::Result
     end
 
     describe '.elements' do
@@ -29,7 +22,6 @@ describe SitePrism::Page do
       elements :bobs, 'a.b c.d'
     end
 
-    subject { page }
     let(:page) { PageCSS3.new }
     let(:klass) { PageCSS3 }
 
@@ -41,7 +33,6 @@ describe SitePrism::Page do
       elements :bobs, '//a[@class="b"]//c[@class="d"]'
     end
 
-    subject { page }
     let(:page) { PageXPath3.new }
     let(:klass) { PageXPath3 }
 

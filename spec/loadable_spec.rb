@@ -201,8 +201,6 @@ when all load validations pass" do
       expect(instance.load_error).to eq('fubar')
     end
 
-    it 'passes by default as there are 0 load validations' do
-      is_expected.to be_loaded
-    end
+    it { is_expected.to be_loaded }
   end
 end

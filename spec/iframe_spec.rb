@@ -12,7 +12,7 @@ describe 'iFrame' do
     end
 
     it 'cannot be called out of block context' do
-      expect { subject.iframe }
+      expect { page.iframe }
         .to raise_error(SitePrism::MissingBlockError)
         .with_message(error_message)
     end
@@ -25,7 +25,6 @@ describe 'iFrame' do
       iframe :iframe, IFrame, 'a.b c.d'
     end
 
-    subject { page }
     let(:page) { PageCSS2.new }
     let(:klass) { PageCSS2 }
 
@@ -39,7 +38,6 @@ describe 'iFrame' do
       iframe :iframe, IFrame, '//w[@class="x"]//y[@class="z"]'
     end
 
-    subject { page }
     let(:page) { PageXPath2.new }
     let(:klass) { PageXPath2 }
 
