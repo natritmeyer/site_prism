@@ -24,12 +24,12 @@ module SitePrism
     #
     # Accepts any combination of arguments sent at DSL definition or runtime
     # and combines them in such a way that Capybara can operate with them.
-    def merge_args(find_args, runtime_args, override_options = {})
+    def merge_args(find_args, runtime_args, visibility_args = {})
       find_args = find_args.dup
       runtime_args = runtime_args.dup
       options = {}
 
-      options.merge!(override_options)
+      options.merge!(visibility_args)
       options.merge!(find_args.pop) if find_args.last.is_a? Hash
       options.merge!(runtime_args.pop) if runtime_args.last.is_a? Hash
 
@@ -167,8 +167,7 @@ module SitePrism
         method_name = "wait_until_#{element_name}_visible"
         create_helper_method(method_name, *find_args) do
           define_method(method_name) do |*runtime_args|
-            hash_args = { visible: true }
-            args = merge_args(find_args, runtime_args, hash_args)
+            args = merge_args(find_args, runtime_args, visible: true)
             return true if element_exists?(*args)
             raise SitePrism::ElementVisibilityTimeoutError
           end
@@ -179,8 +178,7 @@ module SitePrism
         method_name = "wait_until_#{element_name}_invisible"
         create_helper_method(method_name, *find_args) do
           define_method(method_name) do |*runtime_args|
-            hash_args = { visible: true }
-            args = merge_args(find_args, runtime_args, hash_args)
+            args = merge_args(find_args, runtime_args, visible: true)
             return true if element_does_not_exist?(*args)
             raise SitePrism::ElementInvisibilityTimeoutError
           end
