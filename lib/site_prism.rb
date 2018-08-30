@@ -12,10 +12,18 @@ module SitePrism
   autoload :AddressableUrlMatcher, 'site_prism/addressable_url_matcher'
 
   class << self
-    attr_accessor :use_implicit_waits
-
     def configure
       yield self
+    end
+
+    def use_implicit_waits
+      show_removed_config_warning_messages
+      @use_implicit_waits
+    end
+
+    def use_implicit_waits=(value)
+      show_removed_config_warning_messages
+      @use_implicit_waits = value
     end
 
     def raise_on_wait_fors
