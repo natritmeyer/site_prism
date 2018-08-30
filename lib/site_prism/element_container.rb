@@ -21,18 +21,17 @@ module SitePrism
 
     # Sanitize method called before calling any SitePrism DSL method or
     # meta-programmed method. This ensures that the Capybara query is correct.
-    #
     # Accepts any combination of arguments sent at DSL definition or runtime
     # and combines them in such a way that Capybara can operate with them.
+    # Initially it will duplicate all locators and run-time arguments,
+    # then it will combine them with any visibility arguments if defined.
     def merge_args(find_args, runtime_args, visibility_args = {})
       find_args = find_args.dup
       runtime_args = runtime_args.dup
-      options = {}
 
-      options.merge!(visibility_args)
+      options = visibility_args
       options.merge!(find_args.pop) if find_args.last.is_a? Hash
       options.merge!(runtime_args.pop) if runtime_args.last.is_a? Hash
-
       options[:wait] = wait_time unless wait_key_present?(options)
 
       return [*find_args, *runtime_args] if options.empty?

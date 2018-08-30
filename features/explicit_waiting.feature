@@ -65,3 +65,7 @@ Feature: Waiting for Elements
     When I navigate to the home page
     And I remove the parent section of the element
     Then an error is thrown when waiting for an element in a vanishing section
+
+  Scenario: Wait time can be overridden at run-time in a block
+    When I navigate to the home page
+    Then I can override the wait time using a Capybara.using_wait_time block

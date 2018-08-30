@@ -34,7 +34,3 @@ Feature: Waiting for Elements Implicitly
   Scenario: Boolean test for Sections is Automatically Waited For
     When I navigate to the home page
     Then the boolean test for slow sections are waited for
-
-  Scenario: Wait time can be overridden at run-time
-    When I navigate to the home page
-    Then I can override the waiting time using Capybara.using_wait_time

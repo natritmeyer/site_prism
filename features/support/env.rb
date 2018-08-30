@@ -34,13 +34,9 @@ require 'pages/section_experiments'
 
 Capybara.configure do |config|
   config.default_driver = :selenium
-  config.default_max_wait_time = 5
+  config.default_max_wait_time = 2
   config.app_host = 'file://' + File.dirname(__FILE__) + '/../../test_site/html'
   config.ignore_hidden_elements = false
-end
-
-SitePrism.configure do |config|
-  config.use_implicit_waits = false
 end
 
 Capybara.register_driver :selenium do |app|
@@ -50,5 +46,5 @@ end
 private
 
 def browser
-  @browser ||= ENV.fetch('browser', 'firefox').to_sym
+  ENV.fetch('browser', 'firefox').to_sym
 end

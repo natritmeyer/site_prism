@@ -14,15 +14,15 @@ module SitePrism
 
     def elements_to_check
       if self.class.expected_items
-        mapped_items.select do |el|
-          self.class.expected_items.include?(el)
-        end
+        mapped_items.select { |el| self.class.expected_items.include?(el) }
       else
         mapped_items
       end
     end
 
     def mapped_items
+      return unless self.class.mapped_items
+
       self.class.mapped_items.uniq
     end
 

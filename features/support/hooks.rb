@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-Before('not @implicit_waits') do
-  SitePrism.configure do |config|
-    config.use_implicit_waits = false
-  end
-end
-
-Before('@implicit_waits') do
-  SitePrism.configure do |config|
-    config.use_implicit_waits = true
-  end
-end
-
 Before do
   @test_site = TestSite.new
+end
+
+Before('@slow-speed') do
+  Capybara.default_max_wait_time = 0.3
+end
+
+Before('@medium-speed') do
+  Capybara.default_max_wait_time = 1.4
+end
+
+After('@slow-speed, @medium-speed') do
+  Capybara.default_max_wait_time = 2
 end

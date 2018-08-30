@@ -144,7 +144,7 @@ class or/and a block as the second argument."
       let(:search_arguments) { ['.other-section'] }
 
       it 'returns the search arguments for a section' do
-        expect(page).to receive(:_find).with(*search_arguments)
+        expect(page).to receive(:_find).with(*search_arguments, **dont_wait)
 
         page.section_with_locator
       end
@@ -153,7 +153,7 @@ class or/and a block as the second argument."
     context 'search arguments are not provided during the DSL definition' do
       context 'default search arguments are set on both parent and section' do
         it 'returns the default search arguments set on the section' do
-          expect(page).to receive(:_find).with(*search_arguments)
+          expect(page).to receive(:_find).with(*search_arguments, **dont_wait)
 
           page.section_using_defaults
         end
@@ -161,7 +161,7 @@ class or/and a block as the second argument."
 
       context 'default search arguments are only set on the parent section' do
         it 'returns the default search arguments set on the parent section' do
-          expect(page).to receive(:_find).with(*search_arguments)
+          expect(page).to receive(:_find).with(*search_arguments, **dont_wait)
 
           page.section_using_defaults_from_parent
         end
@@ -256,7 +256,7 @@ set_default_search_arguments within section class"
       it 'passes in a hash of query arguments' do
         expect(page)
           .to receive(:_find)
-          .with(*locator_args, **query_args)
+          .with(*locator_args, **query_args, **dont_wait)
 
         page.new_section
       end
@@ -267,7 +267,7 @@ set_default_search_arguments within section class"
       let(:locator_args) { '.class-two' }
 
       it 'passes in an empty hash, which is then sanitized out' do
-        expect(page).to receive(:_find).with(*locator_args)
+        expect(page).to receive(:_find).with(*locator_args, **dont_wait)
 
         page.new_element
       end
