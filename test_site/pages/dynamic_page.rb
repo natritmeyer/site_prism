@@ -9,4 +9,8 @@ class DynamicPage < SitePrism::Page
   end
 
   element :dummy_element_two, '.third'
+  # missing_element does not exist
+  #element :missing_element, '.not-present'
+
+  #expected_elements :missing_element, :dummy_section
 end

@@ -55,7 +55,7 @@ Then('I can see the CLASS of the link') do
 end
 
 Then('not all expected elements are present') do
-  expect(@test_site.home).not_to be_all_there
+  expect(@test_site.no_title).not_to be_all_there
 end
 
 Then('all elements marked as expected are present') do

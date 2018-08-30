@@ -2,7 +2,7 @@
 
 When('I wait for the element that takes a while to appear') do
   start_time = Time.now
-  @test_site.home.some_slow_element
+  @test_site.home.some_slow_element(wait: 2)
   @duration = Time.now - start_time
 end
 
@@ -32,7 +32,7 @@ Then("an exception is raised when I wait for an element that won't appear") do
 end
 
 Then("an exception is raised when I wait for an element that won't vanish") do
-  expect { @test_site.home.wait_until_removing_element_invisible(1) }
+  expect { @test_site.home.wait_until_removing_element_invisible(wait: 1) }
     .to raise_error(SitePrism::ElementInvisibilityTimeoutError)
 end
 
@@ -63,7 +63,7 @@ end
 Then("an exception is raised when I wait for a section that won't disappear") do
   page = @test_site.section_experiments
 
-  expect { page.wait_until_anonymous_section_invisible(0.15) }
+  expect { page.wait_until_anonymous_section_invisible(wait: 0.15) }
     .to raise_error(SitePrism::ElementInvisibilityTimeoutError)
 end
 
@@ -126,111 +126,7 @@ Then('I am not made to wait for the full overridden duration') do
   expect(@duration).to be < @overridden_wait_time
 end
 
-Then('implicit waits should be enabled') do
-  expect(SitePrism.use_implicit_waits).to be true
-end
-
-Then('implicit waits should not be enabled') do
-  expect(SitePrism.use_implicit_waits).to be false
-end
-
-Then('the slow element is not waited for') do
-  start_time = Time.now
-
-  expect { @test_site.home.some_slow_element }
-    .to raise_error(Capybara::ElementNotFound)
-
-  expect(Time.now - start_time).to be < 0.2
-end
-
-Then('the slow element is waited for') do
-  start_time = Time.now
-  @test_site.home.some_slow_element
-
-  expect(Time.now - start_time).to be_between(1.6, 1.9)
-end
-
-Then('the slow elements are waited for') do
-  start_time = Time.now
-  @test_site.home.slow_elements(count: 1)
-
-  expect(Time.now - start_time).to be_between(1.6, 1.9)
-end
-
-Then('the boolean test for a slow element is waited for') do
-  start_time = Time.now
-
-  expect(@test_site.home.has_some_slow_element?).to be true
-
-  expect(Time.now - start_time).to be_between(1.6, 1.9)
-end
-
-Then('the boolean test for slow elements are waited for') do
-  start_time = Time.now
-
-  expect(@test_site.home.has_slow_elements?).to be true
-
-  expect(Time.now - start_time).to be_between(1.6, 1.9)
-end
-
-Then('the slow elements are not waited for') do
-  start_time = Time.now
-
-  expect { @test_site.home.slow_elements(count: 1) }
-    .to raise_error(Capybara::ElementNotFound)
-
-  expect(Time.now - start_time).to be < 0.2
-end
-
-Then('the slow section is waited for') do
-  start_time = Time.now
-  @test_site.home.slow_section(count: 1)
-
-  expect(Time.now - start_time).to be_between(1.6, 1.9)
-end
-
-Then('the boolean test for a slow section is waited for') do
-  start_time = Time.now
-
-  expect(@test_site.home.has_slow_section?(count: 1)).to be true
-
-  expect(Time.now - start_time).to be_between(1.6, 1.9)
-end
-
-Then('the slow section is not waited for') do
-  start_time = Time.now
-
-  expect { @test_site.home.slow_section(count: 1) }
-    .to raise_error(Capybara::ElementNotFound)
-
-  expect(Time.now - start_time).to be < 0.2
-end
-
-Then('the boolean test for slow sections are waited for') do
-  start_time = Time.now
-
-  expect(@test_site.home.has_slow_sections?(count: 2)).to be true
-
-  expect(Time.now - start_time).to be_between(1.6, 1.9)
-end
-
-Then('the slow sections are waited for') do
-  start_time = Time.now
-  @test_site.home.slow_sections(count: 2)
-
-  expect(Time.now - start_time).to be_between(1.6, 1.9)
-end
-
-Then('the slow sections are not waited for') do
-  start_time = Time.now
-
-  expect { @test_site.home.slow_sections(count: 2) }
-    .to raise_error(Capybara::ElementNotFound)
-
-  expect(Time.now - start_time).to be < 0.2
-end
-
-Then('I can override the waiting time using Capybara.using_wait_time') do
+Then('I can override the wait time using a Capybara.using_wait_time block') do
   start_time = Time.now
   Capybara.using_wait_time(1) do
     expect { @test_site.home.some_slow_element }
