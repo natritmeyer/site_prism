@@ -1,16 +1,14 @@
 <!-- #291 - Jul 20th - Last update to this document -->
-## [Unreleased]
+## [2.17] - Unreleased
 ### Removed
-- N/A
-
-### Added
-- N/A
+- `collection` has been removed from the SitePrism DSL (Was just an alias of `sections`)
+([luke-hill])
 
 ### Changed
-- N/A
-
-### Fixed
-- N/A
+- Made all configuration options throw deprecation warnings
+([luke-hill])
+- Advised users of a better way to use in-line waiting keys instead of `wait_for_*` methods (Deprecated)
+([luke-hill])
 
 ## [2.16] - 2018-08-22
 ### Added
