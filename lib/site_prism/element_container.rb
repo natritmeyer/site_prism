@@ -66,6 +66,11 @@ module SitePrism
       SitePrism.use_implicit_waits || options.key?(:wait)
     end
 
+    def deprecate(previous, new = nil)
+      warn "Usage of #{previous} is now deprecated and should be not used."
+      warn "Use #{new} instead." if new
+    end
+
     # rubocop:disable Metrics/ModuleLength
     module ClassMethods
       attr_reader :mapped_items, :expected_items
@@ -303,11 +308,6 @@ in section creation or set_default_search_arguments within section class")
 
       def extract_search_arguments(args)
         args if args && !args.empty?
-      end
-
-      def deprecate(previous, new = nil)
-        warn "Usage of #{previous} is now deprecated and should be not used."
-        warn "Use #{new} instead." if new
       end
     end
     # rubocop:enable Metrics/ModuleLength
