@@ -14,7 +14,6 @@ describe 'iFrame' do
     it 'cannot be called out of block context' do
       expect { page.iframe }
         .to raise_error(SitePrism::MissingBlockError)
-        .with_message(error_message)
     end
   end
 

@@ -16,15 +16,10 @@ module SitePrism
   class NoUrlMatcherForPageError < PageLoadError; end
 
   # The URL matcher was not recognised as a Regex or String and as such
-  # it couldn't be parsed by Addressable
+  # it couldn't be parsed by Addressable. It also could be caused by
+  # the usage of templated port numbers - which aren't supported
   # Formerly known as `InvalidUrlMatcher`
-  class InvalidUrlMatcherError < PageLoadError
-    def message
-      warn 'Templated port numbers are unsupported.'
-
-      'Your URL and/or matcher could not be interpreted.'
-    end
-  end
+  class InvalidUrlMatcherError < PageLoadError; end
 
   # A SitePrism defined DSL item was defined without a selector
   # Formerly known as `NoSelectorForElement`
@@ -39,17 +34,14 @@ module SitePrism
   # Formerly known as `TimeoutException`
   class TimeoutError < SitePrismError; end
 
-  # These errors are not yet migrated and are fired from their source
-  # They are raised when the meta-programmed method has not yielded true
-  # in the prescribed time limit
-  # Formerly known as `TimeOutWaitingForExistenceError`,
-  # `TimeOutWaitingForNonExistenceError`
-  # `TimeOutWaitingForElementVisibility` and
-  # `TimeOutWaitingForElementInvisibility` respectively
-
-  class ExistenceTimeoutError < TimeoutError; end
-  class NonExistenceTimeoutError < TimeoutError; end
+  # The wait_until_*_visible meta-programmed method didn't evaluate to true
+  # within the prescribed time limit
+  # Formerly known as `TimeOutWaitingForElementVisibility`
   class ElementVisibilityTimeoutError < TimeoutError; end
+
+  # The wait_until_*_invisible meta-programmed method didn't evaluate to true
+  # within the prescribed time limit
+  # Formerly known as `TimeOutWaitingForElementInvisibility`
   class ElementInvisibilityTimeoutError < TimeoutError; end
 
   # Generic Block validation family of errors inherit from this error
@@ -57,21 +49,11 @@ module SitePrism
 
   # A Block was passed to the method, which it cannot interpret
   # Formerly known as `UnsupportedBlock`
-  class UnsupportedBlockError < BlockError
-    def message
-      warn 'section and iframe are the only items which can accept a block.'
-
-      "#{super} does not accept blocks."
-    end
-  end
+  class UnsupportedBlockError < BlockError; end
 
   # A Block was required, but not passed into the iframe at runtime
   # Formerly known as `BlockMissingError`
-  class MissingBlockError < BlockError
-    def message
-      'You can only use iFrames in a block context - Please pass in a block.'
-    end
-  end
+  class MissingBlockError < BlockError; end
 
   # A page was loaded via #load - And then failed one of the load validations
   # that was either pre-defined or defined by the user
