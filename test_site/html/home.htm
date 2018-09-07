@@ -8,34 +8,29 @@
     }
 
     function load() {
-      //create the link
+      //create the link with text/class/href properties
       slow_link = document.createElement("a");
-      //create a text node
-      some_text = document.createTextNode("slow link");
-      //set the link's href
+      slow_link.innerText = "slow link";
+      slow_link.setAttribute("class", "slow");
       slow_link.setAttribute('href', 'slowly.htm');
-      //set the link's class
-      slow_link.setAttribute('class', 'slow');
-      //add the text to the link
-      slow_link.appendChild(some_text);
       //get the element that we're going to add the link to
       dumping_ground = document.getElementById('dumping_ground');
-      //wait for ~2s and then add the links
-      var t1 = setTimeout("dumping_ground.appendChild(slow_link);", 1750);
-      var t2 = setTimeout("document.getElementById('will_become_visible').style.display='block';", 1750);
-      var t3 = setTimeout("document.getElementById('will_become_invisible').style.display='none';", 1750);
-      var t4 = setTimeout("document.getElementById('will_become_nonexistent').remove();", 1750);
-      var t5 = setTimeout("document.getElementById('link_container_will_become_nonexistent').remove();", 1750);
+      //wait for a short while then add the links
+      setTimeout("dumping_ground.appendChild(slow_link);", 1150);
+      setTimeout("document.getElementById('will_become_visible').style.display='block';", 1150);
+      setTimeout("document.getElementById('will_become_invisible').style.display='none';", 1150);
+      setTimeout("document.getElementById('will_become_nonexistent').remove();", 1150);
+      setTimeout("document.getElementById('link_container_will_become_nonexistent').remove();", 1150);
 
-      var slow_section = document.createElement("div");
+      slow_section = document.createElement("div");
       slow_section.className = 'slow-section first';
-      var slow_section2 = document.createElement("div");
+      slow_section2 = document.createElement("div");
       slow_section2.className = 'slow-section second';
       setTimeout(function() {
         [slow_section, slow_section2].forEach(function(item) {
           dumping_ground.appendChild(item);
         });
-      }, 1750)
+      }, 1150)
     }
     window.onload = load;
     </script>

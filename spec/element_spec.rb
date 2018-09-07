@@ -17,7 +17,6 @@ describe SitePrism::Page do
     it { is_expected.to respond_to(:has_no_bob?) }
     it { is_expected.to respond_to(:wait_until_bob_visible) }
     it { is_expected.to respond_to(:wait_until_bob_invisible) }
-    it { is_expected.to respond_to(:all_there?) }
 
     describe '#all_there?' do
       subject { page.all_there? }
@@ -46,8 +45,6 @@ describe SitePrism::Page do
       end
 
       it 'only lists the SitePrism objects that are present on the page' do
-        p subject
-
         expect(subject.elements_present).to eq(%i[bob success_msg])
       end
     end

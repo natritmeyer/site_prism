@@ -12,14 +12,6 @@ module SitePrism
       Capybara.default_max_wait_time
     end
 
-    def checker_wait_time
-      if SitePrism.use_implicit_waits
-        wait_time
-      else
-        0
-      end
-    end
-
     def raise_if_block(obj, name, has_block, type)
       return unless has_block
       warn "Type passed in: #{type}"
@@ -29,25 +21,26 @@ module SitePrism
 
     # Sanitize method called before calling any SitePrism DSL method or
     # meta-programmed method. This ensures that the Capybara query is correct.
-    #
     # Accepts any combination of arguments sent at DSL definition or runtime
     # and combines them in such a way that Capybara can operate with them.
-    def merge_args(find_args, runtime_args, override_options = {})
+    # Initially it will duplicate all locators and run-time arguments,
+    # then it will combine them with any visibility arguments if defined.
+    def merge_args(find_args, runtime_args, visibility_args = {})
       find_args = find_args.dup
       runtime_args = runtime_args.dup
-      options = {}
+
+      options = visibility_args
       options.merge!(find_args.pop) if find_args.last.is_a? Hash
       options.merge!(runtime_args.pop) if runtime_args.last.is_a? Hash
-      options.merge!(override_options)
-      options[:wait] = false unless wait_required?(options)
+      options[:wait] = wait_time unless wait_key_present?(options)
 
       return [*find_args, *runtime_args] if options.empty?
 
       [*find_args, *runtime_args, options]
     end
 
-    def wait_required?(options)
-      SitePrism.use_implicit_waits || options.key?(:wait)
+    def wait_key_present?(options)
+      options.key?(:wait)
     end
 
     # rubocop:disable Metrics/ModuleLength
@@ -153,8 +146,7 @@ module SitePrism
         method_name = "has_#{element_name}?"
         create_helper_method(method_name, *find_args) do
           define_method(method_name) do |*runtime_args|
-            visibility_args = { wait: checker_wait_time }
-            args = merge_args(find_args, runtime_args, visibility_args)
+            args = merge_args(find_args, runtime_args)
             element_exists?(*args)
           end
         end
@@ -164,8 +156,7 @@ module SitePrism
         method_name = "has_no_#{element_name}?"
         create_helper_method(method_name, *find_args) do
           define_method(method_name) do |*runtime_args|
-            visibility_args = { wait: checker_wait_time }
-            args = merge_args(find_args, runtime_args, visibility_args)
+            args = merge_args(find_args, runtime_args)
             element_does_not_exist?(*args)
           end
         end
@@ -174,9 +165,8 @@ module SitePrism
       def create_visibility_waiter(element_name, *find_args)
         method_name = "wait_until_#{element_name}_visible"
         create_helper_method(method_name, *find_args) do
-          define_method(method_name) do |timeout = wait_time, *runtime_args|
-            visibility_args = { visible: true, wait: timeout }
-            args = merge_args(find_args, runtime_args, visibility_args)
+          define_method(method_name) do |*runtime_args|
+            args = merge_args(find_args, runtime_args, visible: true)
             return true if element_exists?(*args)
             raise SitePrism::ElementVisibilityTimeoutError
           end
@@ -186,9 +176,8 @@ module SitePrism
       def create_invisibility_waiter(element_name, *find_args)
         method_name = "wait_until_#{element_name}_invisible"
         create_helper_method(method_name, *find_args) do
-          define_method(method_name) do |timeout = wait_time, *runtime_args|
-            visibility_args = { visible: true, wait: timeout }
-            args = merge_args(find_args, runtime_args, visibility_args)
+          define_method(method_name) do |*runtime_args|
+            args = merge_args(find_args, runtime_args, visible: true)
             return true if element_does_not_exist?(*args)
             raise SitePrism::ElementInvisibilityTimeoutError
           end

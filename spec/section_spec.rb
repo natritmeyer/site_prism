@@ -2,9 +2,20 @@
 
 require 'spec_helper'
 
-describe SitePrism::Page do
+describe SitePrism::Section do
   class Section < SitePrism::Section; end
   class Page < SitePrism::Page; end
+
+  let(:dont_wait) { { wait: 0 } }
+  let(:section_without_block) { SitePrism::Section.new(Page.new, locator) }
+  let!(:locator) { instance_double('Capybara::Node::Element') }
+  let(:section_with_block) do
+    SitePrism::Section.new(Page.new, locator) { 1 + 1 }
+  end
+
+  it 'responds to Capybara methods' do
+    expect(section_without_block).to respond_to(*Capybara::Session::DSL_METHODS)
+  end
 
   describe '.section' do
     it 'should be settable' do
@@ -133,7 +144,7 @@ class or/and a block as the second argument."
       let(:search_arguments) { ['.other-section'] }
 
       it 'returns the search arguments for a section' do
-        expect(page).to receive(:_find).with(*search_arguments)
+        expect(page).to receive(:_find).with(*search_arguments, **dont_wait)
 
         page.section_with_locator
       end
@@ -142,7 +153,7 @@ class or/and a block as the second argument."
     context 'search arguments are not provided during the DSL definition' do
       context 'default search arguments are set on both parent and section' do
         it 'returns the default search arguments set on the section' do
-          expect(page).to receive(:_find).with(*search_arguments)
+          expect(page).to receive(:_find).with(*search_arguments, **dont_wait)
 
           page.section_using_defaults
         end
@@ -150,7 +161,7 @@ class or/and a block as the second argument."
 
       context 'default search arguments are only set on the parent section' do
         it 'returns the default search arguments set on the parent section' do
-          expect(page).to receive(:_find).with(*search_arguments)
+          expect(page).to receive(:_find).with(*search_arguments, **dont_wait)
 
           page.section_using_defaults_from_parent
         end
@@ -174,16 +185,6 @@ set_default_search_arguments within section class"
         end
       end
     end
-  end
-
-  it { is_expected.to respond_to(*Capybara::Session::DSL_METHODS) }
-end
-
-describe SitePrism::Section do
-  let(:section_without_block) { SitePrism::Section.new(Page.new, locator) }
-  let!(:locator) { instance_double('Capybara::Node::Element') }
-  let(:section_with_block) do
-    SitePrism::Section.new(Page.new, locator) { 1 + 1 }
   end
 
   describe '.default_search_arguments' do
@@ -255,7 +256,7 @@ describe SitePrism::Section do
       it 'passes in a hash of query arguments' do
         expect(page)
           .to receive(:_find)
-          .with(*locator_args, **query_args)
+          .with(*locator_args, **query_args, **dont_wait)
 
         page.new_section
       end
@@ -266,7 +267,7 @@ describe SitePrism::Section do
       let(:locator_args) { '.class-two' }
 
       it 'passes in an empty hash, which is then sanitized out' do
-        expect(page).to receive(:_find).with(*locator_args)
+        expect(page).to receive(:_find).with(*locator_args, **dont_wait)
 
         page.new_element
       end
@@ -316,10 +317,6 @@ describe SitePrism::Section do
 
       section_without_block.evaluate_script('How High?') == 'To the sky!'
     end
-  end
-
-  it 'responds to Capybara methods' do
-    expect(section_without_block).to respond_to(*Capybara::Session::DSL_METHODS)
   end
 
   describe '#parent_page' do

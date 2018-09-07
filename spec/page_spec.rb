@@ -82,6 +82,8 @@ is called before the matcher has been set" do
       .with_message('Home#nonexistent_sections does not accept blocks.')
   end
 
+  it { is_expected.to respond_to(*Capybara::Session::DSL_METHODS) }
+
   describe '#page' do
     subject { page_with_url.page }
 
@@ -383,13 +385,13 @@ from the be_displayed matcher" do
       it 'lets you get at the captures' do
         swap_current_url('http://localhost:3000/foos/15')
 
-        expect(page.url_matches[1]).to eq '15'
+        expect(page.url_matches[1]).to eq('15')
       end
 
       it "returns nil if current_url doesn't match the url_matcher" do
         swap_current_url('http://localhost:3000/bars/15')
 
-        expect(page.url_matches).to eq nil
+        expect(page.url_matches).to be nil
       end
     end
 

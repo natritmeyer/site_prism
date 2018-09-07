@@ -3,14 +3,14 @@ Feature: Waiting for Elements
   I want to be able to explicitly wait for an element
   In order to interact with the element once it is ready
 
-  @implicit_waits @migrated
+  @migrated
   Scenario: Wait for Element - Positive
     When I navigate to the home page
     And I wait for the element that takes a while to appear
     Then the slow element appears
     And I am not made to wait for the full default duration
 
-  @implicit_waits @migrated
+  @migrated
   Scenario: Wait for Element - Exceptions - Negative
     When I navigate to the home page
     Then an exception is raised when I wait for an element that won't appear
@@ -66,22 +66,6 @@ Feature: Waiting for Elements
     And I remove the parent section of the element
     Then an error is thrown when waiting for an element in a vanishing section
 
-  Scenario: Element Is Not Automatically Waited For
+  Scenario: Wait time can be overridden at run-time in a block
     When I navigate to the home page
-    Then the slow element is not waited for
-    And implicit waits should not be enabled
-
-  Scenario: Elements Collections Are Not Automatically Waited For
-    When I navigate to the home page
-    Then the slow elements are not waited for
-    And implicit waits should not be enabled
-
-  Scenario: Section Is Not Automatically Waited For
-    When I navigate to the home page
-    Then the slow section is not waited for
-    And implicit waits should not be enabled
-
-  Scenario: Sections Collections Are Not Automatically Waited For
-    When I navigate to the home page
-    Then the slow sections are not waited for
-    And implicit waits should not be enabled
+    Then I can override the wait time using a Capybara.using_wait_time block

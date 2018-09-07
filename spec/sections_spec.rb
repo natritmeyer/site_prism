@@ -24,13 +24,6 @@ describe SitePrism::Page do
     end
   end
 
-  it { is_expected.to respond_to(:plural_sections) }
-  it { is_expected.to respond_to(:has_plural_sections?) }
-  it { is_expected.to respond_to(:has_no_plural_sections?) }
-  it { is_expected.to respond_to(:wait_until_plural_sections_visible) }
-  it { is_expected.to respond_to(:wait_until_plural_sections_invisible) }
-  it { is_expected.to respond_to(:all_there?) }
-
   it 'should return an enumerable result' do
     expect(subject.plural_sections).to be_an Array
   end
@@ -42,7 +35,7 @@ and without search arguments" do
     before do
       allow(subject)
         .to receive(:_all)
-        .with(*search_arguments)
+        .with(*search_arguments, wait: 0)
         .and_return(%i[element1 element2])
     end
 

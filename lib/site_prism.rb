@@ -12,12 +12,9 @@ module SitePrism
   autoload :AddressableUrlMatcher, 'site_prism/addressable_url_matcher'
 
   class << self
-    attr_accessor :use_implicit_waits
-
     def configure
-      yield self
+      warn 'SitePrism configuration is now removed.'
+      warn 'All options fed directly from Capybara.'
     end
   end
-
-  @use_implicit_waits = true
 end
