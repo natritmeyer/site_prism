@@ -23,11 +23,7 @@ module SitePrism
 
   # A SitePrism defined DSL item was defined without a selector
   # Formerly known as `NoSelectorForElement`
-  class InvalidElementError < SitePrismError
-    def message
-      "#{super} has been derived from an item with no selectors defined."
-    end
-  end
+  class InvalidElementError < SitePrismError; end
 
   # The condition that was being evaluated inside the block did not evaluate
   # to true within the time limit

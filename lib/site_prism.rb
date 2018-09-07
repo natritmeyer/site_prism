@@ -4,17 +4,26 @@ require 'site_prism/error'
 require 'addressable/template'
 
 module SitePrism
-  autoload :ElementContainer, 'site_prism/element_container'
+  autoload :AddressableUrlMatcher, 'site_prism/addressable_url_matcher'
   autoload :ElementChecker, 'site_prism/element_checker'
+  autoload :ElementContainer, 'site_prism/element_container'
+  autoload :Logger, 'site_prism/logger'
   autoload :Page, 'site_prism/page'
   autoload :Section, 'site_prism/section'
   autoload :Waiter, 'site_prism/waiter'
-  autoload :AddressableUrlMatcher, 'site_prism/addressable_url_matcher'
 
   class << self
+    attr_accessor :enable_logging
+
     def configure
       warn 'SitePrism configuration is now removed.'
       warn 'All options fed directly from Capybara.'
     end
+
+    def logger
+      @logger ||= SitePrism::Logger.new.create($stdout)
+    end
   end
+
+  @enable_logging = false
 end

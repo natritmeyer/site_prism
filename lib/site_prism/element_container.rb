@@ -14,9 +14,12 @@ module SitePrism
 
     def raise_if_block(obj, name, has_block, type)
       return unless has_block
-      warn "Type passed in: #{type}"
 
-      raise SitePrism::UnsupportedBlockError, "#{obj.class}##{name}"
+      SitePrism.logger.debug("Type passed in: #{type}")
+      SitePrism.logger.warn('section / iframe are the only items which can accept blocks.')
+      SitePrism.logger.error("#{obj.class}##{name} does not accept blocks")
+
+      raise SitePrism::UnsupportedBlockError
     end
 
     # Sanitize method called before calling any SitePrism DSL method or
@@ -28,8 +31,10 @@ module SitePrism
     def merge_args(find_args, runtime_args, visibility_args = {})
       find_args = find_args.dup
       runtime_args = runtime_args.dup
-
       options = visibility_args
+
+      SitePrism.logger.debug("Initial args: #{find_args}, #{runtime_args}.")
+
       options.merge!(find_args.pop) if find_args.last.is_a? Hash
       options.merge!(runtime_args.pop) if runtime_args.last.is_a? Hash
       options[:wait] = wait_time unless wait_key_present?(options)
@@ -114,7 +119,7 @@ module SitePrism
 
       def build(name, *find_args)
         if find_args.empty?
-          create_no_selector(name)
+          create_error_method(name)
         else
           add_to_mapped_items(name)
           yield
@@ -136,7 +141,7 @@ module SitePrism
 
       def create_helper_method(proposed_method_name, *find_args)
         if find_args.empty?
-          create_no_selector(proposed_method_name)
+          create_error_method(proposed_method_name)
         else
           yield
         end
@@ -184,9 +189,11 @@ module SitePrism
         end
       end
 
-      def create_no_selector(method_name)
-        define_method(method_name) do
-          raise SitePrism::InvalidElementError, "#{self.class}##{method_name}"
+      def create_error_method(name)
+        SitePrism.logger.debug("#{name} has come from an item with 0 locators.")
+
+        define_method(name) do
+          raise SitePrism::InvalidElementError
         end
       end
 
