@@ -1,5 +1,18 @@
-<!-- #291 - Jul 20th - Last update to this document -->
-## [2.17] - Unreleased
+<!-- #291 - Jul 20th - Last update to this document (Siloed v2.17 not in master) -->
+## [Unreleased]
+### Removed
+- ...
+
+### Added
+- ...
+
+### Changed
+- ...
+
+### Fixed
+- ...
+
+## [2.17] - 2018-09-07
 ### Removed
 - `collection` has been removed from the SitePrism DSL (Was just an alias of `sections`)
 ([luke-hill])
@@ -22,7 +35,7 @@
 - Upped Version Dependencies
   - `capybara` must be at least `2.15`
   - `selenium-webdriver ~> 3.5`
-  - Required Ruby Version is now 2.2+
+  - **Required Ruby Version is now 2.2+**
 ([luke-hill])
 
 - Altered HISTORY.md into more hyperlinked and declarative format
@@ -60,7 +73,7 @@
 - Improve runtime of cucumber tests by around 30% overall by tweaking some internal JS code
 ([luke-hill])
 
-- Upped Capybara Version Dependency `capybara >= 2.15, < 3.3`
+- Upped Capybara Version Dependency `capybara >= 2.14, < 3.3`
 ([luke-hill])
 
 - Altered travis config to test for lowest gem configuration permissible in site_prism
@@ -636,7 +649,8 @@ Removed testing for Ruby `2.0` on Travis
 - First release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/natritmeyer/site_prism/compare/v2.15.1...master
+[Unreleased]: https://github.com/natritmeyer/site_prism/compare/v2.17...master
+[2.17]: https://github.com/natritmeyer/site_prism/compare/v2.16...2.17
 [2.16]:       https://github.com/natritmeyer/site_prism/compare/v2.15.1...v2.16
 [2.15.1]:     https://github.com/natritmeyer/site_prism/compare/v2.15...v2.15.1
 [2.15]:       https://github.com/natritmeyer/site_prism/compare/v2.14...v2.15
