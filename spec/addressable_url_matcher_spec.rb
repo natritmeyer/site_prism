@@ -56,12 +56,6 @@ describe SitePrism::AddressableUrlMatcher do
       expect_matches('//bungle.com').to be false
     end
 
-    it 'raises an error on templated port' do
-      expect { matches? '//bazzle.com:{port}' }
-        .to raise_error(SitePrism::InvalidUrlMatcherError)
-        .with_message('Your URL and/or matcher could not be interpreted.')
-    end
-
     it 'passes on correct static port' do
       expect_matches('//bazzle.com:8443').to be true
     end
@@ -173,18 +167,21 @@ describe SitePrism::AddressableUrlMatcher do
       ).to be false
     end
 
+    it 'raises an error on templated port' do
+      expect { matches?('//bazzle.com:{port}') }
+        .to raise_error(SitePrism::InvalidUrlMatcherError)
+        .with_message('Your URL and/or matcher could not be interpreted.')
+    end
+
     def expect_matches(*args)
       expect(matches?(*args))
     end
 
     def matches?(*args)
-      if args.last.is_a?(::Hash)
-        mappings = args.pop
-      else
-        mappings = {}
-      end
+      mappings = args.pop if args.last.is_a?(Hash)
+      mappings ||= {}
+      pattern = args.first
 
-      pattern = args.first || raise('Must specify a pattern for matches?')
       SitePrism::AddressableUrlMatcher.new(pattern).matches?(url, mappings)
     end
   end

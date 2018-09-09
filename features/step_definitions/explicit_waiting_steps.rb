@@ -56,7 +56,7 @@ Then('the removing section disappears') do
 end
 
 Then("an exception is raised when I wait for a section that won't appear") do
-  expect { @test_site.section_experiments.slow_section(wait: 0.1) }
+  expect { @test_site.section_experiments.slow_section(wait: 0.05) }
     .to raise_error(Capybara::ElementNotFound)
 end
 

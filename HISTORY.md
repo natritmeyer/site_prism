@@ -5,8 +5,9 @@
   - As per deprecation warnings, users should use the regular methods with a `wait` parameter
 ([luke-hill])
 
-- All SitePrism configuration options:
-  - The default load validations have been removed, detailed in the Upgrading docs
+- All SitePrism configuration options ...
+  - A warning message is thrown when a user sets any configuration option using `SitePrism.configure`
+  - Default load validations should now be customised by the user (Detailed in the Upgrading docs)
   - `raise_on_wait_fors` was only triggered on the `wait_for` / `wait_for_no` methods
   - Implicit waiting is now hard-coded to always be on.
     - This can be overridden at runtime by using a `wait` key
@@ -15,9 +16,6 @@
 
 ### Added
 - An UPGRADING.md document to help facilitate the switch from SitePrism v2 to v3
-([luke-hill])
-
-- A warning message is thrown when a user sets any configuration option using `SitePrism.configure`
 ([luke-hill])
 
 ### Changed

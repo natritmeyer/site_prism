@@ -12,9 +12,9 @@ $ cp .env.example .env
 $ bundle
 ```
 
-_You can amend which browser you run integration tests on by editing the value in `.env`_
+_You can amend which browser you run feature tests on by editing the value in `.env`_
 
-- Write your code (adding unit / feature tests / documentation), where appropriate
+- Write your code. Make sure to add unit / feature tests AND documentation (If appropriate)
 - Run `bundle exec rake` and ensure it passes
 - Submit a pull request
 

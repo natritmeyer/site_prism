@@ -10,8 +10,8 @@
       slow_link.innerText = "slow link";
       slow_link.setAttribute("class", "slow");
       //wait for a short while then add the links
-      setTimeout("dumping_ground.appendChild(slow_link);", 250);
-      setTimeout("document.getElementById('removing-element').remove();", 250);
+      setTimeout("dumping_ground.appendChild(slow_link);", 200);
+      setTimeout("document.getElementById('removing-element').remove();", 200);
     }
     window.onload = load;
     </script>
@@ -31,22 +31,18 @@
     <div class="search-results">
       <div class="search-result" id="first_search_result">
         <span class="title">title 0</span>
-        <a href="whatever">link 0</a>
         <span class="description">description 0</span>
       </div>
       <div class="search-result">
         <span class="title">title 1</span>
-        <a href="whatever">link 1</a>
         <span class="description">description 1</span>
       </div>
       <div class="search-result">
         <span class="title">title 2</span>
-        <a href="whatever">link 2</a>
         <span class="description">description 2</span>
       </div>
       <div class="search-result">
         <span class="title">title 3</span>
-        <a href="whatever">link 3</a>
         <span class="description">description 3</span>
       </div>
     </div>
