@@ -1,16 +1,40 @@
-<!-- #291 - Jul 20th - Last update to this document (Siloed v2.17 not in master) -->
-## [Unreleased]
+<!-- #320 - Sep 9th - Last update to this document -->
+## [3.0.beta] - 2018-09-15
 ### Removed
-- ...
+- `wait_for_<element>` and `wait_for_no_<element>` have been removed
+  - As per deprecation warnings, users should use the regular methods with a `wait` parameter
+([luke-hill])
+
+- All SitePrism configuration options:
+  - The default load validations have been removed, detailed in the Upgrading docs
+  - `raise_on_wait_fors` was only triggered on the `wait_for` / `wait_for_no` methods
+  - Implicit waiting is now hard-coded to always be on.
+    - This can be overridden at runtime by using a `wait` key
+    - You can still not use implicit waits by setting `Capybara.default_max_wait_time = 0`
+([luke-hill])
 
 ### Added
-- ...
+- An UPGRADING.md document to help facilitate the switch from SitePrism v2 to v3
+([luke-hill])
+
+- A warning message is thrown when a user sets any configuration option using `SitePrism.configure`
+([luke-hill])
 
 ### Changed
-- ...
+- Most error message classes have been re-written into a more Ruby naming scheme (Ending in Error)
+  - The previously aliased names have all been removed
+  - The `error.rb` file details the previous names to help with the transition
+([luke-hill])
+
+- Upped Version Dependency of `selenium-webdriver` to `~> 3.6`
+([luke-hill])
+
+- SitePrism will now use the configured Capybara wait time to implicitly wait at all times
+([luke-hill])
 
 ### Fixed
-- ...
+- The names/locations of some waiting tests, which were testing implicit instead of explicit waits
+([luke-hill])
 
 ## [2.17] - 2018-09-07
 ### Removed
@@ -649,7 +673,7 @@ Removed testing for Ruby `2.0` on Travis
 - First release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/natritmeyer/site_prism/compare/v2.17...master
+[3.0.beta]: https://github.com/natritmeyer/site_prism/compare/v2.17...master
 [2.17]: https://github.com/natritmeyer/site_prism/compare/v2.16...2.17
 [2.16]:       https://github.com/natritmeyer/site_prism/compare/v2.15.1...v2.16
 [2.15.1]:     https://github.com/natritmeyer/site_prism/compare/v2.15...v2.15.1
