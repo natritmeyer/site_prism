@@ -65,21 +65,21 @@ is called before the matcher has been set" do
   end
 
   it 'should raise an exception if passing a block to an element' do
-    expect { Home.new.invisible_element { :any_old_block } }
+    expect { Home.new.go_button { :any_old_block } }
       .to raise_error(SitePrism::UnsupportedBlockError)
-      .with_message('Home#invisible_element does not accept blocks.')
+      .with_message('Home#go_button does not accept blocks.')
   end
 
   it 'should raise an exception if passing a block to elements' do
-    expect { Home.new.removing_links { :any_old_block } }
+    expect { Home.new.rows { :any_old_block } }
       .to raise_error(SitePrism::UnsupportedBlockError)
-      .with_message('Home#removing_links does not accept blocks.')
+      .with_message('Home#rows does not accept blocks.')
   end
 
   it 'should raise an exception if passing a block to sections' do
-    expect { Home.new.nonexistent_sections { :any_old_block } }
+    expect { Home.new.removing_sections { :any_old_block } }
       .to raise_error(SitePrism::UnsupportedBlockError)
-      .with_message('Home#nonexistent_sections does not accept blocks.')
+      .with_message('Home#removing_sections does not accept blocks.')
   end
 
   it { is_expected.to respond_to(*Capybara::Session::DSL_METHODS) }

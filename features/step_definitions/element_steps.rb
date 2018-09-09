@@ -12,12 +12,12 @@ Then('I can see the welcome header') do
   expect(@test_site.home.welcome_header.text).to eq('Welcome')
 end
 
-Then('I can see a header using a capybara text query') do
-  expect(@test_site.home).to have_welcome_headers(text: 'Sub-Heading 2')
+Then('I can see the welcome header using a capybara text query') do
+  expect(@test_site.home).to have_welcome_header(text: 'Welcome')
 end
 
 Then('I can see a row using a capybara class query') do
-  expect(@test_site.home).to have_rows(class: 'link_c')
+  expect(@test_site.home).to have_rows(class: 'element_c')
 end
 
 Then('I can see the first row') do
@@ -37,20 +37,20 @@ Then('I can see the welcome message') do
     .to eq('This is the home page, there is some stuff on it')
 end
 
-Then('I can see a message using a capybara text query') do
+Then('I can see the welcome message using a capybara text query') do
   sample_text = 'This is the home page, there is some stuff on it'
 
-  expect(@test_site.home).to have_welcome_messages(text: sample_text)
+  expect(@test_site.home).to have_welcome_message(text: sample_text)
 end
 
 Then('I can see the the HREF of the link') do
-  expect(@test_site.home).to have_link_to_search_page
+  expect(@test_site.home).to have_search_page_link
 
-  expect(@test_site.home.link_to_search_page['href']).to include('search.htm')
+  expect(@test_site.home.search_page_link['href']).to include('search.htm')
 end
 
 Then('I can see the CLASS of the link') do
-  expect(@test_site.home.link_to_search_page['class'])
+  expect(@test_site.home.search_page_link['class'])
     .to eq('link link--undefined')
 end
 
@@ -73,11 +73,11 @@ Then('not all mapped elements are present') do
 end
 
 Then('the previously invisible element is visible') do
-  expect(@test_site.home).to have_shy_element
+  expect(@test_site.home).to have_slow_element
 end
 
 Then('the previously visible element is invisible') do
-  expect(@test_site.home.retiring_element).not_to be_visible
+  expect(@test_site.home.vanishing).not_to be_visible
 end
 
 Then('I am not made to wait to check a nonexistent element for invisibility') do
@@ -88,12 +88,12 @@ Then('I am not made to wait to check a nonexistent element for invisibility') do
 end
 
 When('I remove the parent section of the element') do
-  @test_site.home.remove_container_with_element_btn.click
+  @test_site.home.remove_container_button.click
 end
 
 Then('an error is thrown when waiting for an element in a vanishing section') do
   expect do
-    @test_site.home.container_with_element.wait_until_embedded_element_invisible
+    @test_site.home.container.wait_until_embedded_element_invisible
   end.to raise_error(Capybara::ElementNotFound)
 end
 

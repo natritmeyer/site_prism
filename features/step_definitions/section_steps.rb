@@ -7,7 +7,7 @@ Then('I can see elements in the section') do
 end
 
 Then('I can see a section in a section') do
-  expect(@test_site.section_experiments.parent_section.child_section)
+  expect(@test_site.section_experiments.parent_div.child)
     .to have_nice_label(text: 'something')
 end
 
@@ -50,12 +50,12 @@ Then('I can see a welcome header') do
 end
 
 Then('I can see a section within a section using nested blocks') do
-  expect(@test_site.section_experiments).to have_parent_section
+  expect(@test_site.section_experiments).to have_parent_div
 
-  @test_site.section_experiments.parent_section do |parent|
-    expect(parent.child_section.nice_label.text).to eq('something')
+  @test_site.section_experiments.parent_div do |parent|
+    expect(parent.child.nice_label.text).to eq('something')
 
-    parent.child_section do |child|
+    parent.child do |child|
       expect(child).to have_nice_label(text: 'something')
     end
   end
@@ -91,21 +91,21 @@ Then('I can get access to a page through a section') do
 end
 
 Then('I can get a parent section for a child section') do
-  parent_section = @test_site.section_experiments.parent_section
+  parent_div = @test_site.section_experiments.parent_div
 
-  expect(parent_section.child_section.parent).to eq(parent_section)
+  expect(parent_div.child.parent).to eq(parent_div)
 end
 
 Then('I can get access to a page through a child section') do
   page = @test_site.section_experiments
 
-  expect(page.parent_section.child_section.parent.parent).to eq(page)
+  expect(page.parent_div.child.parent.parent).to eq(page)
 end
 
 Then('I can get direct access to a page through a child section') do
   page = @test_site.section_experiments
 
-  expect(page.parent_section.child_section.parent_page).to eq(page)
+  expect(page.parent_div.child.parent_page).to eq(page)
 end
 
 Then('the page contains a section with no element') do
@@ -113,22 +113,16 @@ Then('the page contains a section with no element') do
 end
 
 Then('the page contains a deeply nested span') do
-  deeply_nested_section = @test_site
-                          .section_experiments
-                          .level_1[0]
-                          .level_2[0]
-                          .level_3[0]
-                          .level_4[0]
-                          .level_5[0]
+  nested_section = @test_site.section_experiments.level_1.level_2.level_3
 
-  expect(deeply_nested_section.deep_span.text).to eq('Deep span')
+  expect(nested_section.deep_span.text).to eq('Deep span')
 end
 
 Then("I can see a section's full text") do
   expect(@test_site.home.people.text)
     .to eq('People person 1 person 2 person 3 person 4 object 1')
 
-  expect(@test_site.home.container_with_element.text)
+  expect(@test_site.home.container.text)
     .to eq('This will be removed when you click submit above')
 end
 

@@ -14,9 +14,9 @@ $LOAD_PATH << './lib'
 require 'site_prism'
 require 'test_site'
 require 'sections/people'
-require 'sections/no_element_within_section'
-require 'sections/container_with_element'
-require 'pages/my_iframe'
+require 'sections/blank'
+require 'sections/container'
+require 'pages/iframe'
 require 'pages/home'
 
 Capybara.default_max_wait_time = 0

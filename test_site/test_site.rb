@@ -17,8 +17,8 @@ class TestSite
     @dynamic_page ||= DynamicPage.new
   end
 
-  def redirect_page
-    @redirect_page ||= RedirectPage.new
+  def redirect
+    @redirect ||= Redirect.new
   end
 
   def section_experiments

@@ -9,6 +9,10 @@ Feature: Interaction with groups of elements
   Scenario: Get text from group of elements
     Then I can get the text values for the group of links
 
+  Scenario: Filter information out from a set of elements
+    Then I can see the first row
+    And I can see a row using a capybara class query
+
   Scenario: Get groups of elements from within a section
     Then I can see individual people in the people list
     And I can see optioned individual people in the people list

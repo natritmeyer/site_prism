@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 Then('I can get the text values for the group of links') do
-  expect(@test_site.home.removing_links.map(&:text)).to eq(%w[a b c])
+  expect(@test_site.home.rows.map(&:text)).to eq(%w[a b c])
 end
 
 Then('the page does not have a group of elements') do
-  expect(@test_site.home.has_no_nonexistent_elements?).to be true
+  expect(@test_site.home.has_no_nonexistents?).to be true
 
-  expect(@test_site.home).to have_no_nonexistent_elements
+  expect(@test_site.home).to have_no_nonexistents
 end
 
 Then('I can see individual people in the people list') do

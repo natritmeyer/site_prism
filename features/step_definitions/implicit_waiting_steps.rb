@@ -2,7 +2,7 @@
 
 Then('the slow element is waited for') do
   start_time = Time.now
-  @test_site.home.some_slow_element
+  @test_site.home.slow_element
 
   expect(Time.now - start_time).to be_between(1, 1.3)
 end
@@ -31,7 +31,7 @@ end
 Then('the boolean test for a slow element is waited for') do
   start_time = Time.now
 
-  expect(@test_site.home.has_some_slow_element?).to be true
+  expect(@test_site.home.has_slow_element?).to be true
 
   expect(Time.now - start_time).to be_between(1, 1.3)
 end

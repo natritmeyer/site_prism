@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SearchResult < SitePrism::Section
+class SearchResults < SitePrism::Section
   element :title, 'span.title'
   element :description, 'span.description'
 
