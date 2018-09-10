@@ -12,6 +12,6 @@ Before('@medium-speed') do
   Capybara.default_max_wait_time = 1.2
 end
 
-After('@slow-speed, @medium-speed') do
+After('@slow-speed or @medium-speed') do
   Capybara.default_max_wait_time = 1.5
 end
