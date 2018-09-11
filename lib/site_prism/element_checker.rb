@@ -3,11 +3,11 @@
 module SitePrism
   module ElementChecker
     def all_there?
-      elements_to_check.all? { |element| present?(element) }
+      elements_to_check.all? { |element| has_element?(element) }
     end
 
     def elements_present
-      mapped_items.select { |item_name| present?(item_name) }
+      mapped_items.select { |item_name| has_element?(item_name) }
     end
 
     private
@@ -26,7 +26,7 @@ module SitePrism
       self.class.mapped_items.uniq
     end
 
-    def present?(element)
+    def has_element?(element)
       send("has_#{element}?")
     end
   end
