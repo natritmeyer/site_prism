@@ -38,10 +38,10 @@ describe SitePrism::Page do
 
     describe '#elements_present' do
       before do
-        allow(page).to receive(:has_element?).with(:bob).and_return(true)
-        allow(page).to receive(:has_element?).with(:dave).and_return(false)
-        allow(page).to receive(:has_element?).with(:success_msg).and_return(true)
-        allow(page).to receive(:has_element?).with(:iframe).and_return(false)
+        allow(page).to receive(:there?).with(:bob).and_return(true)
+        allow(page).to receive(:there?).with(:dave).and_return(false)
+        allow(page).to receive(:there?).with(:success_msg).and_return(true)
+        allow(page).to receive(:there?).with(:iframe).and_return(false)
       end
 
       it 'only lists the SitePrism objects that are present on the page' do
