@@ -34,6 +34,15 @@
 - The names/locations of some waiting tests, which were testing implicit instead of explicit waits
 ([luke-hill])
 
+## [2.17.1] - 2018-09-15
+### Fixed
+- Configuration options now only throw warnings when written to
+  - This fixes travis and other CI environments throwing an abnormally large number of warnings
+([luke-hill])
+
+- Fixed a name collision for a private method in `ElementChecker` that conflicted with ActiveRecord
+([Systho])
+
 ## [2.17] - 2018-09-07
 ### Removed
 - `collection` has been removed from the SitePrism DSL (Was just an alias of `sections`)
@@ -671,8 +680,9 @@ Removed testing for Ruby `2.0` on Travis
 - First release!
 
 <!-- Releases -->
-[3.0.beta]: https://github.com/natritmeyer/site_prism/compare/v2.17...master
-[2.17]: https://github.com/natritmeyer/site_prism/compare/v2.16...2.17
+[3.0.beta]:   https://github.com/natritmeyer/site_prism/compare/v2.17.1...master
+[2.17.1]:     https://github.com/natritmeyer/site_prism/compare/v2.17...v2.17.1
+[2.17]:       https://github.com/natritmeyer/site_prism/compare/v2.16...v2.17
 [2.16]:       https://github.com/natritmeyer/site_prism/compare/v2.15.1...v2.16
 [2.15.1]:     https://github.com/natritmeyer/site_prism/compare/v2.15...v2.15.1
 [2.15]:       https://github.com/natritmeyer/site_prism/compare/v2.14...v2.15
@@ -763,3 +773,4 @@ Removed testing for Ruby `2.0` on Travis
 [jgs731]:         https://github.com/jgs731
 [mdesantis]:      https://github.com/mdesantis
 [JaniJegoroff]:   https://github.com/JaniJegoroff
+[Systho]:         https://github.com/Systho
