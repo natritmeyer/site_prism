@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# TODO: Remove most of the queries when Capybara 2 support is dropped
+
 Then('the slow element is waited for') do
   start_time = Time.now
   @test_site.home.slow_element
@@ -9,7 +11,7 @@ end
 
 Then('the slow elements are waited for') do
   start_time = Time.now
-  @test_site.home.slow_elements
+  @test_site.home.slow_elements(minimum: 1)
 
   expect(Time.now - start_time).to be_between(0.9, 1.1)
 end

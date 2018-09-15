@@ -4,4 +4,3 @@ coverage/*
 .bundle
 .idea
 .env
-.cucumber-timings
