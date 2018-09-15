@@ -16,30 +16,21 @@ module SitePrism
       yield self
     end
 
-    def use_implicit_waits
-      show_removed_config_warning_messages
-      @use_implicit_waits
-    end
+    attr_reader :use_implicit_waits
 
     def use_implicit_waits=(value)
       show_removed_config_warning_messages
       @use_implicit_waits = value
     end
 
-    def raise_on_wait_fors
-      show_removed_config_warning_messages
-      @raise_on_wait_fors
-    end
+    attr_reader :raise_on_wait_fors
 
     def raise_on_wait_fors=(value)
       show_removed_config_warning_messages
       @raise_on_wait_fors = value
     end
 
-    def default_load_validations
-      show_removed_config_warning_messages
-      @default_load_validations
-    end
+    attr_reader :default_load_validations
 
     def default_load_validations=(value)
       show_removed_config_warning_messages
