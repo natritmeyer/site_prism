@@ -8,19 +8,27 @@
     }
 
     function load() {
-      //create the link with text/class/href properties
-      slow_link = document.createElement("a");
-      slow_link.innerText = "slow link";
-      slow_link.setAttribute("class", "slow");
-      slow_link.setAttribute('href', 'slowly.htm');
-      //get the element that we're going to add the link to
+      //create the links
+      slow_link1 = document.createElement("a");
+      slow_link2 = document.createElement("a");
+      //get the element that we're going to add the links to
       dumping_ground = document.getElementById('dumping_ground');
       //wait for a short while then add the links
-      setTimeout("dumping_ground.appendChild(slow_link);", 1150);
-      setTimeout("document.getElementById('will_become_visible').style.display='block';", 1150);
-      setTimeout("document.getElementById('will_become_invisible').style.display='none';", 1150);
-      setTimeout("document.getElementById('will_become_nonexistent').remove();", 1150);
-      setTimeout("document.getElementById('removing_link_div').remove();", 1150);
+      setTimeout(function() {
+        [slow_link1, slow_link2].forEach(function(item, index) {
+          //set the class/href/text properties
+          item.setAttribute("class", "slow");
+          item.setAttribute('href', 'slowly.htm');
+          item.innerText = "slow link" + (index + 1);
+          dumping_ground.appendChild(item);
+          dumping_ground.append(" ");
+        });
+      }, 950);
+
+      setTimeout("document.getElementById('will_become_visible').style.display='block';", 950);
+      setTimeout("document.getElementById('will_become_invisible').style.display='none';", 950);
+      setTimeout("document.getElementById('will_become_nonexistent').remove();", 950);
+      setTimeout("document.getElementById('removing_link_div').remove();", 950);
 
       slow_section = document.createElement("div");
       slow_section.className = 'slow-section first';
@@ -30,7 +38,7 @@
         [slow_section, slow_section2].forEach(function(item) {
           dumping_ground.appendChild(item);
         });
-      }, 1150)
+      }, 950)
     }
     window.onload = load;
     </script>

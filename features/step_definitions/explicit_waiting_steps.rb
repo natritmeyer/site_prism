@@ -23,16 +23,16 @@ end
 Then("an exception is raised when I wait for an element that won't appear") do
   start_time = Time.now
 
-  expect { @test_site.home.slow_element(wait: 1) }
+  expect { @test_site.home.slow_element(wait: 0.5) }
     .to raise_error(Capybara::ElementNotFound)
 
   @duration = Time.now - start_time
 
-  expect(@duration).to be_between(1, 1.15)
+  expect(@duration).to be_between(0.5, 0.7)
 end
 
 Then("an exception is raised when I wait for an element that won't vanish") do
-  expect { @test_site.home.wait_until_removing_element_invisible(wait: 1) }
+  expect { @test_site.home.wait_until_welcome_header_invisible(wait: 0.25) }
     .to raise_error(SitePrism::ElementInvisibilityTimeoutError)
 end
 
@@ -127,11 +127,11 @@ end
 
 Then('I can override the wait time using a Capybara.using_wait_time block') do
   start_time = Time.now
-  Capybara.using_wait_time(1) do
+  Capybara.using_wait_time(0.5) do
     expect { @test_site.home.slow_element }
       .to raise_error(Capybara::ElementNotFound)
   end
   @duration = Time.now - start_time
 
-  expect(@duration).to be_between(1, 1.15)
+  expect(@duration).to be_between(0.5, 0.7)
 end

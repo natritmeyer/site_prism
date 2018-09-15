@@ -9,7 +9,7 @@ class Home < SitePrism::Page
   element :welcome_message, 'body > span'
   element :go_button, '[value="Go!"]'
   element :search_page_link, :xpath, '//p[2]/a'
-  element :slow_element, :xpath, '//a[@class="slow"]'
+  element :slow_element, :xpath, '//a[@class="slow"]', text: 'slow link1'
   element :invisible, 'input.invisible'
   element :vanishing, 'input#will_become_invisible'
   element :removing_element, 'input#will_become_nonexistent'
