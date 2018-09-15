@@ -16,8 +16,7 @@ module SitePrism
     attr_accessor :enable_logging
 
     def configure
-      warn 'SitePrism configuration is now removed.'
-      warn 'All options fed directly from Capybara.'
+      yield self
     end
 
     def logger

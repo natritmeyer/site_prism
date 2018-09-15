@@ -1,17 +1,16 @@
 require 'logger'
 
 module SitePrism
-  #
+
   # @example Enable full logging
   #   SitePrism.enable_logging = true
   #
-  # @example Disable all logging
+  # @example Disable all logging (Done by default)
   #   SitePrism.enable_logging = false
   #
   # @example Manually log a message
   #   SitePrism.logger.info('Information')
   #   SitePrism.logger.debug('Input debug message')
-  #
   class Logger
     def create(output)
       logger = ::Logger.new(output)
@@ -26,9 +25,9 @@ module SitePrism
 
     def level
       if SitePrism.enable_logging
-        0 # This is equivalent to :debug
+        0 # This is equivalent to debug standard logging
       else
-        5 # This is equivalent to :unknown
+        5 # This is equivalent to unknown (or no), logging
       end
     end
   end
