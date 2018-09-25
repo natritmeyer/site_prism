@@ -13,7 +13,7 @@ When('I navigate to the letter A page') do
 end
 
 When('I navigate to the redirect page') do
-  @test_site.redirect_page.load
+  @test_site.redirect.load
 end
 
 When('I navigate to a page with no title') do
@@ -33,11 +33,11 @@ Then('I am on a dynamic page') do
 end
 
 Then('I am on the redirect page') do
-  expect(@test_site.redirect_page).to be_displayed
+  expect(@test_site.redirect).to be_displayed
 end
 
 Then('I am not on the redirect page') do
-  expect(@test_site.redirect_page).not_to be_displayed
+  expect(@test_site.redirect).not_to be_displayed
 end
 
 Then('I will be redirected to the home page') do

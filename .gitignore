@@ -3,4 +3,3 @@ Gemfile.lock
 coverage/*
 .idea
 .env
-.cucumber-timings

@@ -3,12 +3,12 @@
 class SectionExperiments < SitePrism::Page
   set_url '/section_experiments.htm'
 
-  section :parent_section, Parent, '.parent-div'
+  section :parent_div, ParentDiv, '.parent-div'
   section :removing_parent, RemovingParent, '.removing-parent-div'
-  sections :search_results, SearchResult, '.search-results .search-result'
+  sections :search_results, SearchResults, '.search-results .search-result'
 
   section :slow_section, '.slow' do
-    # This is a duplicate of `parent_section.slow_element`
+    # This is a duplicate of `parent_div.slow_element`
   end
 
   section :anonymous_section, '.anonymous-section' do
@@ -17,20 +17,12 @@ class SectionExperiments < SitePrism::Page
 
   sections :anonymous_sections, 'ul.anonymous-sections li' do
     element :title, 'h1'
-
-    def downcase_title_text
-      title.text.downcase
-    end
   end
 
-  sections :level_1, '.level-1' do
-    sections :level_2, '.level-2' do
-      sections :level_3, '.level-3' do
-        sections :level_4, '.level-4' do
-          sections :level_5, '.level-5' do
-            element :deep_span, '.deep-span'
-          end
-        end
+  section :level_1, '.level-1' do
+    section :level_2, '.level-2' do
+      section :level_3, '.level-3' do
+        element :deep_span, '.deep-span'
       end
     end
   end

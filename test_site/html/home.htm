@@ -8,19 +8,27 @@
     }
 
     function load() {
-      //create the link with text/class/href properties
-      slow_link = document.createElement("a");
-      slow_link.innerText = "slow link";
-      slow_link.setAttribute("class", "slow");
-      slow_link.setAttribute('href', 'slowly.htm');
-      //get the element that we're going to add the link to
+      //create the links
+      slow_link1 = document.createElement("a");
+      slow_link2 = document.createElement("a");
+      //get the element that we're going to add the links to
       dumping_ground = document.getElementById('dumping_ground');
       //wait for a short while then add the links
-      setTimeout("dumping_ground.appendChild(slow_link);", 1150);
-      setTimeout("document.getElementById('will_become_visible').style.display='block';", 1150);
-      setTimeout("document.getElementById('will_become_invisible').style.display='none';", 1150);
-      setTimeout("document.getElementById('will_become_nonexistent').remove();", 1150);
-      setTimeout("document.getElementById('link_container_will_become_nonexistent').remove();", 1150);
+      setTimeout(function() {
+        [slow_link1, slow_link2].forEach(function(item, index) {
+          //set the class/href/text properties
+          item.setAttribute("class", "slow");
+          item.setAttribute('href', 'slowly.htm');
+          item.innerText = "slow link" + (index + 1);
+          dumping_ground.appendChild(item);
+          dumping_ground.append(" ");
+        });
+      }, 950);
+
+      setTimeout("document.getElementById('will_become_visible').style.display='block';", 950);
+      setTimeout("document.getElementById('will_become_invisible').style.display='none';", 950);
+      setTimeout("document.getElementById('will_become_nonexistent').remove();", 950);
+      setTimeout("document.getElementById('removing_link_div').remove();", 950);
 
       slow_section = document.createElement("div");
       slow_section.className = 'slow-section first';
@@ -30,14 +38,13 @@
         [slow_section, slow_section2].forEach(function(item) {
           dumping_ground.appendChild(item);
         });
-      }, 1150)
+      }, 950)
     }
     window.onload = load;
     </script>
   </head>
   <body>
     <h1>Welcome</h1>
-    <h3>Sub-Heading 1</h3><h3>Sub-Heading 2</h3><h3>Sub-Heading 3</h3>
     <span class="welcome">This is the home page, there is some stuff on it</span>
     <p>
       <a href="no_title.htm">
@@ -49,9 +56,9 @@
     </p>
     <table>
       <tr>
-        <td class="link_a">a</td>
-        <td class="link_b">b</td>
-        <td class="link_c">c</td>
+        <td class="element_a">a</td>
+        <td class="element_b">b</td>
+        <td class="element_c">c</td>
       </tr>
     </table>
 
@@ -64,15 +71,15 @@
       <span class="object">object 1</span>
     </article>
 
-    <input type="submit" id="remove_container_with_element" onClick='removeElement(document.getElementById("container_with_element"))'/>
+    <input type="submit" id="remove_container" onClick='removeElement(document.getElementById("container"))'/>
 
-    <div id="container_with_element">
+    <div id="container">
       <div class="embedded_element">
         This will be removed when you click submit above
       </div>
     </div>
 
-    <div id="link_container_will_become_nonexistent">
+    <div id="removing_link_div">
       <a href="a.html">a</a>
       <a href="b.html">b</a>
       <a href="c.html">c</a>
@@ -86,7 +93,7 @@
     <input type="submit" class="invisible" value="Invisible" style="display: none;"/>
 
     <div id="section_for_iframe">
-      <iframe id="the_iframe" name="the_iframe" src="my_iframe.htm"></iframe>
+      <iframe id="the_iframe" name="the_iframe" src="iframe.htm"></iframe>
     </div>
   </body>
 </html>
