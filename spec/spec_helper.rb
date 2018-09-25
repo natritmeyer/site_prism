@@ -8,15 +8,11 @@ end
 require 'capybara'
 require 'capybara/dsl'
 
-$LOAD_PATH << './test_site'
 $LOAD_PATH << './lib'
+$LOAD_PATH << './features/support'
 
 require 'site_prism'
-require 'test_site'
-require 'sections/people'
-require 'sections/blank'
-require 'sections/container'
-require 'pages/iframe'
+require 'sections/all'
 require 'pages/home'
 
 Capybara.default_max_wait_time = 0
