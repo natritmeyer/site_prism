@@ -12,35 +12,22 @@ require 'capybara/dsl'
 require 'capybara/cucumber'
 require 'selenium-webdriver'
 
-$LOAD_PATH << './test_site'
 $LOAD_PATH << './lib'
 
 require 'site_prism'
-require 'test_site'
-require 'sections/people'
-require 'sections/blank'
-require 'sections/container'
-require 'sections/child'
-require 'sections/parent_div'
-require 'sections/search_results'
-require 'sections/vanishing_parent'
-require 'pages/iframe'
-require 'pages/home'
-require 'pages/home_with_expected_elements'
-require 'pages/dynamic_page'
-require 'pages/no_title'
-require 'pages/redirect'
-require 'pages/section_experiments'
 
-Capybara.configure do |config|
-  config.default_driver = :selenium
-  config.default_max_wait_time = 2
-  config.app_host = 'file://' + File.dirname(__FILE__) + '/../../test_site/html'
-  config.ignore_hidden_elements = false
-end
+# To prevent natural cucumber load order
+require_relative 'sections/all'
 
 Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, browser: browser)
+end
+
+Capybara.configure do |config|
+  config.default_driver = :selenium
+  config.default_max_wait_time = 1.5
+  config.app_host = 'file://' + File.dirname(__FILE__) + '/../../test_site'
+  config.ignore_hidden_elements = false
 end
 
 private
