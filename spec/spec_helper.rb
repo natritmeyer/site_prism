@@ -27,4 +27,10 @@ class MyTestApp
   end
 end
 
+class String
+  def lines
+    split("\n").length
+  end
+end
+
 Capybara.app = MyTestApp.new

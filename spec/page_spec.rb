@@ -333,9 +333,6 @@ from the be_displayed matcher" do
       end
 
       let(:page) { PageWithBogusFullUrlMatcher.new }
-      let(:error_message) do
-        'Your URL and/or matcher could not be interpreted.'
-      end
 
       it 'raises InvalidUrlMatcherError' do
         expect { page.displayed? }
@@ -397,9 +394,6 @@ from the be_displayed matcher" do
       end
 
       let(:page) { PageWithBogusFullUrlMatcher.new }
-      let(:error_message) do
-        'Your URL and/or matcher could not be interpreted.'
-      end
 
       it 'raises InvalidUrlMatcherError' do
         expect { page.url_matches }

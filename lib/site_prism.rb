@@ -20,7 +20,7 @@ module SitePrism
     end
 
     def logger
-      @logger ||= SitePrism::Logger.new.create($stdout)
+      @logger ||= SitePrism::Logger.new.create
     end
   end
 

@@ -1,18 +1,17 @@
 require 'logger'
 
 module SitePrism
-
-  # @example Enable full logging
+  # To enable full logging
   #   SitePrism.enable_logging = true
   #
-  # @example Disable all logging (Done by default)
+  # To disable all logging (Done by default)
   #   SitePrism.enable_logging = false
   #
-  # @example Manually log a message
+  # To Manually log a message
   #   SitePrism.logger.info('Information')
   #   SitePrism.logger.debug('Input debug message')
   class Logger
-    def create(output)
+    def create(output = $stdout)
       logger = ::Logger.new(output)
       logger.progname = 'SitePrism'
       logger.level = level
