@@ -11,7 +11,7 @@ Then('I can see an expected bit of text') do
 end
 
 Then('I can see the expected url') do
-  expect(@test_site.home.current_url).to include('test_site/html/home.htm')
+  expect(@test_site.home.current_url).to include('test_site/home.htm')
 end
 
 Then('I can see that the page is not secure') do
