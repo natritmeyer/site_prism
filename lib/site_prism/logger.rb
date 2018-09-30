@@ -14,7 +14,7 @@ module SitePrism
     def create(output = $stdout)
       logger = ::Logger.new(output)
       logger.progname = 'SitePrism'
-      logger.level = level
+      logger.level = log_level
       logger.formatter = proc do |severity, time, progname, msg|
         "#{time.strftime('%F %T')} - #{severity} - #{progname} - #{msg}\n"
       end
@@ -22,7 +22,9 @@ module SitePrism
       logger
     end
 
-    def level
+    private
+
+    def log_level
       if SitePrism.enable_logging
         0 # This is equivalent to debug standard logging
       else
