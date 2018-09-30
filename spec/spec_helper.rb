@@ -19,6 +19,12 @@ Capybara.default_max_wait_time = 0
 
 RSpec.configure do |config|
   config.default_formatter = :documentation
+
+  config.after(:each) do
+    SitePrism.configure do |config|
+      config.enable_logging = false
+    end
+  end
 end
 
 class MyTestApp

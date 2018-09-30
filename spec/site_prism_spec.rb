@@ -19,3 +19,5 @@ describe 'SitePrism configuration' do
     expect(SitePrism.enable_logging).to be true
   end
 end
+
+# TODO: Move logger class specs to here, rename to site_prism_spec.rb
