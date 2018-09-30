@@ -15,7 +15,7 @@ Style/RegexpLiteral:
 
 BlockLength:
   Exclude:
-    - './spec/*_spec.rb'
+    - './spec/**/*_spec.rb'
     - 'site_prism.gemspec'
 
 Style/TrailingCommaInHashLiteral:

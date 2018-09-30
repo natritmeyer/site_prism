@@ -2,11 +2,8 @@
 
 require 'spec_helper'
 
-describe 'SitePrism configuration' do
-  # This stops the stdout process leaking between tests
-  after(:each) { wipe_logger! }
-
-  describe '.enabling_logging' do
+describe SitePrism do
+  describe '.enable_logging' do
     it 'is disabled by default' do
       expect(SitePrism.enable_logging).to be false
     end
@@ -19,6 +16,9 @@ describe 'SitePrism configuration' do
   end
 
   describe '.logger' do
+    # This stops the stdout process leaking between tests
+    after(:each) { wipe_logger! }
+
     it 'does not log messages below UNKNOWN' do
       log_messages = capture_stdout do
         SitePrism.logger.debug('DEBUG')
@@ -51,25 +51,30 @@ describe 'SitePrism configuration' do
           SitePrism.logger.warn('WARN')
         end
 
-        expect(log_messages.lines).to eq(3)
+        expect(lines(log_messages)).to eq(3)
       end
     end
   end
 
   def capture_stdout
     original_stdout = $stdout
-    $stdout = fake = StringIO.new
+    $stdout = StringIO.new
     begin
       yield
+      return_string = $stdout.string
     ensure
       $stdout = original_stdout
     end
-    fake.string
+    return_string
   end
 
   def wipe_logger!
     return unless SitePrism.instance_variable_get(:@logger)
 
     SitePrism.remove_instance_variable(:@logger)
+  end
+
+  def lines(string)
+    string.split("\n").length
   end
 end
