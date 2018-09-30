@@ -3,7 +3,14 @@
 unless ENV['CI']
   require 'simplecov'
   require 'dotenv'
-  SimpleCov.start
+  SimpleCov.start do
+    add_group 'Features', 'features'
+    add_group 'Specs', 'spec'
+    add_group 'Code', 'lib'
+  end
+  # Features are currently at 94% on master (Sep 2018)
+  SimpleCov.minimum_coverage 92
+  SimpleCov.refuse_coverage_drop
   Dotenv.load('.env')
 end
 
