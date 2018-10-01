@@ -72,30 +72,17 @@ Then('not all mapped elements are present') do
     .not_to eq(@test_site.home.class.mapped_items)
 end
 
-Then('the previously invisible element is visible') do
-  expect(@test_site.home).to have_slow_element
-end
-
 Then('the previously visible element is invisible') do
   expect(@test_site.home.vanishing).not_to be_visible
 end
 
-Then('I am not made to wait to check a nonexistent element for invisibility') do
-  start = Time.new
-  @test_site.home.wait_until_nonexistent_element_invisible(wait: 10)
 
-  expect(Time.new - start).to be < 1
-end
 
 When('I remove the parent section of the element') do
   @test_site.home.remove_container_button.click
 end
 
-Then('an error is thrown when waiting for an element in a vanishing section') do
-  expect do
-    @test_site.home.container.wait_until_embedded_element_invisible
-  end.to raise_error(Capybara::ElementNotFound)
-end
+
 
 Then('I can obtain the native property of an element') do
   expect(@test_site.home.welcome_header.native)
