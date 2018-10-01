@@ -2,14 +2,6 @@
 
 unless ENV['CI']
   require 'simplecov'
-  SimpleCov.start do
-    add_group 'Features', 'features'
-    add_group 'Specs', 'spec'
-    add_group 'Code', 'lib'
-  end
-  # Spec is currently at 97.7% on master (Sep 2018)
-  SimpleCov.minimum_coverage 96
-  SimpleCov.refuse_coverage_drop
 end
 
 require 'capybara'
