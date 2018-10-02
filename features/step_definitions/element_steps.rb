@@ -76,13 +76,9 @@ Then('the previously visible element is invisible') do
   expect(@test_site.home.vanishing).not_to be_visible
 end
 
-
-
 When('I remove the parent section of the element') do
   @test_site.home.remove_container_button.click
 end
-
-
 
 Then('I can obtain the native property of an element') do
   expect(@test_site.home.welcome_header.native)

@@ -63,8 +63,3 @@ Feature: Waiting for an Element
   Scenario: Wait time can be overridden at run-time in a block
     When I navigate to the home page
     Then I can override the wait time using a Capybara.using_wait_time block
-
-    # waiting for elements - plural test / singular test / 0 test
-    # waiting for section - couple of tests for POC
-    # waiting for sections - plural test / singular test / 0 test
-  
