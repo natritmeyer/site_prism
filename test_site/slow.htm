@@ -3,19 +3,16 @@
     <title>Slow Page</title>
     <script type="text/javascript">
       function load() {
-        //get the element that we're going to add the links to
-        dumping_ground = document.getElementById('dumping-ground');
-
         slow_section = document.createElement("div");
-        slow_section.className = 'slow-section first';
-        slow_section.innerText = 'First Section';
+        slow_section.className = "slow-section first";
+        slow_section.innerText = "First Section";
         slow_section2 = document.createElement("div");
-        slow_section2.className = 'slow-section second';
-        slow_section2.innerText = 'Second Section';
+        slow_section2.className = "slow-section second";
+        slow_section2.innerText = "Second Section";
 
         setTimeout(function () {
           [slow_section, slow_section2].forEach(function (item) {
-            dumping_ground.appendChild(item);
+            document.body.appendChild(item);
           });
         }, 250);
 
@@ -27,12 +24,12 @@
       }
 
       function create_5_links() {
-        for(var i=0; i < 5; i++){
+        for(var i=0; i<5; i++){
           //create the links
           link = document.createElement("a");
           //set the class/href/text properties
           link.setAttribute("class", "slow");
-          link.setAttribute('href', 'slowly.htm');
+          link.setAttribute("href", "slow.htm");
           link.innerText = "slow link" + i;
 
           //add an extra conditional class
@@ -43,15 +40,12 @@
           }
 
           //add the link to the page
-          dumping_ground.appendChild(link);
-          dumping_ground.append(" ");
+          document.body.appendChild(link);
+          document.body.append(" ");
         }
       }
 
       window.onload = load;
     </script>
   </head>
-  <body>
-    <div id="dumping-ground"></div>
-  </body>
 </html>
