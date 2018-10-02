@@ -7,9 +7,6 @@ Documentation:
 AccessorMethodName:
   Enabled: false
 
-Style/SafeNavigation:
-  Enabled: false
-
 Style/RegexpLiteral:
   Enabled: false
 
