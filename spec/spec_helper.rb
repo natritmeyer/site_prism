@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-unless ENV['CI']
-  require 'simplecov'
-end
+require 'simplecov' unless ENV['CI']
 
 require 'capybara'
 require 'capybara/dsl'
