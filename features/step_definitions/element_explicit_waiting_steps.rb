@@ -7,18 +7,8 @@ When('I wait for the element that takes a while to appear') do
   @duration = Time.now - start_time
 end
 
-When('I wait for the element that takes a while to disappear') do
-  start_time = Time.now
-  @test_site.home.wait_until_removing_element_invisible
-  @duration = Time.now - start_time
-end
-
 Then('the slow element appears') do
   expect(@test_site.home).to have_slow_element
-end
-
-Then('the removing element disappears') do
-  expect(@test_site.home).not_to have_removing_element
 end
 
 Then("an exception is raised when I wait for an element that won't appear") do
@@ -95,11 +85,6 @@ end
 
 When('I wait a specific amount of time for a particular element to vanish') do
   @test_site.home.wait_until_vanishing_invisible(wait: 5)
-end
-
-Then('I get a timeout error when I wait for an element that never vanishes') do
-  expect { @test_site.home.wait_until_welcome_header_invisible(wait: 1) }
-    .to raise_error(SitePrism::ElementInvisibilityTimeoutError)
 end
 
 Then('I am not made to wait for the full default duration') do
