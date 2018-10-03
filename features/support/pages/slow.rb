@@ -9,7 +9,7 @@ class Slow < SitePrism::Page
   section :first_section, Blank, '.slow-section', text: 'First Section'
   sections :all_sections, Blank, '.slow-section'
 
-  # To test slow vanishing elements inside a present section
+  # To test slow elements inside a section
   section :body, 'body' do
     elements :all_links, '[href="slow.htm"]'
   end

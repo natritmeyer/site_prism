@@ -17,6 +17,8 @@
         }, 250);
 
         setTimeout(create_5_links, 250);
+
+        setTimeout("document.getElementById('will_become_visible').style.display='block';", 250);
       }
 
       function isEven(value){
@@ -48,4 +50,7 @@
       window.onload = load;
     </script>
   </head>
+  <body>
+    <div id="will_become_visible" style="display: none;">I WILL BECOME VISIBLE</div>
+  </body>
 </html>
