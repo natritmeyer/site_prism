@@ -47,20 +47,11 @@ module SitePrism
   # Formerly known as `UnsupportedBlock`
   class UnsupportedBlockError < BlockError; end
 
-  # A Block was required, but not passed into the iframe at runtime
+  # A Block was required, but not supplied
   # Formerly known as `BlockMissingError`
   class MissingBlockError < BlockError; end
 
-  # A page was loaded via #load - And then failed one of the load validations
-  # that was either pre-defined or defined by the user
+  # A page was loaded then failed one of the validations defined by the user
   # Formerly known as `NotLoadedError`
-  class FailedLoadValidationError < PageLoadError
-    def message
-      if super == self.class.to_s
-        'Failed to load - No reason specified.'
-      else
-        "Failed to load. Reason: #{super}"
-      end
-    end
-  end
+  class FailedLoadValidationError < PageLoadError; end
 end
