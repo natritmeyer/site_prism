@@ -67,19 +67,16 @@ is called before the matcher has been set" do
   it 'should raise an exception if passing a block to an element' do
     expect { Home.new.go_button { :any_old_block } }
       .to raise_error(SitePrism::UnsupportedBlockError)
-      .with_message('Home#go_button does not accept blocks.')
   end
 
   it 'should raise an exception if passing a block to elements' do
     expect { Home.new.rows { :any_old_block } }
       .to raise_error(SitePrism::UnsupportedBlockError)
-      .with_message('Home#rows does not accept blocks.')
   end
 
   it 'should raise an exception if passing a block to sections' do
     expect { Home.new.removing_sections { :any_old_block } }
       .to raise_error(SitePrism::UnsupportedBlockError)
-      .with_message('Home#removing_sections does not accept blocks.')
   end
 
   it { is_expected.to respond_to(*Capybara::Session::DSL_METHODS) }
@@ -336,14 +333,10 @@ from the be_displayed matcher" do
       end
 
       let(:page) { PageWithBogusFullUrlMatcher.new }
-      let(:error_message) do
-        'Your URL and/or matcher could not be interpreted.'
-      end
 
       it 'raises InvalidUrlMatcherError' do
         expect { page.displayed? }
           .to raise_error(SitePrism::InvalidUrlMatcherError)
-          .with_message(error_message)
       end
     end
   end
@@ -401,14 +394,10 @@ from the be_displayed matcher" do
       end
 
       let(:page) { PageWithBogusFullUrlMatcher.new }
-      let(:error_message) do
-        'Your URL and/or matcher could not be interpreted.'
-      end
 
       it 'raises InvalidUrlMatcherError' do
         expect { page.url_matches }
           .to raise_error(SitePrism::InvalidUrlMatcherError)
-          .with_message(error_message)
       end
     end
   end

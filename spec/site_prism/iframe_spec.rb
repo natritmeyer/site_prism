@@ -7,14 +7,9 @@ describe 'iFrame' do
   let!(:locator) { instance_double('Capybara::Node::Element') }
 
   shared_examples 'iFrame' do
-    let(:error_message) do
-      'You can only use iFrames in a block context - Please pass in a block.'
-    end
-
     it 'cannot be called out of block context' do
       expect { page.iframe }
         .to raise_error(SitePrism::MissingBlockError)
-        .with_message(error_message)
     end
   end
 
