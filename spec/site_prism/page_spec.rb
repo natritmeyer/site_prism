@@ -168,7 +168,7 @@ is called before the matcher has been set" do
 
           expect { page_with_load_validations.load { puts 'foo' } }
             .to raise_error(SitePrism::FailedLoadValidationError)
-            .with_message('Failed to load. Reason: It is not true!')
+            .with_message('It is not true!')
         end
       end
     end
