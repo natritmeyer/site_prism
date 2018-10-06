@@ -3,7 +3,6 @@
 unless ENV['CI']
   require 'simplecov'
   require 'dotenv'
-  SimpleCov.start
   Dotenv.load('.env')
 end
 

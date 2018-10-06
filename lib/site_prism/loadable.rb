@@ -53,19 +53,22 @@ module SitePrism
     # Executes the given block after the page is loaded.
     #
     # The loadable object instance is yielded into the block.
-    #
-    # @param block [&block] The block to be executed once the page
-    # has finished loading.
-    def when_loaded(&_block)
+    def when_loaded
       # Get original loaded value, in case we are nested
       # inside another when_loaded block.
       previously_loaded = loaded
-      message = 'A block was expected, but none received.'
-      raise ArgumentError, message unless block_given?
 
-      # Within the block, cache loaded? to optimize performance.
+      # Ensure we have passed in a block. else stop the system.
+      # This would be because a user has not defined the load validation
+      # correctly (i.e. with a block argument)
+      throw_missing_block_error unless block_given?
+
+      # Within the block, check (and cache) loaded?, to see whether the
+      # page has indeed loaded according to the rules defined by the user.
       self.loaded = loaded?
 
+      # If the page hasn't loaded. Then crash and return the error message.
+      # If one isn't defined, just return the Error code.
       raise SitePrism::FailedLoadValidationError, load_error unless loaded
 
       yield self
@@ -98,6 +101,12 @@ module SitePrism
         self.load_error = message if message && !passed
         passed
       end
+    end
+
+    def throw_missing_block_error
+      SitePrism.logger.debug('This code point should not be reachable')
+      SitePrism.logger.error('A block was expected, but none received.')
+      raise SitePrism::MissingBlockError
     end
   end
 end

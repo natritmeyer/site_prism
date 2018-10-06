@@ -2,18 +2,18 @@
   <head>
     <title>Section Experiments</title>
     <script type="text/javascript">
-    function load() {
-      //get the element that we're going to add the link to
-      dumping_ground = document.getElementById("dumping-ground");
-      //create the link with text/class properties
-      slow_link = document.createElement("a");
-      slow_link.innerText = "slow link";
-      slow_link.setAttribute("class", "slow");
-      //wait for a short while then add the links
-      setTimeout("dumping_ground.appendChild(slow_link);", 200);
-      setTimeout("document.getElementById('removing-element').remove();", 200);
-    }
-    window.onload = load;
+      function load() {
+        //get the element that we're going to add the link to
+        dumping_ground = document.getElementById("dumping-ground");
+        //create the link with text/class properties
+        slow_link = document.createElement("a");
+        slow_link.innerText = "slow link";
+        slow_link.setAttribute("class", "slow");
+        //wait for a short while then add the links
+        setTimeout("dumping_ground.appendChild(slow_link);", 200);
+        setTimeout("document.getElementById('removing-element').remove();", 200);
+      }
+      window.onload = load;
     </script>
   </head>
   <body>

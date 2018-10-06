@@ -70,8 +70,7 @@ when all load validations pass" do
 
     it 'raises an ArgumentError if no block is given' do
       expect { loadable.new.when_loaded }
-        .to raise_error(ArgumentError)
-        .with_message('A block was expected, but none received.')
+        .to raise_error(SitePrism::MissingBlockError)
     end
 
     context 'Failing Validations' do
@@ -83,7 +82,6 @@ when all load validations pass" do
 
         expect { loadable.new.when_loaded { james_bond.drink_martini } }
           .to raise_error(SitePrism::FailedLoadValidationError)
-          .with_message('Failed to load - No reason specified.')
 
         expect(james_bond).not_to have_received(:drink_martini)
       end
@@ -93,7 +91,7 @@ when all load validations pass" do
 
         expect { loadable.new.when_loaded { :foo } }
           .to raise_error(SitePrism::FailedLoadValidationError)
-          .with_message('Failed to load. Reason: VALIDATION FAILED')
+          .with_message('VALIDATION FAILED')
       end
     end
 

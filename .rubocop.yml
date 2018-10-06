@@ -7,15 +7,12 @@ Documentation:
 AccessorMethodName:
   Enabled: false
 
-Style/SafeNavigation:
-  Enabled: false
-
 Style/RegexpLiteral:
   Enabled: false
 
 BlockLength:
   Exclude:
-    - './spec/*_spec.rb'
+    - './spec/**/*_spec.rb'
     - 'site_prism.gemspec'
 
 Style/TrailingCommaInHashLiteral:

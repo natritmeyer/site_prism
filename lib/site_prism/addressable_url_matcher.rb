@@ -33,6 +33,7 @@ module SitePrism
     def matches?(url, expected_mappings = {})
       actual_mappings = mappings(url)
       return false unless actual_mappings
+
       expected_mappings.empty? ||
         all_expected_mappings_match?(expected_mappings, actual_mappings)
     end
@@ -76,13 +77,16 @@ module SitePrism
     def component_matches(component, uri)
       component_template = component_templates[component]
       return {} unless component_template
+
       component_url = uri.public_send(component).to_s
       mappings = component_template.extract(component_url)
       return mappings if mappings
+
       # to support Addressable's expansion of queries
       # ensure it's parsing the fragment as appropriate (e.g. {?params*})
       prefix = component_prefixes[component]
       return nil unless prefix
+
       component_template.extract(prefix + component_url)
     end
 
@@ -90,12 +94,11 @@ module SitePrism
     # the template slugs with nonsense strings.
     def to_substituted_uri
       url = pattern
-      substitutions.each_pair do |slug, value|
-        url = url.sub(slug, value)
-      end
+      substitutions.each_pair { |slug, value| url = url.sub(slug, value) }
       begin
         Addressable::URI.parse(url)
       rescue Addressable::URI::InvalidURIError
+        SitePrism.logger.warn("Ensure you don't use templated port numbers.")
         raise SitePrism::InvalidUrlMatcherError
       end
     end
