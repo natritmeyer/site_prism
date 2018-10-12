@@ -7,4 +7,3 @@ SimpleCov.start do
 end
 
 SimpleCov.minimum_coverage 92
-SimpleCov.refuse_coverage_drop

@@ -1,4 +1,44 @@
-<!-- #320 - Sep 9th - Last update to this document -->
+<!-- #329 - Oct 12th - Last update to this document -->
+## [3.0] - 2018-10-12
+### Removed
+- All Statically configured Error messages for all SitePrism defined Errors
+  - Loadables still have an error message passed if defined
+([luke-hill])
+
+### Added
+- `.simplecov` configuration file to allow easier configuration of the suite going forward
+([luke-hill])
+
+- A base SitePrism logger that wraps the Ruby Logger library
+  - For now this will only output to `$stdout` and can only be configured as ON/OFF
+  - Logger can be enabled with `SitePrism.enable_logging = true` (Default set to `false`)
+  - Initial set of logger messages have been setup to debug / warn users when calling methods
+([luke-hill])
+
+- A new set of unconsumed leaner html pages which will in time replace the muddled ones
+([luke-hill])
+
+### Changed
+- Upped Version Dependencies
+  - `capybara` must be at least `2.17`, and can use any v3 version
+  - `addressable ~> 2.5`
+([luke-hill])
+
+### Fixed
+- Cucumber Rework
+  - Began work on fixing up the erroneous and misleading names inside the `features` directory
+  - Re-ordered the directory structure to use cucumbers autoload functionality
+  - Added timings document to give us a set of goalposts to aim for
+([luke-hill])
+
+- Some of the `ElementContainer` module has been rewritten to be a little more concise
+([luke-hill])
+
+- All of the existing feature tests have now been adapted to fit to the aims of v3
+  - Some of the new feature tests have been migrated to test implicit waiting logic
+  - Previously defunct tests have now been fully migrated over to use wait key assignment
+([luke-hill])
+
 ## [3.0.beta] - 2018-09-15
 ### Removed
 - `wait_for_<element>` and `wait_for_no_<element>` have been removed
@@ -329,7 +369,7 @@ Removed testing for Ruby `2.0` on Travis
 ### Fixed
 - Travis Fixes
   - Not pulling in geckodriver dependency
-  - Ubuntu container being EOL is now remedied (Using trusty)
+  - Ubuntu container migrated to `trusty` from `precise`
 ([RustyNail])
 
 - Allow `#all_there?` to use in-line configured implicit wait (Still defaulted to false)
@@ -576,16 +616,16 @@ Removed testing for Ruby `2.0` on Travis
 - Upped Version Dependencies
   - `capybara ~> 1.1`
   - `rspec ~> 2.0`
-  ([natritmeyer])
+([natritmeyer])
   
 - Internal API Changes:
   - `#element_names` is now `#mapped_items` in `SitePrism::Page` and `SitePrism::Section`
   - We now use a `build` method to decide what methods are created for each element/section and in what order
-  ([natritmeyer])
+([natritmeyer])
 
 - External API Change (Probably breaking change):
   - `NoLocatorForElement` is now `NoSelectorForElement`
-  ([natritmeyer])
+([natritmeyer])
 
 ### Fixed
 - README typo sweep done. Errors fixed
@@ -680,7 +720,8 @@ Removed testing for Ruby `2.0` on Travis
 - First release!
 
 <!-- Releases -->
-[3.0.beta]:   https://github.com/natritmeyer/site_prism/compare/v2.17.1...master
+[3.0]:        https://github.com/natritmeyer/site_prism/compare/v3.0.beta...v3.0
+[3.0.beta]:   https://github.com/natritmeyer/site_prism/compare/v2.17.1...v3.0.beta
 [2.17.1]:     https://github.com/natritmeyer/site_prism/compare/v2.17...v2.17.1
 [2.17]:       https://github.com/natritmeyer/site_prism/compare/v2.16...v2.17
 [2.16]:       https://github.com/natritmeyer/site_prism/compare/v2.15.1...v2.16
