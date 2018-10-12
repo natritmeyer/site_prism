@@ -181,6 +181,7 @@ module SitePrism
           define_method(method_name) do |*runtime_args|
             args = merge_args(find_args, runtime_args, visible: true)
             return true if element_exists?(*args)
+
             raise SitePrism::ElementVisibilityTimeoutError
           end
         end
@@ -192,6 +193,7 @@ module SitePrism
           define_method(method_name) do |*runtime_args|
             args = merge_args(find_args, runtime_args, visible: true)
             return true if element_does_not_exist?(*args)
+
             raise SitePrism::ElementInvisibilityTimeoutError
           end
         end

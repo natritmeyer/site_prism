@@ -37,15 +37,13 @@ end
 
 ## Error Classes
 
-A reasonably large change, we have rewritten the entire set of error names.
-
+The entire set of error names have been re-written.
 Check [error.rb](https://github.com/natritmeyer/site_prism/blob/master/lib/site_prism/error.rb)
 for previous names.
 
 ## Configuration Options
 
-Previously `site_prism` (As of `2.17`), had 3 configuration options ...
-These were
+Previously `site_prism` (As of `2.17.1`), had 3 configuration options. These were ...
 
 ```ruby
   default_load_validations = true #=> Whether the default load validation for displayed? was set 
@@ -54,5 +52,5 @@ These were
 ```
 
 These have all been removed with the `3.0` release. Implicit Waiting is
-controlled / modified either in-line per method, or you can set the default
-timeout by configuring `Capybara.default_max_wait_time`.
+controlled / modifiable either in-line for each method-call, or you can set the default
+timeout by re-configuring `Capybara.default_max_wait_time`.

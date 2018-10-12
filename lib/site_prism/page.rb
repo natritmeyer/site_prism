@@ -9,6 +9,22 @@ module SitePrism
     include Loadable
     include ElementContainer
 
+    class << self
+      attr_reader :url
+
+      def set_url(page_url)
+        @url = page_url.to_s
+      end
+
+      def set_url_matcher(page_url_matcher)
+        @url_matcher = page_url_matcher
+      end
+
+      def url_matcher
+        @url_matcher || url
+      end
+    end
+
     # When instantiating the page. A default validation will be added to all
     # validations you define and add to the Page Class.
     # When calling #load, all of the validations that are set will be ran
@@ -34,6 +50,7 @@ module SitePrism
       else
         expanded_url = url(expansion_or_html)
         raise SitePrism::NoUrlForPageError unless expanded_url
+
         visit expanded_url
         when_loaded(&block) if block_given?
       end
@@ -42,8 +59,8 @@ module SitePrism
     def displayed?(*args)
       expected_mappings = args.last.is_a?(::Hash) ? args.pop : {}
       seconds = !args.empty? ? args.first : Capybara.default_max_wait_time
-
       raise SitePrism::NoUrlMatcherForPageError unless url_matcher
+
       begin
         Waiter.wait_until_true(seconds) { url_matches?(expected_mappings) }
       rescue SitePrism::TimeoutError
@@ -61,24 +78,9 @@ module SitePrism
       end
     end
 
-    def self.set_url(page_url)
-      @url = page_url.to_s
-    end
-
-    def self.set_url_matcher(page_url_matcher)
-      @url_matcher = page_url_matcher
-    end
-
-    class << self
-      attr_reader :url
-    end
-
-    def self.url_matcher
-      @url_matcher || url
-    end
-
     def url(expansion = {})
       return nil if self.class.url.nil?
+
       Addressable::Template.new(self.class.url).expand(expansion).to_s
     end
 
