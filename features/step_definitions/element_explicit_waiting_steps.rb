@@ -1,23 +1,14 @@
 # frozen_string_literal: true
 
 When('I wait for the element that takes a while to appear') do
+  @overridden_wait_time = 1.6
   start_time = Time.now
-  @test_site.home.slow_element(wait: 2)
-  @duration = Time.now - start_time
-end
-
-When('I wait for the element that takes a while to disappear') do
-  start_time = Time.now
-  @test_site.home.wait_until_removing_element_invisible
+  @test_site.home.slow_element(wait: @overridden_wait_time)
   @duration = Time.now - start_time
 end
 
 Then('the slow element appears') do
   expect(@test_site.home).to have_slow_element
-end
-
-Then('the removing element disappears') do
-  expect(@test_site.home).not_to have_removing_element
 end
 
 Then("an exception is raised when I wait for an element that won't appear") do
@@ -31,38 +22,13 @@ Then("an exception is raised when I wait for an element that won't appear") do
   expect(@duration).to be_between(0.5, 0.7)
 end
 
-Then("an exception is raised when I wait for an element that won't vanish") do
+Then('I get an error when I wait for an element to vanish within the limit') do
   expect { @test_site.home.wait_until_welcome_header_invisible(wait: 0.25) }
     .to raise_error(SitePrism::ElementInvisibilityTimeoutError)
 end
 
-When('I wait for the section element that takes a while to appear') do
-  @test_site.section_experiments.parent_div.slow_element(wait: 1)
-end
-
-When('I wait for the section element that takes a while to disappear') do
-  section = @test_site.section_experiments.removing_parent
-  section.wait_until_removing_element_invisible
-end
-
-Then('the slow section appears') do
-  expect(@test_site.section_experiments.parent_div).to have_slow_element
-end
-
-Then('the removing section disappears') do
-  expect(@test_site.section_experiments.removing_parent)
-    .not_to have_removing_element
-end
-
-Then("an exception is raised when I wait for a section that won't appear") do
-  expect { @test_site.section_experiments.slow_section(wait: 0.05) }
-    .to raise_error(Capybara::ElementNotFound)
-end
-
-Then("an exception is raised when I wait for a section that won't disappear") do
-  page = @test_site.section_experiments
-
-  expect { page.wait_until_anonymous_section_invisible(wait: 0.15) }
+Then("an exception is raised when I wait for an element that won't vanish") do
+  expect { @test_site.home.wait_until_welcome_header_invisible }
     .to raise_error(SitePrism::ElementInvisibilityTimeoutError)
 end
 
@@ -81,7 +47,7 @@ Then('I can wait a variable time for elements to disappear') do
   expect(@test_site.home).to have_no_removing_links
 end
 
-Then('I get a timeout error when I wait for an element that never appears') do
+Then('I get a timeout error when waiting for an element within the limit') do
   start_time = Time.now
 
   expect { @test_site.home.wait_until_invisible_visible(wait: 0.4) }
@@ -91,10 +57,19 @@ Then('I get a timeout error when I wait for an element that never appears') do
   expect(@duration).to be_between(0.4, 0.55)
 end
 
+Then('I get a timeout error when waiting for an element with default limit') do
+  expect { @test_site.home.wait_until_invisible_visible }
+    .to raise_error(SitePrism::ElementVisibilityTimeoutError)
+end
+
 When('I wait until a particular element is visible') do
   start_time = Time.now
   @test_site.home.wait_until_slow_element_visible
   @duration = Time.now - start_time
+end
+
+Then('the previously invisible element is visible') do
+  expect(@test_site.home).to have_slow_element
 end
 
 When('I wait for a specific amount of time until an element is visible') do
@@ -110,11 +85,6 @@ end
 
 When('I wait a specific amount of time for a particular element to vanish') do
   @test_site.home.wait_until_vanishing_invisible(wait: 5)
-end
-
-Then('I get a timeout error when I wait for an element that never vanishes') do
-  expect { @test_site.home.wait_until_welcome_header_invisible(wait: 1) }
-    .to raise_error(SitePrism::ElementInvisibilityTimeoutError)
 end
 
 Then('I am not made to wait for the full default duration') do
@@ -134,4 +104,17 @@ Then('I can override the wait time using a Capybara.using_wait_time block') do
   @duration = Time.now - start_time
 
   expect(@duration).to be_between(0.5, 0.7)
+end
+
+Then('I am not made to wait to check a nonexistent element for invisibility') do
+  start = Time.new
+  @test_site.home.wait_until_nonexistent_element_invisible(wait: 10)
+
+  expect(Time.new - start).to be < 1
+end
+
+Then('an error is thrown when waiting for an element in a vanishing section') do
+  expect do
+    @test_site.home.container.wait_until_embedded_element_invisible
+  end.to raise_error(Capybara::ElementNotFound)
 end
