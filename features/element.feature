@@ -15,7 +15,7 @@ Feature: Element Methods
     Then the page does not have element
     And the welcome header is not matched with invalid text
 
-  @medium-speed
+  @slow-test
   Scenario: Element Properties
     When I navigate to the home page
     Then I can see the the HREF of the link
@@ -25,7 +25,7 @@ Feature: Element Methods
     When I navigate to the home page
     Then all elements marked as expected are present
 
-  @medium-speed
+  @slow-test
   Scenario: Expected Elements Present - Negative
     When I navigate to a page with no title
     Then not all expected elements are present
@@ -34,7 +34,7 @@ Feature: Element Methods
     When I navigate to the letter A page
     Then all mapped elements are present
 
-  @slow-speed
+  @slow-test
   Scenario: Elements Present - Negative
     When I navigate to the home page
     Then not all mapped elements are present

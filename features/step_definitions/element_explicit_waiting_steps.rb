@@ -32,19 +32,11 @@ Then("an exception is raised when I wait for an element that won't vanish") do
     .to raise_error(SitePrism::ElementInvisibilityTimeoutError)
 end
 
-When('I wait for the collection of sections that takes a while to disappear') do
-  @test_site.home.wait_until_removing_sections_invisible
-end
-
-Then('the removing collection of sections disappears') do
-  expect(@test_site.home).not_to have_removing_sections
-end
-
 Then('I can wait a variable time for elements to disappear') do
-  expect { @test_site.home.removing_links(wait: 1.9, count: 0) }
+  expect { @test_site.vanishing.removed_elements(wait: 1.4, count: 0) }
     .not_to raise_error
 
-  expect(@test_site.home).to have_no_removing_links
+  expect(@test_site.vanishing).to have_no_removed_elements
 end
 
 Then('I get a timeout error when waiting for an element within the limit') do
@@ -80,11 +72,11 @@ When('I wait for a specific amount of time until an element is visible') do
 end
 
 When('I wait for an element to become invisible') do
-  @test_site.home.wait_until_vanishing_invisible
+  @test_site.vanishing.wait_until_delayed_invisible
 end
 
 When('I wait a specific amount of time for a particular element to vanish') do
-  @test_site.home.wait_until_vanishing_invisible(wait: 5)
+  @test_site.vanishing.wait_until_delayed_invisible(wait: 5)
 end
 
 Then('I am not made to wait for the full default duration') do

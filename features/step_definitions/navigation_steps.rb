@@ -20,6 +20,14 @@ When('I navigate to the section experiments page') do
   @test_site.nested_sections.load
 end
 
+When('I navigate to the slow page') do
+  @test_site.slow.load
+end
+
+When('I navigate to the vanishing page') do
+  @test_site.vanishing.load
+end
+
 Then('I am on the home page') do
   expect(@test_site.home).to be_displayed
 end

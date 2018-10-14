@@ -73,7 +73,7 @@ Then('not all mapped elements are present') do
 end
 
 Then('the previously visible element is invisible') do
-  expect(@test_site.home.vanishing).not_to be_visible
+  expect(@test_site.vanishing.delayed).not_to be_visible
 end
 
 When('I remove the parent section of the element') do

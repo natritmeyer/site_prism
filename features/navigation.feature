@@ -3,7 +3,7 @@ Feature: Page Navigation
   I want to be able to load and navigate around the web
   In order to interact with different pages
 
-  Scenario: Load page
+  Scenario: Load home page
     When I navigate to the home page
     Then I am on the home page
 
@@ -16,7 +16,7 @@ Feature: Page Navigation
     Then I am on the redirect page
     And I will be redirected to the home page
 
-  Scenario: Load different page
+  Scenario: Load a page that redirects
     When I navigate to the home page
     Then I am not on the redirect page
 

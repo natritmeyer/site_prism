@@ -24,4 +24,5 @@ Feature: Interaction with groups of elements
     Then I can wait a variable time and pass query parameters
 
   Scenario: Waiting on a set of elements to disappear - Positive
+    When I navigate to the vanishing page
     Then I can wait a variable time for elements to disappear
