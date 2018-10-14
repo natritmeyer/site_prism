@@ -65,17 +65,17 @@ is called before the matcher has been set" do
   end
 
   it 'should raise an exception if passing a block to an element' do
-    expect { NoTitle.new.message { :any_old_block } }
+    expect { CSSPage.new.bob { :any_old_block } }
       .to raise_error(SitePrism::UnsupportedBlockError)
   end
 
   it 'should raise an exception if passing a block to elements' do
-    expect { NoTitle.new.missing_messages { :any_old_block } }
+    expect { CSSPage.new.plural { :any_old_block } }
       .to raise_error(SitePrism::UnsupportedBlockError)
   end
 
   it 'should raise an exception if passing a block to sections' do
-    expect { NoTitle.new.missing_sections { :any_old_block } }
+    expect { CSSPage.new.plural_sections { :any_old_block } }
       .to raise_error(SitePrism::UnsupportedBlockError)
   end
 
