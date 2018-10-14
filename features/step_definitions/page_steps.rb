@@ -27,9 +27,9 @@ Then('the page has no title') do
 end
 
 When('I execute some javascript on the page to set a value') do
-  @test_site.section_experiments.cell_value = 'wibble'
+  @test_site.nested_sections.cell_value = 'wibble'
 end
 
 Then('I can evaluate some javascript on the page to get the value') do
-  expect(@test_site.section_experiments.cell_value).to eq('wibble')
+  expect(@test_site.nested_sections.cell_value).to eq('wibble')
 end

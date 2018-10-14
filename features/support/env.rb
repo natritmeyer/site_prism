@@ -16,6 +16,7 @@ $LOAD_PATH << './lib'
 require 'site_prism'
 
 # To prevent natural cucumber load order
+require_relative 'js_helper'
 require_relative 'sections/all'
 
 Capybara.register_driver :selenium do |app|

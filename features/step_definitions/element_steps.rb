@@ -59,7 +59,7 @@ Then('not all expected elements are present') do
 end
 
 Then('all elements marked as expected are present') do
-  expect(@test_site.home_with_expected_elements).to be_all_there
+  expect(@test_site.home).to be_all_there
 end
 
 Then('all mapped elements are present') do

@@ -42,10 +42,6 @@ Feature: Page Sections
     When I navigate to the home page
     Then I can access the sections root element
 
-  Scenario: Check that all elements are present
-    When I navigate to the section experiments page
-    Then all expected elements are present in the search results
-
   Scenario: Check we can call JS methods against a section
     When I navigate to the section experiments page
     And I execute some javascript to set a value
@@ -59,13 +55,13 @@ Feature: Page Sections
     When I navigate to the section experiments page
     Then I can get a parent section for a child section
 
-  Scenario: get page from child section
+  Scenario: get page from nested section using repeated `parent` calls
     When I navigate to the section experiments page
-    Then I can get access to a page through a child section
+    Then I can get access to a page using repeated parent calls
 
-  Scenario: directly access page through child section
+  Scenario: get page from nested section using `parent_page`
     When I navigate to the section experiments page
-    Then I can get direct access to a page through a child section
+    Then I can get direct access to a page using parent_page
 
   Scenario: Page with no section
     When I navigate to the home page

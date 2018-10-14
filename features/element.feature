@@ -22,7 +22,7 @@ Feature: Element Methods
     And I can see the CLASS of the link
 
   Scenario: Expected Elements Present - Positive
-    When I navigate to the home page that contains expected elements
+    When I navigate to the home page
     Then all elements marked as expected are present
 
   @medium-speed

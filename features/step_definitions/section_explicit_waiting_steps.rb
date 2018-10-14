@@ -9,7 +9,7 @@ When('I wait for the section that takes a while to vanish') do
 end
 
 Then("an exception is raised when I wait for a section that won't appear") do
-  expect { @test_site.section_experiments.slow_section(wait: 0.05) }
+  expect { @test_site.slow.first_section(wait: 0.05) }
     .to raise_error(Capybara::ElementNotFound)
 end
 

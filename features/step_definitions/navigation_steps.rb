@@ -4,10 +4,6 @@ When('I navigate to the home page') do
   @test_site.home.load
 end
 
-When('I navigate to the home page that contains expected elements') do
-  @test_site.home_with_expected_elements.load
-end
-
 When('I navigate to the letter A page') do
   @test_site.dynamic_page.load(letter: 'a')
 end
@@ -21,7 +17,7 @@ When('I navigate to a page with no title') do
 end
 
 When('I navigate to the section experiments page') do
-  @test_site.section_experiments.load
+  @test_site.nested_sections.load
 end
 
 Then('I am on the home page') do

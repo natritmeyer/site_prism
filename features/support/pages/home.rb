@@ -49,4 +49,6 @@ class Home < SitePrism::Page
   section :section_for_iframe, '#section_for_iframe' do
     iframe :iframe_within_section, Iframe, 0
   end
+
+  expected_elements :welcome_header, :welcome_message
 end
