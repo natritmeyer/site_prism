@@ -7,7 +7,9 @@ class NoTitle < SitePrism::Page
   element :element_without_selector
   elements :elements_without_selector
   element :message, 'p'
-  element :missing_message, 'br'
+  elements :missing_messages, 'br'
+  sections :missing_sections, 'div' do
+  end
 
-  expected_elements :message, :missing_message
+  expected_elements :message, :missing_messages
 end

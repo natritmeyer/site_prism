@@ -25,6 +25,32 @@ Feature: Page Properties
     Then the page has no title
 
   Scenario: Check we can call JS methods against a page
-    When I navigate to the section experiments page
+    When I navigate to the nested section page
     And I execute some javascript on the page to set a value
     Then I can evaluate some javascript on the page to get the value
+
+  Scenario: Expected Elements Present - Positive
+    When I navigate to the home page
+    Then all elements marked as expected are present
+
+  @slow-test
+  Scenario: Expected Elements Present - Negative
+    When I navigate to a page with no title
+    Then not all expected elements are present
+
+  Scenario: All Elements Present - Positive
+    When I navigate to the nested section page
+    Then all elements are present
+
+  Scenario: All Elements Present - Negative
+    When I navigate to the slow page
+    Then not all elements are present
+
+  Scenario: Elements Present - Positive
+    When I navigate to the letter A page
+    Then all mapped elements are present
+
+  @slow-test
+  Scenario: Elements Present - Negative
+    When I navigate to the home page
+    Then not all mapped elements are present

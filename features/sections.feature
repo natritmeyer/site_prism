@@ -4,7 +4,7 @@ Feature: Interaction with groups of elements
   In order to work with large collections of data
 
   Scenario: collection of sections
-    When I navigate to the section experiments page
+    When I navigate to the nested section page
     Then I can see a collection of sections
 
   Scenario: waiting on a collection of sections to disappear
@@ -13,5 +13,5 @@ Feature: Interaction with groups of elements
     Then the sections are no longer present
 
   Scenario: anonymous sections collection
-    When I navigate to the section experiments page
+    When I navigate to the nested section page
     Then I can see a collection of anonymous sections

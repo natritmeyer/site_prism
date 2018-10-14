@@ -6,6 +6,7 @@ class Slow < SitePrism::Page
 
   element :last_link, 'a', text: 'slow link4'
   elements :even_links, '.even'
+  element :undefined, '.not_here'
   section :first_section, Blank, '.slow-section', text: 'First Section'
   sections :all_sections, Blank, '.slow-section'
 

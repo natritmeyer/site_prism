@@ -21,24 +21,6 @@ Feature: Element Methods
     Then I can see the the HREF of the link
     And I can see the CLASS of the link
 
-  Scenario: Expected Elements Present - Positive
-    When I navigate to the home page
-    Then all elements marked as expected are present
-
-  @slow-test
-  Scenario: Expected Elements Present - Negative
-    When I navigate to a page with no title
-    Then not all expected elements are present
-
-  Scenario: Elements Present - Positive
-    When I navigate to the letter A page
-    Then all mapped elements are present
-
-  @slow-test
-  Scenario: Elements Present - Negative
-    When I navigate to the home page
-    Then not all mapped elements are present
-
   Scenario: Get native property from element
     When I navigate to the home page
     Then I can obtain the native property of an element

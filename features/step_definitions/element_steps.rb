@@ -54,14 +54,6 @@ Then('I can see the CLASS of the link') do
     .to eq('link link--undefined')
 end
 
-Then('not all expected elements are present') do
-  expect(@test_site.no_title).not_to be_all_there
-end
-
-Then('all elements marked as expected are present') do
-  expect(@test_site.home).to be_all_there
-end
-
 Then('all mapped elements are present') do
   expect(@test_site.dynamic_page.elements_present)
     .to eq(@test_site.dynamic_page.class.mapped_items)

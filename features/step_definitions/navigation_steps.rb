@@ -16,7 +16,7 @@ When('I navigate to a page with no title') do
   @test_site.no_title.load
 end
 
-When('I navigate to the section experiments page') do
+When('I navigate to the nested section page') do
   @test_site.nested_sections.load
 end
 

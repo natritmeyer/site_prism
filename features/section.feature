@@ -14,11 +14,11 @@ Feature: Page Sections
     But I cannot access elements that are not in the section using a block
 
   Scenario: section in a section
-    When I navigate to the section experiments page
+    When I navigate to the nested section page
     Then I can see a section in a section
 
   Scenario: section within a section using blocks
-    When I navigate to the section experiments page
+    When I navigate to the nested section page
     Then I can see a section within a section using nested blocks
 
   Scenario: section within a section using class & blocks
@@ -31,7 +31,7 @@ Feature: Page Sections
     Then access to elements is constrained to those within the section
 
   Scenario: anonymous section
-    When I navigate to the section experiments page
+    When I navigate to the nested section page
     Then I can see an anonymous section
 
   Scenario: section visible on a page
@@ -43,7 +43,7 @@ Feature: Page Sections
     Then I can access the sections root element
 
   Scenario: Check we can call JS methods against a section
-    When I navigate to the section experiments page
+    When I navigate to the nested section page
     And I execute some javascript to set a value
     Then I can evaluate some javascript to get the value
 
@@ -52,15 +52,15 @@ Feature: Page Sections
     Then I can get access to a page through a section
 
   Scenario: get parent section for a child section
-    When I navigate to the section experiments page
+    When I navigate to the nested section page
     Then I can get a parent section for a child section
 
   Scenario: get page from nested section using repeated `parent` calls
-    When I navigate to the section experiments page
+    When I navigate to the nested section page
     Then I can get access to a page using repeated parent calls
 
   Scenario: get page from nested section using `parent_page`
-    When I navigate to the section experiments page
+    When I navigate to the nested section page
     Then I can get direct access to a page using parent_page
 
   Scenario: Page with no section
@@ -72,7 +72,7 @@ Feature: Page Sections
     Then the page contains a section with no element
 
   Scenario: Page with a deeply nested section
-    When I navigate to the section experiments page
+    When I navigate to the nested section page
     Then the page contains a deeply nested span
 
   Scenario: get text from page section

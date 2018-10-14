@@ -33,3 +33,19 @@ end
 Then('I can evaluate some javascript on the page to get the value') do
   expect(@test_site.nested_sections.cell_value).to eq('wibble')
 end
+
+Then('not all expected elements are present') do
+  expect(@test_site.no_title).not_to be_all_there
+end
+
+Then('all elements marked as expected are present') do
+  expect(@test_site.home).to be_all_there
+end
+
+Then('not all elements are present') do
+  expect(@test_site.slow).not_to be_all_there
+end
+
+Then('all elements are present') do
+  expect(@test_site.nested_sections).to be_all_there
+end
