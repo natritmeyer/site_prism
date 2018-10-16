@@ -7,8 +7,8 @@ Then('I can see elements in the section') do
 end
 
 Then('I can see a section in a section') do
-  expect(@test_site.section_experiments.parent_div.child)
-    .to have_nice_label(text: 'something')
+  expect(@test_site.nested_sections.top.middle)
+    .to have_bottom(text: 'something')
 end
 
 Then('I can access elements within the section using a block') do
@@ -50,19 +50,19 @@ Then('I can see a welcome header') do
 end
 
 Then('I can see a section within a section using nested blocks') do
-  expect(@test_site.section_experiments).to have_parent_div
+  expect(@test_site.nested_sections).to have_top
 
-  @test_site.section_experiments.parent_div do |parent|
-    expect(parent.child.nice_label.text).to eq('something')
+  @test_site.nested_sections.top do |top|
+    expect(top.middle.bottom.text).to eq('something')
 
-    parent.child do |child|
-      expect(child).to have_nice_label(text: 'something')
+    top.middle do |middle|
+      expect(middle).to have_bottom(text: 'something')
     end
   end
 end
 
 Then('I can see an anonymous section') do
-  expect(@test_site.section_experiments.anonymous_section.title.text)
+  expect(@test_site.nested_sections.anonymous_section.title.text)
     .to eq('Anonymous Section')
 end
 
@@ -76,11 +76,11 @@ Then('I can access the sections root element') do
 end
 
 When('I execute some javascript to set a value') do
-  @test_site.section_experiments.search_results.first.cell_value = 'wibble'
+  @test_site.nested_sections.search_results.first.cell_value = 'wibble'
 end
 
 Then('I can evaluate some javascript to get the value') do
-  expect(@test_site.section_experiments.search_results.first.cell_value)
+  expect(@test_site.nested_sections.search_results.first.cell_value)
     .to eq('wibble')
 end
 
@@ -91,21 +91,21 @@ Then('I can get access to a page through a section') do
 end
 
 Then('I can get a parent section for a child section') do
-  parent_div = @test_site.section_experiments.parent_div
+  top = @test_site.nested_sections.top
 
-  expect(parent_div.child.parent).to eq(parent_div)
+  expect(top.middle.parent).to eq(top)
 end
 
-Then('I can get access to a page through a child section') do
-  page = @test_site.section_experiments
+Then('I can get access to a page using repeated parent calls') do
+  page = @test_site.nested_sections
 
-  expect(page.parent_div.child.parent.parent).to eq(page)
+  expect(page.top.middle.parent.parent).to eq(page)
 end
 
-Then('I can get direct access to a page through a child section') do
-  page = @test_site.section_experiments
+Then('I can get direct access to a page using parent_page') do
+  page = @test_site.nested_sections
 
-  expect(page.parent_div.child.parent_page).to eq(page)
+  expect(page.top.middle.parent_page).to eq(page)
 end
 
 Then('the page contains a section with no element') do
@@ -113,7 +113,7 @@ Then('the page contains a section with no element') do
 end
 
 Then('the page contains a deeply nested span') do
-  nested_section = @test_site.section_experiments.level_1.level_2.level_3
+  nested_section = @test_site.nested_sections.level_1.level_2.level_3
 
   expect(nested_section.deep_span.text).to eq('Deep span')
 end

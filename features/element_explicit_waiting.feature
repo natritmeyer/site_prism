@@ -31,14 +31,16 @@ Feature: Waiting for an Element
     Then I get a timeout error when waiting for an element with default limit
 
   Scenario: Wait for Element Invisibility - Positive - Overridden Timeout
-    When I wait a specific amount of time for a particular element to vanish
+    When I navigate to the vanishing page
+    And I wait a specific amount of time for a particular element to vanish
     Then the previously visible element is invisible
 
   Scenario: Wait for Element Invisibility - Negative - Overridden Timeout
     Then I get an error when I wait for an element to vanish within the limit
 
   Scenario: Wait for Element Invisibility - Positive - Default Timeout
-    When I wait for an element to become invisible
+    When I navigate to the vanishing page
+    And I wait for an element to become invisible
     Then the previously visible element is invisible
 
   Scenario: Wait for Element Invisibility - Negative - Default Timeout

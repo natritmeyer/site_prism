@@ -9,8 +9,7 @@ $LOAD_PATH << './lib'
 $LOAD_PATH << './features/support'
 
 require 'site_prism'
-require 'sections/all'
-require 'pages/home'
+require 'pages/no_title'
 
 Capybara.default_max_wait_time = 0
 

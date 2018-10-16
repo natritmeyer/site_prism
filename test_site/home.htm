@@ -24,11 +24,6 @@
           });
         }, 950);
 
-        setTimeout("document.getElementById('will_become_visible').style.display='block';", 950);
-        setTimeout("document.getElementById('will_become_invisible').style.display='none';", 950);
-        setTimeout("document.getElementById('will_become_nonexistent').remove();", 950);
-        setTimeout("document.getElementById('removing_link_div').remove();", 950);
-
         slow_section = document.createElement("div");
         slow_section.className = 'slow-section first';
         slow_section2 = document.createElement("div");
@@ -86,9 +81,6 @@
 
     <p id="dumping_ground"></p>
 
-    <input type="submit" id="will_become_nonexistent" value="Will become non-existent"/>
-    <input type="submit" id="will_become_visible" value="Will become visible" style="display: none;"/>
-    <input type="submit" id="will_become_invisible" value="Will become invisible" style="display: block;"/>
     <input type="submit" class="invisible" value="Invisible" style="display: none;"/>
 
     <div id="section_for_iframe">

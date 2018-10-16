@@ -5,9 +5,13 @@ class Vanishing < SitePrism::Page
   set_url_matcher(/vanishing\.htm$/)
 
   element :embedded, '#container .embedded_element'
+  element :invisible, '.invisible'
+  element :delayed, '#will_become_invisible'
   elements :submit_buttons, 'input[type="submit"]'
+  elements :removed_elements, '.div_that_is_removed'
   section :container, Blank, '#container'
-  sections :divs, Blank, '.div_that_is_removed'
+  section :delayed_section, Blank, '#will_become_invisible'
+  sections :removed_sections, Blank, '.div_that_is_removed'
 
   # To test vanishing elements inside a section
   section :container, '#container' do

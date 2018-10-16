@@ -1,4 +1,3 @@
-@migrated
 Feature: Malformed Items
 
   I want to check that I have defined my SitePrism objects correctly

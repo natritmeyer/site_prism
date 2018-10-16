@@ -5,10 +5,6 @@ class TestSite
     @home ||= Home.new
   end
 
-  def home_with_expected_elements
-    TestHomePageWithExpectedElements.new
-  end
-
   def no_title
     @no_title ||= NoTitle.new
   end
@@ -21,7 +17,15 @@ class TestSite
     @redirect ||= Redirect.new
   end
 
-  def section_experiments
-    @section_experiments ||= SectionExperiments.new
+  def nested_sections
+    @nested_sections ||= NestedSections.new
+  end
+
+  def slow
+    @slow ||= Slow.new
+  end
+
+  def vanishing
+    @vanishing ||= Vanishing.new
   end
 end
