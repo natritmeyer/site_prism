@@ -13,7 +13,7 @@ describe 'Elements' do
     end
 
     it 'should return an enumerable result' do
-      expect(page.bobs).to be_a Capybara::Result
+      expect(page.elements_one).to be_a Capybara::Result
     end
   end
 

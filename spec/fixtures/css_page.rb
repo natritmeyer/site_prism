@@ -3,16 +3,22 @@
 class CSSPage < SitePrism::Page
   include ItemStubs
 
-  element :bob, 'a.b c.d'
-  elements :bobs, 'a.a b.b'
-  element :dave, 'w.x y.z'
-  element :success_msg, 'span.alert-success'
-  elements :plural, '.many'
-  section :section_xpath, 'span.locator' do
+  element :element_one, 'a.b c.d'
+  element :element_two, 'w.x y.z'
+  element :element_three, 'span.alert-success'
+
+  elements :elements_one, 'a.a b.b'
+  elements :elements_two, '.many'
+
+  section :section_one, 'span.locator' do
     element :inner_element_one, '.one'
     element :inner_element_two, '.two'
+    iframe :iframe, CSSIFrame, '.iframe'
   end
-  sections :plural_sections, Blank, 'span.locator'
 
-  expected_elements :bob
+  sections :sections_one, Blank, 'span.locator'
+
+  iframe :iframe, CSSIFrame, '.iframe'
+
+  expected_elements :element_one
 end
