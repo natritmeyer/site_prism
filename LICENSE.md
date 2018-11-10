@@ -1,4 +1,4 @@
-Copyright (c) 2011-2018, Nathaniel Ritmeyer & the Site Prism team
+Copyright (c) 2011-2018, Nathaniel Ritmeyer & the SitePrism team
 
 All rights reserved.
 
