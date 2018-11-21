@@ -8,6 +8,7 @@ module SitePrism
       loop do
         return true if yield
         break if Time.now - start_time > wait_time
+
         sleep(0.05)
       end
 

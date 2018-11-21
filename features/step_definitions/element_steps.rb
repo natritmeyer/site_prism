@@ -44,14 +44,13 @@ Then('I can see the welcome message using a capybara text query') do
 end
 
 Then('I can see the the HREF of the link') do
-  expect(@test_site.home).to have_search_page_link
+  expect(@test_site.home).to have_a_link
 
-  expect(@test_site.home.search_page_link['href']).to include('search.htm')
+  expect(@test_site.home.a_link['href']).to include('a.htm')
 end
 
 Then('I can see the CLASS of the link') do
-  expect(@test_site.home.search_page_link['class'])
-    .to eq('link link--undefined')
+  expect(@test_site.home.a_link['class']).to eq('a')
 end
 
 Then('all mapped elements are present') do

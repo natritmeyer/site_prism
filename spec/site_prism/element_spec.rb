@@ -2,8 +2,8 @@
 
 require 'spec_helper'
 
-describe SitePrism::Page do
-  shared_examples 'element' do
+describe 'Element' do
+  shared_examples 'an element' do
     describe '.element' do
       it 'should be settable' do
         expect(SitePrism::Page).to respond_to(:element)
@@ -12,79 +12,55 @@ describe SitePrism::Page do
       end
     end
 
-    it { is_expected.to respond_to(:bob) }
-    it { is_expected.to respond_to(:has_bob?) }
-    it { is_expected.to respond_to(:has_no_bob?) }
-    it { is_expected.to respond_to(:wait_until_bob_visible) }
-    it { is_expected.to respond_to(:wait_until_bob_invisible) }
+    it { is_expected.to respond_to(:element_one) }
+    it { is_expected.to respond_to(:has_element_one?) }
+    it { is_expected.to respond_to(:has_no_element_one?) }
+    it { is_expected.to respond_to(:wait_until_element_one_visible) }
+    it { is_expected.to respond_to(:wait_until_element_one_invisible) }
 
     describe '#all_there?' do
       subject { page.all_there? }
 
-      before do
-        allow(page).to receive(:has_bob?).and_return(true)
-        allow(page).to receive(:has_success_msg?).and_return(false)
-      end
+      context 'with no recursion' do
+        it { is_expected.to be_truthy }
 
-      it { is_expected.to be_truthy }
+        it 'checks only the expected elements' do
+          expect(page).to receive(:there?).with(:element_one).once
+          expect(page).not_to receive(:there?).with(:element_two)
 
-      it 'checks only the expected elements' do
-        expect(page).to receive(:has_bob?).at_least(:once)
-        expect(page).not_to receive(:has_success_msg?)
-
-        subject
+          subject
+        end
       end
     end
 
     describe '#elements_present' do
-      before do
-        allow(page).to receive(:there?).with(:bob).and_return(true)
-        allow(page).to receive(:there?).with(:dave).and_return(false)
-        allow(page).to receive(:there?).with(:success_msg).and_return(true)
-        allow(page).to receive(:there?).with(:iframe).and_return(false)
-      end
-
       it 'only lists the SitePrism objects that are present on the page' do
-        expect(subject.elements_present).to eq(%i[bob success_msg])
+        expect(page.elements_present).to eq(%i[element_one element_three])
       end
     end
 
     describe '.expected_elements' do
       it 'sets the value of expected_items' do
-        expect(klass.expected_items).to eq([:bob])
+        expect(klass.expected_items).to eq([:element_one])
       end
     end
   end
 
-  context 'with css elements' do
-    class PageCSS < SitePrism::Page
-      element :bob, 'a.b c.d'
-      element :dave, 'w.x y.z'
-      element :success_msg, 'span.alert-success'
-
-      expected_elements :bob
-    end
+  context 'defined as css' do
+    let(:page) { CSSPage.new }
+    let(:klass) { CSSPage }
 
     subject { page }
-    let(:page) { PageCSS.new }
-    let(:klass) { PageCSS }
 
-    it_behaves_like 'element'
+    it_behaves_like 'an element'
   end
 
-  context 'with xpath elements' do
-    class PageXPath < SitePrism::Page
-      element :bob, :xpath, '//a[@class="b"]//c[@class="d"]'
-      element :dave, :xpath, '//w[@class="x"]//y[@class="z"]'
-      element :success_msg, :xpath, '//span[@class="alert-success"]'
-
-      expected_elements :bob
-    end
+  context 'defined as xpath' do
+    let(:page) { XPathPage.new }
+    let(:klass) { XPathPage }
 
     subject { page }
-    let(:page) { PageXPath.new }
-    let(:klass) { PageXPath }
 
-    it_behaves_like 'element'
+    it_behaves_like 'an element'
   end
 end
