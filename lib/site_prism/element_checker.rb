@@ -3,7 +3,7 @@
 module SitePrism
   module ElementChecker
     def all_there?
-      elements_to_check.all? { |element| there?(element) }
+      elements_to_check.all? { |item_name| there?(item_name) }
     end
 
     def elements_present
@@ -13,21 +13,28 @@ module SitePrism
     private
 
     def elements_to_check
-      if self.class.expected_items
-        mapped_items.select { |el| self.class.expected_items.include?(el) }
+      if expected_items
+        SitePrism.logger.debug('Expected Items has been set.')
+        mapped_items.select { |item_name| expected_items.include?(item_name) }
       else
         mapped_items
       end
     end
 
     def mapped_items
-      return unless self.class.mapped_items
+      mapped_items_list.map(&:values).flatten
+    end
 
+    def mapped_items_list
       self.class.mapped_items.uniq
     end
 
-    def there?(element)
-      send("has_#{element}?")
+    def expected_items
+      self.class.expected_items
+    end
+
+    def there?(item_name)
+      send("has_#{item_name}?")
     end
   end
 end
