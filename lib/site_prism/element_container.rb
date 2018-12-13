@@ -58,10 +58,10 @@ module SitePrism
 
     # rubocop:disable Metrics/ModuleLength
     module ClassMethods
-      attr_reader :mapped_items, :expected_items
+      attr_reader :expected_items
 
       def element(name, *find_args)
-        build(name, *find_args) do
+        build(:element, name, *find_args) do
           define_method(name) do |*runtime_args, &element_block|
             raise_if_block(self, name, !element_block.nil?, :element)
             _find(*merge_args(find_args, runtime_args))
@@ -70,7 +70,7 @@ module SitePrism
       end
 
       def elements(name, *find_args)
-        build(name, *find_args) do
+        build(:elements, name, *find_args) do
           define_method(name) do |*runtime_args, &element_block|
             raise_if_block(self, name, !element_block.nil?, :elements)
             _all(*merge_args(find_args, runtime_args))
@@ -84,7 +84,7 @@ module SitePrism
 
       def section(name, *args, &block)
         section_class, find_args = extract_section_options(args, &block)
-        build(name, *find_args) do
+        build(:section, name, *find_args) do
           define_method(name) do |*runtime_args, &runtime_block|
             section_element = _find(*merge_args(find_args, runtime_args))
             section_class.new(self, section_element, &runtime_block)
@@ -94,7 +94,7 @@ module SitePrism
 
       def sections(name, *args, &block)
         section_class, find_args = extract_section_options(args, &block)
-        build(name, *find_args) do
+        build(:sections, name, *find_args) do
           define_method(name) do |*runtime_args, &element_block|
             raise_if_block(self, name, !element_block.nil?, :sections)
             _all(*merge_args(find_args, runtime_args)).map do |element|
@@ -107,7 +107,7 @@ module SitePrism
       def iframe(name, klass, *args)
         element_find_args = deduce_iframe_element_find_args(args)
         scope_find_args = deduce_iframe_scope_find_args(args)
-        add_to_mapped_items(name)
+        map_item!(:iframe, name)
         add_iframe_helper_methods(name, *element_find_args)
         define_method(name) do |&block|
           raise MissingBlockError unless block
@@ -118,18 +118,21 @@ module SitePrism
         end
       end
 
-      def add_to_mapped_items(item)
+      def map_item!(type, name)
+        mapped_items << { type => name }
+      end
+
+      def mapped_items
         @mapped_items ||= []
-        @mapped_items << item
       end
 
       private
 
-      def build(name, *find_args)
+      def build(type, name, *find_args)
         if find_args.empty?
           create_error_method(name)
         else
-          add_to_mapped_items(name)
+          map_item!(type, name)
           yield
         end
         add_helper_methods(name, *find_args)
