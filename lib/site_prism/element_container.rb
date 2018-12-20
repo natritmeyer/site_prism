@@ -118,10 +118,6 @@ module SitePrism
         end
       end
 
-      def map_item!(type, name)
-        mapped_items << { type => name }
-      end
-
       def mapped_items
         @mapped_items ||= []
       end
@@ -136,6 +132,10 @@ module SitePrism
           yield
         end
         add_helper_methods(name, *find_args)
+      end
+
+      def map_item!(type, name)
+        mapped_items << { type => name }
       end
 
       def add_helper_methods(name, *find_args)
@@ -203,7 +203,7 @@ module SitePrism
       end
 
       def create_error_method(name)
-        SitePrism.logger.debug("#{name} has come from an item with 0 locators.")
+        SitePrism.logger.error("#{name} has come from an item with 0 locators.")
 
         define_method(name) do
           raise SitePrism::InvalidElementError
