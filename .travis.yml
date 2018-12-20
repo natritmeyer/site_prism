@@ -20,6 +20,7 @@ gemfile:
 
 addons:
   chrome: stable
+  firefox: latest
 
 before_install:
   - gem install bundler
@@ -32,10 +33,12 @@ before_script:
         mkdir geckodriver
         tar -xzf geckodriver*.tar.gz -C geckodriver
         export PATH=$PATH:$PWD/geckodriver
+        geckodriver -v
         ;;
       chrome)
         sudo apt-get update -qq && sudo apt-get install -y chromium-chromedriver
         export PATH=$PATH:/usr/lib/chromium-browser/
+        chromedriver -v
         ;;
     esac
   - export DISPLAY=:99.0
