@@ -23,6 +23,7 @@ Feature: Waiting for an Element
     Then I get a timeout error when waiting for an element within the limit
 
   Scenario: Wait for Element Visibility - Positive - Default Timeout
+    Given I navigate to the slow page
     When I wait until a particular element is visible
     Then the previously invisible element is visible
     And I am not made to wait for the full default duration

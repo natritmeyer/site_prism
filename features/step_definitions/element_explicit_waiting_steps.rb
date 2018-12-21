@@ -56,12 +56,12 @@ end
 
 When('I wait until a particular element is visible') do
   start_time = Time.now
-  @test_site.home.wait_until_slow_element_visible
+  @test_site.slow.wait_until_last_link_visible
   @duration = Time.now - start_time
 end
 
 Then('the previously invisible element is visible') do
-  expect(@test_site.home).to have_slow_element
+  expect(@test_site.slow.last_link).to be_visible
 end
 
 When('I wait for a specific amount of time until an element is visible') do
