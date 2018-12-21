@@ -67,7 +67,7 @@ end
 When('I wait for a specific amount of time until an element is visible') do
   @overridden_wait_time = 3.5
   start_time = Time.now
-  @test_site.home.wait_until_slow_element_visible(wait: @overridden_wait_time)
+  @test_site.slow.wait_until_last_link_visible(wait: @overridden_wait_time)
   @duration = Time.now - start_time
 end
 
