@@ -33,7 +33,7 @@ before_script:
         mkdir geckodriver
         tar -xzf geckodriver*.tar.gz -C geckodriver
         export PATH=$PATH:$PWD/geckodriver
-        geckodriver -v
+        geckodriver --version
         ;;
       chrome)
         sudo apt-get update -qq && sudo apt-get install -y chromium-chromedriver
