@@ -76,11 +76,11 @@ Then('I can access the sections root element') do
 end
 
 When('I execute some javascript to set a value') do
-  @test_site.nested_sections.search_results.first.cell_value = 'wibble'
+  @test_site.nested_sections.search_results.first.first_search_result = 'wibble'
 end
 
 Then('I can evaluate some javascript to get the value') do
-  expect(@test_site.nested_sections.search_results.first.cell_value)
+  expect(@test_site.nested_sections.search_results.first.first_search_result)
     .to eq('wibble')
 end
 
