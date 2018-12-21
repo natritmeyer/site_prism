@@ -8,6 +8,7 @@ rvm:
   - 2.3
   - 2.4
   - 2.5
+  - ruby-head
 
 env:
   - browser=chrome
@@ -19,6 +20,7 @@ gemfile:
 
 addons:
   chrome: stable
+  firefox: latest
 
 before_install:
   - gem install bundler
@@ -27,14 +29,16 @@ before_script:
   - |
     case $browser in
       firefox)
-        wget https://github.com/mozilla/geckodriver/releases/download/v0.20.1/geckodriver-v0.20.1-linux64.tar.gz
+        wget https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz
         mkdir geckodriver
         tar -xzf geckodriver*.tar.gz -C geckodriver
         export PATH=$PATH:$PWD/geckodriver
+        geckodriver --version
         ;;
       chrome)
         sudo apt-get update -qq && sudo apt-get install -y chromium-chromedriver
         export PATH=$PATH:/usr/lib/chromium-browser/
+        chromedriver -v
         ;;
     esac
   - export DISPLAY=:99.0
