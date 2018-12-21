@@ -5,7 +5,7 @@ When('I navigate to the home page') do
 end
 
 When('I navigate to the letter A page') do
-  @test_site.dynamic_page.load(letter: 'a')
+  @test_site.dynamic.load(letter: 'a')
 end
 
 When('I navigate to the redirect page') do
@@ -33,7 +33,7 @@ Then('I am on the home page') do
 end
 
 Then('I am on a dynamic page') do
-  expect(@test_site.dynamic_page).to be_displayed
+  expect(@test_site.dynamic).to be_displayed
 end
 
 Then('I am on the redirect page') do

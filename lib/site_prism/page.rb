@@ -21,7 +21,7 @@ module SitePrism
       end
 
       def url_matcher
-        @url_matcher || url
+        @url_matcher ||= url
       end
     end
 
@@ -31,7 +31,7 @@ module SitePrism
     # in order, with the default "displayed?" validation being ran _FIRST_
 
     def page
-      @page || Capybara.current_session
+      @page ||= Capybara.current_session
     end
 
     # Loads the page.

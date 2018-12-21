@@ -4,7 +4,7 @@ Feature: Waiting for Elements Implicitly
   In order to interact with the element once it is ready
 
   Background:
-    When I navigate to the home page
+    When I navigate to the slow page
 
   Scenario: Element is Automatically Waited For
     Then the slow element is waited for

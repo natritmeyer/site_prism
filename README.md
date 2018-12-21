@@ -72,7 +72,7 @@ When(/^I navigate to the google home page$/) do
 end
 
 Then(/^the home page should contain the menu and the search form$/) do
-  @home.wait_for_menu # menu loads after a second or 2, give it time to arrive
+  @home.wait_until_menu_visible # menu loads after a second or 2, give it time to arrive
   expect(@home).to have_menu
   expect(@home).to have_search_field
   expect(@home).to have_search_button
@@ -89,7 +89,7 @@ Then(/^the search results page is displayed$/) do
 end
 
 Then(/^the search results page contains 10 individual search results$/) do
-  @results_page.wait_for_search_results
+  @results_page.wait_until_search_results_visible
   expect(@results_page).to have_search_results(count: 10)
 end
 
@@ -858,7 +858,7 @@ end
 @home.menu.search.click #=> clicks the search link in the home page menu
 @home.menu.search['href'] #=> returns the value for the href attribute of the capybara element representing the search link
 @home.menu.has_images? #=> returns true or false based on whether the link is present in the section on the page
-@home.menu.wait_for_images #=> waits for capybara's default wait time until the element appears in the page section
+@home.menu.wait_until_images_visible #=> waits for capybara's default wait time until the element is visible in the page section
 
 ```
 

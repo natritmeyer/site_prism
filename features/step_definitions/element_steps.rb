@@ -55,16 +55,16 @@ end
 
 Then('all mapped elements are present') do
   mapped_item_names =
-    @test_site.dynamic_page.class.mapped_items.map(&:values).flatten
+    @test_site.dynamic.class.mapped_items.map(&:values).flatten
 
-  expect(@test_site.dynamic_page.elements_present).to eq(mapped_item_names)
+  expect(@test_site.dynamic.elements_present).to eq(mapped_item_names)
 end
 
 Then('not all mapped elements are present') do
   mapped_item_names =
-    @test_site.dynamic_page.class.mapped_items.map(&:values).flatten
+    @test_site.dynamic.class.mapped_items.map(&:values).flatten
 
-  expect(@test_site.dynamic_page.elements_present).not_to eq(mapped_item_names)
+  expect(@test_site.dynamic.elements_present).not_to eq(mapped_item_names)
 end
 
 Then('the previously visible element is invisible') do
