@@ -1,6 +1,12 @@
 AllCops:
   TargetRubyVersion: 2.2
 
+Metrics/LineLength:
+  IgnoredPatterns:
+    - '^Given'
+    - '^When'
+    - '^Then'
+
 Documentation:
   Enabled: false
 
