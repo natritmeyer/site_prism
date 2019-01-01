@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 When('I wait for the section that takes a while to appear') do
-  @test_site.home.slow_section(wait: 1)
+  @test_site.slow.first_section(wait: 1)
 end
 
 When('I wait for the section that takes a while to vanish') do
@@ -27,7 +27,7 @@ When('I wait an overridden time for the section to vanish') do
 end
 
 Then('the slow section appears') do
-  expect(@test_site.home).to have_slow_section
+  expect(@test_site.slow).to have_first_section
 end
 
 Then('an error is raised when waiting a new time for the section to vanish') do

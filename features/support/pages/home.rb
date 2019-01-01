@@ -33,7 +33,7 @@ class Home < SitePrism::Page
   section :container, Container, '#container'
   section :nonexistent_section, Blank, 'input#nonexistent'
   section :removing_section, Blank, 'input#will_become_nonexistent'
-  section :slow_section, Blank, 'div.first.slow-section'
+  # section :slow_section, Blank, 'div.first.slow-section'
   section :vanishing_section, Blank, 'input#will_become_invisible'
 
   # section groups
