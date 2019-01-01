@@ -5,9 +5,9 @@ Before do
 end
 
 Before('@slow-test') do
-  Capybara.default_max_wait_time = 0.15
+  Capybara.default_max_wait_time = 0.1
 end
 
 After('@slow-test') do
-  Capybara.default_max_wait_time = 1.25
+  Capybara.default_max_wait_time = 1
 end

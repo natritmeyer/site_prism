@@ -27,11 +27,11 @@ Then('the page has no title') do
 end
 
 When('I execute some javascript on the page to set a value') do
-  @test_site.nested_sections.cell_value = 'wibble'
+  @test_site.nested_sections.first_search_result = 'wibble'
 end
 
 Then('I can evaluate some javascript on the page to get the value') do
-  expect(@test_site.nested_sections.cell_value).to eq('wibble')
+  expect(@test_site.nested_sections.first_search_result).to eq('wibble')
 end
 
 Then('not all expected elements are present') do

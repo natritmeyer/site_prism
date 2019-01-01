@@ -9,8 +9,8 @@ class TestSite
     @no_title ||= NoTitle.new
   end
 
-  def dynamic_page
-    @dynamic_page ||= DynamicPage.new
+  def dynamic
+    @dynamic ||= Dynamic.new
   end
 
   def redirect

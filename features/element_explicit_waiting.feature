@@ -15,7 +15,8 @@ Feature: Waiting for an Element
     Then an exception is raised when I wait for an element that won't appear
 
   Scenario: Wait for Element Visibility - Positive - Overridden Timeout
-    When I wait for a specific amount of time until an element is visible
+    When I navigate to the slow page
+    And I wait for a specific amount of time until an element is visible
     Then the previously invisible element is visible
     And I am not made to wait for the full overridden duration
 
@@ -23,6 +24,7 @@ Feature: Waiting for an Element
     Then I get a timeout error when waiting for an element within the limit
 
   Scenario: Wait for Element Visibility - Positive - Default Timeout
+    Given I navigate to the slow page
     When I wait until a particular element is visible
     Then the previously invisible element is visible
     And I am not made to wait for the full default duration
