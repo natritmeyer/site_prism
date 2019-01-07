@@ -2,8 +2,8 @@ Area - # Scenarios - Timings
 
 This needs to be re-hashed and re-verified
 
-all - 84 Scenarios - ~47s
-element/elements/element_explicit_waiting - 27 Scenarios - ~21s
-section/sections/section_explicit_waiting - 28 Scenarios - ~13s
-page/navigation/implicit_waiting - 20 Scenarios - ~15s
-iframe/malformed items - 9 Scenarios - ~3s
+all - 86 Scenarios - ~27s
+element/elements/element_explicit_waiting - 23 Scenarios - ~12s
+section/sections/section_explicit_waiting - 28 Scenarios - ~8s
+page/navigation/implicit_waiting - 26 Scenarios - ~9s
+iframe/malformed items - 9 Scenarios - ~2s

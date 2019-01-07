@@ -177,7 +177,7 @@ is called before the matcher has been set" do
   describe '#displayed?' do
     context 'with a full string URL matcher' do
       class PageWithStringFullUrlMatcher < SitePrism::Page
-        set_url_matcher 'https://joe:bump@bla.org:443/foo?bar=baz&bar=boof#frag'
+        set_url_matcher('https://joe:bump@bla.org:443/foo?bar=baz&bar=boof#frag')
       end
 
       let(:page) { PageWithStringFullUrlMatcher.new }
@@ -255,7 +255,7 @@ is called before the matcher has been set" do
 
     context 'with a minimal URL matcher' do
       class PageWithStringMinimalUrlMatcher < SitePrism::Page
-        set_url_matcher '/foo'
+        set_url_matcher('/foo')
       end
 
       let(:page) { PageWithStringMinimalUrlMatcher.new }
@@ -289,7 +289,7 @@ is called before the matcher has been set" do
 
     context 'with a parameterized URL matcher' do
       class PageWithParameterizedUrlMatcher < SitePrism::Page
-        set_url_matcher '{scheme}:///foos{/id}'
+        set_url_matcher('{scheme}:///foos{/id}')
       end
 
       let(:page) { PageWithParameterizedUrlMatcher.new }
@@ -329,7 +329,7 @@ from the be_displayed matcher" do
 
     context 'with a bogus URL matcher' do
       class PageWithBogusFullUrlMatcher < SitePrism::Page
-        set_url_matcher this: "isn't a URL matcher"
+        set_url_matcher(this: "isn't a URL matcher")
       end
 
       let(:page) { PageWithBogusFullUrlMatcher.new }
@@ -344,7 +344,7 @@ from the be_displayed matcher" do
   describe '#url_matches' do
     context 'with a templated matcher' do
       class PageWithParameterizedUrlMatcher < SitePrism::Page
-        set_url_matcher '{scheme}:///foos{/id}'
+        set_url_matcher('{scheme}:///foos{/id}')
       end
 
       let(:page) { PageWithParameterizedUrlMatcher.new }
@@ -390,7 +390,7 @@ from the be_displayed matcher" do
 
     context 'with a bogus URL matcher' do
       class PageWithBogusFullUrlMatcher < SitePrism::Page
-        set_url_matcher this: "isn't a URL matcher"
+        set_url_matcher(this: "isn't a URL matcher")
       end
 
       let(:page) { PageWithBogusFullUrlMatcher.new }

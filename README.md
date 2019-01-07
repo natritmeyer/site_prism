@@ -32,7 +32,7 @@ Here's an overview of how SitePrism is designed to be used:
 
 class Home < SitePrism::Page
   set_url '/index.htm'
-  set_url_matcher /google.com\/?/
+  set_url_matcher(/google.com\/?/)
 
   element :search_field, 'input[name="q"]'
   element :search_button, 'button[name="btnK"]'
@@ -41,7 +41,7 @@ class Home < SitePrism::Page
 end
 
 class SearchResults < SitePrism::Page
-  set_url_matcher /google.com\/results\?.*/
+  set_url_matcher(/google.com\/results\?.*/)
 
   section :menu, MenuSection, '#gbx3'
   sections :search_results, SearchResultSection, '#results li'
@@ -318,7 +318,7 @@ URL matchers by it by calling `set_url_matcher`:
 
 ```ruby
 class Account < SitePrism::Page
-  set_url_matcher %r{/accounts/\d+}
+  set_url_matcher(/accounts/\d+/)
 end
 ```
 
