@@ -8,8 +8,8 @@ task :specs do
   system('bundle exec rspec') || raise('Specs failed')
 end
 
-task :rubocop do
+task :cops do
   system('bundle exec rubocop') || raise('Cops failed')
 end
 
-task default: %i[specs cukes rubocop]
+task default: %i[specs cukes cops]
