@@ -1,6 +1,12 @@
 AllCops:
   TargetRubyVersion: 2.2
 
+Metrics/LineLength:
+  IgnoredPatterns:
+    - '^Given'
+    - '^When'
+    - '^Then'
+
 Documentation:
   Enabled: false
 
@@ -26,6 +32,4 @@ Style/AccessModifierDeclarations:
 # https://github.com/rubocop-hq/rubocop/issues/6084
 # https://github.com/rubocop-hq/rubocop/issues/6349
 Naming/MemoizedInstanceVariableName:
-  Exclude:
-    - 'lib/site_prism/loadable.rb'
-  #  EnforcedStyleForLeadingUnderscores: optional
+  EnforcedStyleForLeadingUnderscores: optional

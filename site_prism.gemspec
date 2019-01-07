@@ -12,9 +12,9 @@ Gem::Specification.new do |s|
   s.email       = %w[nat@natontesting.com lukehill_uk@hotmail.com]
   s.homepage    = 'https://github.com/natritmeyer/site_prism'
   s.metadata = {
-    'bug_tracker_uri'   => 'https://github.com/natritmeyer/site_prism/issues',
-    'changelog_uri'     => 'https://github.com/natritmeyer/site_prism/blob/master/HISTORY.md',
-    'source_code_uri'   => 'https://github.com/natritmeyer/site_prism',
+    'bug_tracker_uri' => 'https://github.com/natritmeyer/site_prism/issues',
+    'changelog_uri' => 'https://github.com/natritmeyer/site_prism/blob/master/HISTORY.md',
+    'source_code_uri' => 'https://github.com/natritmeyer/site_prism',
   }
   s.summary     = 'A Page Object Model DSL for Capybara'
   s.description = "SitePrism gives you a simple, \
@@ -29,7 +29,7 @@ SitePrism implements the Page Object Model pattern on top of Capybara."
   s.add_development_dependency 'dotenv', ['~> 2.5']
   s.add_development_dependency 'rake', ['~> 12.0']
   s.add_development_dependency 'rspec', ['~> 3.6']
-  s.add_development_dependency 'rubocop', ['< 0.58']
+  s.add_development_dependency 'rubocop', ['~> 0.60.0']
   s.add_development_dependency 'selenium-webdriver', ['~> 3.7']
   s.add_development_dependency 'simplecov', ['~> 0.16']
 end
