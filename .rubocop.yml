@@ -14,7 +14,8 @@ AccessorMethodName:
   Enabled: false
 
 Style/RegexpLiteral:
-  Enabled: false
+  EnforcedStyle: slashes
+  AllowInnerSlashes: true
 
 BlockLength:
   Exclude:
