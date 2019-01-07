@@ -18,3 +18,14 @@ BlockLength:
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: comma
   Enabled: true
+
+# https://github.com/rubocop-hq/rubocop/issues/5953
+Style/AccessModifierDeclarations:
+  Enabled: false
+
+# https://github.com/rubocop-hq/rubocop/issues/6084
+# https://github.com/rubocop-hq/rubocop/issues/6349
+Naming/MemoizedInstanceVariableName:
+  Exclude:
+    - 'lib/site_prism/loadable.rb'
+  #  EnforcedStyleForLeadingUnderscores: optional

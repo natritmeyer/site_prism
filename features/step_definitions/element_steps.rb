@@ -54,13 +54,17 @@ Then('I can see the CLASS of the link') do
 end
 
 Then('all mapped elements are present') do
-  expect(@test_site.dynamic.elements_present)
-    .to eq(@test_site.dynamic.class.mapped_items)
+  mapped_item_names =
+    @test_site.dynamic.class.mapped_items.map(&:values).flatten
+
+  expect(@test_site.dynamic.elements_present).to eq(mapped_item_names)
 end
 
 Then('not all mapped elements are present') do
-  expect(@test_site.home.elements_present)
-    .not_to eq(@test_site.home.class.mapped_items)
+  mapped_item_names =
+    @test_site.dynamic.class.mapped_items.map(&:values).flatten
+
+  expect(@test_site.dynamic.elements_present).not_to eq(mapped_item_names)
 end
 
 Then('the previously visible element is invisible') do
