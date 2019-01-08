@@ -1,17 +1,31 @@
 # frozen_string_literal: true
 
 module SitePrism
-  module ElementContainer
+  module DSL
     def self.included(klass)
       klass.extend ClassMethods
     end
 
     private
 
+    # The default waiting time set by Capybara's configuration settings.
     def wait_time
       Capybara.default_max_wait_time
     end
 
+    # Prevent users from calling methods with blocks when they shouldn't be.
+    #
+    # Example (Triggering error):
+    #
+    #       class MyPage
+    #         element :sample, '.css-locator' do
+    #           puts "This won't be output"
+    #         end
+    #       end
+    #
+    # At runtime this will generate a `SitePrism::UnsupportedBlockError`
+    #
+    # The only DSL keywords that can use blocks are :section and :iframe
     def raise_if_block(obj, name, has_block, type)
       return unless has_block
 
@@ -52,6 +66,9 @@ module SitePrism
       options[:wait] = wait_time unless wait_key_present?(options)
     end
 
+    # True if the +wait+ key is present in the options hash.
+    #
+    # Note that setting it to to false or 0, still will return true here.
     def wait_key_present?(options)
       options.key?(:wait)
     end
