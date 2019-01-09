@@ -5,7 +5,7 @@ Feature: Waiting for a Section
 
   Scenario: Wait for Section - Positive - Overridden Timeout
     When I navigate to the slow page
-    And I wait for the section that takes a while to appear
+    And I wait an overridden time for the section that takes a while to appear
     Then the slow section appears
 
   Scenario: Wait for Section - Negative - Overridden Timeout

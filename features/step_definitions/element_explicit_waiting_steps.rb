@@ -33,7 +33,7 @@ Then("an exception is raised when I wait for an element that won't vanish") do
 end
 
 Then('I can wait a variable time for elements to disappear') do
-  expect { @test_site.vanishing.removed_elements(wait: 1.4, count: 0) }
+  expect { @test_site.vanishing.removed_elements(wait: 0.7, count: 0) }
     .not_to raise_error
 
   expect(@test_site.vanishing).to have_no_removed_elements
@@ -76,7 +76,7 @@ When('I wait for an element to become invisible') do
 end
 
 When('I wait a specific amount of time for a particular element to vanish') do
-  @test_site.vanishing.wait_until_delayed_invisible(wait: 5)
+  @test_site.vanishing.wait_until_delayed_invisible(wait: 0.75)
 end
 
 Then('I am not made to wait for the full default duration') do

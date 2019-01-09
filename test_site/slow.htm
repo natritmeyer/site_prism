@@ -14,11 +14,11 @@
           [slow_section, slow_section2].forEach(function (item) {
             document.body.appendChild(item);
           });
-        }, 250);
+        }, 175);
 
-        setTimeout(create_5_links, 250);
+        setTimeout(create_5_links, 175);
 
-        setTimeout("document.getElementById('will_become_visible').style.display='block';", 250);
+        setTimeout("document.getElementById('will_become_visible').style.display='block';", 175);
       }
 
       function isEven(value){
@@ -27,9 +27,9 @@
 
       function create_5_links() {
         for(var i=0; i<5; i++){
-          //create the links
+          //create the link
           link = document.createElement("a");
-          //set the class/href/text properties
+          //set the class/href/text
           link.setAttribute("class", "slow");
           link.setAttribute("href", "slow.htm");
           link.innerText = "slow link" + i;
