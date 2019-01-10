@@ -8,23 +8,14 @@ class Home < SitePrism::Page
   element :welcome_header, :xpath, '//h1'
   element :welcome_message, 'body > span'
   element :go_button, '[value="Go!"]'
-  element :search_page_link, :xpath, '//p[2]/a'
-  element :a_link, '#removing_link_div > a.a'
+  element :a_link, '#link_div > a.a'
   element :slow_element, :xpath, '//a[@class="slow"]', text: 'slow link1'
   element :invisible, 'input.invisible'
-  element :vanishing, 'input#will_become_invisible'
-  element :removing_element, 'input#will_become_nonexistent'
-  element :remove_container_button, 'input#remove_container'
+  element :nonexistent_element, 'input#nonexistent'
 
   # element groups
-  elements :removing_links, '#removing_link_div > a'
   elements :nonexistents, 'input#nonexistent'
   elements :rows, 'td'
-  # note - actually only one of the below
-  elements :slow_elements, :xpath, '//a[@class="slow"]'
-
-  # elements that should not exist
-  element :nonexistent_element, 'input#nonexistent'
 
   # individual sections
   section :people, People do
@@ -36,7 +27,6 @@ class Home < SitePrism::Page
 
   # section groups
   sections :nonexistent_sections, Blank, 'input#nonexistent'
-  sections :removing_sections, Blank, '#removing_link_div > a'
   sections :slow_sections, Blank, 'div.slow-section'
 
   # iframes

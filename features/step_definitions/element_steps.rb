@@ -46,7 +46,7 @@ end
 Then('I can see the the HREF of the link') do
   expect(@test_site.home).to have_a_link
 
-  expect(@test_site.home.a_link['href']).to include('a.htm')
+  expect(@test_site.home.a_link['href']).to end_with('a.htm')
 end
 
 Then('I can see the CLASS of the link') do
