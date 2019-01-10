@@ -107,6 +107,6 @@ end
 
 Then('an error is thrown when waiting for an element in a vanishing section') do
   expect do
-    @test_site.home.container.wait_until_embedded_element_invisible
+    @test_site.vanishing.container.wait_until_embedded_invisible
   end.to raise_error(Capybara::ElementNotFound)
 end

@@ -7,9 +7,9 @@ class Vanishing < SitePrism::Page
   element :embedded, '#container .embedded_element'
   element :invisible, '.invisible'
   element :delayed, '#will_become_invisible'
+  element :remove_container_button, 'input#remove_container'
   elements :submit_buttons, 'input[type="submit"]'
   elements :removed_elements, '.div_that_is_removed'
-  section :container, Blank, '#container'
   section :delayed_section, Blank, '#will_become_invisible'
   sections :removed_sections, Blank, '.div_that_is_removed'
 

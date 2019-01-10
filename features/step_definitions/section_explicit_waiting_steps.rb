@@ -14,7 +14,7 @@ Then("an exception is raised when I wait for a section that won't appear") do
 end
 
 Then('an error is raised when waiting for the section to vanish') do
-  expect { @test_site.home.wait_until_container_invisible }
+  expect { @test_site.vanishing.wait_until_container_invisible }
     .to raise_error(SitePrism::ElementInvisibilityTimeoutError)
 end
 
@@ -31,7 +31,7 @@ Then('the slow section appears') do
 end
 
 Then('an error is raised when waiting a new time for the section to vanish') do
-  expect { @test_site.home.wait_until_container_invisible(wait: 0.15) }
+  expect { @test_site.vanishing.wait_until_container_invisible(wait: 0.25) }
     .to raise_error(SitePrism::ElementInvisibilityTimeoutError)
 end
 

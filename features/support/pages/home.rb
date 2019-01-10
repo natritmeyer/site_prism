@@ -30,7 +30,6 @@ class Home < SitePrism::Page
   section :people, People do
     element :headline_clone, 'h2'
   end
-  section :container, Container, '#container'
   section :nonexistent_section, Blank, 'input#nonexistent'
   section :removing_section, Blank, 'input#will_become_nonexistent'
   section :vanishing_section, Blank, 'input#will_become_invisible'

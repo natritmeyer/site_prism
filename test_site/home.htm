@@ -2,10 +2,6 @@
   <head>
     <title>Home Page</title>
     <script type="text/javascript">
-      function removeElement(node) {
-        node.parentNode.removeChild(node);
-      }
-
       function load() {
         //create the links
         slow_link1 = document.createElement("a");
@@ -51,14 +47,6 @@
       <span class="person">person 4</span>
       <span class="object">object 1</span>
     </article>
-
-    <input type="submit" id="remove_container" onClick='removeElement(document.getElementById("container"))'/>
-
-    <div id="container">
-      <div class="embedded_element">
-        This will be removed when you click submit above
-      </div>
-    </div>
 
     <div id="removing_link_div">
       <a href="a.html" class="a">a</a>

@@ -52,7 +52,8 @@ Feature: Waiting for an Element
     Then I am not made to wait to check a nonexistent element for invisibility
 
   Scenario: Wait for Element Invisibility - Non-Existent Section - Overridden Timeout
-    When I remove the parent section of the element
+    When I navigate to the vanishing page
+    And I remove the parent section of the element
     Then an error is thrown when waiting for an element in a vanishing section
 
   Scenario: Wait time can be overridden at run-time in a block

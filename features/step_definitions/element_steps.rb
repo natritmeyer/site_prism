@@ -72,7 +72,7 @@ Then('the previously visible element is invisible') do
 end
 
 When('I remove the parent section of the element') do
-  @test_site.home.remove_container_button.click
+  @test_site.vanishing.remove_container_button.click
 end
 
 Then('I can obtain the native property of an element') do
