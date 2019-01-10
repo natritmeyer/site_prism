@@ -5,6 +5,7 @@ class Slow < SitePrism::Page
   set_url_matcher(/slow\.htm$/)
 
   element :last_link, 'a', text: 'slow link4'
+  element :invisible, 'input.invisible'
   elements :even_links, '.even'
   element :undefined, '.not_here'
   section :first_section, Blank, '.slow-section', text: 'First Section'

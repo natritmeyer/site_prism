@@ -1,60 +1,28 @@
 <html>
   <head>
     <title>Home Page</title>
-    <script type="text/javascript">
-      function load() {
-        //create the links
-        slow_link1 = document.createElement("a");
-        slow_link2 = document.createElement("a");
-        //get the element that we're going to add the links to
-        dumping_ground = document.getElementById('dumping_ground');
-        //wait for a short while then add the links
-        setTimeout(function() {
-          [slow_link1, slow_link2].forEach(function(item, index) {
-            //set the class/href/text properties
-            item.setAttribute("class", "slow");
-            item.setAttribute('href', 'slowly.htm');
-            item.innerText = "slow link" + (index + 1);
-            dumping_ground.appendChild(item);
-            dumping_ground.append(" ");
-          });
-        }, 950);
-      }
-      window.onload = load;
-    </script>
   </head>
   <body>
-    <h1>Welcome</h1>
+    <h1>Home Page!</h1>
     <span class="welcome">This is the home page, there is some stuff on it</span>
     <p>
       <a href="no_title.htm">
         <input type="button" value="Go!"/>
       </a>
     </p>
-    <table>
-      <tr>
-        <td class="element_a">a</td>
-        <td class="element_b">b</td>
-        <td class="element_c">c</td>
-      </tr>
-    </table>
 
     <article class="people">
       <h2>People</h2>
-      <span class="person">person 1</span>
-      <span class="person">person 2</span>
-      <span class="person">person 3</span>
-      <span class="person">person 4</span>
-      <span class="object">object 1</span>
+      <span class="person andy">Andy</span>
+      <span class="person bob">Bob</span>
+      <span class="person charlie">Charlie</span>
+      <span class="person dave">Dave</span>
+      <span class="object">Not-a-person</span>
     </article>
 
     <div id="link_div">
       <a href="a.htm" class="a">a</a>
     </div>
-
-    <p id="dumping_ground"></p>
-
-    <input type="submit" class="invisible" value="Invisible" style="display: none;"/>
 
     <div id="section_for_iframe">
       <iframe id="the_iframe" name="the_iframe" src="iframe.htm"></iframe>

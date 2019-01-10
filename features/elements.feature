@@ -7,11 +7,11 @@ Feature: Interaction with groups of elements
     When I navigate to the home page
 
   Scenario: Get text from group of elements
-    Then I can get the text values for the group of links
+    Then I can get the text values for the group of elements
 
   Scenario: Filter information out from a set of elements
-    Then I can see the first row
-    And I can see a row using a capybara class query
+    Then I can see the first person
+    And I can see a person using a capybara class query
 
   Scenario: Get groups of elements from within a section
     Then I can see individual people in the people list

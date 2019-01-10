@@ -5,17 +5,15 @@ class Home < SitePrism::Page
   set_url_matcher(/home\.htm$/)
 
   # individual elements
-  element :welcome_header, :xpath, '//h1'
+  element :header, :xpath, '//h1'
   element :welcome_message, 'body > span'
   element :go_button, '[value="Go!"]'
   element :a_link, '#link_div > a.a'
-  element :slow_element, :xpath, '//a[@class="slow"]', text: 'slow link1'
-  element :invisible, 'input.invisible'
   element :nonexistent_element, 'input#nonexistent'
 
   # element groups
   elements :nonexistents, 'input#nonexistent'
-  elements :rows, 'td'
+  elements :list_of_people, '.person'
 
   # individual sections
   section :people, People do
@@ -39,5 +37,5 @@ class Home < SitePrism::Page
     iframe :iframe_within_section, Iframe, 0
   end
 
-  expected_elements :welcome_header, :welcome_message
+  expected_elements :header, :welcome_message
 end

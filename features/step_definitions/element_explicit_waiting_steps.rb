@@ -3,32 +3,32 @@
 When('I wait for the element that takes a while to appear') do
   @overridden_wait_time = 1.6
   start_time = Time.now
-  @test_site.home.slow_element(wait: @overridden_wait_time)
+  @test_site.slow.last_link(wait: @overridden_wait_time)
   @duration = Time.now - start_time
 end
 
 Then('the slow element appears') do
-  expect(@test_site.home).to have_slow_element
+  expect(@test_site.slow).to have_last_link
 end
 
 Then("an exception is raised when I wait for an element that won't appear") do
   start_time = Time.now
 
-  expect { @test_site.home.slow_element(wait: 0.5) }
+  expect { @test_site.slow.last_link(wait: 0.1) }
     .to raise_error(Capybara::ElementNotFound)
 
   @duration = Time.now - start_time
 
-  expect(@duration).to be_between(0.5, 0.7)
+  expect(@duration).to be_between(0.1, 0.3)
 end
 
 Then('I get an error when I wait for an element to vanish within the limit') do
-  expect { @test_site.home.wait_until_welcome_header_invisible(wait: 0.25) }
+  expect { @test_site.home.wait_until_header_invisible(wait: 0.25) }
     .to raise_error(SitePrism::ElementInvisibilityTimeoutError)
 end
 
 Then("an exception is raised when I wait for an element that won't vanish") do
-  expect { @test_site.home.wait_until_welcome_header_invisible }
+  expect { @test_site.home.wait_until_header_invisible }
     .to raise_error(SitePrism::ElementInvisibilityTimeoutError)
 end
 
@@ -42,15 +42,15 @@ end
 Then('I get a timeout error when waiting for an element within the limit') do
   start_time = Time.now
 
-  expect { @test_site.home.wait_until_invisible_visible(wait: 0.4) }
+  expect { @test_site.slow.wait_until_invisible_visible(wait: 0.2) }
     .to raise_error(SitePrism::ElementVisibilityTimeoutError)
   @duration = Time.now - start_time
 
-  expect(@duration).to be_between(0.4, 0.55)
+  expect(@duration).to be_between(0.2, 0.4)
 end
 
 Then('I get a timeout error when waiting for an element with default limit') do
-  expect { @test_site.home.wait_until_invisible_visible }
+  expect { @test_site.slow.wait_until_invisible_visible }
     .to raise_error(SitePrism::ElementVisibilityTimeoutError)
 end
 
@@ -89,13 +89,13 @@ end
 
 Then('I can override the wait time using a Capybara.using_wait_time block') do
   start_time = Time.now
-  Capybara.using_wait_time(0.5) do
-    expect { @test_site.home.slow_element }
+  Capybara.using_wait_time(0.1) do
+    expect { @test_site.slow.last_link }
       .to raise_error(Capybara::ElementNotFound)
   end
   @duration = Time.now - start_time
 
-  expect(@duration).to be_between(0.5, 0.7)
+  expect(@duration).to be_between(0.1, 0.3)
 end
 
 Then('I am not made to wait to check a nonexistent element for invisibility') do

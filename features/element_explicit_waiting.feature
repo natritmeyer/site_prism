@@ -4,7 +4,7 @@ Feature: Waiting for an Element
   In order to interact with the element once it is ready
 
   Background:
-    When I navigate to the home page
+    When I navigate to the slow page
 
   Scenario: Wait for Element - Positive - Overridden Timeout
     When I wait for the element that takes a while to appear
@@ -15,7 +15,6 @@ Feature: Waiting for an Element
     Then an exception is raised when I wait for an element that won't appear
 
   Scenario: Wait for Element Visibility - Positive - Overridden Timeout
-    When I navigate to the slow page
     And I wait for a specific amount of time until an element is visible
     Then the previously invisible element is visible
     And I am not made to wait for the full overridden duration
@@ -24,7 +23,6 @@ Feature: Waiting for an Element
     Then I get a timeout error when waiting for an element within the limit
 
   Scenario: Wait for Element Visibility - Positive - Default Timeout
-    Given I navigate to the slow page
     When I wait until a particular element is visible
     Then the previously invisible element is visible
     And I am not made to wait for the full default duration
@@ -38,6 +36,7 @@ Feature: Waiting for an Element
     Then the previously visible element is invisible
 
   Scenario: Wait for Element Invisibility - Negative - Overridden Timeout
+    When I navigate to the home page
     Then I get an error when I wait for an element to vanish within the limit
 
   Scenario: Wait for Element Invisibility - Positive - Default Timeout
@@ -46,9 +45,11 @@ Feature: Waiting for an Element
     Then the previously visible element is invisible
 
   Scenario: Wait for Element Invisibility - Negative - Default Timeout
+    When I navigate to the home page
     Then an exception is raised when I wait for an element that won't vanish
 
   Scenario: Wait for Element Invisibility - Non-Existent Element - Overridden Timeout
+    When I navigate to the home page
     Then I am not made to wait to check a nonexistent element for invisibility
 
   Scenario: Wait for Element Invisibility - Non-Existent Section - Overridden Timeout
