@@ -6,7 +6,7 @@ Feature: Page Sections
   Scenario: Designate a section of a page
     When I navigate to the home page
     Then I can see elements in the section
-    And I can see a welcome header
+    And I can see the page header
 
   Scenario: access elements in the section by passing a block
     When I navigate to the home page
@@ -69,7 +69,7 @@ Feature: Page Sections
 
   Scenario: Page with section that does not contain element
     When I navigate to the home page
-    Then the page contains a section with no element
+    Then the page cannot find a missing element
 
   Scenario: Page with a deeply nested section
     When I navigate to the nested section page

@@ -23,7 +23,7 @@ end
 
 Then('I cannot access elements that are not in the section using a block') do
   expect do
-    @test_site.home.people { |section| expect(section).to have_dinosaur }
+    @test_site.home.people { |section| expect(section).to have_not_here }
   end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
 end
 
@@ -45,8 +45,8 @@ Then('the page does not have a section') do
   expect(@test_site.home).to have_no_nonexistent_section
 end
 
-Then('I can see a welcome header') do
-  expect(@test_site.home.welcome_header).to have_content('Welcome')
+Then('I can see the page header') do
+  expect(@test_site.home.header).to have_content('Home Page!')
 end
 
 Then('I can see a section within a section using nested blocks') do
@@ -108,8 +108,8 @@ Then('I can get direct access to a page using parent_page') do
   expect(page.top.middle.parent_page).to eq(page)
 end
 
-Then('the page contains a section with no element') do
-  expect(@test_site.home.people).to have_no_dinosaur
+Then('the page cannot find a missing element') do
+  expect(@test_site.home.people).to have_no_not_here
 end
 
 Then('the page contains a deeply nested span') do
@@ -120,10 +120,7 @@ end
 
 Then("I can see a section's full text") do
   expect(@test_site.home.people.text)
-    .to eq('People person 1 person 2 person 3 person 4 object 1')
-
-  expect(@test_site.home.container.text)
-    .to eq('This will be removed when you click submit above')
+    .to eq('People Andy Bob Charlie Dave Not-a-person')
 end
 
 Then('I can see elements from the parent section') do

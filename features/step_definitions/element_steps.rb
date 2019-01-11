@@ -7,27 +7,27 @@ Then('the page does not have element') do
 end
 
 Then('I can see the welcome header') do
-  expect(@test_site.home).to have_welcome_header
+  expect(@test_site.home).to have_header
 
-  expect(@test_site.home.welcome_header.text).to eq('Welcome')
+  expect(@test_site.home.header.text).to eq('Home Page!')
 end
 
 Then('I can see the welcome header using a capybara text query') do
-  expect(@test_site.home).to have_welcome_header(text: 'Welcome')
+  expect(@test_site.home).to have_header(text: 'Home Page!')
 end
 
-Then('I can see a row using a capybara class query') do
-  expect(@test_site.home).to have_rows(class: 'element_c')
+Then('I can see a person using a capybara class query') do
+  expect(@test_site.home).to have_list_of_people(class: 'andy')
 end
 
-Then('I can see the first row') do
-  expect(@test_site.home).to have_rows
+Then('I can see the first person') do
+  expect(@test_site.home).to have_list_of_people
 
-  expect(@test_site.home.rows.first.text).to eq('a')
+  expect(@test_site.home.list_of_people.first.text).to eq('Andy')
 end
 
 Then('the welcome header is not matched with invalid text') do
-  expect(@test_site.home).to have_no_welcome_header(text: "This Doesn't Match!")
+  expect(@test_site.home).to have_no_header(text: "This Doesn't Match!")
 end
 
 Then('I can see the welcome message') do
@@ -46,7 +46,7 @@ end
 Then('I can see the the HREF of the link') do
   expect(@test_site.home).to have_a_link
 
-  expect(@test_site.home.a_link['href']).to include('a.htm')
+  expect(@test_site.home.a_link['href']).to end_with('a.htm')
 end
 
 Then('I can see the CLASS of the link') do
@@ -72,11 +72,11 @@ Then('the previously visible element is invisible') do
 end
 
 When('I remove the parent section of the element') do
-  @test_site.home.remove_container_button.click
+  @test_site.vanishing.remove_container_button.click
 end
 
 Then('I can obtain the native property of an element') do
-  expect(@test_site.home.welcome_header.native)
+  expect(@test_site.home.header.native)
     .to be_a Selenium::WebDriver::Element
 end
 
