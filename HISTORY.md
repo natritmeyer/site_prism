@@ -1,4 +1,19 @@
 <!-- #353 - Jan 7th - Last update to this document -->
+## [3.0.2] - 2019-01-21
+### Added
+- Travis now runs on Ruby `2.6` and Ruby-Head
+([tadashi0713])
+
+### Changed
+- Completely altered the namespace of the SitePrism DSL
+  - Now fed from `SitePrism::DSL` (Nearly all is still package private)
+  - Began to add documentation for `ElementChecker` introducing recursion
+([luke-hill])
+
+- Improve runtime of cucumber tests by another 10-20%
+  - All remaining JS injections now isolated to their own pages
+([luke-hill])
+
 ## [3.0.1] - 2019-01-08
 ### Added
 - Travis tweaks
@@ -763,6 +778,7 @@ Removed testing for Ruby `2.0` on Travis
 - First release!
 
 <!-- Releases -->
+[3.0.2]:      https://github.com/natritmeyer/site_prism/compare/v3.0.1...v3.0.2
 [3.0.1]:      https://github.com/natritmeyer/site_prism/compare/v3.0...v3.0.1
 [3.0]:        https://github.com/natritmeyer/site_prism/compare/v3.0.beta...v3.0
 [3.0.beta]:   https://github.com/natritmeyer/site_prism/compare/v2.17.1...v3.0.beta
@@ -861,3 +877,4 @@ Removed testing for Ruby `2.0` on Travis
 [Systho]:         https://github.com/Systho
 [menge101]:       https://github.com/menge101
 [TheSpartan1980]: https://github.com/TheSpartan1980
+[tadashi0713]:    https://github.com/tadashi0713
