@@ -13,8 +13,6 @@ module SitePrism
   autoload :Waiter, 'site_prism/waiter'
 
   class << self
-    attr_writer :enable_logging
-
     def configure
       yield self
     end
@@ -23,8 +21,12 @@ module SitePrism
       @logger ||= SitePrism::Logger.new.create
     end
 
-    def enable_logging
-      @enable_logging ||= false
+    def log_level=(value)
+      logger.level = value
+    end
+
+    def log_level
+      logger.level
     end
   end
 end

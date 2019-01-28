@@ -2,10 +2,10 @@ require 'logger'
 
 module SitePrism
   # To enable full logging
-  #   SitePrism.enable_logging = true
+  #   SitePrism.log_level = "debug"
   #
   # To disable all logging (Done by default)
-  #   SitePrism.enable_logging = false
+  #   SitePrism.log_level = "unknown"
   #
   # To Manually log a message
   #   SitePrism.logger.info('Information')
@@ -14,22 +14,12 @@ module SitePrism
     def create(output = $stdout)
       logger = ::Logger.new(output)
       logger.progname = 'SitePrism'
-      logger.level = log_level
+      logger.level = 'UNKNOWN'
       logger.formatter = proc do |severity, time, progname, msg|
         "#{time.strftime('%F %T')} - #{severity} - #{progname} - #{msg}\n"
       end
 
       logger
-    end
-
-    private
-
-    def log_level
-      if SitePrism.enable_logging
-        0 # This is equivalent to debug standard logging
-      else
-        5 # This is equivalent to unknown (or no), logging
-      end
     end
   end
 end
