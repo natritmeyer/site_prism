@@ -73,11 +73,11 @@ module SitePrism
     end
 
     def element_exists?(*find_args)
-      page && page.has_selector?(*find_args)
+      page&.has_selector?(*find_args)
     end
 
     def element_does_not_exist?(*find_args)
-      page && page.has_no_selector?(*find_args)
+      page&.has_no_selector?(*find_args)
     end
   end
 end
