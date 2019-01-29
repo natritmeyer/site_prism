@@ -3,3 +3,4 @@ Gemfile.lock
 coverage/*
 .idea
 .env
+*.log*
