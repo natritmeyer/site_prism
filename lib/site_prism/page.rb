@@ -25,13 +25,12 @@ module SitePrism
       end
     end
 
-    # When instantiating the page. A default validation will be added to all
-    # validations you define and add to the Page Class.
-    # When calling #load, all of the validations that are set will be ran
-    # in order, with the default "displayed?" validation being ran _FIRST_
-
     def page
-      @page ||= Capybara.current_session
+      if defined?(@page)
+        @page
+      else
+        Capybara.current_session
+      end
     end
 
     # Loads the page.
@@ -41,6 +40,8 @@ module SitePrism
     #
     # Executes the block, if given.
     # Runs load validations on the page, unless input is a string
+    #
+    # When calling #load, all the validations that are set will be ran in order
     def load(expansion_or_html = {}, &block)
       self.loaded = false
 
