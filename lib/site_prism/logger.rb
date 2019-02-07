@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'logger'
-
 module SitePrism
   # To enable full logging
   #   SitePrism.log_level = "debug"
@@ -16,7 +14,7 @@ module SitePrism
     def create(output = $stdout)
       logger = ::Logger.new(output)
       logger.progname = 'SitePrism'
-      logger.level = 'UNKNOWN'
+      logger.level = :UNKNOWN
       logger.formatter = proc do |severity, time, progname, msg|
         "#{time.strftime('%F %T')} - #{severity} - #{progname} - #{msg}\n"
       end

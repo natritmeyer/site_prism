@@ -2,6 +2,7 @@
 
 require 'site_prism/error'
 require 'addressable/template'
+require 'logger'
 
 module SitePrism
   autoload :AddressableUrlMatcher, 'site_prism/addressable_url_matcher'
@@ -26,7 +27,7 @@ module SitePrism
     end
 
     def log_level
-      logger.level
+      ::Logger::Severity.constants[logger.level]
     end
   end
 end
