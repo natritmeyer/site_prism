@@ -68,11 +68,6 @@ when all load validations pass" do
       instance.when_loaded(&:foo)
     end
 
-    it 'raises an ArgumentError if no block is given' do
-      expect { loadable.new.when_loaded }
-        .to raise_error(SitePrism::MissingBlockError)
-    end
-
     context 'Failing Validations' do
       it 'raises a FailedLoadValidationError with a default message' do
         james_bond = spy
