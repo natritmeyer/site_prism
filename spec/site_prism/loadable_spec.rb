@@ -81,24 +81,17 @@ when all load validations pass" do
       instance.when_loaded(&:foo)
     end
 
-    context 'Failing Validations' do
-      it 'raises a FailedLoadValidationError with a default message' do
-        james_bond = spy
+    context 'with failing validations' do
+      before { loadable.load_validation { [false, 'VALIDATION FAILED'] } }
 
-        loadable.load_validation { true }
-        loadable.load_validation { false }
-
-        expect { loadable.new.when_loaded { james_bond.drink_martini } }
-          .to raise_error(SitePrism::FailedLoadValidationError)
-
-        expect(james_bond).not_to have_received(:drink_martini)
-      end
-
-      it 'raises a FailedLoadValidationError with a user-defined message' do
-        loadable.load_validation { [false, 'VALIDATION FAILED'] }
-
+      it 'raises a FailedLoadValidationError' do
         expect { loadable.new.when_loaded { :foo } }
           .to raise_error(SitePrism::FailedLoadValidationError)
+      end
+
+      it 'can be supplied with a user-defined message' do
+        expect { loadable.new.when_loaded { :foo } }
+          .to raise_error
           .with_message('VALIDATION FAILED')
       end
     end
@@ -149,14 +142,10 @@ when all load validations pass" do
   end
 
   describe '#loaded?' do
-    class PageWithUrl < SitePrism::Page
-      set_url '/bob'
-    end
-
     # We want to test with multiple inheritance
     let(:inheriting_loadable) { Class.new(loadable) }
 
-    subject { PageWithUrl.new }
+    subject { inheriting_loadable.new }
 
     it 'returns true if loaded value is cached' do
       validation_spy1 = spy(valid?: true)
