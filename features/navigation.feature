@@ -24,3 +24,11 @@ Feature: Page Navigation
     When I navigate to the home page
     And I click the go button
     Then I will be redirected to the page without a title
+
+  Scenario: Load a Page that has no load validations
+    When I navigate a page with no load validations
+    Then I am not made to wait to continue
+
+  Scenario: Load a Page that has load validations set
+    When I navigate a page with load validations
+    Then I am made to wait to continue

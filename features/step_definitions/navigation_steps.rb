@@ -55,3 +55,23 @@ end
 When('I click the go button') do
   @test_site.home.go_button.click
 end
+
+When('I navigate a page with no load validations') do
+  start_time = Time.now
+  @test_site.home.load
+  @duration = Time.now - start_time
+end
+
+When('I navigate a page with load validations') do
+  start_time = Time.now
+  @test_site.delayed.load
+  @duration = Time.now - start_time
+end
+
+Then('I am not made to wait to continue') do
+  expect(@duration).to be < 0.1
+end
+
+Then('I am made to wait to continue') do
+  expect(@duration).to be > 0.2
+end

@@ -9,6 +9,10 @@ class TestSite
     @no_title ||= NoTitle.new
   end
 
+  def delayed
+    @delayed ||= Delayed.new
+  end
+
   def dynamic
     @dynamic ||= Dynamic.new
   end
