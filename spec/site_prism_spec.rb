@@ -22,7 +22,7 @@ describe SitePrism do
 
       it 'logs UNKNOWN level messages' do
         log_messages = capture_stdout do
-          SitePrism.log_level = "debug"
+          SitePrism.log_level = :DEBUG
           SitePrism.logger.info('INFO')
           SitePrism.logger.unknown('UNKNOWN')
         end
@@ -34,7 +34,7 @@ describe SitePrism do
     context 'at an altered severity' do
       it 'logs messages at all levels' do
         log_messages = capture_stdout do
-          SitePrism.log_level = "debug"
+          SitePrism.log_level = :DEBUG
 
           SitePrism.logger.debug('DEBUG')
           SitePrism.logger.info('INFO')
