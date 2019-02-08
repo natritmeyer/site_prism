@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'logger'
+
 module SitePrism
   # To enable full logging
   #   SitePrism.log_level = "debug"

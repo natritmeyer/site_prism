@@ -2,7 +2,6 @@
 
 require 'site_prism/error'
 require 'addressable/template'
-require 'logger'
 
 module SitePrism
   autoload :AddressableUrlMatcher, 'site_prism/addressable_url_matcher'
@@ -27,7 +26,7 @@ module SitePrism
     end
 
     def log_level
-      ::Logger::Severity.constants[logger.level]
+      %i[DEBUG INFO WARN ERROR FATAL UNKNOWN][logger.level]
     end
   end
 end
