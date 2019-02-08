@@ -66,7 +66,7 @@ module SitePrism
       # If one isn't defined, just return the Error code.
       raise SitePrism::FailedLoadValidationError, load_error unless loaded
 
-      yield self
+      yield self if block_given?
     ensure
       self.loaded = previously_loaded
     end

@@ -53,7 +53,7 @@ module SitePrism
         raise SitePrism::NoUrlForPageError unless expanded_url
 
         visit expanded_url
-        when_loaded(&block) if block_given?
+        when_loaded(&block)
       end
     end
 
