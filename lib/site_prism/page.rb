@@ -48,7 +48,7 @@ module SitePrism
       SitePrism.logger.debug("Reset loaded state on #{self.class}.")
 
       return_yield = if expansion_or_html.is_a?(String)
-                       load_html_string(expansion_or_html)
+                       load_html_string(expansion_or_html, &block)
                      else
                        load_html_website(expansion_or_html, &block)
                      end
