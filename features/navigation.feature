@@ -32,3 +32,7 @@ Feature: Page Navigation
   Scenario: Load a Page that has load validations set
     When I navigate a page with load validations
     Then I am made to wait to continue
+
+  Scenario: Load a Page that has failing load validations
+    Then an error is thrown when loading a page with failing validations
+    And the page will not be marked as loaded

@@ -68,10 +68,19 @@ When('I navigate a page with load validations') do
   @duration = Time.now - start_time
 end
 
+When('an error is thrown when loading a page with failing validations') do
+  expect { @test_site.crash.load }
+    .to raise_error(SitePrism::FailedLoadValidationError)
+end
+
 Then('I am not made to wait to continue') do
   expect(@duration).to be < 0.1
 end
 
 Then('I am made to wait to continue') do
   expect(@duration).to be > 0.2
+end
+
+Then('the page will not be marked as loaded') do
+  expect(@test_site.crash).not_to be_loaded
 end
