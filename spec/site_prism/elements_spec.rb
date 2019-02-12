@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 describe 'Elements' do
   shared_examples 'elements' do
     describe '.elements' do

@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 describe SitePrism do
+  # This stops the stdout process leaking between tests
+  before(:each) { wipe_logger! }
+
   describe '.enable_logging' do
     it 'is disabled by default' do
       expect(SitePrism.enable_logging).to be false
@@ -16,9 +17,6 @@ describe SitePrism do
   end
 
   describe '.logger' do
-    # This stops the stdout process leaking between tests
-    after(:each) { wipe_logger! }
-
     it 'does not log messages below UNKNOWN' do
       log_messages = capture_stdout do
         SitePrism.logger.debug('DEBUG')
@@ -59,13 +57,10 @@ describe SitePrism do
   def capture_stdout
     original_stdout = $stdout
     $stdout = StringIO.new
-    begin
-      yield
-      return_string = $stdout.string
-    ensure
-      $stdout = original_stdout
-    end
-    return_string
+    yield
+    $stdout.string
+  ensure
+    $stdout = original_stdout
   end
 
   def wipe_logger!

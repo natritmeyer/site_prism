@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 describe SitePrism::Section do
   class Section < SitePrism::Section; end
   class Page < SitePrism::Page; end

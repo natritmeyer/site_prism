@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 describe 'iFrame' do
   let!(:locator) { instance_double('Capybara::Node::Element') }
 

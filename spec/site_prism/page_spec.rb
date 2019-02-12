@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 describe SitePrism::Page do
   class BlankPage < SitePrism::Page; end
   class PageWithUrl < SitePrism::Page

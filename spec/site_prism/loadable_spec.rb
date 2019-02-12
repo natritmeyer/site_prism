@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 describe SitePrism::Loadable do
   let(:loadable) do
     Class.new do
