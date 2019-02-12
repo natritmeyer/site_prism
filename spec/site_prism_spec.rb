@@ -18,7 +18,7 @@ describe SitePrism do
 
   describe '.logger' do
     it 'does not log messages below UNKNOWN' do
-      log_messages = with_captured_stdout do
+      log_messages = capture_stdout do
         SitePrism.logger.debug('DEBUG')
         SitePrism.logger.info('INFO')
         SitePrism.logger.warn('WARN')
@@ -30,7 +30,7 @@ describe SitePrism do
     end
 
     it 'logs UNKNOWN level messages' do
-      log_messages = with_captured_stdout do
+      log_messages = capture_stdout do
         SitePrism.logger.unknown('UNKNOWN')
       end
 
@@ -55,18 +55,6 @@ describe SitePrism do
   end
 
   def capture_stdout
-    original_stdout = $stdout
-    $stdout = StringIO.new
-    begin
-      yield
-      return_string = $stdout.string
-    ensure
-      $stdout = original_stdout
-    end
-    return_string
-  end
-
-  def with_captured_stdout
     original_stdout = $stdout
     $stdout = StringIO.new
     yield
