@@ -30,7 +30,6 @@ Feature: Page Properties
     Then I can evaluate some javascript on the page to get the value
 
   Scenario: Expected Elements Present - Positive
-    When I navigate to the home page
     Then all elements marked as expected are present
 
   @slow-test
@@ -52,5 +51,4 @@ Feature: Page Properties
 
   @slow-test
   Scenario: Elements Present - Negative
-    When I navigate to the home page
     Then not all mapped elements are present

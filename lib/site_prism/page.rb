@@ -3,6 +3,7 @@
 require 'site_prism/loadable'
 
 module SitePrism
+  # rubocop:disable Metrics/ClassLength
   class Page
     include Capybara::DSL
     include ElementChecker
@@ -44,17 +45,22 @@ module SitePrism
     # When calling #load, all the validations that are set will be ran in order
     def load(expansion_or_html = {}, &block)
       self.loaded = false
+      SitePrism.logger.debug("Reset loaded state on #{self.class}.")
 
-      if expansion_or_html.is_a?(String)
-        @page = Capybara.string(expansion_or_html)
-        yield self if block_given?
-      else
-        expanded_url = url(expansion_or_html)
-        raise SitePrism::NoUrlForPageError unless expanded_url
+      return_yield = if expansion_or_html.is_a?(String)
+                       load_html_string(expansion_or_html, &block)
+                     else
+                       load_html_website(expansion_or_html, &block)
+                     end
 
-        visit expanded_url
-        when_loaded(&block) if block_given?
-      end
+      # Ensure that we represent that the page we loaded is now indeed loaded!
+      # This ensures that future calls to #loaded? do not perform the
+      # instance evaluations against all load validations procs another time.
+      self.loaded = true
+
+      SitePrism.logger.info("#{self.class} loaded.")
+      # Return the yield from the block if there was one, otherwise return true
+      return_yield || true
     end
 
     def displayed?(*args)
@@ -140,5 +146,19 @@ module SitePrism
     def matcher_template
       @matcher_template ||= AddressableUrlMatcher.new(url_matcher)
     end
+
+    def load_html_string(string)
+      @page = Capybara.string(string)
+      yield self if block_given?
+    end
+
+    def load_html_website(html, &block)
+      expanded_url = url(html)
+      raise SitePrism::NoUrlForPageError unless expanded_url
+
+      visit expanded_url
+      when_loaded(&block)
+    end
   end
+  # rubocop:enable Metrics/ClassLength
 end

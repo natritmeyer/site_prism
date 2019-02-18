@@ -58,11 +58,6 @@ module SitePrism
       # inside another when_loaded block.
       previously_loaded = loaded
 
-      # Ensure we have passed in a block. else stop the system.
-      # This would be because a user has not defined the load validation
-      # correctly (i.e. with a block argument)
-      throw_missing_block_error unless block_given?
-
       # Within the block, check (and cache) loaded?, to see whether the
       # page has indeed loaded according to the rules defined by the user.
       self.loaded = loaded?
@@ -71,7 +66,8 @@ module SitePrism
       # If one isn't defined, just return the Error code.
       raise SitePrism::FailedLoadValidationError, load_error unless loaded
 
-      yield self
+      # Return the yield value of the block if one was supplied.
+      yield self if block_given?
     ensure
       self.loaded = previously_loaded
     end
@@ -101,12 +97,6 @@ module SitePrism
         self.load_error = message if message && !passed
         passed
       end
-    end
-
-    def throw_missing_block_error
-      SitePrism.logger.debug('This code point should not be reachable')
-      SitePrism.logger.error('A block was expected, but none received.')
-      raise SitePrism::MissingBlockError
     end
   end
 end
