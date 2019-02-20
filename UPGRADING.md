@@ -54,3 +54,24 @@ Previously `site_prism` (As of `2.17.1`), had 3 configuration options. These wer
 These have all been removed with the `3.0` release. Implicit Waiting is
 controlled / modifiable either in-line for each method-call, or you can set the default
 timeout by re-configuring `Capybara.default_max_wait_time`.
+
+
+## `wait_until` methods
+
+Previously `wait_until` methods accepted a numerical value for wait time.  The wait time should now be passed using hash args like: `wait: <seconds>`
+
+For example, previously:
+
+```rb
+@page.wait_until_dialog_invisible(10)
+@page.wait_until_notification_flag_visible(5, count: 3)
+```
+
+These now become:
+
+```rb
+@page.wait_until_dialog_invisible(wait: 10)
+@page.wait_until_notification_flag_visible(wait: 5, count: 3)
+```
+
+> Note: If after upgrading you see `Unused parameters passed to Capybara::Queries::SelectorQuery : [NUMBER]` this may indicate that you need to make this change.
