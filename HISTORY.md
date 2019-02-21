@@ -1,4 +1,30 @@
-<!-- #353 - Jan 7th - Last update to this document -->
+<!-- #363 - Feb 18th - Last update to this document -->
+## [3.0.3] - 2019-02-19
+### Changed
+- Upped some gem dependencies
+  - `rubocop` now is finally upped to v63
+  - `dotenv ~> 2.6` - Only jused in internal development
+  - The `low_spec.gemfile` version of addressable is capped at `2.5` now a 2.6 version exists
+([luke-hill])
+
+- DRY up some internal tests by using rspec profiles and `.rspec` file
+([luke-hill])
+
+### Fixed
+- Fixed an issue that caused SitePrism not to change scopes when two different Capybara sessions were in use
+([luke-hill]) & ([twalpole])
+
+- Fixed an issue where SitePrism could fail a travis build because of the load order of tests
+  - This was caused by a state leakage between a single Unit Test that wasn't caught by an RSpec hook
+([luke-hill])
+
+- Load Validations
+  - Are now slightly optimised making 2 less checks per batch (One less check per initial run)
+  - Actually perform the checks they were documented to (They didn't run against a url without a block)
+  - Fix `#loaded` `attr_accessor` to actually cache - It never did! (This speeds up `#loaded?` calls)
+  - Add a couple more specs and a bunch of new scenarios to cover these missing edge cases 
+([luke-hill])
+
 ## [3.0.2] - 2019-01-21
 ### Added
 - Travis now runs on Ruby `2.6` and Ruby-Head
@@ -44,7 +70,7 @@
   - `rspec ~> 3.8` / `rake ~> 12.3`
   - `capybara` is now only supported on `2.18` outside of the `3.x` series
   - `cucumber` / `selenium-webdriver` both bumped one minor version
-([luke-hill]) 
+([luke-hill])
   
 ### Fixed
 - A config setting that causes local single test (rspec/cucumber) runs to crash
@@ -167,7 +193,7 @@
   - **Required Ruby Version is now 2.2+**
 ([luke-hill])
 
-- Altered HISTORY.md into more hyperlinked and declarative format
+- Altered `HISTORY.md` into more hyperlinked and declarative format
 ([luke-hill]) & ([JaniJegoroff])
 
 - Tidied up the Sample HTML files so they had less un-required information

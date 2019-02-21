@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 describe SitePrism do
   # This stops the stdout process leaking between tests
-  after(:each) { wipe_logger! }
+  before(:each) { wipe_logger! }
 
   describe '.logger' do
     context 'at default severity' do
@@ -89,13 +87,10 @@ describe SitePrism do
   def capture_stdout
     original_stdout = $stdout
     $stdout = StringIO.new
-    begin
-      yield
-      return_string = $stdout.string
-    ensure
-      $stdout = original_stdout
-    end
-    return_string
+    yield
+    $stdout.string
+  ensure
+    $stdout = original_stdout
   end
 
   def wipe_logger!

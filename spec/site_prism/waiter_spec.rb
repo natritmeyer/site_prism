@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 describe SitePrism::Waiter do
   describe '.wait_until_true' do
     it 'throws a Timeout exception if the block does not become true' do

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 describe SitePrism::Loadable do
   let(:loadable) do
     Class.new do
@@ -12,7 +10,7 @@ describe SitePrism::Loadable do
   class MyLoadablePage < SitePrism::Page; end
 
   describe '.load_validations' do
-    context 'with no inherited classes' do
+    context 'with no inheritance classes' do
       it 'returns load_validations from the current class' do
         validation1 = -> { true }
         validation2 = -> { true }
@@ -24,21 +22,34 @@ describe SitePrism::Loadable do
       end
     end
 
-    context 'with inherited classes' do
+    context 'with inheritance classes' do
       it 'returns load_validations from the current and inherited classes' do
+        subklass = Class.new(loadable)
+        validation1 = -> { true }
+        validation2 = -> { true }
+
+        loadable.load_validation(&validation1)
+        subklass.load_validation(&validation2)
+
+        expect(subklass.load_validations).to eq([validation1, validation2])
+      end
+
+      it 'ensures that load validations of parents are checked first' do
         subklass = Class.new(loadable)
         validation1 = -> { true }
         validation2 = -> { true }
         validation3 = -> { true }
         validation4 = -> { true }
+        validation5 = -> { true }
 
+        loadable.load_validation(&validation5)
         subklass.load_validation(&validation1)
-        loadable.load_validation(&validation2)
+        subklass.load_validation(&validation2)
         subklass.load_validation(&validation3)
         loadable.load_validation(&validation4)
 
         expect(subklass.load_validations).to eq(
-          [validation2, validation4, validation1, validation3]
+          [validation5, validation4, validation1, validation2, validation3]
         )
       end
     end
@@ -68,29 +79,17 @@ when all load validations pass" do
       instance.when_loaded(&:foo)
     end
 
-    it 'raises an ArgumentError if no block is given' do
-      expect { loadable.new.when_loaded }
-        .to raise_error(SitePrism::MissingBlockError)
-    end
+    context 'with failing validations' do
+      before { loadable.load_validation { [false, 'VALIDATION FAILED'] } }
 
-    context 'Failing Validations' do
-      it 'raises a FailedLoadValidationError with a default message' do
-        james_bond = spy
-
-        loadable.load_validation { true }
-        loadable.load_validation { false }
-
-        expect { loadable.new.when_loaded { james_bond.drink_martini } }
-          .to raise_error(SitePrism::FailedLoadValidationError)
-
-        expect(james_bond).not_to have_received(:drink_martini)
-      end
-
-      it 'raises a FailedLoadValidationError with a user-defined message' do
-        loadable.load_validation { [false, 'VALIDATION FAILED'] }
-
+      it 'raises a FailedLoadValidationError' do
         expect { loadable.new.when_loaded { :foo } }
           .to raise_error(SitePrism::FailedLoadValidationError)
+      end
+
+      it 'can be supplied with a user-defined message' do
+        expect { loadable.new.when_loaded { :foo } }
+          .to raise_error
           .with_message('VALIDATION FAILED')
       end
     end
@@ -141,14 +140,10 @@ when all load validations pass" do
   end
 
   describe '#loaded?' do
-    class PageWithUrl < SitePrism::Page
-      set_url '/bob'
-    end
-
     # We want to test with multiple inheritance
     let(:inheriting_loadable) { Class.new(loadable) }
 
-    subject { PageWithUrl.new }
+    subject { inheriting_loadable.new }
 
     it 'returns true if loaded value is cached' do
       validation_spy1 = spy(valid?: true)

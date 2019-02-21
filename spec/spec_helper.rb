@@ -12,10 +12,6 @@ require_relative 'fixtures/all'
 
 Capybara.default_max_wait_time = 0
 
-RSpec.configure do |rspec|
-  rspec.default_formatter = :documentation
-end
-
 class MyTestApp
   def call(_env)
     [200, { 'Content-Length' => '9' }, ['MyTestApp']]
