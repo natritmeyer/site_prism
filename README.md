@@ -1,11 +1,12 @@
 # SitePrism
+[![Gem Version](https://badge.fury.io/rb/site_prism.svg)](https://badge.fury.io/rb/site_prism)
+[![Build Status](https://travis-ci.org/natritmeyer/site_prism.png)](https://travis-ci.org/natritmeyer/site_prism)
+
 _A Page Object Model DSL for Capybara_
 
 SitePrism gives you a simple, clean and semantic DSL for describing your site using the Page Object Model pattern, for use with Capybara in automated acceptance testing.
 
 Find the pretty documentation here: http://rdoc.info/gems/site_prism/frames
-
-[![Build Status](https://travis-ci.org/natritmeyer/site_prism.png)](https://travis-ci.org/natritmeyer/site_prism)
 
 Make sure to add your project/company to https://github.com/natritmeyer/site_prism/wiki/Who-is-using-SitePrism
 
