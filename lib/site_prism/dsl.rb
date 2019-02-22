@@ -152,7 +152,7 @@ module SitePrism
       end
 
       def map_item!(type, name)
-        mapped_items << { type => name }
+        mapped_items << { type => name.to_sym }
       end
 
       def add_helper_methods(name, *find_args)
