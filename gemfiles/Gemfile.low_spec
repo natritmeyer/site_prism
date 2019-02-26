@@ -1,10 +1,9 @@
 # frozen_string_literal: true
-
 source 'https://rubygems.org'
 
 gem 'addressable', '2.5'
-gem 'capybara', '< 3.0'
-gem 'nokogiri', '< 1.8'
+gem 'capybara', '< 3.2'
+gem 'nokogiri', '<= 1.8'
 gem 'selenium-webdriver', '< 3.9'
 
-gemspec
+gemspec path: '..'
