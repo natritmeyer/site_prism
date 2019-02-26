@@ -17,7 +17,8 @@ env:
 
 gemfile:
   - Gemfile
-  - low_spec.gemfile
+  - gemfiles/Gemfile.low_spec
+  - gemfiles/Gemfile.selenium-3.7
 
 addons:
   chrome: stable
