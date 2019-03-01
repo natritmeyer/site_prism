@@ -27,6 +27,9 @@ module SitePrism
     # To Manually log a message
     #   SitePrism.logger.info('Information')
     #   SitePrism.logger.debug('Input debug message')
+    #
+    # By default the logger will output all messages to $stdout, but can be
+    # altered to log to a file or another IO location by calling `.log_output=`
     def logger
       @logger ||= SitePrism::Logger.new.create
     end

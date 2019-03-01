@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe SitePrism do
-  # This stops the stdout process leaking between tests
+  # Stop the $stdout process leaking cross-tests
   before(:each) { wipe_logger! }
 
   describe '.logger' do
@@ -20,17 +20,16 @@ describe SitePrism do
 
       it 'logs UNKNOWN level messages' do
         log_messages = capture_stdout do
-          SitePrism.log_level = :DEBUG
           SitePrism.logger.info('INFO')
           SitePrism.logger.unknown('UNKNOWN')
         end
 
-        expect(log_messages).not_to be_empty
+        expect(lines(log_messages)).to eq(1)
       end
     end
 
     context 'at an altered severity' do
-      it 'logs messages at all levels' do
+      it 'logs messages at all levels above the new severity' do
         log_messages = capture_stdout do
           SitePrism.log_level = :DEBUG
 
@@ -80,6 +79,31 @@ describe SitePrism do
         config.logger
         config.log_level
         config.log_level = :WARN
+      end
+    end
+  end
+
+  describe '.log_output=' do
+    let(:filename) { 'sample.log' }
+    after { File.delete(filename) if File.exist?(filename) }
+
+    context 'to a file' do
+      before { SitePrism.log_output = filename }
+      let(:file_content) { File.read(filename) }
+
+      it 'sends the log messages to the file-path provided' do
+        SitePrism.logger.unknown('This is sent to the file')
+
+        expect(file_content).to end_with("This is sent to the file\n")
+      end
+    end
+
+    context 'to $stderr' do
+      it 'sends the log messages to $stderr' do
+        expect do
+          SitePrism.log_output = $stderr
+          SitePrism.logger.unknown('This is sent to $stderr')
+        end.to output(/This is sent to \$stderr/).to_stderr
       end
     end
   end
