@@ -7,4 +7,4 @@ gem 'capybara', '< 3.4'
 gem 'nokogiri', '<= 1.8'
 gem 'selenium-webdriver', '< 3.9'
 
-gemspec
+gemspec path: '..'

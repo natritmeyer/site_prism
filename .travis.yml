@@ -2,7 +2,7 @@ language: ruby
 
 sudo: required
 
-dist: trusty
+dist: xenial
 
 rvm:
   - 2.3
@@ -17,7 +17,8 @@ env:
 
 gemfile:
   - Gemfile
-  - low_spec.gemfile
+  - gemfiles/Gemfile.low_spec
+  - gemfiles/Gemfile.selenium-3.7
 
 addons:
   chrome: stable
@@ -30,7 +31,7 @@ before_script:
   - |
     case $browser in
       firefox)
-        wget https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz
+        wget https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz
         mkdir geckodriver
         tar -xzf geckodriver*.tar.gz -C geckodriver
         export PATH=$PATH:$PWD/geckodriver
@@ -42,8 +43,9 @@ before_script:
         chromedriver -v
         ;;
     esac
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+
+services:
+  - xvfb
 
 script:
   - bundle exec rake

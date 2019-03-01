@@ -1,10 +1,10 @@
 <!-- #363 - Feb 18th - Last update to this document -->
-## [3.0.3] - 2019-02-19
+## [3.0.3] - 2019-02-20
 ### Changed
 - Upped some gem dependencies
   - `rubocop` now is finally upped to v63
   - `dotenv ~> 2.6` - Only jused in internal development
-  - The `low_spec.gemfile` version of addressable is capped at `2.5` now a 2.6 version exists
+  - The `low_spec.gemfile` version of `addressable` is capped at `2.5` now a 2.6 version exists
 ([luke-hill])
 
 - DRY up some internal tests by using rspec profiles and `.rspec` file
@@ -27,7 +27,7 @@
 
 ## [3.0.2] - 2019-01-21
 ### Added
-- Travis now runs on Ruby `2.6` and Ruby-Head
+- Travis now runs on Ruby `2.6` and `ruby-head`
 ([tadashi0713])
 
 ### Changed
@@ -804,6 +804,7 @@ Removed testing for Ruby `2.0` on Travis
 - First release!
 
 <!-- Releases -->
+[3.0.3]:      https://github.com/natritmeyer/site_prism/compare/v3.0.2...v3.0.3
 [3.0.2]:      https://github.com/natritmeyer/site_prism/compare/v3.0.1...v3.0.2
 [3.0.1]:      https://github.com/natritmeyer/site_prism/compare/v3.0...v3.0.1
 [3.0]:        https://github.com/natritmeyer/site_prism/compare/v3.0.beta...v3.0
