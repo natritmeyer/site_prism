@@ -3,15 +3,9 @@
 require 'logger'
 
 module SitePrism
-  # To enable full logging
-  #   SitePrism.log_level = "debug"
   #
-  # To disable all logging (Done by default)
-  #   SitePrism.log_level = "unknown"
+  # @api private
   #
-  # To Manually log a message
-  #   SitePrism.logger.info('Information')
-  #   SitePrism.logger.debug('Input debug message')
   class Logger
     def create(output = $stdout)
       logger = ::Logger.new(output)
