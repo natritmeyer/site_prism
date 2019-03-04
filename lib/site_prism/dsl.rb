@@ -124,7 +124,7 @@ module SitePrism
       def iframe(name, klass, *args)
         element_find_args = deduce_iframe_element_find_args(args)
         scope_find_args = deduce_iframe_scope_find_args(args)
-        map_item!(:iframe, name)
+        map_item(:iframe, name)
         add_iframe_helper_methods(name, *element_find_args)
         define_method(name) do |&block|
           raise MissingBlockError unless block
@@ -145,13 +145,13 @@ module SitePrism
         if find_args.empty?
           create_error_method(name)
         else
-          map_item!(type, name)
+          map_item(type, name)
           yield
         end
         add_helper_methods(name, *find_args)
       end
 
-      def map_item!(type, name)
+      def map_item(type, name)
         mapped_items << { type => name.to_sym }
       end
 
