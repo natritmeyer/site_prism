@@ -5,7 +5,6 @@ sudo: required
 dist: xenial
 
 rvm:
-  - 2.3
   - 2.4
   - 2.5
   - 2.6
@@ -33,9 +32,7 @@ before_script:
       firefox)
         wget https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz
         mkdir geckodriver
-        tar -xzf geckodriver*.tar.gz -C geckodriver
-        export PATH=$PATH:$PWD/geckodriver
-        geckodriver --version
+        tar -xzf geckodriver*.tar.gz -C .
         ;;
       chrome)
         sudo apt-get update -qq && sudo apt-get install -y chromium-chromedriver
