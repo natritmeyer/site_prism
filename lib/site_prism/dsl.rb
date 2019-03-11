@@ -72,7 +72,6 @@ module SitePrism
       options.key?(:wait)
     end
 
-    # rubocop:disable Metrics/ModuleLength
     module ClassMethods
       attr_reader :expected_items
 
@@ -127,6 +126,7 @@ module SitePrism
         build(:iframe, name, *element_find_args) do
           define_method(name) do |&block|
             raise MissingBlockError unless block
+
             within_frame(*scope_find_args) do
               block.call(klass.new)
             end
@@ -226,7 +226,7 @@ module SitePrism
         case args[0]
         when Integer then [args[0]]
         when String  then [:css, args[0]]
-        else               args
+        else args
         end
       end
 
@@ -235,7 +235,7 @@ module SitePrism
         case args[0]
         when Integer then "iframe:nth-of-type(#{args[0] + 1})"
         when String  then [:css, args[0]]
-        else               args
+        else args
         end
       end
 
@@ -244,7 +244,7 @@ module SitePrism
 
         msg = 'The arguments passed in look like xpath. Check your locators.'
         SitePrism.logger.warn(msg)
-        SitePrism.logger.debug("Current default locator: #{Capybara.default_selector}")
+        SitePrism.logger.debug("Default locator: #{Capybara.default_selector}")
       end
 
       def extract_section_options(args, &block)
@@ -278,6 +278,5 @@ in section creation or set_default_search_arguments within section class")
         args if args && !args.empty?
       end
     end
-    # rubocop:enable Metrics/ModuleLength
   end
 end
