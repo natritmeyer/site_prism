@@ -36,7 +36,10 @@ module SitePrism
     # occurs and calls within a section (For example section.find(element))
     # correctly scope to look within the section only
     def page
-      root_element || super
+      return root_element if root_element
+
+      SitePrism.logger.warn('Root Element not found; Falling back to `super`')
+      super
     end
 
     def visible?
@@ -73,11 +76,11 @@ module SitePrism
     end
 
     def element_exists?(*find_args)
-      page&.has_selector?(*find_args)
+      page.has_selector?(*find_args)
     end
 
     def element_does_not_exist?(*find_args)
-      page&.has_no_selector?(*find_args)
+      page.has_no_selector?(*find_args)
     end
   end
 end

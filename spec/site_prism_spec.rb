@@ -84,12 +84,12 @@ describe SitePrism do
   end
 
   describe '.log_output=' do
-    let(:filename) { 'sample.log' }
-    after { File.delete(filename) if File.exist?(filename) }
-
     context 'to a file' do
-      before { SitePrism.log_output = filename }
+      let(:filename) { 'sample.log' }
       let(:file_content) { File.read(filename) }
+
+      before { SitePrism.log_output = filename }
+      after { File.delete(filename) if File.exist?(filename) }
 
       it 'sends the log messages to the file-path provided' do
         SitePrism.logger.unknown('This is sent to the file')

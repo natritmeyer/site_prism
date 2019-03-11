@@ -19,8 +19,7 @@ module SitePrism
 
     # The SitePrism logger object - This is called automatically in several
     # locations and will log messages according to the normal Ruby protocol
-    # To alter the log_level (or check the log level); call #log_level= or
-    # #log_level
+    # To alter (or check), the log level; call .log_level= or .log_level
     #
     # This logger object can also be used to manually log messages
     #
@@ -40,14 +39,17 @@ module SitePrism
     # This writer method allows you to configure where you want the output of
     # the site_prism logs to go (Default is $stdout)
     #
-    # example: SitePrism.log_output('site_prism.log') would save all
-    # log messages to `site_prism.log`
+    # example: SitePrism.log_output = 'site_prism.log' would save all
+    # log messages to `./site_prism.log`
     def log_output=(logdev)
       logger.reopen(logdev)
     end
 
-    # To enable full logging
+    # To enable full logging (This uses the Ruby API, so can accept any of a
+    # Symbol / String / Integer as an input
     #   SitePrism.log_level = :DEBUG
+    #   SitePrism.log_level = 'DEBUG'
+    #   SitePrism.log_level = 0
     #
     # To disable all logging (Done by default)
     #   SitePrism.log_level = :UNKNOWN
