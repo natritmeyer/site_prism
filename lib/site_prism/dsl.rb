@@ -66,8 +66,7 @@ module SitePrism
       options[:wait] = wait_time unless wait_key_present?(options)
     end
 
-    # True if the +wait+ key is present in the options hash.
-    #
+    # Detect if the +wait+ key is present in the options hash.
     # Note that setting it to to false or 0, still will return true here.
     def wait_key_present?(options)
       options.key?(:wait)
@@ -228,25 +227,29 @@ module SitePrism
       end
 
       def deduce_iframe_scope_find_args(args)
+        warn_on_invalid_selector_input(args)
         case args[0]
-        when Integer
-          [args[0]]
-        when String
-          [:css, args[0]]
-        else
-          args
+        when Integer then [args[0]]
+        when String  then [:css, args[0]]
+        else               args
         end
       end
 
       def deduce_iframe_element_find_args(args)
+        warn_on_invalid_selector_input(args)
         case args[0]
-        when Integer
-          "iframe:nth-of-type(#{args[0] + 1})"
-        when String
-          [:css, args[0]]
-        else
-          args
+        when Integer then "iframe:nth-of-type(#{args[0] + 1})"
+        when String  then [:css, args[0]]
+        else               args
         end
+      end
+
+      def warn_on_invalid_selector_input(args)
+        return unless args[0].is_a?(String) || !args[0].start_with?('/', './')
+
+        msg = 'The arguments passed in look like xpath. Check your locators.'
+        SitePrism.logger.warn(msg)
+        SitePrism.logger.debug("Current default locator: #{Capybara.default_selector}")
       end
 
       def extract_section_options(args, &block)
