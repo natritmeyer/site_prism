@@ -123,13 +123,13 @@ module SitePrism
       def iframe(name, klass, *args)
         element_find_args = deduce_iframe_element_find_args(args)
         scope_find_args = deduce_iframe_scope_find_args(args)
-        map_item(:iframe, name)
-        add_iframe_helper_methods(name, *element_find_args)
-        define_method(name) do |&block|
-          raise MissingBlockError unless block
 
-          within_frame(*scope_find_args) do
-            block.call(klass.new)
+        build(:iframe, name, *element_find_args) do
+          define_method(name) do |&block|
+            raise MissingBlockError unless block
+            within_frame(*scope_find_args) do
+              block.call(klass.new)
+            end
           end
         end
       end
@@ -159,11 +159,6 @@ module SitePrism
         create_nonexistence_checker(name, *find_args)
         create_visibility_waiter(name, *find_args)
         create_invisibility_waiter(name, *find_args)
-      end
-
-      def add_iframe_helper_methods(name, *find_args)
-        create_existence_checker(name, *find_args)
-        create_nonexistence_checker(name, *find_args)
       end
 
       def create_helper_method(proposed_method_name, *find_args)
@@ -245,7 +240,7 @@ module SitePrism
       end
 
       def warn_on_invalid_selector_input(args)
-        return unless args[0].is_a?(String) || !args[0].start_with?('/', './')
+        return unless !args[0].is_a?(String) || !args[0].start_with?('/', './')
 
         msg = 'The arguments passed in look like xpath. Check your locators.'
         SitePrism.logger.warn(msg)
@@ -265,14 +260,11 @@ module SitePrism
 
       def deduce_section_class(base_class, &block)
         klass = base_class
-
         klass = Class.new(klass || SitePrism::Section, &block) if block_given?
+        return klass if klass
 
-        unless klass
-          raise ArgumentError, "You should provide descendant of \
+        raise ArgumentError, "You should provide descendant of \
 SitePrism::Section class or/and a block as the second argument."
-        end
-        klass
       end
 
       def deduce_search_arguments(section_class, args)
