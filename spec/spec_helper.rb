@@ -19,6 +19,16 @@ RSpec.configure do |rspec|
       config.enable_logging = false
     end
   end
+
+  [CSSPage, XPathPage].each do |klass|
+    present_stubs = %i[element_one element_three]
+    present_stubs.each do |method|
+      rspec.before(:each) do
+        allow_any_instance_of(klass).to receive("has_#{method}?") { true }
+        allow_any_instance_of(klass).to receive("has_no_#{method}?") { false }
+      end
+    end
+  end
 end
 
 class MyTestApp
