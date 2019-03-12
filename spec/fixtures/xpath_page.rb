@@ -1,26 +1,22 @@
 # frozen_string_literal: true
 
-# TODO: Definition of iFrame here is in css because of a bug
-
 class XPathPage < SitePrism::Page
-  include ItemStubs
+  element :element_one, :xpath, '//a[@class="b"]//c[@class="d"]'
+  element :element_two, :xpath, '//w[@class="x"]//y[@class="z"]'
+  element :element_three, :xpath, '//span[@class="alert-success"]'
 
-  element :element_one, '//a[@class="b"]//c[@class="d"]'
-  element :element_two, '//w[@class="x"]//y[@class="z"]'
-  element :element_three, '//span[@class="alert-success"]'
+  elements :elements_one, :xpath, '//a[@class="a"]//b[@class="b"]'
+  elements :elements_two, :xpath, '//*[@class="many"]'
 
-  elements :elements_one, '//a[@class="a"]//b[@class="b"]'
-  elements :elements_two, '//[@class="many"]'
-
-  section :section_one, '//span[@class="locator"]' do
-    element :inner_element_one, '//[@class="one"]'
-    element :inner_element_two, '//[@class="two"]'
-    iframe :iframe, CSSIFrame, '.iframe'
+  section :section_one, :xpath, '//span[@class="locator"]' do
+    element :inner_element_one, :xpath, '//*[@class="one"]'
+    element :inner_element_two, :xpath, '//*[@class="two"]'
+    iframe :iframe, XPathIFrame, :xpath, '//*[@class="iframe"]'
   end
 
-  sections :sections_one, Blank, '//span[@class="locator"]'
+  sections :sections_one, Blank, :xpath, '//span[@class="locator"]'
 
-  iframe :iframe, CSSIFrame, '.iframe'
+  iframe :iframe, XPathIFrame, :xpath, '//*[@class="iframe"]'
 
   expected_elements :element_one
 end
