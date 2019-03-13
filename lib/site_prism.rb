@@ -28,7 +28,7 @@ module SitePrism
     #   SitePrism.logger.debug('Input debug message')
     #
     # By default the logger will output all messages to $stdout, but can be
-    # altered to log to a file or another IO location by calling `.log_output=`
+    # altered to log to a file or another IO location by calling `.log_path=`
     def logger
       @logger ||= SitePrism::Logger.new.create
     end
@@ -39,9 +39,9 @@ module SitePrism
     # This writer method allows you to configure where you want the output of
     # the site_prism logs to go (Default is $stdout)
     #
-    # example: SitePrism.log_output = 'site_prism.log' would save all
+    # example: SitePrism.log_path = 'site_prism.log' would save all
     # log messages to `./site_prism.log`
-    def log_output=(logdev)
+    def log_path=(logdev)
       logger.reopen(logdev)
     end
 

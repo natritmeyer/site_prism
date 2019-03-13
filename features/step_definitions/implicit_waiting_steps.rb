@@ -23,7 +23,7 @@ end
 
 Then('the slow sections are waited for') do
   start_time = Time.now
-  @test_site.slow.all_sections
+  @test_site.slow.all_sections(count: 2)
 
   expect(Time.now - start_time).to be_between(0.15, 0.3)
 end
@@ -55,7 +55,7 @@ end
 Then('the boolean test for slow sections are waited for') do
   start_time = Time.now
 
-  expect(@test_site.slow.has_all_sections?).to be true
+  expect(@test_site.slow.has_all_sections?(count: 2)).to be true
 
   expect(Time.now - start_time).to be_between(0.15, 0.3)
 end

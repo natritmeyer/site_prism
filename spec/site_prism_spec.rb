@@ -83,12 +83,12 @@ describe SitePrism do
     end
   end
 
-  describe '.log_output=' do
+  describe '.log_path=' do
     context 'to a file' do
       let(:filename) { 'sample.log' }
       let(:file_content) { File.read(filename) }
 
-      before { SitePrism.log_output = filename }
+      before { SitePrism.log_path = filename }
       after { File.delete(filename) if File.exist?(filename) }
 
       it 'sends the log messages to the file-path provided' do
@@ -101,7 +101,7 @@ describe SitePrism do
     context 'to $stderr' do
       it 'sends the log messages to $stderr' do
         expect do
-          SitePrism.log_output = $stderr
+          SitePrism.log_path = $stderr
           SitePrism.logger.unknown('This is sent to $stderr')
         end.to output(/This is sent to \$stderr/).to_stderr
       end
