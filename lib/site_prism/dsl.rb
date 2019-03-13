@@ -240,11 +240,15 @@ module SitePrism
       end
 
       def warn_on_invalid_selector_input(args)
-        return unless !args[0].is_a?(String) || !args[0].start_with?('/', './')
+        return if looks_like_xpath?(args[0])
 
         msg = 'The arguments passed in look like xpath. Check your locators.'
         SitePrism.logger.warn(msg)
         SitePrism.logger.debug("Default locator: #{Capybara.default_selector}")
+      end
+
+      def looks_like_xpath?(arg)
+        arg.is_a?(String) && arg.start_with?('/', './')
       end
 
       def extract_section_options(args, &block)
