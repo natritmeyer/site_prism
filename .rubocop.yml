@@ -30,3 +30,8 @@ Style/TrailingCommaInHashLiteral:
 # https://github.com/rubocop-hq/rubocop/issues/6349
 Naming/MemoizedInstanceVariableName:
   EnforcedStyleForLeadingUnderscores: optional
+
+# Probably need to look into this, see if we can optimise it down the line
+Metrics/ModuleLength:
+  Exclude:
+    - 'lib/site_prism/dsl.rb'

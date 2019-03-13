@@ -4,7 +4,8 @@
 
 _A Page Object Model DSL for Capybara_
 
-SitePrism gives you a simple, clean and semantic DSL for describing your site using the Page Object Model pattern, for use with Capybara in automated acceptance testing.
+SitePrism gives you a simple, clean and semantic DSL for describing your site using the Page Object Model pattern,
+for use with Capybara in automated acceptance testing.
 
 Find the pretty documentation here: http://rdoc.info/gems/site_prism/frames
 
@@ -18,11 +19,14 @@ We have a brief set of setup docs [HERE](https://github.com/natritmeyer/site_pri
 
 ## Supported Rubies / Browsers
 
-SitePrism is built and tested to work on Ruby 2.3 - 2.6. There is also some limited support for the Ruby 2.2 series.
+SitePrism is built and tested to work on Ruby 2.4 - 2.6. Ruby 2.3 (Now EOL), is supported but not tested against.
+If you are using SitePrism with Ruby 2.3 it is highly advisable to upgrade to a more modern Ruby
+such as 2.5 or 2.6, if for any other reason, to get a noticeable speed boost!
 
 SitePrism should run on all major browsers. The gem's integration tests are ran on Chrome and Firefox.
 
-If you find your browser doesn't integrate nicely with SitePrism, please open an [issue request](https://github.com/natritmeyer/site_prism/issues/new)
+If you find you cannot integrate nicely with SitePrism, please open an
+[issue request](https://github.com/natritmeyer/site_prism/issues/new)
 
 ## Synopsis
 
@@ -420,7 +424,7 @@ end
 @home.load
 
 @home.search_field #=> will return the capybara element found using the selector
-@home.search_field.set 'the search string' #=> since search_field returns a capybara element, you can use the capybara API to deal with it
+@home.search_field.set 'the search string' #=> `search_field` returns a capybara element, so use the capybara API to deal with it
 @home.search_field.text #=> standard method on a capybara element; returns a string
 ```
 
@@ -610,7 +614,7 @@ end
 Then the following method is available:
 
 ```ruby
-@friends_page.has_names? #=> returns true if at least one element is found using the relevant selector
+@friends_page.has_names? #=> returns true if at least one `name` element is found
 ```
 
 This in turn allows the following nice test code
@@ -733,7 +737,8 @@ The way to add a section to a page (or another section - which is possible) is t
 call the `section` method. It takes 3 arguments: the first is the name of the section as
 referred to on the page (sections that appear on multiple pages can be named differently).
 The second argument is the class of which an instance will be created to represent
-the page section, and the following arguments are [Capybara::Node::Finders](https://www.rubydoc.info/github/teamcapybara/capybara/master/Capybara/Node/Finders).
+the page section, and the following arguments are
+[Capybara::Node::Finders](https://www.rubydoc.info/github/teamcapybara/capybara/master/Capybara/Node/Finders).
 These identify the root node of the section on this page (note that the css selector
 can be different for different pages as the whole point of sections is that they can
 appear in different places / ways on different pages).
@@ -755,9 +760,9 @@ class HomePage < SitePrism::Page
 end
 ```
 
-The 3rd argument (Locators), can be omitted if you are re-using the same locator for all
-references to the section Class. In order to do this, simply tell SitePrism that
-you want to use a default search argument.
+The 3rd argument (Locators), can be omitted if you are re-using the same
+locator for all references to the section Class. In order to do this,
+simply tell SitePrism that you want to use default search arguments.
 
 ```ruby
 class People < SitePrism::Section
@@ -1322,7 +1327,7 @@ class SomePage < SitePrism::Page
 end
 ```
 
-The block may be defined as a two-element array which includes the boolean check
+The block *may* be defined as a two-element array which includes the boolean check
 as the first element and an error message as the second element.
 It is highly recommended to supply an error message, as they are
 extremely useful in debugging validation errors.
@@ -1580,9 +1585,9 @@ end
 
 SitePrism can be configured to change its behaviour.
 
-For each of the following configuration options, either add it in the `spec_helper.rb` file
-if you are running SitePrism as a Unit Test framework, or in your `env.rb` if you are running
-a Cucumber based framework
+For each of the following configuration options, either add it in the
+`spec_helper.rb` file if you are running SitePrism as a Unit Test framework,
+or in your `env.rb` if you are running a Cucumber based framework.
 
 ### Using Capybara Implicit Waits
 
@@ -1696,7 +1701,8 @@ end
 The only thing that needs instantiating is the `App` class - from then on
 pages don't need to be initialized, they are now returned by methods on `@app`.
 
-It is possible to further optimise this, by using Cucumber/RSpec hooks, however
-the investigation and optimisation of this is left as an exercise to the Reader.
+It is possible to further optimise this, by using Cucumber/RSpec hooks, amongst
+other things. However the investigation and optimisation of this (and other
+aspects of SitePrism), is left as an exercise to the Reader.
 
 Happy testing from all of the SitePrism team!

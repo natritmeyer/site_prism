@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class CSSPage < SitePrism::Page
-  include ItemStubs
-
   element :element_one, 'a.b c.d'
   element :element_two, 'w.x y.z'
   element :element_three, 'span.alert-success'
