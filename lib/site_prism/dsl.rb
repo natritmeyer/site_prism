@@ -240,7 +240,7 @@ module SitePrism
       end
 
       def warn_on_invalid_selector_input(args)
-        return if looks_like_xpath?(args[0])
+        return unless looks_like_xpath?(args[0])
 
         msg = 'The arguments passed in look like xpath. Check your locators.'
         SitePrism.logger.warn(msg)
