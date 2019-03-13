@@ -66,14 +66,12 @@ module SitePrism
       options[:wait] = wait_time unless wait_key_present?(options)
     end
 
-    # True if the +wait+ key is present in the options hash.
-    #
+    # Detect if the +wait+ key is present in the options hash.
     # Note that setting it to to false or 0, still will return true here.
     def wait_key_present?(options)
       options.key?(:wait)
     end
 
-    # rubocop:disable Metrics/ModuleLength
     module ClassMethods
       attr_reader :expected_items
 
@@ -124,13 +122,14 @@ module SitePrism
       def iframe(name, klass, *args)
         element_find_args = deduce_iframe_element_find_args(args)
         scope_find_args = deduce_iframe_scope_find_args(args)
-        map_item!(:iframe, name)
-        add_iframe_helper_methods(name, *element_find_args)
-        define_method(name) do |&block|
-          raise MissingBlockError unless block
 
-          within_frame(*scope_find_args) do
-            block.call(klass.new)
+        build(:iframe, name, *element_find_args) do
+          define_method(name) do |&block|
+            raise MissingBlockError unless block
+
+            within_frame(*scope_find_args) do
+              block.call(klass.new)
+            end
           end
         end
       end
@@ -145,13 +144,13 @@ module SitePrism
         if find_args.empty?
           create_error_method(name)
         else
-          map_item!(type, name)
+          map_item(type, name)
           yield
         end
         add_helper_methods(name, *find_args)
       end
 
-      def map_item!(type, name)
+      def map_item(type, name)
         mapped_items << { type => name.to_sym }
       end
 
@@ -160,11 +159,6 @@ module SitePrism
         create_nonexistence_checker(name, *find_args)
         create_visibility_waiter(name, *find_args)
         create_invisibility_waiter(name, *find_args)
-      end
-
-      def add_iframe_helper_methods(name, *find_args)
-        create_existence_checker(name, *find_args)
-        create_nonexistence_checker(name, *find_args)
       end
 
       def create_helper_method(proposed_method_name, *find_args)
@@ -228,25 +222,33 @@ module SitePrism
       end
 
       def deduce_iframe_scope_find_args(args)
+        warn_on_invalid_selector_input(args)
         case args[0]
-        when Integer
-          [args[0]]
-        when String
-          [:css, args[0]]
-        else
-          args
+        when Integer then [args[0]]
+        when String  then [:css, args[0]]
+        else args
         end
       end
 
       def deduce_iframe_element_find_args(args)
+        warn_on_invalid_selector_input(args)
         case args[0]
-        when Integer
-          "iframe:nth-of-type(#{args[0] + 1})"
-        when String
-          [:css, args[0]]
-        else
-          args
+        when Integer then "iframe:nth-of-type(#{args[0] + 1})"
+        when String  then [:css, args[0]]
+        else args
         end
+      end
+
+      def warn_on_invalid_selector_input(args)
+        return if looks_like_xpath?(args[0])
+
+        msg = 'The arguments passed in look like xpath. Check your locators.'
+        SitePrism.logger.warn(msg)
+        SitePrism.logger.debug("Default locator: #{Capybara.default_selector}")
+      end
+
+      def looks_like_xpath?(arg)
+        arg.is_a?(String) && arg.start_with?('/', './')
       end
 
       def extract_section_options(args, &block)
@@ -262,14 +264,11 @@ module SitePrism
 
       def deduce_section_class(base_class, &block)
         klass = base_class
-
         klass = Class.new(klass || SitePrism::Section, &block) if block_given?
+        return klass if klass
 
-        unless klass
-          raise ArgumentError, "You should provide descendant of \
+        raise ArgumentError, "You should provide descendant of \
 SitePrism::Section class or/and a block as the second argument."
-        end
-        klass
       end
 
       def deduce_search_arguments(section_class, args)
@@ -283,6 +282,5 @@ in section creation or set_default_search_arguments within section class")
         args if args && !args.empty?
       end
     end
-    # rubocop:enable Metrics/ModuleLength
   end
 end
