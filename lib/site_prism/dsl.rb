@@ -135,7 +135,13 @@ module SitePrism
       end
 
       def mapped_items
-        @mapped_items ||= []
+        @mapped_items ||= {
+          element: [],
+          elements: [],
+          section: [],
+          sections: [],
+          iframe: [],
+        }
       end
 
       private
@@ -151,7 +157,7 @@ module SitePrism
       end
 
       def map_item(type, name)
-        mapped_items << { type => name.to_sym }
+        mapped_items[type] << name.to_sym
       end
 
       def add_helper_methods(name, *find_args)
