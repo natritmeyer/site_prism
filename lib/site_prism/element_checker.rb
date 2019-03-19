@@ -48,7 +48,7 @@ module SitePrism
     end
 
     def _mapped_items
-      self.class.mapped_items.values.flatten.uniq
+      self.class.mapped_items(legacy: false).values.flatten.uniq
     end
 
     def _expected_items

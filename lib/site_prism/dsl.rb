@@ -134,8 +134,26 @@ module SitePrism
         end
       end
 
-      def mapped_items
-        @mapped_items ||= {
+      def mapped_items(legacy: true)
+        if legacy
+          old_mapped_items
+        else
+          new_mapped_items
+        end
+      end
+
+      private
+
+      def old_mapped_items
+        SitePrism.logger.debug("Calling .mapped_items on a class is changing!
+The structure will soon be changing format. This will allow #all_there? to
+recurse through section / sections going forwards. The old format will remain
+until a v5 has been released (And will be deprecated in v4 of site_prism")
+        @old_mapped_items ||= []
+      end
+
+      def new_mapped_items
+        @new_mapped_items ||= {
           element: [],
           elements: [],
           section: [],
@@ -143,8 +161,6 @@ module SitePrism
           iframe: [],
         }
       end
-
-      private
 
       def build(type, name, *find_args)
         if find_args.empty?
@@ -157,7 +173,8 @@ module SitePrism
       end
 
       def map_item(type, name)
-        mapped_items[type] << name.to_sym
+        old_mapped_items << { type => name }
+        new_mapped_items[type] << name.to_sym
       end
 
       def add_helper_methods(name, *find_args)
