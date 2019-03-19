@@ -4,7 +4,7 @@
 - Upped some gem dependencies
   - `rubocop` now is finally upped to v63
   - `dotenv ~> 2.6` - Only used in internal development
-  - The `low_spec.gemfile` version of `addressable` is capped at `2.5` now a 2.6 version exists
+  - The `low_spec.gemfile` version of `addressable` is capped at `2.5` now a `2.6` version exists
 ([luke-hill])
 
 - DRY up some internal tests by using rspec profiles and `.rspec` file
@@ -61,8 +61,8 @@
 
 - Item mapping (A large component of the site_prism build phase) has been refactored and slightly extended
   - Initially we will map the "type" of each site_prism item that has been mapped.
-  - The public interface has been refactored to accomodate that and provide a like for like replacement
-  - This work will be the base of the work required to extend `#all_there?` to provide recursion capabilities
+  - The public interface has been refactored to accommodate that and provide a like for like replacement
+  - This will be the base of the work required to extend `#all_there?` to provide recursion capabilities
 ([luke-hill]) 
 
 - Upped some gem dependencies

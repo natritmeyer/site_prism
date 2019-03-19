@@ -5,7 +5,7 @@ require './lib/site_prism/version'
 Gem::Specification.new do |s|
   s.name        = 'site_prism'
   s.version     = SitePrism::VERSION
-  s.required_ruby_version = '>= 2.2'
+  s.required_ruby_version = '>= 2.3'
   s.platform    = Gem::Platform::RUBY
   s.license     = 'BSD-3-Clause'
   s.authors     = ['Nat Ritmeyer', 'Luke Hill']
@@ -23,7 +23,7 @@ SitePrism implements the Page Object Model pattern on top of Capybara."
   s.files        = Dir.glob('lib/**/*') + %w[LICENSE.md README.md]
   s.require_path = 'lib'
   s.add_dependency 'addressable', ['~> 2.5']
-  s.add_dependency 'capybara', ['>= 2.18', '< 4.0']
+  s.add_dependency 'capybara', ['~> 3.2']
 
   s.add_development_dependency 'cucumber', ['~> 3.1']
   s.add_development_dependency 'dotenv', ['~> 2.6']

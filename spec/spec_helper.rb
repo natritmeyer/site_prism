@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'simplecov' unless ENV['CI']
-
 require 'capybara'
 require 'capybara/dsl'
 
@@ -14,12 +13,6 @@ require_relative 'fixtures/all'
 Capybara.default_max_wait_time = 0
 
 RSpec.configure do |rspec|
-  rspec.after(:each) do
-    SitePrism.configure do |config|
-      config.enable_logging = false
-    end
-  end
-
   [CSSPage, XPathPage].each do |klass|
     present_stubs = %i[element_one element_three]
     present_stubs.each do |method|

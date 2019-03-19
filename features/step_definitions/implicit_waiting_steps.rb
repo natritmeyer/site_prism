@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# TODO: Remove most of the queries when Capybara 2 support is dropped
-
 Then('the slow element is waited for') do
   start_time = Time.now
   @test_site.slow.last_link
@@ -11,14 +9,14 @@ end
 
 Then('the slow elements are waited for') do
   start_time = Time.now
-  @test_site.slow.even_links(minimum: 1)
+  @test_site.slow.even_links
 
   expect(Time.now - start_time).to be_between(0.15, 0.3)
 end
 
 Then('the slow section is waited for') do
   start_time = Time.now
-  @test_site.slow.first_section(count: 1)
+  @test_site.slow.first_section
 
   expect(Time.now - start_time).to be_between(0.15, 0.3)
 end
@@ -49,7 +47,7 @@ end
 Then('the boolean test for a slow section is waited for') do
   start_time = Time.now
 
-  expect(@test_site.slow.has_first_section?(count: 1)).to be true
+  expect(@test_site.slow.has_first_section?).to be true
 
   expect(Time.now - start_time).to be_between(0.15, 0.3)
 end

@@ -421,6 +421,28 @@ from the be_displayed matcher" do
     end
   end
 
+  describe '#secure?' do
+    let(:page) { blank_page }
+
+    it 'is true for secure pages' do
+      swap_current_url('https://www.secure.com/')
+
+      expect(page).to be_secure
+    end
+
+    it 'is false for insecure pages' do
+      swap_current_url('http://www.insecure.com/')
+
+      expect(page).not_to be_secure
+    end
+
+    it 'is false for pages where the prefix is www' do
+      swap_current_url('www.unsure.com')
+
+      expect(page).not_to be_secure
+    end
+  end
+
   def swap_current_url(url)
     allow(page).to receive(:page).and_return(double(current_url: url))
   end
