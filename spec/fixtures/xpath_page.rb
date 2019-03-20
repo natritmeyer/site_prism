@@ -18,5 +18,5 @@ class XPathPage < SitePrism::Page
 
   iframe :iframe, XPathIFrame, :xpath, '//*[@class="iframe"]'
 
-  expected_elements :element_one
+  expected_elements :element_one, :elements_one, :section_one, :sections_one
 end

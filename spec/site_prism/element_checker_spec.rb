@@ -6,13 +6,15 @@ describe SitePrism::ElementChecker do
 
   shared_examples 'a page' do
     describe '#all_there?' do
-      subject { page.all_there? }
-
       context 'by default' do
+        subject { page.all_there? }
+
         it { is_expected.to be true }
 
         it 'checks only the expected elements' do
-          expect(page).to receive(:there?).with(:element_one).once
+          expected_items.each do |name|
+            expect(page).to receive(:there?).with(name).once.and_call_original
+          end
           expect(page).not_to receive(:there?).with(:element_two)
 
           subject
@@ -25,7 +27,9 @@ describe SitePrism::ElementChecker do
         it { is_expected.to be true }
 
         it 'checks only the expected elements' do
-          expect(page).to receive(:there?).with(:element_one).once
+          expected_items.each do |name|
+            expect(page).to receive(:there?).with(name).once.and_call_original
+          end
           expect(page).not_to receive(:there?).with(:element_two)
 
           subject
@@ -35,13 +39,28 @@ describe SitePrism::ElementChecker do
       context 'with recursion set to one' do
         subject { page.all_there?(recursion: 'one') }
 
+        let!(:section) { double('SitePrism::Section') }
+
+        before do
+          allow(page).to receive(:section_one).and_return(section)
+          allow(section).to receive(:has_inner_element_one?).and_return(true)
+          allow(section).to receive(:has_inner_element_two?).and_return(true)
+          allow(section).to receive(:has_iframe?).and_return(true)
+        end
+
         it { is_expected.to be true }
 
-        it 'checks only the expected elements' do
-          expect(page).to receive(:there?).with(:element_one).once
+        it 'checks each item in expected elements plus all first-generation descendants' do
+          expected_items.each do |name|
+            expect(page).to receive(:there?).with(name).once.and_call_original
+          end
+
+          expect(section).to receive(:has_inner_element_one?)
+          expect(section).to receive(:has_inner_element_two?)
+          expect(section).to receive(:has_iframe?)
           expect(page).not_to receive(:there?).with(:element_two)
 
-          subject
+          page.all_there?(recursion: 'one')
         end
       end
 
@@ -55,9 +74,8 @@ describe SitePrism::ElementChecker do
         end
 
         it 'sends an error to the SitePrism logger' do
-          SitePrism.configure { |config| config.enable_logging = true }
-
           log_messages = capture_stdout do
+            SitePrism.configure { |config| config.log_level = :DEBUG }
             subject
           end
 
@@ -68,25 +86,22 @@ describe SitePrism::ElementChecker do
 
     describe '#elements_present' do
       it 'lists the SitePrism objects that are present on the page' do
-        expect(page.elements_present).to eq(%i[element_one element_three])
+        expect(page.elements_present)
+          .to eq(%i[element_one element_three elements_one section_one sections_one])
       end
     end
   end
 
   context 'on a CSS Page' do
     let(:page) { CSSPage.new }
-    let(:klass) { CSSPage }
-
-    subject { page }
+    let(:expected_items) { CSSPage.expected_items }
 
     it_behaves_like 'a page'
   end
 
   context 'on an XPath Page' do
     let(:page) { XPathPage.new }
-    let(:klass) { XPathPage }
-
-    subject { page }
+    let(:expected_items) { XPathPage.expected_items }
 
     it_behaves_like 'a page'
   end

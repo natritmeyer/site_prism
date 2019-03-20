@@ -12,14 +12,12 @@ require_relative 'fixtures/all'
 
 Capybara.default_max_wait_time = 0
 
-RSpec.configure do |rspec|
-  [CSSPage, XPathPage].each do |klass|
-    present_stubs = %i[element_one element_three]
-    present_stubs.each do |method|
-      rspec.before(:each) do
-        allow_any_instance_of(klass).to receive("has_#{method}?") { true }
-        allow_any_instance_of(klass).to receive("has_no_#{method}?") { false }
-      end
+module SitePrism
+  module SpecHelper
+    module_function
+
+    def present_stubs
+      %i[element_one elements_one section_one sections_one element_three]
     end
   end
 end
@@ -50,3 +48,14 @@ def lines(string)
 end
 
 Capybara.app = MyTestApp.new
+
+RSpec.configure do |rspec|
+  [CSSPage, XPathPage].each do |klass|
+    SitePrism::SpecHelper.present_stubs.each do |method|
+      rspec.before(:each) do
+        allow_any_instance_of(klass).to receive("has_#{method}?") { true }
+        allow_any_instance_of(klass).to receive("has_no_#{method}?") { false }
+      end
+    end
+  end
+end
