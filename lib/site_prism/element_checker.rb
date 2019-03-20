@@ -23,10 +23,12 @@ module SitePrism
     def all_there?(recursion: 'none')
       SitePrism.logger.info('Setting for recursion is being ignored for now.')
 
-      if %w[none one].include?(recursion)
+      if recursion == 'none'
+        elements_to_check.all? { |item_name| there?(item_name) }
+      elsif recursion == 'one'
         elements_to_check.all? { |item_name| there?(item_name) }
       else
-        SitePrism.logger.error('Invalid recursion setting, Will not run.')
+        SitePrism.logger.error('Invalid recursion setting, Will not run #all_there?.')
       end
     end
 
