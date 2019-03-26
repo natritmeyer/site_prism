@@ -1,4 +1,51 @@
-<!-- #363 - Feb 18th - Last update to this document -->
+<!-- #362 - Mar 19th - Last update to this document -->
+## [3.1] - 2019-03-26
+### Added
+- Add info on how to deal with V2->V3 upgrade warnings RE Capybara selectors
+  - In particular how to deal with adding `wait` keys to `wait_until_*` methods
+([tgaff])
+
+- Added gem version badge to README
+([luke-hill])
+
+- Some of the README docs surrounding how to setup site_prism have been improved
+  - Distinction between how to layout the `require` statements in cucumber / rspec stacks
+  - Open ended statements about further optimisations are available dependent on the stack
+([luke-hill])
+
+- XPath vs CSS iFrame inconsistency (There was the potential for an xpath iFrame to be "read" as CSS)
+  - In this situation the locator would fail, but attempt to fall-back using Capybara
+  - A new guard has been placed to check to see if iFrames have been created using XPath without `:xpath` type
+([luke-hill])
+
+- The SitePrism Logger has been massively refactored
+  - It now almost entirely mimics the Full Ruby Logger API
+  - The full list of delegated methods can be found [HERE](https://github.com/natritmeyer/site_prism/blob/master/lib/site_prism.rb)
+  - Consequently, the minimum Ruby Version for the suite has been bumped to `2.3`
+  - Alongside this higher ruby requirement, changes have been made to Capybara/Rubocop/Test code
+([luke-hill])
+
+### Changed
+- Travis now uses `xenial` Ubuntu in the Docker VM Tests, bringing it slightly more up to date
+([luke-hill])
+
+- Travis now will build on some more legacy permutations of gems to increase support
+([luke-hill])
+
+- The `HISTORY.md` document has now moved to `CHANGELOG.md` to try keep it in-line with other OSS repos
+([luke-hill])
+
+### Fixed
+- During DSL Map phase, ensure all items are cast to symbol to ensure type-standardisation
+([luke-hill])
+
+- In some unit tests the XPath iFrame was created using CSS, this has now been fixed
+  - This has also enabled the Mock Pages to be a little more extensible going forwards
+([luke-hill])
+
+- Added waiter methods for iFrame's that were previously missing, bringing them in-line with other items
+([luke-hill])
+
 ## [3.0.3] - 2019-02-20
 ### Changed
 - Upped some gem dependencies
@@ -267,7 +314,7 @@
 
 ## [2.14] - 2018-06-22
 ### Removed
-Previously deprecated `Waiter.default_wait_time` (As this just called the Capybara method)
+- Previously deprecated `Waiter.default_wait_time` (As this just called the Capybara method)
 ([luke-hill])
 
 ### Added
@@ -314,7 +361,7 @@ Previously deprecated `Waiter.default_wait_time` (As this just called the Capyba
 
 ## [2.13] - 2018-05-21
 ### Removed
-Removed testing for Ruby `2.0` on Travis
+- Removed testing for Ruby `2.0` on Travis
 ([luke-hill])
 
 ### Added
@@ -804,6 +851,8 @@ Removed testing for Ruby `2.0` on Travis
 - First release!
 
 <!-- Releases -->
+[Unreleased]: https://github.com/natritmeyer/site_prism/compare/v3.1...master
+[3.1]:        https://github.com/natritmeyer/site_prism/compare/v3.0.3...v3.1
 [3.0.3]:      https://github.com/natritmeyer/site_prism/compare/v3.0.2...v3.0.3
 [3.0.2]:      https://github.com/natritmeyer/site_prism/compare/v3.0.1...v3.0.2
 [3.0.1]:      https://github.com/natritmeyer/site_prism/compare/v3.0...v3.0.1
