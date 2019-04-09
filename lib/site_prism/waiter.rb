@@ -10,9 +10,9 @@ module SitePrism
           return true if yield
           break if Time.now - start_time > wait_time
 
-          sleep(0.05)
+            sleep(0.05)
 
-          check_for_time_stopped!(start_time)
+            check_for_time_stopped!(start_time)
         end
 
         raise SitePrism::TimeoutError, "Timed out after #{wait_time}s."
@@ -31,11 +31,11 @@ module SitePrism
       end
     end
 
-    def self.wait_until_displayed?(*args, url, &url_matches)
-      expected_mappings = args.last.is_a?(::Hash) ? args.pop : {}
+    def self.wait_until_displayed(*args, url)
+      args.last.is_a?(::Hash) ? args.pop : {}
       seconds = !args.empty? ? args.first : Capybara.default_max_wait_time
       raise SitePrism::NoUrlMatcherForPageError unless url
-      wait_until_true(seconds) { url_matches.call(expected_mappings) }
+      wait_until_true(seconds) { yield }
     end
   end
 end

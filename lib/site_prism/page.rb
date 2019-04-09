@@ -65,7 +65,7 @@ module SitePrism
 
     def displayed?(*args)
       begin
-        Waiter.wait_until_displayed?(*args, url_matcher) { url_matches? }
+        Waiter.wait_until_displayed(*args, url_matcher) { url_matches?(*args) }
       rescue SitePrism::TimeoutError
         false
       end
@@ -121,7 +121,8 @@ module SitePrism
       matcher_template.mappings(page.current_url)
     end
 
-    def url_matches?(expected_mappings = {})
+    def url_matches?(*args)
+      expected_mappings = args.last.is_a?(::Hash) ? args.pop : {}
       if url_matcher.is_a?(Regexp)
         url_matches_by_regexp?
       elsif url_matcher.respond_to?(:to_str)
