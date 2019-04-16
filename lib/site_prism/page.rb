@@ -160,6 +160,7 @@ module SitePrism
 
       visit expanded_url
       return yield self unless with_validations
+
       when_loaded(&block)
     end
   end
