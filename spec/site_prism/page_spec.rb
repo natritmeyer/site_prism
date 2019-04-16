@@ -168,6 +168,16 @@ is called before the matcher has been set" do
             .to raise_error(SitePrism::FailedLoadValidationError)
             .with_message('It is not true!')
         end
+
+        context 'when validations are disabled' do
+          it 'executes the block' do
+            allow(page_with_load_validations)
+              .to receive(:must_be_true).and_return(false)
+
+            expect(page_with_load_validations.load(with_validations: false) { :return_this })
+              .to eq(:return_this)
+          end
+        end
       end
     end
   end
