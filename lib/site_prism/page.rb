@@ -159,9 +159,11 @@ module SitePrism
       raise SitePrism::NoUrlForPageError unless expanded_url
 
       visit expanded_url
-      return yield self unless with_validations
-
-      when_loaded(&block)
+      if with_validations
+        when_loaded(&block)
+      elsif block_given?
+        yield self
+      end
     end
   end
   # rubocop:enable Metrics/ClassLength
