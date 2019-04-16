@@ -35,8 +35,6 @@ module SitePrism
     end
 
     # Loads the page.
-    # @param html HTML string to load
-    # @param with_validations
     # @param expansion_or_html
     # @param block [&block] An optional block to run once the page is loaded.
     # The page will yield the block if defined.
@@ -45,14 +43,14 @@ module SitePrism
     # Runs load validations on the page, unless input is a string
     #
     # When calling #load, all the validations that are set will be ran in order
-    def load(html = nil, with_validations: true, **expansion, &block)
+    def load(expansion_or_html = {}, &block)
       self.loaded = false
       SitePrism.logger.debug("Reset loaded state on #{self.class}.")
 
-      return_yield = if html
-                       load_html_string(html, &block)
+      return_yield = if expansion_or_html.is_a?(String)
+                       load_html_string(expansion_or_html, &block)
                      else
-                       load_html_website(expansion, with_validations, &block)
+                       load_html_website(expansion_or_html, &block)
                      end
 
       # Ensure that we represent that the page we loaded is now indeed loaded!
@@ -154,7 +152,8 @@ module SitePrism
       yield self if block_given?
     end
 
-    def load_html_website(html, with_validations, &block)
+    def load_html_website(html, &block)
+      with_validations = html.delete(:with_validations) { true }
       expanded_url = url(html)
       raise SitePrism::NoUrlForPageError unless expanded_url
 
