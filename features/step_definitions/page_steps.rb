@@ -51,9 +51,9 @@ Then('all elements are present') do
 end
 
 Then('all elements and first-generation descendants are present') do
-  expect(@test_site.nested_sections).to be_all_there(recursion: 'one')
+  expect(@test_site.dynamic).to be_all_there(recursion: 'one')
 end
 
 Then('all elements and first-generation descendants are not present') do
-  expect(@test_site.slow).not_to be_all_there(recursion: 'one')
+  expect(@test_site.nested_sections).not_to be_all_there(recursion: 'one')
 end

@@ -18,15 +18,36 @@ module SitePrism
     # When using the recursion parameter, one of three values is valid.
     #
     # Default: 'none' => Perform no recursion when calling #all_there?
-    # Override: 'one' => Perform one recursive dive into all section
-    # items and call #all_there? on those items too.
+    # Override: 'one' => Perform one recursive dive into all section/sections
+    # items and call #all_there? on all of those items too.
     def all_there?(recursion: 'none')
       SitePrism.logger.info('Setting for recursion is being ignored for now.')
 
       if recursion == 'none'
         elements_to_check.all? { |item_name| there?(item_name) }
       elsif recursion == 'one'
-        elements_to_check.all? { |item_name| there?(item_name) }
+        # TODO: Make this work with expected_items! (LH) - Just first five lines below
+        _element = self.class.mapped_items(legacy: false)[:element]
+        _elements = self.class.mapped_items(legacy: false)[:elements]
+        _section = self.class.mapped_items(legacy: false)[:section]
+        _sections = self.class.mapped_items(legacy: false)[:sections]
+        _iframe = self.class.mapped_items(legacy: false)[:iframe]
+
+        regular_items_to_check = _element + _elements + _section + _sections + _iframe
+        regular_items_all_there = regular_items_to_check.all? { |item_name| there?(item_name) }
+        return regular_items_all_there unless regular_items_all_there
+
+        section_classes_to_check = _section.map { |section_name| self.send(section_name) }
+        section_all_there = section_classes_to_check.all? do |instance|
+          instance.all_there?(recursion: 'none')
+        end
+        return section_all_there unless section_all_there
+
+        sections_classes_to_check = _sections.map { |section_name| self.send(section_name) }.flatten
+        sections_all_there = sections_classes_to_check.all? do |instance|
+          instance.all_there?(recursion: 'none')
+        end
+        sections_all_there
       else
         SitePrism.logger.error('Invalid recursion setting, Will not run #all_there?.')
       end
@@ -46,6 +67,15 @@ module SitePrism
         _mapped_items.select { |item_name| _expected_items.include?(item_name) }
       else
         _mapped_items
+      end
+    end
+
+    def new_elements_to_check
+      if _expected_items
+        SitePrism.logger.debug('Expected Items has been set.')
+        _mapped_items.select { |item_name| _expected_items.include?(item_name) }
+      else
+        self.class.mapped_items(legacy: false)
       end
     end
 
