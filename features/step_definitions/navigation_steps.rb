@@ -86,8 +86,7 @@ Then('the page will not be marked as loaded') do
 end
 
 When('no error is thrown when loading a page') do
-  expect { @test_site.crash.load }
-    .not_to raise_error(SitePrism::FailedLoadValidationError)
+  expect { @test_site.crash.load(with_validations: false) }.not_to raise_error
 end
 
 Then('the page will be marked as loaded') do
