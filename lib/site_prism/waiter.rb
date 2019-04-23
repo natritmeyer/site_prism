@@ -18,6 +18,13 @@ module SitePrism
         raise SitePrism::TimeoutError, "Timed out after #{wait_time}s."
       end
 
+      def wait_until_displayed(*args, url)
+        args.last.is_a?(::Hash) ? args.pop : {}
+        seconds = !args.empty? ? args.first : Capybara.default_max_wait_time
+        raise SitePrism::NoUrlMatcherForPageError unless url
+        wait_until_true(seconds) { yield }
+      end
+
       private
 
       def check_for_time_stopped!(start_time)
@@ -29,13 +36,6 @@ module SitePrism
           'https://github.com/natritmeyer/site_prism/blob/master/lib/site_prism/error.rb'
         )
       end
-    end
-
-    def self.wait_until_displayed(*args, url)
-      args.last.is_a?(::Hash) ? args.pop : {}
-      seconds = !args.empty? ? args.first : Capybara.default_max_wait_time
-      raise SitePrism::NoUrlMatcherForPageError unless url
-      wait_until_true(seconds) { yield }
     end
   end
 end
