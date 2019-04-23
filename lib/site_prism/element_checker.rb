@@ -21,8 +21,6 @@ module SitePrism
     # Override: 'one' => Perform one recursive dive into all section/sections
     # items and call #all_there? on all of those items too.
     def all_there?(recursion: 'none')
-      SitePrism.logger.info('Setting for recursion is being ignored for now.')
-
       if recursion == 'none'
         elements_to_check.all? { |item_name| there?(item_name) }
       elsif recursion == 'one'
@@ -32,6 +30,12 @@ module SitePrism
         _section = self.class.mapped_items(legacy: false)[:section]
         _sections = self.class.mapped_items(legacy: false)[:sections]
         _iframe = self.class.mapped_items(legacy: false)[:iframe]
+
+        test_element = _element.select { |item_name| _expected_items.include?(item_name) }
+        test_elements = _elements.select { |item_name| _expected_items.include?(item_name) }
+        test_section = _section.select { |item_name| _expected_items.include?(item_name) }
+        test_sections = _sections.select { |item_name| _expected_items.include?(item_name) }
+        test_iframe = _iframe.select { |item_name| _expected_items.include?(item_name) }
 
         regular_items_to_check = _element + _elements + _section + _sections + _iframe
         regular_items_all_there = regular_items_to_check.all? { |item_name| there?(item_name) }
@@ -47,6 +51,8 @@ module SitePrism
         sections_all_there = sections_classes_to_check.all? do |instance|
           instance.all_there?(recursion: 'none')
         end
+        # Returning this final check here is fine, as the previous two checks must
+        # have returned +true+ in order to hit this part of the method-call
         sections_all_there
       else
         SitePrism.logger.error('Invalid recursion setting, Will not run #all_there?.')
@@ -59,23 +65,14 @@ module SitePrism
 
     private
 
-    # If the page or section has expected_items set, return expected_items
-    # that are mapped; otherwise just return the list of all mapped_items
+    # If the page or section has expected_items set, return expected_items that are mapped
+    # otherwise just return the list of all mapped_items
     def elements_to_check
       if _expected_items
         SitePrism.logger.debug('Expected Items has been set.')
         _mapped_items.select { |item_name| _expected_items.include?(item_name) }
       else
         _mapped_items
-      end
-    end
-
-    def new_elements_to_check
-      if _expected_items
-        SitePrism.logger.debug('Expected Items has been set.')
-        _mapped_items.select { |item_name| _expected_items.include?(item_name) }
-      else
-        self.class.mapped_items(legacy: false)
       end
     end
 
