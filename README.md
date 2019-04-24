@@ -1353,9 +1353,7 @@ passing in `with_validations: false`.
 ```ruby
 it 'loads the page without validations' do
   some_page.load(with_validations: false)
-  some_page.loaded?    #=> true if/when all load validations pass
-  another_page.loaded? #=> false if any load validations fail
-  another_page.load_error #=> A string error message if one was supplied by the failing load validation, or nil
+  some_page.loaded?    #=> true unless something has gone wrong
 end
 ```
 
