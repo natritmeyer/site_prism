@@ -24,23 +24,7 @@ addons:
   firefox: latest
 
 before_install:
-  - gem install bundler
-
-before_script:
-  - |
-    case $browser in
-      firefox)
-        wget https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz
-        mkdir geckodriver
-        tar -xzf geckodriver*.tar.gz -C .
-        export PATH=$PATH:$PWD
-        ;;
-      chrome)
-        sudo apt-get update -qq && sudo apt-get install -y chromium-chromedriver
-        export PATH=$PATH:/usr/lib/chromium-browser/
-        chromedriver -v
-        ;;
-    esac
+  - gem install bundler -v '< 2'
 
 services:
   - xvfb
