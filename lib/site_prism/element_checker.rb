@@ -22,32 +22,29 @@ module SitePrism
     # items and call #all_there? on all of those items too.
     def all_there?(recursion: 'none')
       if recursion == 'none'
-        elements_to_check.all? { |item_name| there?(item_name) }
+        elements_to_check.all? { |name| there?(name) }
       elsif recursion == 'one'
-        # TODO: Make this work with expected_items! (LH) - Just first five lines below
-        _element = self.class.mapped_items(legacy: false)[:element]
-        _elements = self.class.mapped_items(legacy: false)[:elements]
-        _section = self.class.mapped_items(legacy: false)[:section]
-        _sections = self.class.mapped_items(legacy: false)[:sections]
-        _iframe = self.class.mapped_items(legacy: false)[:iframe]
+        # Generate the nested hash of all mapped items
+        new_mapped_items = self.class.mapped_items(legacy: false)
 
-        test_element = _element.select { |item_name| _expected_items.include?(item_name) }
-        test_elements = _elements.select { |item_name| _expected_items.include?(item_name) }
-        test_section = _section.select { |item_name| _expected_items.include?(item_name) }
-        test_sections = _sections.select { |item_name| _expected_items.include?(item_name) }
-        test_iframe = _iframe.select { |item_name| _expected_items.include?(item_name) }
+        # Return all expected element/elements/section/sections/iframe items
+        test_element = new_mapped_items[:element].select { |name| _expected_items.include?(name) }
+        test_elements = new_mapped_items[:elements].select { |name| _expected_items.include?(name) }
+        test_section = new_mapped_items[:section].select { |name| _expected_items.include?(name) }
+        test_sections = new_mapped_items[:sections].select { |name| _expected_items.include?(name) }
+        test_iframe = new_mapped_items[:iframe].select { |name| _expected_items.include?(name) }
 
-        regular_items_to_check = _element + _elements + _section + _sections + _iframe
-        regular_items_all_there = regular_items_to_check.all? { |item_name| there?(item_name) }
+        regular_items_to_check = [test_element, test_elements, test_section, test_sections, test_iframe]
+        regular_items_all_there = regular_items_to_check.all? { |name| there?(name) }
         return regular_items_all_there unless regular_items_all_there
 
-        section_classes_to_check = _section.map { |section_name| self.send(section_name) }
+        section_classes_to_check = test_section.map { |name| self.send(name) }
         section_all_there = section_classes_to_check.all? do |instance|
           instance.all_there?(recursion: 'none')
         end
         return section_all_there unless section_all_there
 
-        sections_classes_to_check = _sections.map { |section_name| self.send(section_name) }.flatten
+        sections_classes_to_check = test_sections.map { |name| self.send(name) }.flatten
         sections_all_there = sections_classes_to_check.all? do |instance|
           instance.all_there?(recursion: 'none')
         end
@@ -60,7 +57,7 @@ module SitePrism
     end
 
     def elements_present
-      _mapped_items.select { |item_name| there?(item_name) }
+      _mapped_items.select { |name| there?(name) }
     end
 
     private
@@ -70,7 +67,7 @@ module SitePrism
     def elements_to_check
       if _expected_items
         SitePrism.logger.debug('Expected Items has been set.')
-        _mapped_items.select { |item_name| _expected_items.include?(item_name) }
+        _mapped_items.select { |name| _expected_items.include?(name) }
       else
         _mapped_items
       end
@@ -84,8 +81,8 @@ module SitePrism
       self.class.expected_items
     end
 
-    def there?(item_name)
-      send("has_#{item_name}?")
+    def there?(name)
+      send("has_#{name}?")
     end
   end
 end
