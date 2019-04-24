@@ -84,3 +84,11 @@ end
 Then('the page will not be marked as loaded') do
   expect(@test_site.crash).not_to be_loaded
 end
+
+When('no error is thrown when loading a page') do
+  expect { @test_site.crash.load(with_validations: false) }.not_to raise_error
+end
+
+Then('the page will be marked as loaded') do
+  expect(@test_site.crash).to be_loaded
+end

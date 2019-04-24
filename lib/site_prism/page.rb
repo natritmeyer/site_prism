@@ -153,11 +153,16 @@ module SitePrism
     end
 
     def load_html_website(html, &block)
+      with_validations = html.delete(:with_validations) { true }
       expanded_url = url(html)
       raise SitePrism::NoUrlForPageError unless expanded_url
 
       visit expanded_url
-      when_loaded(&block)
+      if with_validations
+        when_loaded(&block)
+      elsif block_given?
+        yield self
+      end
     end
   end
   # rubocop:enable Metrics/ClassLength
