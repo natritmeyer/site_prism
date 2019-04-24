@@ -10,6 +10,7 @@ require 'capybara'
 require 'capybara/dsl'
 require 'capybara/cucumber'
 require 'selenium-webdriver'
+require 'webdrivers'
 
 $LOAD_PATH << './lib'
 
