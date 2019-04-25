@@ -13,13 +13,13 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/natritmeyer/site_prism'
   s.metadata = {
     'bug_tracker_uri' => 'https://github.com/natritmeyer/site_prism/issues',
-    'changelog_uri' => 'https://github.com/natritmeyer/site_prism/blob/master/HISTORY.md',
+    'changelog_uri' => 'https://github.com/natritmeyer/site_prism/blob/master/CHANGELOG.md',
     'source_code_uri' => 'https://github.com/natritmeyer/site_prism',
   }
   s.summary     = 'A Page Object Model DSL for Capybara'
-  s.description = "SitePrism gives you a simple, \
+  s.description = 'SitePrism gives you a simple,
 clean and semantic DSL for describing your site.
-SitePrism implements the Page Object Model pattern on top of Capybara."
+SitePrism implements the Page Object Model pattern on top of Capybara.'
   s.files        = Dir.glob('lib/**/*') + %w[LICENSE.md README.md]
   s.require_path = 'lib'
   s.add_dependency 'addressable', ['~> 2.5']
@@ -29,7 +29,8 @@ SitePrism implements the Page Object Model pattern on top of Capybara."
   s.add_development_dependency 'dotenv', ['~> 2.6']
   s.add_development_dependency 'rake', ['~> 12.3']
   s.add_development_dependency 'rspec', ['~> 3.8']
-  s.add_development_dependency 'rubocop', ['~> 0.66.0']
+  s.add_development_dependency 'rubocop', ['~> 0.67.0']
+  s.add_development_dependency 'rubocop-performance', ['~> 1.0.0']
   s.add_development_dependency 'selenium-webdriver', ['~> 3.7']
   s.add_development_dependency 'simplecov', ['~> 0.16']
   s.add_development_dependency 'webdrivers', ['~> 3.8']
