@@ -25,6 +25,14 @@ module SitePrism
   # Formerly known as `NoSelectorForElement`
   class InvalidElementError < SitePrismError; end
 
+  # A tool like Timecop is being used to "freeze time" by overriding Time.now
+  # and similar methods. In this case, our waiter functions won't work, because
+  # Time.now does not change.
+  # If you encounter this issue, check that you are not doing Timecop.freeze without
+  # an accompanying Timecop.return.
+  # Also check out Timecop.safe_mode https://github.com/travisjeffery/timecop#timecopsafe_mode
+  class FrozenInTimeError < SitePrismError; end
+
   # The condition that was being evaluated inside the block did not evaluate
   # to true within the time limit
   # Formerly known as `TimeoutException`
