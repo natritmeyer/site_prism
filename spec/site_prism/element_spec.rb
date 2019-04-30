@@ -16,10 +16,13 @@ describe 'Element' do
     it { is_expected.to respond_to(:wait_until_element_one_visible) }
     it { is_expected.to respond_to(:wait_until_element_one_invisible) }
 
+    it 'supports rspec existence matchers' do
+      expect(subject).to have_element_one
+    end
+
     it 'supports negated rspec existence matchers' do
-      expect(subject).not_to receive(:has_element_one?)
-      expect(subject).to receive(:has_no_element_one?).and_return true
-      expect(subject).not_to have_element_one
+      expect(subject).to receive(:has_no_element_two?).once.and_call_original
+      expect(subject).not_to have_element_two
     end
 
     describe '#all_there?' do
