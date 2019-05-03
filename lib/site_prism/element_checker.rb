@@ -15,7 +15,7 @@ module SitePrism
     #
     # Note that #elements_to_check will affect the hash of mapped_items
     #
-    # When using the recursion parameter, one of three values is valid.
+    # When using the recursion parameter, one of two values is valid.
     #
     # Default: 'none' => Perform no recursion when calling #all_there?
     # Override: 'one' => Perform one recursive dive into all section/sections
