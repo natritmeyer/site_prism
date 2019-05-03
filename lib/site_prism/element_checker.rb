@@ -38,13 +38,13 @@ module SitePrism
         regular_items_all_there = regular_items_to_check.all? { |name| there?(name) }
         return regular_items_all_there unless regular_items_all_there
 
-        section_classes_to_check = test_section.map { |name| self.send(name) }
+        section_classes_to_check = test_section.map { |name| send(name) }
         section_all_there = section_classes_to_check.all? do |instance|
           instance.all_there?(recursion: 'none')
         end
         return section_all_there unless section_all_there
 
-        sections_classes_to_check = test_sections.map { |name| self.send(name) }.flatten
+        sections_classes_to_check = test_sections.map { |name| send(name) }.flatten
         sections_all_there = sections_classes_to_check.all? do |instance|
           instance.all_there?(recursion: 'none')
         end

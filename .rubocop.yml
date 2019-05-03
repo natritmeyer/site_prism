@@ -27,6 +27,10 @@ Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: comma
   Enabled: true
 
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+  Enabled: true
+
 # https://github.com/rubocop-hq/rubocop/issues/6084
 # https://github.com/rubocop-hq/rubocop/issues/6349
 Naming/MemoizedInstanceVariableName:
