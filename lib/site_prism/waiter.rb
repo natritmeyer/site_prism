@@ -10,9 +10,9 @@ module SitePrism
           return true if yield
           break if Time.now - start_time > wait_time
 
-            sleep(0.05)
+          sleep(0.05)
 
-            check_for_time_stopped!(start_time)
+          check_for_time_stopped!(start_time)
         end
 
         raise SitePrism::TimeoutError, "Timed out after #{wait_time}s."
