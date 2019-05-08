@@ -64,12 +64,20 @@ module SitePrism
     end
 
     def displayed?(*args)
-      expected_mappings = args.last.is_a?(::Hash) ? args.pop : {}
       begin
-        Waiter.wait_until_displayed(*args, url_matcher) { url_matches?(expected_mappings) }
+        wait_until_displayed(*args, url_matcher)
       rescue SitePrism::TimeoutError
         false
       end
+    end
+
+    def wait_until_displayed(*args, url)
+      raise SitePrism::NoUrlMatcherForPageError unless url
+
+      expected_mappings = args.last.is_a?(::Hash) ? args.pop : {}
+      args.last.is_a?(::Hash) ? args.pop : {}
+      seconds = !args.empty? ? args.first : Capybara.default_max_wait_time
+      Waiter.wait_until_true(seconds) { url_matches?(expected_mappings) }
     end
 
     def url_matches(seconds = Capybara.default_max_wait_time)
