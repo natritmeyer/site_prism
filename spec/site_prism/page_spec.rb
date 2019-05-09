@@ -222,6 +222,12 @@ is called before the matcher has been set" do
   end
 
   describe '#displayed?' do
+    it 'delegates through #wait_until_displayed' do
+      expect(page_with_url).to receive(:wait_until_displayed).with(:foo, :bar, :baz)
+
+      page_with_url.displayed?(:foo, :bar, :baz)
+    end
+
     context 'with a full string URL matcher' do
       class PageWithStringFullUrlMatcher < SitePrism::Page
         set_url_matcher('https://joe:bump@bla.org:443/foo?bar=baz&bar=boof#frag')
@@ -230,17 +236,13 @@ is called before the matcher has been set" do
       let(:page) { PageWithStringFullUrlMatcher.new }
 
       it 'matches with all elements matching' do
-        swap_current_url(
-          'https://joe:bump@bla.org:443/foo?bar=baz&bar=boof#frag'
-        )
+        swap_current_url('https://joe:bump@bla.org:443/foo?bar=baz&bar=boof#frag')
 
         expect(page.displayed?).to be true
       end
 
       it "doesn't match with a non-matching fragment" do
-        swap_current_url(
-          'https://joe:bump@bla.org:443/foo?bar=baz&bar=boof#otherfr'
-        )
+        swap_current_url('https://joe:bump@bla.org:443/foo?bar=baz&bar=boof#otherfr')
 
         expect(page.displayed?).to be false
       end
@@ -252,49 +254,37 @@ is called before the matcher has been set" do
       end
 
       it "doesn't match with wrong path" do
-        swap_current_url(
-          'https://joe:bump@bla.org:443/not_foo?bar=baz&bar=boof#frag'
-        )
+        swap_current_url('https://joe:bump@bla.org:443/not_foo?bar=baz&bar=boof#frag')
 
         expect(page.displayed?).to be false
       end
 
       it "doesn't match with wrong host" do
-        swap_current_url(
-          'https://joe:bump@blabber.org:443/foo?bar=baz&bar=boof#frag'
-        )
+        swap_current_url('https://joe:bump@blabber.org:443/foo?bar=baz&bar=boof#frag')
 
         expect(page.displayed?).to be false
       end
 
       it "doesn't match with wrong user" do
-        swap_current_url(
-          'https://joseph:bump@bla.org:443/foo?bar=baz&bar=boof#frag'
-        )
+        swap_current_url('https://joseph:bump@bla.org:443/foo?bar=baz&bar=boof#frag')
 
         expect(page.displayed?).to be false
       end
 
       it "doesn't match with wrong password" do
-        swap_current_url(
-          'https://joe:bean@bla.org:443/foo?bar=baz&bar=boof#frag'
-        )
+        swap_current_url('https://joe:bean@bla.org:443/foo?bar=baz&bar=boof#frag')
 
         expect(page.displayed?).to be false
       end
 
       it "doesn't match with wrong scheme" do
-        swap_current_url(
-          'http://joe:bump@bla.org:443/foo?bar=baz&bar=boof#frag'
-        )
+        swap_current_url('http://joe:bump@bla.org:443/foo?bar=baz&bar=boof#frag')
 
         expect(page.displayed?).to be false
       end
 
       it "doesn't match with wrong port" do
-        swap_current_url(
-          'https://joe:bump@bla.org:8000/foo?bar=baz&bar=boof#frag'
-        )
+        swap_current_url('https://joe:bump@bla.org:8000/foo?bar=baz&bar=boof#frag')
 
         expect(page.displayed?).to be false
       end
@@ -308,9 +298,7 @@ is called before the matcher has been set" do
       let(:page) { PageWithStringMinimalUrlMatcher.new }
 
       it 'matches a complex URL by only path' do
-        swap_current_url(
-          'https://joe:bump@bla.org:443/foo?bar=baz&bar=boof#frag'
-        )
+        swap_current_url('https://joe:bump@bla.org:443/foo?bar=baz&bar=boof#frag')
 
         expect(page.displayed?).to be true
       end
@@ -384,6 +372,142 @@ from the be_displayed matcher" do
       it 'raises InvalidUrlMatcherError' do
         expect { page.displayed? }
           .to raise_error(SitePrism::InvalidUrlMatcherError)
+      end
+    end
+  end
+
+  describe '#wait_until_displayed' do
+    subject { page.wait_until_displayed }
+
+    context 'with a full string URL matcher' do
+      class PageWithStringFullUrlMatcher < SitePrism::Page
+        set_url_matcher('https://joe:bump@bla.org:443/foo?bar=baz&bar=boof#frag')
+      end
+
+      let(:page) { PageWithStringFullUrlMatcher.new }
+
+      it 'matches with all elements matching' do
+        swap_current_url('https://joe:bump@bla.org:443/foo?bar=baz&bar=boof#frag')
+
+        expect { subject }.not_to raise_error
+      end
+
+      it "doesn't match with a non-matching fragment" do
+        swap_current_url('https://joe:bump@bla.org:443/foo?bar=baz&bar=boof#otherfr')
+
+        expect { subject }.to raise_error(SitePrism::TimeoutError)
+      end
+
+      it "doesn't match with a missing param" do
+        swap_current_url('https://joe:bump@bla.org:443/foo?bar=baz#frag')
+
+        expect { subject }.to raise_error(SitePrism::TimeoutError)
+      end
+
+      it "doesn't match with wrong path" do
+        swap_current_url('https://joe:bump@bla.org:443/not_foo?bar=baz&bar=boof#frag')
+
+        expect { subject }.to raise_error(SitePrism::TimeoutError)
+      end
+
+      it "doesn't match with wrong host" do
+        swap_current_url('https://joe:bump@blabber.org:443/foo?bar=baz&bar=boof#frag')
+
+        expect { subject }.to raise_error(SitePrism::TimeoutError)
+      end
+
+      it "doesn't match with wrong user" do
+        swap_current_url('https://joseph:bump@bla.org:443/foo?bar=baz&bar=boof#frag')
+
+        expect { subject }.to raise_error(SitePrism::TimeoutError)
+      end
+
+      it "doesn't match with wrong password" do
+        swap_current_url('https://joe:bean@bla.org:443/foo?bar=baz&bar=boof#frag')
+
+        expect { subject }.to raise_error(SitePrism::TimeoutError)
+      end
+
+      it "doesn't match with wrong scheme" do
+        swap_current_url('http://joe:bump@bla.org:443/foo?bar=baz&bar=boof#frag')
+
+        expect { subject }.to raise_error(SitePrism::TimeoutError)
+      end
+
+      it "doesn't match with wrong port" do
+        swap_current_url('https://joe:bump@bla.org:8000/foo?bar=baz&bar=boof#frag')
+
+        expect { subject }.to raise_error(SitePrism::TimeoutError)
+      end
+    end
+
+    context 'with a minimal URL matcher' do
+      class PageWithStringMinimalUrlMatcher < SitePrism::Page
+        set_url_matcher('/foo')
+      end
+
+      let(:page) { PageWithStringMinimalUrlMatcher.new }
+
+      it 'matches a complex URL by only path' do
+        swap_current_url('https://joe:bump@bla.org:443/foo?bar=baz&bar=boof#frag')
+
+        expect { subject }.not_to raise_error
+      end
+    end
+
+    context 'with an implicit matcher' do
+      class PageWithImplicitUrlMatcher < SitePrism::Page
+        set_url '/foo'
+      end
+
+      let(:page) { PageWithImplicitUrlMatcher.new }
+
+      it 'should default the matcher to the url' do
+        expect(page.url_matcher).to eq('/foo')
+      end
+
+      it 'matches a realistic local dev URL' do
+        swap_current_url('http://localhost:3000/foo')
+
+        expect { subject }.not_to raise_error
+      end
+    end
+
+    context 'with a parameterized URL matcher' do
+      class PageWithParameterizedUrlMatcher < SitePrism::Page
+        set_url_matcher('{scheme}:///foos{/id}')
+      end
+
+      let(:page) { PageWithParameterizedUrlMatcher.new }
+
+      it 'passes without expected_mappings provided' do
+        swap_current_url('http://localhost:3000/foos/28')
+
+        expect { page.wait_until_displayed }.not_to raise_error
+      end
+
+      it 'passes with correct expected_mappings provided' do
+        swap_current_url('http://localhost:3000/foos/28')
+
+        expect { page.wait_until_displayed(id: 28) }.not_to raise_error
+      end
+
+      it 'fails with incorrect expected_mappings provided' do
+        swap_current_url('http://localhost:3000/foos/28')
+
+        expect { page.wait_until_displayed(id: 17) }.to raise_error(SitePrism::TimeoutError)
+      end
+    end
+
+    context 'with a bogus URL matcher' do
+      class PageWithBogusFullUrlMatcher < SitePrism::Page
+        set_url_matcher(this: "isn't a URL matcher")
+      end
+
+      let(:page) { PageWithBogusFullUrlMatcher.new }
+
+      it 'raises InvalidUrlMatcherError' do
+        expect { subject }.to raise_error(SitePrism::InvalidUrlMatcherError)
       end
     end
   end
