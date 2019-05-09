@@ -33,5 +33,5 @@ SitePrism implements the Page Object Model pattern on top of Capybara.'
   s.add_development_dependency 'rubocop-performance', ['~> 1.0.0']
   s.add_development_dependency 'selenium-webdriver', ['~> 3.7']
   s.add_development_dependency 'simplecov', ['~> 0.16']
-  s.add_development_dependency 'webdrivers', ['~> 3.8']
+  s.add_development_dependency 'webdrivers', ['< 3.8']
 end
