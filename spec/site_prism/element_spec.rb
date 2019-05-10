@@ -19,6 +19,36 @@ describe 'Element' do
     it { is_expected.to respond_to(:wait_until_element_one_visible) }
     it { is_expected.to respond_to(:wait_until_element_one_invisible) }
 
+    it 'supports rspec existence matchers' do
+      expect(subject).to have_element_one
+    end
+
+    it 'supports negated rspec existence matchers' do
+      expect(subject).to receive(:has_no_element_two?).once.and_call_original
+      expect(subject).not_to have_element_two
+    end
+
+    describe '#all_there?' do
+      subject { page.all_there? }
+
+      context 'with no recursion' do
+        it { is_expected.to be_truthy }
+
+        it 'checks only the expected elements' do
+          expect(page).to receive(:there?).with(:element_one).once
+          expect(page).not_to receive(:there?).with(:element_two)
+
+          subject
+        end
+      end
+    end
+
+    describe '#elements_present' do
+      it 'only lists the SitePrism objects that are present on the page' do
+        expect(page.elements_present).to eq(%i[element_one element_three])
+      end
+    end
+
     describe '.expected_elements' do
       it 'sets the value of expected_items' do
         expect(klass.expected_items)

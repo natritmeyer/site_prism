@@ -122,14 +122,11 @@ module SitePrism
       def iframe(name, klass, *args)
         element_find_args = deduce_iframe_element_find_args(args)
         scope_find_args = deduce_iframe_scope_find_args(args)
-
         build(:iframe, name, *element_find_args) do
           define_method(name) do |&block|
             raise MissingBlockError unless block
 
-            within_frame(*scope_find_args) do
-              block.call(klass.new)
-            end
+            within_frame(*scope_find_args) { block.call(klass.new) }
           end
         end
       end
@@ -180,6 +177,7 @@ until a v5 has been released (And will be deprecated in v4 of site_prism")
       def add_helper_methods(name, *find_args)
         create_existence_checker(name, *find_args)
         create_nonexistence_checker(name, *find_args)
+        create_rspec_existence_matchers(name) if defined?(RSpec)
         create_visibility_waiter(name, *find_args)
         create_invisibility_waiter(name, *find_args)
       end
@@ -189,6 +187,18 @@ until a v5 has been released (And will be deprecated in v4 of site_prism")
           create_error_method(proposed_method_name)
         else
           yield
+        end
+      end
+
+      def create_rspec_existence_matchers(element_name)
+        matcher = "has_#{element_name}?"
+        negated_matcher = "has_no_#{element_name}?"
+
+        RSpec::Matchers.define "have_#{element_name}" do |*args|
+          match { |actual| actual.public_send(matcher, *args) }
+          match_when_negated do |actual|
+            actual.public_send(negated_matcher, *args)
+          end
         end
       end
 
@@ -238,10 +248,7 @@ until a v5 has been released (And will be deprecated in v4 of site_prism")
 
       def create_error_method(name)
         SitePrism.logger.error("#{name} has come from an item with 0 locators.")
-
-        define_method(name) do
-          raise SitePrism::InvalidElementError
-        end
+        define_method(name) { raise SitePrism::InvalidElementError }
       end
 
       def deduce_iframe_scope_find_args(args)
@@ -265,8 +272,7 @@ until a v5 has been released (And will be deprecated in v4 of site_prism")
       def warn_on_invalid_selector_input(args)
         return unless looks_like_xpath?(args[0])
 
-        msg = 'The arguments passed in look like xpath. Check your locators.'
-        SitePrism.logger.warn(msg)
+        SitePrism.logger.warn('The arguments passed in look like xpath. Check your locators.')
         SitePrism.logger.debug("Default locator: #{Capybara.default_selector}")
       end
 

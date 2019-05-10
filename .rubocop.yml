@@ -1,3 +1,5 @@
+require: rubocop-performance
+
 AllCops:
   TargetRubyVersion: 2.3
 
@@ -30,11 +32,6 @@ Style/TrailingCommaInHashLiteral:
 Style/TrailingCommaInArrayLiteral:
   EnforcedStyleForMultiline: comma
   Enabled: true
-
-# https://github.com/rubocop-hq/rubocop/issues/6084
-# https://github.com/rubocop-hq/rubocop/issues/6349
-Naming/MemoizedInstanceVariableName:
-  EnforcedStyleForLeadingUnderscores: optional
 
 # Probably need to look into this, see if we can optimise it down the line
 Metrics/ModuleLength:

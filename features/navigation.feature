@@ -36,3 +36,7 @@ Feature: Page Navigation
   Scenario: Load a Page that has failing load validations
     Then an error is thrown when loading a page with failing validations
     And the page will not be marked as loaded
+
+  Scenario: Load a Page that has failing load validations without validations
+    Then no error is thrown when loading a page
+    And the page will be marked as loaded
