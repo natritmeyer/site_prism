@@ -39,22 +39,24 @@ describe SitePrism::ElementChecker do
       context 'with recursion set to one' do
         subject { page.all_there?(recursion: 'one') }
 
-        let!(:section) { double('SitePrism::Section') }
+        let!(:section) { instance_double('SitePrism::Section') }
 
         before do
           allow(page).to receive(:section_one).and_return(section)
-          allow(section).to receive(:has_inner_element_one?).and_return(true)
-          allow(section).to receive(:has_inner_element_two?).and_return(true)
-          allow(section).to receive(:has_iframe?).and_return(true)
+          # allow(section).to receive(:all_there?).and_call_original
+          allow(section).to receive(:there?).with(:inner_element_one).and_return(true)
+          allow(section).to receive(:there?).with(:inner_element_two).and_return(true)
+          allow(section).to receive(:there?).with(:iframe).and_return(true)
         end
 
-        it { is_expected.to be true }
+        # it { is_expected.to be true }
 
         it 'checks each item in expected elements plus all first-generation descendants' do
           expected_items.each do |name|
             expect(page).to receive(:there?).with(name).once.and_call_original
           end
 
+          expect(section).to receive(:all_there?).with({ recursion: 'none' }).and_call_original
           expect(section).to receive(:has_inner_element_one?)
           expect(section).to receive(:has_inner_element_two?)
           expect(section).to receive(:has_iframe?)
@@ -79,7 +81,7 @@ describe SitePrism::ElementChecker do
             subject
           end
 
-          expect(lines(log_messages)).to eq(2)
+          expect(lines(log_messages)).to eq(1)
         end
       end
     end

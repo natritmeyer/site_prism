@@ -36,7 +36,7 @@ module SitePrism
     end
 
     def all_there?
-      regular_items_all_there = expected_item_map.all? { |name| there?(name) }
+      regular_items_all_there = expected_item_map.flatten.all? { |name| there?(name) }
       return regular_items_all_there unless regular_items_all_there
 
       section_all_there =

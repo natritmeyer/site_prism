@@ -3,6 +3,7 @@
 describe 'Element' do
   # This stops the stdout process leaking between tests
   before(:each) { wipe_logger! }
+  let(:expected_elements) { SitePrism::SpecHelper.present_stubs }
 
   shared_examples 'an element' do
     describe '.element' do
@@ -45,7 +46,7 @@ describe 'Element' do
 
     describe '#elements_present' do
       it 'only lists the SitePrism objects that are present on the page' do
-        expect(page.elements_present).to eq(%i[element_one element_three])
+        expect(page.elements_present.sort).to eq(expected_elements.sort)
       end
     end
 

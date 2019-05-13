@@ -34,7 +34,7 @@ module SitePrism
         test_sections = new_mapped_items[:sections].select { |name| _expected_items.include?(name) }
         test_iframe = new_mapped_items[:iframe].select { |name| _expected_items.include?(name) }
 
-        regular_items_to_check = [test_element, test_elements, test_section, test_sections, test_iframe]
+        regular_items_to_check = [test_element, test_elements, test_section, test_sections, test_iframe].flatten
         regular_items_all_there = regular_items_to_check.all? { |name| there?(name) }
         return regular_items_all_there unless regular_items_all_there
 
