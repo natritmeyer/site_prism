@@ -8,11 +8,7 @@ class XPathPage < SitePrism::Page
   elements :elements_one, :xpath, '//a[@class="a"]//b[@class="b"]'
   elements :elements_two, :xpath, '//*[@class="many"]'
 
-  section :section_one, :xpath, '//span[@class="locator"]' do
-    element :inner_element_one, :xpath, '//*[@class="one"]'
-    element :inner_element_two, :xpath, '//*[@class="two"]'
-    iframe :iframe, XPathIFrame, :xpath, '//*[@class="iframe"]'
-  end
+  section :section_one, XPathSection, :xpath, '//span[@class="locator"]'
 
   sections :sections_one, Blank, :xpath, '//span[@class="locator"]'
 
