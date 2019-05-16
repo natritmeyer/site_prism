@@ -16,8 +16,12 @@ module SitePrism
   module SpecHelper
     module_function
 
-    def present_stubs
+    def present_on_page
       %i[element_one elements_one section_one sections_one element_three]
+    end
+
+    def present_on_section
+      %i[inner_element_one inner_element_two iframe]
     end
   end
 end
@@ -51,7 +55,16 @@ Capybara.app = MyTestApp.new
 
 RSpec.configure do |rspec|
   [CSSPage, XPathPage].each do |klass|
-    SitePrism::SpecHelper.present_stubs.each do |method|
+    SitePrism::SpecHelper.present_on_page.each do |method|
+      rspec.before(:each) do
+        allow_any_instance_of(klass).to receive("has_#{method}?") { true }
+        allow_any_instance_of(klass).to receive("has_no_#{method}?") { false }
+      end
+    end
+  end
+
+  [CSSSection, XPathSection].each do |klass|
+    SitePrism::SpecHelper.present_on_section.each do |method|
       rspec.before(:each) do
         allow_any_instance_of(klass).to receive("has_#{method}?") { true }
         allow_any_instance_of(klass).to receive("has_no_#{method}?") { false }

@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 describe SitePrism::ElementChecker do
-  # This stops the stdout process leaking between tests
-  before(:each) { wipe_logger! }
+  let!(:section_locator) { instance_double('Capybara::Node::Element') }
 
   shared_examples 'a page' do
     describe '#all_there?' do
@@ -39,17 +38,11 @@ describe SitePrism::ElementChecker do
       context 'with recursion set to one' do
         subject { page.all_there?(recursion: 'one') }
 
-        let!(:section) { instance_double('SitePrism::Section') }
-
         before do
           allow(page).to receive(:section_one).and_return(section)
-          # allow(section).to receive(:all_there?).and_call_original
-          allow(section).to receive(:there?).with(:inner_element_one).and_return(true)
-          allow(section).to receive(:there?).with(:inner_element_two).and_return(true)
-          allow(section).to receive(:there?).with(:iframe).and_return(true)
         end
 
-        # it { is_expected.to be true }
+        it { is_expected.to be true }
 
         it 'checks each item in expected elements plus all first-generation descendants' do
           expected_items.each do |name|
@@ -57,16 +50,18 @@ describe SitePrism::ElementChecker do
           end
 
           expect(section).to receive(:all_there?).with({ recursion: 'none' }).and_call_original
-          expect(section).to receive(:has_inner_element_one?)
-          expect(section).to receive(:has_inner_element_two?)
-          expect(section).to receive(:has_iframe?)
+          expect(section).to receive(:there?).with(:inner_element_one).and_return(true)
+          expect(section).to receive(:there?).with(:inner_element_two).and_return(true)
+          expect(section).to receive(:there?).with(:iframe).and_return(true)
           expect(page).not_to receive(:there?).with(:element_two)
 
-          page.all_there?(recursion: 'one')
+          subject
         end
       end
 
       context 'with recursion set to an invalid value' do
+        # This stops the stdout process leaking between tests
+        before(:each) { wipe_logger! }
         subject { page.all_there?(recursion: 'go nuts') }
 
         it 'does not check any elements' do
@@ -96,6 +91,7 @@ describe SitePrism::ElementChecker do
 
   context 'on a CSS Page' do
     let(:page) { CSSPage.new }
+    let(:section) { CSSSection.new(page, section_locator) }
     let(:expected_items) { CSSPage.expected_items }
 
     it_behaves_like 'a page'
@@ -103,6 +99,7 @@ describe SitePrism::ElementChecker do
 
   context 'on an XPath Page' do
     let(:page) { XPathPage.new }
+    let(:section) { XPathSection.new(page, section_locator) }
     let(:expected_items) { XPathPage.expected_items }
 
     it_behaves_like 'a page'

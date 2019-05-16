@@ -3,7 +3,7 @@
 describe 'Element' do
   # This stops the stdout process leaking between tests
   before(:each) { wipe_logger! }
-  let(:expected_elements) { SitePrism::SpecHelper.present_stubs }
+  let(:expected_elements) { SitePrism::SpecHelper.present_on_page }
 
   shared_examples 'an element' do
     describe '.element' do
