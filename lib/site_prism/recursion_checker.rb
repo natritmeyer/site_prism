@@ -32,7 +32,7 @@ module SitePrism
     end
 
     def expected(map, type)
-      map[type].select { |name| _expected_items.include?(name) }
+      map[type].select { |name| elements_to_check.include?(name) }
     end
 
     def all_there?

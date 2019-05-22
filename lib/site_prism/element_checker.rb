@@ -28,11 +28,11 @@ module SitePrism
         new_mapped_items = self.class.mapped_items(legacy: false)
 
         # Return all expected element/elements/section/sections/iframe items
-        test_element = new_mapped_items[:element].select { |name| _expected_items.include?(name) }
-        test_elements = new_mapped_items[:elements].select { |name| _expected_items.include?(name) }
-        test_section = new_mapped_items[:section].select { |name| _expected_items.include?(name) }
-        test_sections = new_mapped_items[:sections].select { |name| _expected_items.include?(name) }
-        test_iframe = new_mapped_items[:iframe].select { |name| _expected_items.include?(name) }
+        test_element = new_mapped_items[:element].select { |name| elements_to_check.include?(name) }
+        test_elements = new_mapped_items[:elements].select { |name| elements_to_check.include?(name) }
+        test_section = new_mapped_items[:section].select { |name| elements_to_check.include?(name) }
+        test_sections = new_mapped_items[:sections].select { |name| elements_to_check.include?(name) }
+        test_iframe = new_mapped_items[:iframe].select { |name| elements_to_check.include?(name) }
 
         regular_items_to_check = [test_element, test_elements, test_section, test_sections, test_iframe].flatten
         regular_items_all_there = regular_items_to_check.all? { |name| there?(name) }
