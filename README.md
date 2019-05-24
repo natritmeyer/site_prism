@@ -594,7 +594,6 @@ Or even run some tests ...
 ```ruby
 expect(@friends_page.names.map { |name| name.text }).to eq(['Alice', 'Bob', 'Fred'])
 expect(@friends_page.names.size).to eq(3)
-expect(@friends_page).to have(3).names
 ```
 
 #### Testing for the existence of the element collection
