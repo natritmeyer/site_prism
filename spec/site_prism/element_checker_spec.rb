@@ -46,7 +46,11 @@ describe SitePrism::ElementChecker do
 
         it 'checks each item in expected elements plus all first-generation descendants' do
           expected_items.each do |name|
-            expect(page).to receive(:there?).with(name).once.and_call_original
+            expect_any_instance_of(SitePrism::RecursionChecker)
+              .to receive(:there?)
+              .with(name)
+              .once
+              .and_call_original
           end
 
           expect(section).to receive(:all_there?).with(recursion: 'none').and_call_original
