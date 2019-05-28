@@ -7,26 +7,17 @@ module SitePrism
       @mapped_items = mapped_items
     end
 
-    # module_function
-
-    # When using the recursion parameter, one of two values is valid.
-    #
-    # Default: 'none' => Perform no recursion when calling #all_there?
-    # Override: 'one' => Perform one recursive dive into all section/sections
-    # items and call #all_there? on all of those items too.
-
-    # Return all expected element/elements/section/sections/iframe items
     def all_there?
       regular_items_all_there = expected_item_map.flatten.all? { |name| there?(name) }
       return false unless regular_items_all_there
 
       section_all_there =
-        section_classes_to_check.all? { |instance| instance.all_there?(recursion: 'none') }
+        section_classes_to_check.all? { |instance| instance.all_there?(recursion: :none) }
       return false unless section_all_there
 
       # Returning this final check here is fine, as the previous two checks must
       # have returned +true+ in order to hit this part of the method-call
-      sections_classes_to_check.all? { |instance| instance.all_there?(recursion: 'none') }
+      sections_classes_to_check.all? { |instance| instance.all_there?(recursion: :none) }
     end
 
     def expected_item_map

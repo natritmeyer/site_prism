@@ -21,7 +21,7 @@ describe SitePrism::ElementChecker do
       end
 
       context 'with recursion set to none' do
-        subject { page.all_there?(recursion: 'none') }
+        subject { page.all_there?(recursion: :none) }
 
         it { is_expected.to be true }
 
@@ -36,7 +36,7 @@ describe SitePrism::ElementChecker do
       end
 
       context 'with recursion set to one' do
-        subject { page.all_there?(recursion: 'one') }
+        subject { page.all_there?(recursion: :one) }
 
         before do
           allow(page).to receive(:section_one).and_return(section)
@@ -53,7 +53,7 @@ describe SitePrism::ElementChecker do
               .and_call_original
           end
 
-          expect(section).to receive(:all_there?).with(recursion: 'none').and_call_original
+          expect(section).to receive(:all_there?).with(recursion: :none).and_call_original
           expect(section).to receive(:there?).with(:inner_element_one).and_return(true)
           expect(section).to receive(:there?).with(:inner_element_two).and_return(true)
           expect(section).to receive(:there?).with(:iframe).and_return(true)
@@ -76,7 +76,7 @@ describe SitePrism::ElementChecker do
 
         it 'sends an error to the SitePrism logger' do
           log_messages = capture_stdout do
-            SitePrism.configure { |config| config.log_level = :DEBUG }
+            SitePrism.configure { |config| config.log_level = :ERROR }
             subject
           end
 
