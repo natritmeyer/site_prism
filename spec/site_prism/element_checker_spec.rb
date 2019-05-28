@@ -53,7 +53,7 @@ describe SitePrism::ElementChecker do
               .and_call_original
           end
 
-          expect(section).to receive(:all_there?).with(recursion: :none).and_call_original
+          expect(section).to receive(:all_there?).and_call_original
           expect(section).to receive(:there?).with(:inner_element_one).and_return(true)
           expect(section).to receive(:there?).with(:inner_element_two).and_return(true)
           expect(section).to receive(:there?).with(:iframe).and_return(true)

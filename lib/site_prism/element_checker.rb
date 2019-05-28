@@ -24,7 +24,7 @@ module SitePrism
       if recursion == :none
         elements_to_check.all? { |name| there?(name) }
       elsif recursion == :one
-        RecursionChecker.new(self, self.class.mapped_items(legacy: false)).all_there?
+        RecursionChecker.new(self).all_there?
       else
         SitePrism.logger.debug("Input value '#{recursion}'. Valid values are :none or :one.")
         SitePrism.logger.error('Invalid recursion setting, Will not run #all_there?.')

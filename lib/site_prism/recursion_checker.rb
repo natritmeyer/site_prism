@@ -2,9 +2,11 @@
 
 module SitePrism
   class RecursionChecker
-    def initialize(instance, mapped_items)
+    attr_reader :instance
+    private :instance
+
+    def initialize(instance)
       @instance = instance
-      @mapped_items = mapped_items
     end
 
     def all_there?
@@ -12,36 +14,34 @@ module SitePrism
       return false unless regular_items_all_there
 
       section_all_there =
-        section_classes_to_check.all? { |instance| instance.all_there?(recursion: :none) }
+        section_classes_to_check.all? { |instance| instance.all_there? }
       return false unless section_all_there
 
       # Returning this final check here is fine, as the previous two checks must
       # have returned +true+ in order to hit this part of the method-call
-      sections_classes_to_check.all? { |instance| instance.all_there?(recursion: :none) }
+      sections_classes_to_check.all? { |instance| instance.all_there? }
     end
 
     def expected_item_map
-      initial_map = @mapped_items
-
       [
-        expected(initial_map, :element),
-        expected(initial_map, :elements),
-        expected(initial_map, :section),
-        expected(initial_map, :sections),
-        expected(initial_map, :iframe),
+        expected(mapped_items, :element),
+        expected(mapped_items, :elements),
+        expected(mapped_items, :section),
+        expected(mapped_items, :sections),
+        expected(mapped_items, :iframe),
       ]
     end
 
-    def expected(map, type)
-      map[type].select { |name| elements_to_check.include?(name) }
+    def expected(_map, type)
+      mapped_items[type].select { |name| elements_to_check.include?(name) }
     end
 
     def section_classes_to_check
-      expected_item_map[2].map { |name| @instance.send(name) }
+      expected_item_map[2].map { |name| instance.send(name) }
     end
 
     def sections_classes_to_check
-      expected_item_map[3].map { |name| @instance.send(name) }.flatten
+      expected_item_map[3].map { |name| instance.send(name) }.flatten
     end
 
     private
@@ -58,15 +58,19 @@ module SitePrism
     end
 
     def _mapped_items
-      @mapped_items.values.flatten.uniq
+      mapped_items.values.flatten.uniq
     end
 
     def _expected_items
-      @instance.class.expected_items
+      instance.class.expected_items
     end
 
     def there?(name)
-      @instance.send("has_#{name}?")
+      instance.send("has_#{name}?")
+    end
+
+    def mapped_items
+      @mapped_items ||= instance.class.mapped_items(legacy: false)
     end
   end
 end
