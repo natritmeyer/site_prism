@@ -1,4 +1,35 @@
-<!-- #362 - Mar 19th - Last update to this document -->
+<!-- #392 - May 10th - Last update to this document -->
+## [3.2] - 2019-05-xx
+### Added
+- Allow `#load` to be called with a new option `:with_validations`
+  - When this is set to `false` this will skip load_validations for the one method invocation
+  - If not passed in or set to `true` the previous behaviour is retained (Validations running)
+([JanStevens])
+
+- `rubocop-performance` has been added as a development dependency to future-proof against
+impending major rubocop release
+([luke-hill])
+
+- When using rspec matchers, the `.not_to` matcher will now use the `has_no_<element>?` method call
+  - Previously this used the `!has_<element>?` call, which waited for the full duration to fail
+([hoffi])
+
+- Added new `#wait_until_displayed` method that sits alongside `#displayed?`
+  - Initial `#displayed?` call has now been refactored to be a bit cleaner
+  - `#wait_until_displayed` will wait or crash (Not return a booleanlike `#displayed?`
+([TheSpartan1980] & [luke-hill])
+
+### Changed
+- `rubocop` rules regarding formatting (To bring it more in-line with the 21st century!)
+([luke-hill])
+
+### Fixed
+- Travis now uses `webdrivers` gem to build and mitigate driver issues
+([luke-hill])
+
+- SitePrism can now detect if Time has been frozen (i.e. with Timecop), whilst using `.wait_until_true` 
+([dkniffin])
+
 ## [3.1] - 2019-03-26
 ### Added
 - Add info on how to deal with V2->V3 upgrade warnings RE Capybara selectors
@@ -851,7 +882,8 @@
 - First release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/natritmeyer/site_prism/compare/v3.1...master
+[Unreleased]: https://github.com/natritmeyer/site_prism/compare/v3.2...master
+[3.2]:        https://github.com/natritmeyer/site_prism/compare/v3.1...v3.2
 [3.1]:        https://github.com/natritmeyer/site_prism/compare/v3.0.3...v3.1
 [3.0.3]:      https://github.com/natritmeyer/site_prism/compare/v3.0.2...v3.0.3
 [3.0.2]:      https://github.com/natritmeyer/site_prism/compare/v3.0.1...v3.0.2
@@ -954,3 +986,5 @@
 [menge101]:       https://github.com/menge101
 [TheSpartan1980]: https://github.com/TheSpartan1980
 [tadashi0713]:    https://github.com/tadashi0713
+[JanStevens]:     https://github.com/JanStevens
+[dkniffin]:       https://github.com/dkniffin
