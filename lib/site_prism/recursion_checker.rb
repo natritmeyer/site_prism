@@ -14,12 +14,12 @@ module SitePrism
       return false unless regular_items_all_there
 
       section_all_there =
-        section_classes_to_check.all? { |instance| instance.all_there? }
+        section_classes_to_check.all?(&:all_there?)
       return false unless section_all_there
 
       # Returning this final check here is fine, as the previous two checks must
       # have returned +true+ in order to hit this part of the method-call
-      sections_classes_to_check.all? { |instance| instance.all_there? }
+      sections_classes_to_check.all?(&:all_there?)
     end
 
     def expected_item_map

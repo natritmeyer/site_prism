@@ -33,6 +33,11 @@ Style/TrailingCommaInArrayLiteral:
   EnforcedStyleForMultiline: comma
   Enabled: true
 
+# See: https://github.com/rubocop-hq/rubocop/issues/5953
+# Bug in the way rubocop uses this specific cop
+Style/AccessModifierDeclarations:
+  Enabled: false
+
 # Probably need to look into this, see if we can optimise it down the line
 Metrics/ModuleLength:
   Exclude:
