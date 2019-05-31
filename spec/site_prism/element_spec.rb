@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 describe 'Element' do
+  # This stops the stdout process leaking between tests
+  before(:each) { wipe_logger! }
+  let(:expected_elements) { SitePrism::SpecHelper.present_on_page }
+
   shared_examples 'an element' do
     describe '.element' do
       it 'should be settable' do
@@ -42,13 +46,14 @@ describe 'Element' do
 
     describe '#elements_present' do
       it 'only lists the SitePrism objects that are present on the page' do
-        expect(page.elements_present).to eq(%i[element_one element_three])
+        expect(page.elements_present.sort).to eq(expected_elements.sort)
       end
     end
 
     describe '.expected_elements' do
       it 'sets the value of expected_items' do
-        expect(klass.expected_items).to eq([:element_one])
+        expect(klass.expected_items)
+          .to eq(%i[element_one elements_one section_one sections_one])
       end
     end
   end

@@ -55,9 +55,9 @@ end
 
 Then('all mapped elements are present') do
   mapped_item_names =
-    @test_site.dynamic.class.mapped_items.map(&:values).flatten
+    @test_site.dynamic.class.mapped_items.map(&:values).flatten.sort
 
-  expect(@test_site.dynamic.elements_present).to eq(mapped_item_names)
+  expect(@test_site.dynamic.elements_present.sort).to eq(mapped_item_names)
 end
 
 Then('not all mapped elements are present') do

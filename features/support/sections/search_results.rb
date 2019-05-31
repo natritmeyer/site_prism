@@ -3,6 +3,6 @@
 class SearchResults < SitePrism::Section
   include JSHelper
 
-  element :title, 'span.title'
+  element :title, 'span.title' # Not present
   element :description, 'span.description'
 end

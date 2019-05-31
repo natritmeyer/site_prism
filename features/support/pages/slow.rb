@@ -14,5 +14,6 @@ class Slow < SitePrism::Page
   # To test slow elements inside a section
   section :body, 'body' do
     elements :all_links, '[href="slow.htm"]'
+    element :undefined, '.not_here'
   end
 end
