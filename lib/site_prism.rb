@@ -5,6 +5,7 @@ require 'addressable/template'
 
 module SitePrism
   autoload :AddressableUrlMatcher, 'site_prism/addressable_url_matcher'
+  autoload :Deprecator, 'site_prism/deprecator'
   autoload :DSL, 'site_prism/dsl'
   autoload :ElementChecker, 'site_prism/element_checker'
   autoload :RecursionChecker, 'site_prism/recursion_checker'

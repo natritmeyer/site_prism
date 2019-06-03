@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SitePrism
   class Deprecator
     class << self
@@ -14,7 +16,7 @@ module SitePrism
       def soft_deprecate(old, reason, new = nil)
         debug("The #{old} method is changing, as is SitePrism, and is now configurable.")
         debug("REASON: #{reason}.")
-        debug("Moving forwards into SitePrism v4, the default behaviour will change.")
+        debug('Moving forwards into SitePrism v4, the default behaviour will change.')
         debug("We advise you change to using #{new}") if new
       end
 
