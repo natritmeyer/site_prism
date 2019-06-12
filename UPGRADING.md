@@ -62,14 +62,14 @@ The wait time should now be passed using hash args like: `wait: <seconds>`
 
 For example, previously:
 
-```rb
+```ruby
 @page.wait_until_dialog_invisible(10)
 @page.wait_until_notification_flag_visible(5, count: 3)
 ```
 
 These now become:
 
-```rb
+```ruby
 @page.wait_until_dialog_invisible(wait: 10)
 @page.wait_until_notification_flag_visible(wait: 5, count: 3)
 ```

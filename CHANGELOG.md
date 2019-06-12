@@ -1,5 +1,14 @@
 <!-- #392 - May 10th - Last update to this document -->
-## [3.2] - 2019-05-xx
+## [Unreleased]
+### Removed
+
+### Added
+
+### Changed
+
+### Fixed
+
+## [3.2] - 2019-05-14
 ### Added
 - Allow `#load` to be called with a new option `:with_validations`
   - When this is set to `false` this will skip load_validations for the one method invocation
@@ -32,11 +41,11 @@ impending major rubocop release
 
 ## [3.1] - 2019-03-26
 ### Added
-- Add info on how to deal with V2->V3 upgrade warnings RE Capybara selectors
+- Add info on how to deal with V2 -> V3 upgrade warnings RE Capybara selectors
   - In particular how to deal with adding `wait` keys to `wait_until_*` methods
 ([tgaff])
 
-- Added gem version badge to README
+- Added gem version badge to `README.md`
 ([luke-hill])
 
 - Some of the README docs surrounding how to setup site_prism have been improved
@@ -51,16 +60,16 @@ impending major rubocop release
 
 - The SitePrism Logger has been massively refactored
   - It now almost entirely mimics the Full Ruby Logger API
-  - The full list of delegated methods can be found [HERE](https://github.com/natritmeyer/site_prism/blob/master/lib/site_prism.rb)
+  - The full list of delegated methods can be found [HERE](https://github.com/natritmeyer/site_prism/blob/v3.1/lib/site_prism.rb)
   - Consequently, the minimum Ruby Version for the suite has been bumped to `2.3`
   - Alongside this higher ruby requirement, changes have been made to Capybara/Rubocop/Test code
 ([luke-hill])
 
 ### Changed
-- Travis now uses `xenial` Ubuntu in the Docker VM Tests, bringing it slightly more up to date
+- Travis now uses `xenial` Ubuntu in the Docker VM Tests, bringing it more up to date
 ([luke-hill])
 
-- Travis now will build on some more legacy permutations of gems to increase support
+- Travis now will build on some more (older), permutations of gems to increase test coverage
 ([luke-hill])
 
 - The `HISTORY.md` document has now moved to `CHANGELOG.md` to try keep it in-line with other OSS repos
@@ -74,7 +83,7 @@ impending major rubocop release
   - This has also enabled the Mock Pages to be a little more extensible going forwards
 ([luke-hill])
 
-- Added waiter methods for iFrame's that were previously missing, bringing them in-line with other items
+- Added waiter methods for iFrame's that were previously missing, bringing them in-line with other DSL items
 ([luke-hill])
 
 ## [3.0.3] - 2019-02-20
@@ -155,7 +164,7 @@ impending major rubocop release
   - This is due to `simplecov` caching dual results
 ([luke-hill])
 
-- Stopped Ruby 2.5 users getting spammed with warnings about uninitialised instance variables
+- Stopped Ruby `2.5` users getting spammed with warnings about uninitialised instance variables
 ([menge101])
 
 - Updated user documentation to not advise using now removed methods!
@@ -426,7 +435,7 @@ impending major rubocop release
 ([luke-hill])
 
 ### Fixed
-- README fixes
+- `README.md` fixes
 ([robd])
 
 ## [2.12] - 2018-04-20
@@ -451,7 +460,7 @@ impending major rubocop release
 ([luke-hill])
 
 ### Fixed
-- README / rubocop / Test / TODO fixes
+- `README.md` / rubocop / Test / TODO fixes
 ([luke-hill])
 
 - Fix suite incidentally masking several issues due to incorrect cucumber setup
@@ -988,3 +997,4 @@ impending major rubocop release
 [tadashi0713]:    https://github.com/tadashi0713
 [JanStevens]:     https://github.com/JanStevens
 [dkniffin]:       https://github.com/dkniffin
+[hoffi]:          https://github.com/hoffi

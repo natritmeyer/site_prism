@@ -1,18 +1,22 @@
 # SitePrism dev setup
 
-To successfully get SitePrism running locally, you will need ...
+To successfully get SitePrism running locally, you need to fork the repo and have
+`geckodriver` and/or `chromedriver` downloaded
 
-- To fork the repo
-- To have geckodriver and/or chromedriver installed and available on your System PATH
-
-```
+```bash
 $ git clone git@github.com:your_user_name/site_prism.git
 $ cd site_prism
-$ cp .env.example .env
 $ bundle
 ```
 
-_You can amend which browser you run feature tests on by editing the value in `.env`_
+Hacking commands you may need are ...
+
+```bash
+$ bundle exec rake cukes # Run feature tests on firefox (Default browser)
+$ bundle exec rake cukes browser=chrome # Run feature tests on chrome
+$ bundle exec rake specs # Run all rspec tests
+$ bundle exec rake # Runs feature tests on firefox, then specs, then runs rubocop
+```
 
 - Write your code. Make sure to add unit / feature tests AND documentation (If appropriate)
 - Run `bundle exec rake` and ensure it passes
@@ -21,4 +25,5 @@ _You can amend which browser you run feature tests on by editing the value in `.
 Happy Testing / Developing!
 
 Cheers,
+
 The SitePrism Team
