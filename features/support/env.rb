@@ -16,7 +16,15 @@ require_relative 'sections/all'
 
 Capybara.register_driver :site_prism do |app|
   browser = ENV.fetch('browser', 'firefox').to_sym
-  Capybara::Selenium::Driver.new(app, browser: browser)
+  # To stop chrome V75 failures (Not a problem whilst we're only supporting selenium v3)
+  capabilities =
+    if browser == :chrome
+      { 'chromeOptions' => { 'w3c' => false } }
+    else
+      {}
+    end
+
+  Capybara::Selenium::Driver.new(app, browser: browser, desired_capabilities: capabilities)
 end
 
 Capybara.configure do |config|
